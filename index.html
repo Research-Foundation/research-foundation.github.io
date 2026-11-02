@@ -476,7 +476,7 @@
                 </div>
                 <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">សៀវភៅសិក្សាស្រាវជ្រាវ & ការវិភាគទិន្នន័យ</h2>
                 <p class="text-xs text-slate-400 mt-2">
-                    សៀវភៅបោះពុម្ពជាភាសាខ្មែរ រៀបចំតាមស្តង់ដារបច្ចេកទេស និងក្បួនវិទ្យាសាស្ត្រជាក់ស្តែង
+                    សៀវភៅបោះពុម្ពជាភាសាខ្មែរ រៀបចំតាមស្តង់ដារបច្ចេកទេស និងក្បួនវិទ្យាសាស្ត្រជាក់ស្តែង (មានទាំងសៀវភៅពុម្ព Hard Copy និង PDF Soft Copy)
                 </p>
             </div>
             <div class="flex items-center gap-2">
@@ -728,7 +728,7 @@
     </div>
 </footer>
 
-<!-- ORDER MODAL -->
+<!-- ORDER MODAL (SUPPORTS BOTH HARD COPY & SOFT COPY) -->
 <div id="orderModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
     <div class="bg-navy-900 border border-slate-700 w-full max-w-md rounded-3xl p-6 space-y-5 card-glass shadow-2xl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -996,9 +996,11 @@
                 titleKh: "សៀវភៅណែនាំពីការប្រើប្រាស់កម្មវិធី RF Analyzer",
                 subtitle: "Statistical Data Analysis for Research",
                 desc: "សៀវភៅណែនាំក្បោះក្បាយពីការរៀបចំទិន្នន័យ ការដំណើរការកម្មវិធី RF Analyzer v6.0 ការអានលទ្ធផលតារាង ANOVA, Split-Plot, RCBD និងការបកស្រាយអក្សរប្រៀបធៀបមធ្យមភាគ (Post-Hoc Letters)។",
-                price: "$15.00 / ក្បាល",
+                priceHard: "$15.00",
+                priceSoft: "$8.00",
                 image: "https://placehold.co/400x560/0a2540/38bdf8?text=RF+Analyzer+v6.0+Guide",
-                telegramMsg: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅណែនាំ RF Analyzer v6.0 ($15)"
+                telegramMsgHard: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): RF Analyzer v6.0",
+                telegramMsgSoft: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): RF Analyzer v6.0"
             },
             {
                 id: "b2",
@@ -1007,9 +1009,11 @@
                 titleKh: "ការវិភាគទិន្នន័យស្ថិតិកសិកម្មតាម Python",
                 subtitle: "Using Python Programming",
                 desc: "មគ្គុទ្ទេសក៍ជាក់ស្តែងសម្រាប់ការសរសេរកូដ Python ក្នុងការរៀបចំទិន្នន័យកសិកម្ម គូរក្រាហ្វិក 3D Response Surface, PCA Biplot, Correlation Heatmap និងការវិភាគ ANOVA សម្រាប់និស្សិតកម្រិតឧត្តម។",
-                price: "$12.00 / ក្បាល",
+                priceHard: "$12.00",
+                priceSoft: "$6.00",
                 image: "https://placehold.co/400x560/064e3b/34d399?text=Python+Agriculture",
-                telegramMsg: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Python កសិកម្ម ($12)"
+                telegramMsgHard: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): Python កសិកម្ម",
+                telegramMsgSoft: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): Python កសិកម្ម"
             },
             {
                 id: "b3",
@@ -1018,9 +1022,11 @@
                 titleKh: "មូលដ្ឋានគ្រឹះបច្ចេកវិទ្យាជីវៈ",
                 subtitle: "Foundation of Biotechnology",
                 desc: "ប្រវត្តិបច្ចេកវិទ្យាជីវៈ, សែន និងក្រុមសែន, បច្ចេកវិទ្យាសែន, បច្ចេកវិទ្យាជីវៈមីក្រូជីវសាស្ត្រ, បច្ចេកវិទ្យាល្បើង",
-                price: "$10.00 / ក្បាល",
+                priceHard: "$10.00",
+                priceSoft: "$5.00",
                 image: "https://placehold.co/400x560/164e63/22d3ee?text=Foundation+Biotech",
-                telegramMsg: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ មូលដ្ឋានគ្រឹះបច្ចេកវិទ្យាជីវៈ ($10)"
+                telegramMsgHard: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): មូលដ្ឋានគ្រឹះបច្ចេកវិទ្យាជីវៈ",
+                telegramMsgSoft: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): មូលដ្ឋានគ្រឹះបច្ចេកវិទ្យាជីវៈ"
             }
         ],
         mainSoftware: {
@@ -1178,7 +1184,6 @@
     }
 
     // CLOUD-FIRST MULTI-DEVICE LOADER
-    // Fetches directly from GitHub REST API AND ./data.json simultaneously to bypass CDN cache delays
     async function loadDataFromGitHubOrLocal() {
         const config = getGitHubConfig();
         let apiData = null;
@@ -1203,7 +1208,7 @@
         }
         renderAllSections();
 
-        // 2. Fetch live from GitHub REST API (Immediate updates across all devices) + Static data.json in parallel
+        // 2. Fetch live from GitHub REST API + Static data.json in parallel
         const fetchPromises = [];
 
         if (config.owner && config.repo) {
@@ -1246,7 +1251,7 @@
 
         await Promise.allSettled(fetchPromises);
 
-        // 3. Pick the newest remote version between GitHub API and static file
+        // 3. Pick the newest remote version
         let bestRemote = null;
         if (apiData && staticData) {
             bestRemote = ((apiData.updatedAt || 0) >= (staticData.updatedAt || 0)) ? apiData : staticData;
@@ -1254,9 +1259,7 @@
             bestRemote = apiData || staticData;
         }
 
-        // 4. Synchronize state:
-        // For all visitors (not logged in as Admin), ALWAYS trust the remote server so all devices match!
-        // For Admin, pick whichever has the newest timestamp (or remote if local wasn't dirty).
+        // 4. Synchronize state
         if (bestRemote) {
             const localDirty = localStorage.getItem('RF_LOCAL_DIRTY') === 'true';
             if (!isAdminLoggedIn || !localDirty || (bestRemote.updatedAt || 0) >= (cachedData?.updatedAt || 0)) {
@@ -1441,7 +1444,6 @@
                              isGitHubPat;
 
         if (isAuthorized) {
-            // If user logged in directly with a GitHub PAT, save it automatically for multi-device sync!
             if (isGitHubPat) {
                 localStorage.setItem('GH_TOKEN', input);
             }
@@ -1655,17 +1657,28 @@
         });
     }
 
-    function openOrderModal(index) {
+    function openOrderModal(index, type = 'hard') {
         const book = appData.books[index];
-        document.getElementById('orderModalBookName').textContent = book.titleKh;
-        document.getElementById('orderModalBookPrice').textContent = book.price;
+        const isHard = type === 'hard';
+        const typeLabel = isHard ? 'Hard Copy (សៀវភៅពុម្ព)' : 'Soft Copy (PDF E-Book)';
+        const price = isHard ? (book.priceHard || book.price || "$15.00") : (book.priceSoft || "$8.00");
+        
+        document.getElementById('orderModalBookTitle').innerHTML = `
+            <i data-lucide="shopping-cart" class="w-5 h-5 ${isHard ? 'text-amber-400' : 'text-emerald-400'}"></i>
+            <span>កុម្ម៉ង់ ${typeLabel}</span>
+        `;
+        document.getElementById('orderModalBookName').textContent = `${book.titleKh} (${typeLabel})`;
+        document.getElementById('orderModalBookPrice').textContent = price;
         document.getElementById('orderModalBookImg').src = book.image;
-        
-        const safeTgMsg = encodeURIComponent(book.telegramMsg || `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ ${book.titleKh}`);
-        document.getElementById('orderModalTgBtn').href = `https://t.me/Sokra25?text=${safeTgMsg}`;
-        
-        const emailSubject = encodeURIComponent(`បញ្ជាទិញសៀវភៅ៖ ${book.titleKh}`);
-        const emailBody = encodeURIComponent(`សួស្តីមូលដ្ឋានស្រាវជ្រាវ,\n\nខ្ញុំមានបំណងចង់បញ្ជាទិញសៀវភៅ៖ ${book.titleKh} (${book.titleEn || ''})\nតម្លៃ៖ ${book.price}\n\nសូមផ្ញើព័ត៌មានលម្អិត និងលេខគណនី/KHQR មកកាន់ខ្ញុំបាទ/នាងខ្ញុំ។\n\nសូមអរគុណ!`);
+
+        const defaultTgMsg = isHard 
+            ? (book.telegramMsgHard || `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy: ${book.titleKh} (${price})`)
+            : (book.telegramMsgSoft || `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF): ${book.titleKh} (${price})`);
+
+        document.getElementById('orderModalTgBtn').href = `https://t.me/Sokra25?text=${encodeURIComponent(defaultTgMsg)}`;
+
+        const emailSubject = encodeURIComponent(`បញ្ជាទិញសៀវភៅ ${typeLabel}៖ ${book.titleKh}`);
+        const emailBody = encodeURIComponent(`សួស្តីមូលដ្ឋានស្រាវជ្រាវ,\n\nខ្ញុំមានបំណងចង់បញ្ជាទិញសៀវភៅ៖ ${book.titleKh}\nប្រភេទ៖ ${typeLabel}\nតម្លៃ៖ ${price}\n\nសូមផ្ញើព័ត៌មានលម្អិត និងលេខគណនី/KHQR មកកាន់ខ្ញុំបាទ/នាងខ្ញុំ។\n\nសូមអរគុណ!`);
         document.getElementById('orderModalEmailBtn').href = `mailto:contact@researchfoundation.top?subject=${emailSubject}&body=${emailBody}`;
 
         document.getElementById('orderModal').classList.remove('hidden');
@@ -1696,6 +1709,8 @@
             card.className = "p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between group hover:border-amber-500/50 transition-all relative";
 
             const showEditClass = (isAdminLoggedIn && isEditMode) ? '' : 'hidden';
+            const priceHard = book.priceHard || book.price || "$15.00";
+            const priceSoft = book.priceSoft || "$8.00";
 
             card.innerHTML = `
                 <div class="edit-only ${showEditClass} absolute top-3 right-3 z-20 flex items-center gap-1">
@@ -1708,7 +1723,7 @@
                 </div>
 
                 <div class="space-y-4">
-                    <div class="rounded-2xl overflow-hidden border border-amber-500/20 bg-slate-950/80 h-72 flex items-center justify-center p-2 relative group/cover cursor-pointer" onclick="openOrderModal(${index})">
+                    <div class="rounded-2xl overflow-hidden border border-amber-500/20 bg-slate-950/80 h-72 flex items-center justify-center p-2 relative group/cover cursor-pointer" onclick="openOrderModal(${index}, 'hard')">
                         <span class="absolute top-3 left-3 text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-semibold z-10 backdrop-blur-md">
                             ${book.badge || 'សៀវភៅ'}
                         </span>
@@ -1731,13 +1746,22 @@
                     </div>
                 </div>
 
-                <div class="pt-5 border-t border-slate-800 mt-6 flex items-center justify-between">
-                    <div>
-                        <span class="text-[11px] text-slate-400 block">តម្លៃសៀវភៅ</span>
-                        <span class="text-base sm:text-lg font-bold text-amber-400 font-en">${book.price}</span>
-                    </div>
-                    <button onclick="openOrderModal(${index})" class="px-4 py-2 rounded-xl bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500 hover:text-navy-950 text-amber-300 font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
-                        <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i> បញ្ជាទិញ (Order)
+                <!-- Hard Copy and Soft Copy Buttons -->
+                <div class="pt-5 border-t border-slate-800 mt-6 grid grid-cols-2 gap-2.5">
+                    <button onclick="openOrderModal(${index}, 'hard')" class="p-2.5 rounded-2xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-navy-950 text-amber-300 transition-all flex flex-col items-center text-center group/btn active:scale-95 shadow-sm">
+                        <div class="flex items-center gap-1 font-semibold text-xs text-white group-hover/btn:text-navy-950">
+                            <i data-lucide="book" class="w-3.5 h-3.5 text-amber-400 group-hover/btn:text-navy-950"></i> Hard Copy
+                        </div>
+                        <span class="text-[10px] text-slate-400 group-hover/btn:text-navy-900 mt-0.5">សៀវភៅពុម្ព</span>
+                        <span class="text-xs font-bold text-amber-400 group-hover/btn:text-navy-950 font-mono mt-1">${priceHard}</span>
+                    </button>
+
+                    <button onclick="openOrderModal(${index}, 'soft')" class="p-2.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 hover:bg-emerald-500 hover:text-navy-950 text-emerald-300 transition-all flex flex-col items-center text-center group/btn active:scale-95 shadow-sm">
+                        <div class="flex items-center gap-1 font-semibold text-xs text-white group-hover/btn:text-navy-950">
+                            <i data-lucide="file-text" class="w-3.5 h-3.5 text-emerald-400 group-hover/btn:text-navy-950"></i> Soft Copy
+                        </div>
+                        <span class="text-[10px] text-slate-400 group-hover/btn:text-navy-900 mt-0.5">PDF E-Book</span>
+                        <span class="text-xs font-bold text-emerald-400 group-hover/btn:text-navy-950 font-mono mt-1">${priceSoft}</span>
                     </button>
                 </div>
             `;
@@ -2060,14 +2084,18 @@
                     <input id="editBookImage" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${b.image || ''}" oninput="document.getElementById('editBookPreviewImg').src = this.value">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-3 gap-3">
                     <div>
                         <label class="block text-slate-400 mb-1">ផ្លាកសម្គាល់ (Badge)</label>
                         <input id="editBookBadge" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.badge || ''}">
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">តម្លៃសៀវភៅ ($)</label>
-                        <input id="editBookPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.price || ''}">
+                        <label class="block text-slate-400 mb-1">តម្លៃ Hard Copy</label>
+                        <input id="editBookPriceHard" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.priceHard || b.price || '$15.00'}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ Soft Copy</label>
+                        <input id="editBookPriceSoft" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.priceSoft || '$8.00'}">
                     </div>
                 </div>
                 <div>
@@ -2086,20 +2114,28 @@
                     <label class="block text-slate-400 mb-1">ការពិពណ៌នា</label>
                     <textarea id="editBookDesc" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${b.desc}</textarea>
                 </div>
-                <div>
-                    <label class="block text-slate-400 mb-1">សារកុម្ម៉ង់ Telegram</label>
-                    <input id="editBookTgMsg" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.telegramMsg || ''}">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">សារកុម្ម៉ង់ Hard Copy (TG)</label>
+                        <input id="editBookTgMsgHard" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" value="${b.telegramMsgHard || ''}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">សារកុម្ម៉ង់ Soft Copy (TG)</label>
+                        <input id="editBookTgMsgSoft" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" value="${b.telegramMsgSoft || ''}">
+                    </div>
                 </div>
             </div>
         `;
         openModal('<i data-lucide="book-open" class="w-5 h-5 text-amber-400"></i> កែសម្រួលព័ត៌មានសៀវភៅ', html, async () => {
             appData.books[index].badge = document.getElementById('editBookBadge').value;
-            appData.books[index].price = document.getElementById('editBookPrice').value;
+            appData.books[index].priceHard = document.getElementById('editBookPriceHard').value;
+            appData.books[index].priceSoft = document.getElementById('editBookPriceSoft').value;
             appData.books[index].titleKh = document.getElementById('editBookTitleKh').value;
             appData.books[index].titleEn = document.getElementById('editBookTitleEn').value;
             appData.books[index].subtitle = document.getElementById('editBookSubtitle').value;
             appData.books[index].desc = document.getElementById('editBookDesc').value;
-            appData.books[index].telegramMsg = document.getElementById('editBookTgMsg').value;
+            appData.books[index].telegramMsgHard = document.getElementById('editBookTgMsgHard').value;
+            appData.books[index].telegramMsgSoft = document.getElementById('editBookTgMsgSoft').value;
             appData.books[index].image = document.getElementById('editBookImage').value;
             renderBooksSection();
             await saveAppState();
@@ -2128,14 +2164,18 @@
                     <input id="newBookImage" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${defaultCover}" oninput="document.getElementById('newBookPreviewImg').src = this.value">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-3 gap-3">
                     <div>
                         <label class="block text-slate-400 mb-1">ផ្លាកសម្គាល់</label>
                         <input id="newBookBadge" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. កសិកម្ម">
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">តម្លៃ ($)</label>
-                        <input id="newBookPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="$15.00 / ក្បាល">
+                        <label class="block text-slate-400 mb-1">តម្លៃ Hard Copy ($)</label>
+                        <input id="newBookPriceHard" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="$15.00">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ Soft Copy ($)</label>
+                        <input id="newBookPriceSoft" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="$8.00">
                     </div>
                 </div>
                 <div>
@@ -2154,16 +2194,20 @@
         `;
         openModal('<i data-lucide="plus-circle" class="w-5 h-5 text-amber-400"></i> បន្ថែមសៀវភៅថ្មី', html, async () => {
             const khTitle = document.getElementById('newBookTitleKh').value || 'សៀវភៅស្រាវជ្រាវ';
+            const priceH = document.getElementById('newBookPriceHard').value || '$15.00';
+            const priceS = document.getElementById('newBookPriceSoft').value || '$8.00';
             const newB = {
                 id: 'b_' + Date.now(),
                 badge: document.getElementById('newBookBadge').value || 'សៀវភៅថ្មី',
-                price: document.getElementById('newBookPrice').value || '$15.00 / ក្បាល',
+                priceHard: priceH,
+                priceSoft: priceS,
                 titleKh: khTitle,
                 titleEn: document.getElementById('newBookTitleEn').value || '',
                 subtitle: '',
                 desc: document.getElementById('newBookDesc').value || '',
                 image: document.getElementById('newBookImage').value || defaultCover,
-                telegramMsg: `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ ${khTitle}`
+                telegramMsgHard: `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): ${khTitle}`,
+                telegramMsgSoft: `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): ${khTitle}`
             };
             appData.books.push(newB);
             renderBooksSection();
