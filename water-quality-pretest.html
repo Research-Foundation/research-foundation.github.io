@@ -327,180 +327,184 @@
     }
     .btn-cert-download:hover { background-color: var(--gold-dark); }
 
+    /* Fix Certificate Dimensions for Single-Page Landscape PDF */
     .certificate-card {
-      width: 100%;
-      max-width: 850px;
+      width: 800px;
+      height: 540px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 40px;
-      border: 12px solid #0f172a;
-      outline: 4px solid var(--gold);
-      outline-offset: -8px;
+      padding: 24px 30px;
+      border: 10px solid #0f172a;
+      outline: 3px solid var(--gold);
+      outline-offset: -6px;
       position: relative;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       color: #0f172a;
     }
 
     .cert-corner-decor {
       position: absolute;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border: 3px solid var(--gold);
     }
-    .c-top-left { top: 12px; left: 12px; border-right: none; border-bottom: none; }
-    .c-top-right { top: 12px; right: 12px; border-left: none; border-bottom: none; }
-    .c-bottom-left { bottom: 12px; left: 12px; border-right: none; border-top: none; }
-    .c-bottom-right { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+    .c-top-left { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+    .c-top-right { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+    .c-bottom-left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+    .c-bottom-right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
 
     .cert-logo {
-      width: 88px;
-      height: 88px;
+      width: 65px;
+      height: 65px;
       object-fit: contain;
-      margin: 0 auto 10px auto;
+      margin: 0 auto 4px auto;
       display: block;
     }
 
     .cert-org {
       font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 700;
       letter-spacing: 2px;
       color: #0f172a;
       text-transform: uppercase;
-      margin-bottom: 2px;
     }
 
     .cert-motto {
-      font-size: 0.75rem;
-      letter-spacing: 3px;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
       color: var(--gold);
       font-weight: 700;
       text-transform: uppercase;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
     }
 
     .cert-title-km {
       font-family: 'Moul', cursive;
-      font-size: 1.7rem;
+      font-size: 1.4rem;
       color: var(--gold-dark);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .cert-title-en {
       font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       color: #334155;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
     }
 
     .cert-presented {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       color: #64748b;
-      margin-bottom: 8px;
     }
 
     .cert-student-name {
       font-family: 'Kantumruy Pro', sans-serif;
-      font-size: 1.85rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--primary-dark);
       border-bottom: 2px solid var(--gold);
       display: inline-block;
-      padding: 0 40px 6px 40px;
-      margin-bottom: 16px;
+      padding: 0 30px 2px 30px;
+      margin: 4px auto 8px auto;
     }
 
     .cert-desc {
-      font-size: 0.95rem;
-      line-height: 1.8;
+      font-size: 0.85rem;
+      line-height: 1.6;
       color: #334155;
       max-width: 650px;
-      margin: 0 auto 28px auto;
+      margin: 0 auto;
     }
 
     .cert-signatures {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-top: 15px;
-      padding: 0 20px;
+      margin-top: 10px;
+      padding: 0 10px;
     }
 
     .sig-block {
       text-align: center;
-      width: 230px;
+      width: 220px;
       position: relative;
     }
 
     /* Official Red Stamp */
     .official-stamp {
-      width: 105px;
-      height: 105px;
-      border: 3px dashed #b91c1c;
+      width: 85px;
+      height: 85px;
+      border: 2px dashed #b91c1c;
       border-radius: 50%;
-      margin: 0 auto 8px auto;
+      margin: 0 auto 4px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       color: #b91c1c;
-      font-family: 'Kantumruy Pro', sans-serif;
-      text-transform: uppercase;
-      transform: rotate(-12deg);
-      box-shadow: inset 0 0 0 2px rgba(185, 28, 28, 0.2);
-      background: radial-gradient(circle, rgba(254, 226, 226, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+      transform: rotate(-10deg);
+      background: rgba(254, 226, 226, 0.25);
       user-select: none;
     }
     .stamp-text-top {
-      font-size: 0.65rem;
+      font-size: 0.55rem;
       font-weight: 700;
       letter-spacing: 0.5px;
       line-height: 1.1;
     }
     .stamp-star {
-      font-size: 0.75rem;
-      margin: 2px 0;
+      font-size: 0.65rem;
+      margin: 1px 0;
       color: #dc2626;
     }
     .stamp-text-bottom {
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       font-weight: 700;
       letter-spacing: 0.5px;
     }
 
-    .sig-line {
-      border-top: 1px solid #94a3b8;
-      margin-top: 8px;
-      padding-top: 6px;
+    /* Teacher Signature Container */
+    .signature-wrap {
+      height: 55px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
     }
 
-    /* Teacher Signature Image */
-    .teacher-signature-img {
-      height: 60px;
-      max-width: 160px;
-      object-fit: contain;
-      margin: 0 auto -10px auto;
-      display: block;
-      filter: contrast(120%);
+    .teacher-signature-svg {
+      height: 50px;
+      max-width: 140px;
+    }
+
+    .sig-line {
+      border-top: 1px solid #94a3b8;
+      margin-top: 4px;
+      padding-top: 4px;
     }
 
     .sig-name {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #0f172a;
     }
 
     .sig-title {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
     }
 
     .cert-badge-center {
-      width: 80px;
-      height: 80px;
+      width: 75px;
+      height: 75px;
       border-radius: 50%;
       border: 3px double var(--gold);
       display: flex;
@@ -747,37 +751,40 @@
       <div class="cert-corner-decor c-bottom-left"></div>
       <div class="cert-corner-decor c-bottom-right"></div>
 
-      <!-- រូប Logo Research & Excellence -->
-      <img src="1M.jpg" alt="Research Foundation Logo" class="cert-logo" onerror="this.src='https://www.researchfoundation.top/logo.png'">
-      <div class="cert-org">Research Foundation</div>
-      <div class="cert-motto">Knowledge • Innovation • Impact</div>
+      <div>
+        <!-- Logo -->
+        <img src="1M.jpg" alt="Research Foundation Logo" class="cert-logo" onerror="this.src='https://www.researchfoundation.top/logo.png'">
+        <div class="cert-org">Research Foundation</div>
+        <div class="cert-motto">Knowledge • Innovation • Impact</div>
 
-      <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
-      <div class="cert-title-en">Certificate of Achievement</div>
+        <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
+        <div class="cert-title-en">Certificate of Achievement</div>
+      </div>
 
-      <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
-      <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
-
-      <div class="cert-desc">
-        ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«គុណភាពទឹក (Water Quality)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">២៥/៣០ ពិន្ទុ</strong>។
+      <div>
+        <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
+        <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
+        <div class="cert-desc">
+          ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«គុណភាពទឹក (Water Quality)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">២៥/៣០ ពិន្ទុ</strong>។
+        </div>
       </div>
 
       <div class="cert-signatures">
-        <!-- ផ្នែកខាងឆ្វេង៖ ត្រាផ្លូវការ Research Foundation (គ្មានហត្ថលេខា) -->
+        <!-- Left: Official Red Stamp -->
         <div class="sig-block">
           <div class="official-stamp">
             <span class="stamp-text-top">RESEARCH FOUNDATION</span>
             <span class="stamp-star">★ OFFICIAL SEAL ★</span>
             <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
           </div>
-          <div style="font-size:0.8rem; color:#64748b; margin-top:2px;">
+          <div style="font-size:0.75rem; color:#64748b;">
             <div id="certDateText">កាលបរិច្ឆេទ៖ 05/11/2026</div>
             <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
             <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
           </div>
         </div>
 
-        <!-- ផ្នែកកណ្តាល៖ Badge ជាប់ -->
+        <!-- Center: Passed Badge -->
         <div class="sig-block" style="width: auto;">
           <div class="cert-badge-center">
             <span>PASSED</span>
@@ -785,9 +792,16 @@
           </div>
         </div>
 
-        <!-- ផ្នែកខាងស្តាំ៖ ហត្ថលេខាស្វ័យប្រវត្ត លោកគ្រូ អិន សុខរ៉ា -->
+        <!-- Right: Real Blue Signature (In Sokra) -->
         <div class="sig-block">
-          <img src="signature.png" alt="ហត្ថលេខា លោកគ្រូ អិន សុខរ៉ា" class="teacher-signature-img" onerror="this.style.display='none'">
+          <div class="signature-wrap">
+            <svg class="teacher-signature-svg" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60" 
+                    stroke="#0e3a99" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M115 88C119 86 126 84 128 88" 
+                    stroke="#0e3a99" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div class="sig-line">
             <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
             <div class="sig-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
@@ -1338,13 +1352,21 @@
   function downloadCertificatePDF() {
     const element = document.getElementById('certificateCard');
     const studentName = document.getElementById('certStudentName').innerText;
+
     const opt = {
-      margin:       0.2,
-      filename:     `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+      margin: [0.15, 0.15, 0.15, 0.15],
+      filename: `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true,
+        logging: false,
+        scrollY: 0
+      },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' },
+      pagebreak: { mode: 'avoid-all' }
     };
+
     html2pdf().set(opt).from(element).save();
   }
 
@@ -1565,7 +1587,7 @@
       const post = r.post !== null ? r.post : "";
       const gain = (r.pre !== null && r.post !== null) ? (r.post - r.pre) : "";
       const passed = (r.post !== null && r.post > 20) ? "ជាប់ (ទទួលវិញ្ញាបនបត្រ)" : "មិនទាន់ជាប់";
-      csvContent += `"${i + 1}","${r.name}","${pre}","${post}","${gain}","${r.lastDate}","${passed}"\n`;
+      csvContent += `"${i + 1}","${r.name}","${pre}","${post}","${gain}","${r.lastDate}"\n`;
     });
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
