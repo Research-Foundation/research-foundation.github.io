@@ -139,6 +139,7 @@
     /* ================= វិញ្ញាបនបត្រ (CERTIFICATE STYLING) ================= */
     .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
     .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
+
     .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 
     .btn-cert-download {
@@ -425,7 +426,7 @@
 
           <div class="sig-block">
             <div class="signature-wrap">
-              <!-- ហត្ថលេខាពណ៌ខៀវ Vector -->
+              <!-- ហត្ថលេខាពណ៌ខៀវ Vector ដើម -->
               <img class="teacher-signature" width="70" height="52" alt="Signature"
                 src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
             </div>
@@ -444,7 +445,7 @@
     <div class="table-header">
       <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
       <div class="action-btn-group">
-        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី Cloud ភ្លាមៗ">🔄 Sync Now</button>
+        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី Firebase Cloud ភ្លាមៗ">🔄 Sync Now</button>
         <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
         <div id="adminControls"></div>
       </div>
@@ -473,7 +474,7 @@
 </div>
 
 <script>
-  // ភ្ជាប់ជាមួយ Firebase Database របស់អ្នក
+  // ភ្ជាប់ Database Firebase URL ផ្ទាល់ខ្លួនរបស់អ្នក
   const FIREBASE_DB_URL = "https://water-quality-test-91aa2-default-rtdb.asia-southeast1.firebasedatabase.app";
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
@@ -828,8 +829,11 @@
     levelBadge.style.color = levelColor;
 
     const summaryElem = document.getElementById('comparisonSummary');
-    if (updatedStudent.pre !== null && updatedStudent.post !== null) {
-      const diff = updatedStudent.post - updatedStudent.pre;
+    const hasPre = (updatedStudent.pre !== undefined && updatedStudent.pre !== null);
+    const hasPost = (updatedStudent.post !== undefined && updatedStudent.post !== null);
+
+    if (hasPre && hasPost) {
+      const diff = Number(updatedStudent.post) - Number(updatedStudent.pre);
       const sign = diff >= 0 ? `+${diff}` : `${diff}`;
       summaryElem.innerHTML = `និស្សិតបានបញ្ចប់តេស្តទាំងពីរ៖ <strong>Pre-test: ${updatedStudent.pre} ពិន្ទុ</strong> | <strong>Post-test: ${updatedStudent.post} ពិន្ទុ</strong> (ការប្រែប្រួល៖ <span class="${diff >= 0 ? 'gain-positive' : 'gain-negative'}">${sign} ពិន្ទុ</span>)`;
     } else {
@@ -944,8 +948,8 @@
     const ctx = document.getElementById('scoreChart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
 
-    const preVal = student.pre !== null ? student.pre : 0;
-    const postVal = student.post !== null ? student.post : 0;
+    const preVal = (student.pre !== undefined && student.pre !== null) ? Number(student.pre) : 0;
+    const postVal = (student.post !== undefined && student.post !== null) ? Number(student.post) : 0;
 
     chartInstance = new Chart(ctx, {
       type: 'bar',
@@ -974,7 +978,7 @@
     });
   }
 
-  /* ================= FIREBASE CLOUD REALTIME STORAGE ================= */
+  /* ================= STORAGE ENGINE VIA FIREBASE ================= */
   function getLocalRecords() {
     try {
       return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
@@ -987,7 +991,7 @@
     localStorage.setItem('water_assessment_records', JSON.stringify(data));
   }
 
-  // ១. ទាញទិន្នន័យពី Firebase
+  // ១. ទាញទិន្នន័យពី Firebase Cloud
   async function pullFromCloud() {
     const local = getLocalRecords();
     try {
@@ -1000,12 +1004,12 @@
         }
       }
     } catch (err) {
-      console.warn("Could not pull from Cloud, using local cache:", err);
+      console.warn("Could not pull from Firebase cloud, using local cache:", err);
     }
     return local;
   }
 
-  // ២. រុញទិន្នន័យទៅកាន់ Firebase Cloud (ធ្វើការដោយស្វ័យប្រវត្តគ្មានបញ្ហា Permissions)
+  // ២. រុញទិន្នន័យទៅកាន់ Firebase Cloud
   async function pushSingleRecordToCloud(key, record) {
     try {
       const res = await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, {
@@ -1025,7 +1029,7 @@
     const key = encodeURIComponent(name.trim().toLowerCase().replace(/[.#$\[\]\/]/g, '_'));
 
     if (!records[key]) {
-      records[key] = { name: name.trim(), pre: null, post: null, lastDate: date };
+      records[key] = { name: name.trim(), lastDate: date };
     }
 
     if (type === 'Pre-test') records[key].pre = score;
@@ -1127,7 +1131,7 @@
     certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* ================= SCOREBOARD ================= */
+  /* ================= SCOREBOARD (FIXED) ================= */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getLocalRecords();
@@ -1141,19 +1145,23 @@
 
     tbody.innerHTML = keys.map((k, idx) => {
       const r = records[k];
-      const preTxt = r.pre !== null ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
-      const postTxt = r.post !== null ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+      
+      const hasPre = (r.pre !== undefined && r.pre !== null && r.pre !== "");
+      const hasPost = (r.post !== undefined && r.post !== null && r.post !== "");
+
+      const preTxt = hasPre ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+      const postTxt = hasPost ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
 
       let gainTxt = '<span class="gain-neutral">-</span>';
-      if (r.pre !== null && r.post !== null) {
-        const diff = r.post - r.pre;
+      if (hasPre && hasPost) {
+        const diff = Number(r.post) - Number(r.pre);
         const sign = diff > 0 ? `+${diff}` : `${diff}`;
         const cls = diff > 0 ? 'gain-positive' : (diff < 0 ? 'gain-negative' : 'gain-neutral');
         gainTxt = `<span class="${cls}">${sign} ពិន្ទុ</span>`;
       }
 
       let certBtn = '<span style="color:#94a3b8;">-</span>';
-      if (r.post !== null && r.post > 20) {
+      if (hasPost && Number(r.post) > 20) {
         certBtn = `<button type="button" class="btn-action btn-view-cert" data-action="cert" data-key="${esc(k)}">🎓 មើលសញ្ញាបត្រ</button>`;
       }
 
@@ -1202,10 +1210,13 @@
     let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ,ស្ថានភាពជាប់\n";
     keys.forEach((k, i) => {
       const r = records[k];
-      const pre = r.pre !== null ? r.pre : "";
-      const post = r.post !== null ? r.post : "";
-      const gain = (r.pre !== null && r.post !== null) ? (r.post - r.pre) : "";
-      const passed = (r.post !== null && r.post > 20) ? "ជាប់ (ទទួលវិញ្ញាបនបត្រ)" : "មិនទាន់ជាប់";
+      const hasPre = (r.pre !== undefined && r.pre !== null);
+      const hasPost = (r.post !== undefined && r.post !== null);
+
+      const pre = hasPre ? r.pre : "";
+      const post = hasPost ? r.post : "";
+      const gain = (hasPre && hasPost) ? (Number(r.post) - Number(r.pre)) : "";
+      const passed = (hasPost && Number(r.post) > 20) ? "ជាប់ (ទទួលវិញ្ញាបនបត្រ)" : "មិនទាន់ជាប់";
       csvContent += [i + 1, r.name, pre, post, gain, r.lastDate, passed].map(csvCell).join(',') + "\n";
     });
 
@@ -1225,7 +1236,7 @@
   renderAdminUI();
   pullFromCloud().then(() => renderTable());
 
-  // Auto-Sync ទិន្នន័យពី Cloud រៀងរាល់ 8 វិនាទីម្តង
+  // Auto-Sync ពី Firebase Cloud រៀងរាល់ 8 វិនាទីម្តង
   setInterval(() => {
     pullFromCloud().then(() => renderTable());
   }, 8000);
