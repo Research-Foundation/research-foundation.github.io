@@ -327,13 +327,13 @@
     }
     .btn-cert-download:hover { background-color: var(--gold-dark); }
 
-    /* Fixed dimensions for crisp 1-page A4 Landscape output */
+    /* Fix Certificate Dimensions for Single-Page Landscape PDF */
     .certificate-card {
-      width: 820px;
-      height: 550px;
+      width: 800px;
+      height: 540px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 22px 28px;
+      padding: 24px 30px;
       border: 10px solid #0f172a;
       outline: 3px solid var(--gold);
       outline-offset: -6px;
@@ -343,7 +343,7 @@
       flex-direction: column;
       justify-content: space-between;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       color: #0f172a;
     }
 
@@ -358,21 +358,21 @@
     .c-bottom-left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
     .c-bottom-right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
 
-    .cert-logo-svg {
-      width: 68px;
-      height: 68px;
-      margin: 0 auto 2px auto;
+    .cert-logo {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+      margin: 0 auto 4px auto;
       display: block;
     }
 
     .cert-org {
       font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      letter-spacing: 2.5px;
+      letter-spacing: 2px;
       color: #0f172a;
       text-transform: uppercase;
-      line-height: 1.2;
     }
 
     .cert-motto {
@@ -381,12 +381,12 @@
       color: var(--gold);
       font-weight: 700;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .cert-title-km {
       font-family: 'Moul', cursive;
-      font-size: 1.45rem;
+      font-size: 1.4rem;
       color: var(--gold-dark);
       margin-bottom: 2px;
     }
@@ -398,7 +398,7 @@
       letter-spacing: 2px;
       color: #334155;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .cert-presented {
@@ -408,20 +408,20 @@
 
     .cert-student-name {
       font-family: 'Kantumruy Pro', sans-serif;
-      font-size: 1.7rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--primary-dark);
       border-bottom: 2px solid var(--gold);
       display: inline-block;
-      padding: 0 35px 2px 35px;
-      margin: 2px auto 6px auto;
+      padding: 0 30px 2px 30px;
+      margin: 4px auto 8px auto;
     }
 
     .cert-desc {
-      font-size: 0.86rem;
-      line-height: 1.55;
+      font-size: 0.85rem;
+      line-height: 1.6;
       color: #334155;
-      max-width: 670px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
@@ -429,7 +429,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-top: 8px;
+      margin-top: 10px;
       padding: 0 10px;
     }
 
@@ -441,8 +441,8 @@
 
     /* Official Red Stamp */
     .official-stamp {
-      width: 86px;
-      height: 86px;
+      width: 85px;
+      height: 85px;
       border: 2px dashed #b91c1c;
       border-radius: 50%;
       margin: 0 auto 4px auto;
@@ -472,28 +472,28 @@
       letter-spacing: 0.5px;
     }
 
-    /* Signature Container */
+    /* Teacher Signature Container */
     .signature-wrap {
-      height: 60px;
+      height: 55px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      margin-bottom: 2px;
     }
 
     .teacher-signature-svg {
-      height: 55px;
+      height: 50px;
       max-width: 140px;
     }
 
     .sig-line {
       border-top: 1px solid #94a3b8;
+      margin-top: 4px;
       padding-top: 4px;
     }
 
     .sig-name {
       font-weight: 700;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: #0f172a;
     }
 
@@ -516,36 +516,6 @@
       font-weight: 700;
       font-size: 0.7rem;
       background: #fffbeb;
-    }
-
-    /* Print Styles */
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #certificateWrapper, #certificateWrapper * {
-        visibility: visible;
-      }
-      #certificateWrapper {
-        display: block !important;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      .cert-actions {
-        display: none !important;
-      }
-      .certificate-card {
-        box-shadow: none;
-        margin: 0 auto;
-      }
-      @page {
-        size: A4 landscape;
-        margin: 10mm;
-      }
     }
 
     /* Scoreboard Section */
@@ -772,7 +742,7 @@
   <div id="certificateWrapper" class="certificate-wrapper">
     <div class="cert-actions">
       <button type="button" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
-      <button type="button" class="btn-action" style="background:#334155; color:#fff;" onclick="window.print()">🖨️ បោះពុម្ព (Print / Save as PDF)</button>
+      <button type="button" class="btn-action" style="background:#334155; color:#fff;" onclick="window.print()">🖨️ បោះពុម្ព (Print)</button>
     </div>
 
     <div id="certificateCard" class="certificate-card">
@@ -782,27 +752,8 @@
       <div class="cert-corner-decor c-bottom-right"></div>
 
       <div>
-        <!-- រូបភាព Logo RE (Vector SVG មិនបាត់ជារៀងរហូត) -->
-        <svg class="cert-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Crown -->
-          <path d="M22 36L32 46L50 24L68 46L78 36L72 58H28L22 36Z" fill="url(#goldGrad)" stroke="#92400e" stroke-width="1.5"/>
-          <circle cx="50" cy="22" r="3.5" fill="#0284c7" stroke="#fff" stroke-width="1"/>
-          <!-- Laurels -->
-          <path d="M18 42C12 55 14 70 26 80C34 87 44 89 50 89C56 89 66 87 74 80C86 70 88 55 82 42" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round"/>
-          <!-- Book base -->
-          <path d="M25 78C35 74 46 75 50 78C54 75 65 74 75 78V84C65 80 54 81 50 84C46 81 35 80 25 84V78Z" fill="#0369a1" stroke="#92400e" stroke-width="1.5"/>
-          <!-- Letters RE -->
-          <text x="31" y="70" font-family="'Playfair Display', serif" font-size="28" font-weight="900" fill="#0369a1" stroke="#d97706" stroke-width="1">R</text>
-          <text x="50" y="70" font-family="'Playfair Display', serif" font-size="28" font-weight="900" fill="#d97706" stroke="#92400e" stroke-width="1">E</text>
-          <defs>
-            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fde68a"/>
-              <stop offset="50%" stop-color="#d97706"/>
-              <stop offset="100%" stop-color="#78350f"/>
-            </linearGradient>
-          </defs>
-        </svg>
-
+        <!-- Logo -->
+        <img src="1M.jpg" alt="Research Foundation Logo" class="cert-logo" onerror="this.src='https://www.researchfoundation.top/logo.png'">
         <div class="cert-org">Research Foundation</div>
         <div class="cert-motto">Knowledge • Innovation • Impact</div>
 
@@ -841,11 +792,10 @@
           </div>
         </div>
 
-        <!-- Right: Real Blue Signature (Vector In Sokra) -->
+        <!-- Right: Real Blue Signature (In Sokra) -->
         <div class="sig-block">
           <div class="signature-wrap">
             <svg class="teacher-signature-svg" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Exact vector drawing of In Sokra's blue ink signature -->
               <path d="M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60" 
                     stroke="#0e3a99" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M115 88C119 86 126 84 128 88" 
@@ -1379,7 +1329,7 @@
       summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
     }
 
-    // បង្ហាញវិញ្ញាបនបត្រពេល Post-test > 20
+    // ពិនិត្យលក្ខខណ្ឌផ្តល់វិញ្ញាបនបត្រ (Post-test > 20 ពិន្ទុ)
     const certWrapper = document.getElementById('certificateWrapper');
     if (testType === 'Post-test' && score > 20) {
       showCertificate(studentName, score, examDate);
@@ -1403,20 +1353,18 @@
     const element = document.getElementById('certificateCard');
     const studentName = document.getElementById('certStudentName').innerText;
 
-    // កំណត់ទំហំ scale: 3 ឬ 4 ដើម្បីឱ្យរូបភាព និងអក្សរច្បាស់ 100% (High-Definition 300+ DPI)
     const opt = {
-      margin:       0.1,
-      filename:     `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
-      image:        { type: 'jpeg', quality: 1.0 },
-      html2canvas:  { 
-        scale: 3, 
+      margin: [0.15, 0.15, 0.15, 0.15],
+      filename: `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2, 
         useCORS: true,
         logging: false,
-        scrollY: 0,
-        windowWidth: 1000
+        scrollY: 0
       },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' },
-      pagebreak:    { mode: 'avoid-all' }
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' },
+      pagebreak: { mode: 'avoid-all' }
     };
 
     html2pdf().set(opt).from(element).save();
