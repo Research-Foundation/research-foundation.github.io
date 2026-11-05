@@ -95,11 +95,46 @@
       border-radius: 0 6px 6px 0;
     }
 
+    /* Timer Display Sticky Banner */
+    .timer-container {
+      display: none;
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      margin-bottom: 24px;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .timer-time {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #38bdf8;
+      font-family: monospace;
+      letter-spacing: 1px;
+    }
+
+    .timer-warning {
+      color: #ef4444 !important;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
     .user-info {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     @media (max-width: 768px) {
@@ -129,6 +164,40 @@
     .input-group input:focus, .input-group select:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Start Button Area */
+    .start-area {
+      text-align: center;
+      padding: 30px 20px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      border: 1px dashed #cbd5e1;
+      margin-bottom: 24px;
+    }
+
+    .btn-start {
+      background-color: var(--success);
+      color: white;
+      border: none;
+      padding: 16px 36px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-start:hover {
+      background-color: #15803d;
+      transform: translateY(-2px);
+    }
+
+    /* Questions container is hidden initially */
+    #examBody {
+      display: none;
     }
 
     .question-card {
@@ -390,7 +459,7 @@
 <div class="container">
   <header>
     <div class="university">សាកលវិទ្យាល័យក្រចេះ | University of Kratie</div>
-    <h1 id="pageHeading">ការវាយតម្លៃគុណភាពទឹក (Water Quality Assessment)</h1>
+    <h1 id="pageHeading">ការវាយតម្លៃគុណភាពទឹក (Pre-test)</h1>
     <div class="exam-info">
       <span class="badge">កម្រិតបរិញ្ញាបត្រ</span>
       <span class="badge">រយៈពេល៖ ៣០ នាទី</span>
@@ -401,7 +470,14 @@
     </div>
   </header>
 
+  <!-- Sticky Timer Bar -->
+  <div id="timerContainer" class="timer-container">
+    <span>⏱️ ពេលវេលានៅសល់៖</span>
+    <span id="timerDisplay" class="timer-time">30:00</span>
+  </div>
+
   <form id="quizForm">
+    <!-- ព័ត៌មាននិស្សិត -->
     <div class="user-info">
       <div class="input-group">
         <label for="studentName">ឈ្មោះនិស្សិត៖ *</label>
@@ -420,10 +496,19 @@
       </div>
     </div>
 
-    <!-- សំណួរទាំង ៣០ -->
-    <div id="questionsContainer"></div>
+    <!-- ប៊ូតុង Start Test -->
+    <div id="startArea" class="start-area">
+      <p style="margin-bottom: 14px; font-size: 1rem; color: #475569;">
+        សូមបំពេញឈ្មោះខាងលើឱ្យបានត្រឹមត្រូវ រួចចុចប៊ូតុងខាងក្រោមដើម្បីចាប់ផ្ដើម។ នាឡិកានឹងរាប់ថយក្រោយ <strong>៣០ នាទី</strong> ហើយប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិនៅពេលអស់ម៉ោង។
+      </p>
+      <button type="button" class="btn-start" onclick="startTest()">▶ ចាប់ផ្ដើមធ្វើតេស្ត (Start Test)</button>
+    </div>
 
-    <button type="submit" id="submitBtn" class="btn-submit">ផ្ញើចម្លើយបញ្ចប់តេស្ត (Submit Test)</button>
+    <!-- តួខ្លួនសំណួរ (លាក់ទុករហូតដល់ចុច Start) -->
+    <div id="examBody">
+      <div id="questionsContainer"></div>
+      <button type="submit" id="submitBtn" class="btn-submit">ផ្ញើចម្លើយបញ្ចប់តេស្ត (Submit Test)</button>
+    </div>
   </form>
 
   <!-- កន្លែងបង្ហាញលទ្ធផល និងក្រាហ្វិក -->
@@ -444,7 +529,7 @@
       <div class="action-btn-group">
         <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
         <div id="adminControls">
-          <!-- នឹងត្រូវ Render ទៅតាមស្ថានភាព Login/Logout របស់ Admin -->
+          <!-- បង្ហាញតាមស្ថានភាព Admin -->
         </div>
       </div>
     </div>
@@ -458,11 +543,10 @@
             <th>Post-test (៣០)</th>
             <th>ការរីកចម្រើន (Gain)</th>
             <th>កាលបរិច្ឆេទចុងក្រោយ</th>
-            <!-- ជួរឈរ Actions នឹងបង្ហាញនៅពេល Admin Login -->
           </tr>
         </thead>
         <tbody id="studentTableBody">
-          <!-- ទិន្នន័យនិស្សិតនឹងបង្ហាញនៅទីនេះ -->
+          <!-- ទិន្នន័យនិស្សិត -->
         </tbody>
       </table>
     </div>
@@ -474,16 +558,20 @@
 </div>
 
 <script>
-  // លេខកូដសម្ងាត់សម្រាប់គ្រូ/Admin គ្រប់គ្រង
   const ADMIN_PASSWORD = "admin123";
+  const TEST_DURATION_MINUTES = 30; // ៣០ នាទី
+  let timeRemaining = TEST_DURATION_MINUTES * 60;
+  let timerInterval = null;
+  let isTestSubmitted = false;
 
+  // កម្រងសំណួរទាំង ៣០ (បានកែ រូបវន្ត -> រូបសាស្ត្រ និង ព្យួរ -> អណ្ដែត)
   const questionsData = [
     {
       id: 1,
       q: "១. តើគុណភាពទឹក (Water Quality) មានន័យដូចម្ដេច?",
       options: [
         { key: "A", text: "A. សំដៅលើពណ៌របស់ទឹកតែប៉ុណ្ណោះ" },
-        { key: "B", text: "B. សំដៅលើលក្ខណៈរូបវន្ត គីមី និងជីវសាស្ត្ររបស់ទឹក" },
+        { key: "B", text: "B. សំដៅលើលក្ខណៈរូបសាស្ត្រ គីមី និងជីវសាស្ត្ររបស់ទឹក" },
         { key: "C", text: "C. សំដៅលើសីតុណ្ហភាពរបស់ទឹកតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. សំដៅលើបរិមាណទឹកដែលមាននៅក្នុងធម្មជាតិ" }
       ],
@@ -491,7 +579,7 @@
     },
     {
       id: 2,
-      q: "២. តើមួយណាជាប៉ារ៉ាម៉ែត្ររូបវន្តនៃគុណភាពទឹក?",
+      q: "២. តើមួយណាជាប៉ារ៉ាម៉ែត្ររូបសាស្ត្រនៃគុណភាពទឹក?",
       options: [
         { key: "A", text: "A. pH" },
         { key: "B", text: "B. អុកស៊ីសែនរលាយ (DO)" },
@@ -614,7 +702,7 @@
       id: 13,
       q: "១៣. តើភាពល្អក់ (Turbidity) បង្ហាញពីអ្វី?",
       options: [
-        { key: "A", text: "A. បរិមាណភាគល្អិតដែលព្យួរនៅក្នុងទឹក" },
+        { key: "A", text: "A. បរិមាណភាគល្អិតដែលអណ្ដែតនៅក្នុងទឹក" },
         { key: "B", text: "B. បរិមាណអុកស៊ីសែនរលាយ" },
         { key: "C", text: "C. កំហាប់បាក់តេរីតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. សីតុណ្ហភាពទឹក" }
@@ -702,8 +790,8 @@
       id: 21,
       q: "២១. តើប៉ារ៉ាម៉ែត្រគុណភាពទឹកត្រូវបានបែងចែកជាប៉ុន្មានប្រភេទធំៗ?",
       options: [
-        { key: "A", text: "A. ២ ប្រភេទ (រូបវន្ត និងគីមី)" },
-        { key: "B", text: "B. ៣ ប្រភេទ (រូបវន្ត គីមី និងជីវសាស្ត្រ/មីក្រូជីវសាស្ត្រ)" },
+        { key: "A", text: "A. ២ ប្រភេទ (រូបសាស្ត្រ និងគីមី)" },
+        { key: "B", text: "B. ៣ ប្រភេទ (រូបសាស្ត្រ គីមី និងជីវសាស្ត្រ/មីក្រូជីវសាស្ត្រ)" },
         { key: "C", text: "C. ៤ ប្រភេទ (ពណ៌ ក្លិន រសជាតិ និងសីតុណ្ហភាព)" },
         { key: "D", text: "D. ៥ ប្រភេទ (ទឹកភ្លៀង ទឹកស្ទឹង ទឹកបឹង ទឹកអណ្ដូង និងទឹកសមុទ្រ)" }
       ],
@@ -711,7 +799,7 @@
     },
     {
       id: 22,
-      q: "២២. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្ររូបវន្ត» នៃគុណភាពទឹក?",
+      q: "២២. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្ររូបសាស្ត្រ» នៃគុណភាពទឹក?",
       options: [
         { key: "A", text: "A. សីតុណ្ហភាព និងភាពល្អក់ (Temperature and Turbidity)" },
         { key: "B", text: "B. pH និងនីត្រាត (pH and Nitrate)" },
@@ -810,7 +898,7 @@
     }
   ];
 
-  // បង្កើតសំណួរលើទំព័រ
+  // បង្កើតកម្រងសំណួរ
   const qContainer = document.getElementById('questionsContainer');
   questionsData.forEach(item => {
     const card = document.createElement('div');
@@ -820,7 +908,7 @@
       <div class="options">
         ${item.options.map(opt => `
           <label class="option-label">
-            <input type="radio" name="q${item.id}" value="${opt.key}" required>
+            <input type="radio" name="q${item.id}" value="${opt.key}">
             ${opt.text}
           </label>
         `).join('')}
@@ -836,7 +924,221 @@
     document.getElementById('pageHeading').innerText = `ការវាយតម្លៃគុណភាពទឹក (${type})`;
   }
 
-  // ពិនិត្យស្ថានភាព Login របស់ Admin (Session Based)
+  // ចាប់ផ្ដើមធ្វើតេស្ត
+  function startTest() {
+    const nameInput = document.getElementById('studentName');
+    if (!nameInput.value.trim()) {
+      alert("សូមបញ្ចូលឈ្មោះនិស្សិតជាមុនសិន!");
+      nameInput.focus();
+      return;
+    }
+
+    // ចាក់សោរព័ត៌មានខាងលើមិនឱ្យកែពេលកំពុងធ្វើ
+    document.getElementById('studentName').readOnly = true;
+    document.getElementById('testType').disabled = true;
+    document.getElementById('examDate').disabled = true;
+
+    // លាក់ប៊ូតុង Start និងបង្ហាញកម្រងសំណួរ + Timer
+    document.getElementById('startArea').style.display = 'none';
+    document.getElementById('examBody').style.display = 'block';
+    const timerElem = document.getElementById('timerContainer');
+    timerElem.style.display = 'flex';
+
+    // ចាប់ផ្តើមរាប់ថយក្រោយ ៣០ នាទី
+    runTimer();
+  }
+
+  function runTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert("⏰ អស់រយៈពេល ៣០ នាទីហើយ! ប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិ។");
+        submitExam();
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    const display = document.getElementById('timerDisplay');
+    display.innerText = formatted;
+
+    // ព្រមានពណ៌ក្រហមនៅពេលសល់ក្រោម ៥ នាទី
+    if (timeRemaining <= 300) {
+      display.classList.add('timer-warning');
+    }
+  }
+
+  // ដំណើរការ Submit (ប្រើរួមគ្នារវាងការចុច Submit និង Auto-Submit)
+  document.getElementById('quizForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (isTestSubmitted) return;
+    if (confirm("តើអ្នកពិតជាចង់បញ្ចប់ និងផ្ញើចម្លើយតេស្តនេះមែនទេ?")) {
+      submitExam();
+    }
+  });
+
+  function submitExam() {
+    if (isTestSubmitted) return;
+    isTestSubmitted = true;
+    clearInterval(timerInterval);
+
+    // លាក់ Timer Bar
+    document.getElementById('timerContainer').style.display = 'none';
+
+    const studentName = document.getElementById('studentName').value.trim();
+    const testType = document.getElementById('testType').value;
+    const examDate = document.getElementById('examDate').value;
+
+    let score = 0;
+    const totalQuestions = questionsData.length;
+
+    questionsData.forEach(item => {
+      const selected = document.querySelector(`input[name="q${item.id}"]:checked`);
+      if (selected && selected.value === item.ans) {
+        score++;
+      }
+    });
+
+    // ចាក់សោរ Form ទាំងស្រុង
+    const formElements = document.getElementById('quizForm').elements;
+    for (let i = 0; i < formElements.length; i++) {
+      formElements[i].disabled = true;
+    }
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerText = "បានផ្ញើរួចរាល់ (Submitted)";
+    submitBtn.disabled = true;
+
+    // កម្រិតចំណេះដឹង
+    let levelText = '';
+    let levelBg = '#0284c7';
+    let levelColor = '#ffffff';
+
+    if (score >= 25) {
+      levelText = 'កម្រិត៖ ចំណេះដឹងល្អ (Good)';
+      levelBg = '#16a34a';
+    } else if (score >= 19) {
+      levelText = 'កម្រិត៖ ចំណេះដឹងមធ្យម (Moderate)';
+      levelBg = '#0284c7';
+    } else if (score >= 10) {
+      levelText = 'កម្រិត៖ ចំណេះដឹងមូលដ្ឋាន (Basic)';
+      levelBg = '#eab308';
+      levelColor = '#0f172a';
+    } else {
+      levelText = 'កម្រិត៖ ចំណេះដឹងនៅមានកម្រិត (Limited)';
+      levelBg = '#dc2626';
+    }
+
+    const updatedStudent = updateStudentRecord(studentName, testType, score, examDate);
+
+    // បង្ហាញលទ្ធផល
+    const resultBox = document.getElementById('resultBox');
+    resultBox.style.display = 'block';
+    document.getElementById('scoreDisplay').innerText = `ពិន្ទុ ${testType}៖ ${score} / ${totalQuestions}`;
+    const levelBadge = document.getElementById('levelDisplay');
+    levelBadge.innerText = levelText;
+    levelBadge.style.backgroundColor = levelBg;
+    levelBadge.style.color = levelColor;
+
+    const summaryElem = document.getElementById('comparisonSummary');
+    if (updatedStudent.pre !== null && updatedStudent.post !== null) {
+      const diff = updatedStudent.post - updatedStudent.pre;
+      const sign = diff >= 0 ? `+${diff}` : `${diff}`;
+      summaryElem.innerHTML = `និស្សិតបានបញ្ចប់តេស្តទាំងពីរ៖ <strong>Pre-test: ${updatedStudent.pre} ពិន្ទុ</strong> | <strong>Post-test: ${updatedStudent.post} ពិន្ទុ</strong> (ការប្រែប្រួល៖ <span class="${diff >= 0 ? 'gain-positive' : 'gain-negative'}">${sign} ពិន្ទុ</span>)`;
+    } else {
+      summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
+    }
+
+    renderChart(updatedStudent);
+    renderTable();
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // គូសក្រាហ្វិក Bar Chart
+  let chartInstance = null;
+  function renderChart(student) {
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+
+    const preVal = student.pre !== null ? student.pre : 0;
+    const postVal = student.post !== null ? student.post : 0;
+
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Pre-test (មុនរៀន)', 'Post-test (ក្រោយរៀន)'],
+        datasets: [{
+          label: 'ពិន្ទុទទួលបាន (លើ ៣០)',
+          data: [preVal, postVal],
+          backgroundColor: ['#94a3b8', '#0284c7'],
+          borderRadius: 8,
+          barThickness: 50
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 30,
+            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
+          },
+          x: {
+            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ពិន្ទុ៖ ${ctx.raw} / ៣០`
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // LocalStorage & Admin Management
+  function getStudentsData() {
+    return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
+  }
+
+  function saveAllStudentsData(data) {
+    localStorage.setItem('water_assessment_records', JSON.stringify(data));
+  }
+
+  function updateStudentRecord(name, type, score, date) {
+    const records = getStudentsData();
+    const key = name.trim().toLowerCase();
+
+    if (!records[key]) {
+      records[key] = {
+        name: name.trim(),
+        pre: null,
+        post: null,
+        lastDate: date
+      };
+    }
+
+    if (type === 'Pre-test') {
+      records[key].pre = score;
+    } else {
+      records[key].post = score;
+    }
+    records[key].lastDate = date;
+
+    saveAllStudentsData(records);
+    return records[key];
+  }
+
   function isAdminLoggedIn() {
     return sessionStorage.getItem('admin_logged_in') === 'true';
   }
@@ -865,7 +1167,6 @@
     const ctrl = document.getElementById('adminControls');
     const headerRow = document.getElementById('tableHeaderRow');
 
-    // លុបជួរឈរ Action ចាស់បើសិនមាន
     const existingActionHeader = document.getElementById('colActionHeader');
     if (existingActionHeader) existingActionHeader.remove();
 
@@ -875,7 +1176,6 @@
         <button type="button" class="btn-action btn-clear-all" onclick="adminClearAll()">លុបទាំងអស់ (Clear All)</button>
         <button type="button" class="btn-action btn-logout" onclick="adminLogout()">ចាកចេញ (Logout)</button>
       `;
-      // បន្ថែមជួរឈរ "លុប" ទៅ Header
       const th = document.createElement('th');
       th.id = 'colActionHeader';
       th.innerText = 'លុបជួរ';
@@ -887,21 +1187,8 @@
     }
   }
 
-  // គ្រប់គ្រង LocalStorage
-  function getStudentsData() {
-    return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
-  }
-
-  function saveAllStudentsData(data) {
-    localStorage.setItem('water_assessment_records', JSON.stringify(data));
-  }
-
-  // លុបម្តងមួយជួរ (Delete One by One)
   function deleteStudentRow(key) {
-    if (!isAdminLoggedIn()) {
-      alert("សូម Login ជា Admin ជាមុនសិន!");
-      return;
-    }
+    if (!isAdminLoggedIn()) return;
     const records = getStudentsData();
     const student = records[key];
     if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
@@ -911,41 +1198,13 @@
     }
   }
 
-  // លុបទិន្នន័យទាំងអស់ (Clear All)
   function adminClearAll() {
-    if (!isAdminLoggedIn()) {
-      alert("សូម Login ជា Admin ជាមុនសិន!");
-      return;
-    }
+    if (!isAdminLoggedIn()) return;
     if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (ទិន្នន័យនឹងបាត់បង់ទាំងស្រុង)")) {
       localStorage.removeItem('water_assessment_records');
       renderTable();
       alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបជោគជ័យ!");
     }
-  }
-
-  function updateStudentRecord(name, type, score, date) {
-    const records = getStudentsData();
-    const key = name.trim().toLowerCase();
-
-    if (!records[key]) {
-      records[key] = {
-        name: name.trim(),
-        pre: null,
-        post: null,
-        lastDate: date
-      };
-    }
-
-    if (type === 'Pre-test') {
-      records[key].pre = score;
-    } else {
-      records[key].post = score;
-    }
-    records[key].lastDate = date;
-
-    saveAllStudentsData(records);
-    return records[key];
   }
 
   function renderTable() {
@@ -991,124 +1250,6 @@
     }).join('');
   }
 
-  let chartInstance = null;
-
-  // ដំណើរការពេល Submit Form
-  document.getElementById('quizForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const studentName = document.getElementById('studentName').value.trim();
-    const testType = document.getElementById('testType').value;
-    const examDate = document.getElementById('examDate').value;
-
-    let score = 0;
-    const totalQuestions = questionsData.length;
-
-    questionsData.forEach(item => {
-      const selected = document.querySelector(`input[name="q${item.id}"]:checked`);
-      if (selected && selected.value === item.ans) {
-        score++;
-      }
-    });
-
-    // ចាក់សោរ Form មិនឱ្យប្តូរចម្លើយ
-    const formElements = document.getElementById('quizForm').elements;
-    for (let i = 0; i < formElements.length; i++) {
-      formElements[i].disabled = true;
-    }
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerText = "បានផ្ញើរួចរាល់ (Submitted)";
-    submitBtn.disabled = true;
-
-    // កំណត់កម្រិតចំណេះដឹង
-    let levelText = '';
-    let levelBg = '#0284c7';
-    let levelColor = '#ffffff';
-
-    if (score >= 25) {
-      levelText = 'កម្រិត៖ ចំណេះដឹងល្អ (Good)';
-      levelBg = '#16a34a';
-    } else if (score >= 19) {
-      levelText = 'កម្រិត៖ ចំណេះដឹងមធ្យម (Moderate)';
-      levelBg = '#0284c7';
-    } else if (score >= 10) {
-      levelText = 'កម្រិត៖ ចំណេះដឹងមូលដ្ឋាន (Basic)';
-      levelBg = '#eab308';
-      levelColor = '#0f172a';
-    } else {
-      levelText = 'កម្រិត៖ ចំណេះដឹងនៅមានកម្រិត (Limited)';
-      levelBg = '#dc2626';
-    }
-
-    const updatedStudent = updateStudentRecord(studentName, testType, score, examDate);
-
-    // បង្ហាញលទ្ធផល
-    const resultBox = document.getElementById('resultBox');
-    resultBox.style.display = 'block';
-    document.getElementById('scoreDisplay').innerText = `ពិន្ទុ ${testType}៖ ${score} / ${totalQuestions}`;
-    const levelBadge = document.getElementById('levelDisplay');
-    levelBadge.innerText = levelText;
-    levelBadge.style.backgroundColor = levelBg;
-    levelBadge.style.color = levelColor;
-
-    const summaryElem = document.getElementById('comparisonSummary');
-    if (updatedStudent.pre !== null && updatedStudent.post !== null) {
-      const diff = updatedStudent.post - updatedStudent.pre;
-      const sign = diff >= 0 ? `+${diff}` : `${diff}`;
-      summaryElem.innerHTML = `និស្សិតបានបញ្ចប់តេស្តទាំងពីរ៖ <strong>Pre-test: ${updatedStudent.pre} ពិន្ទុ</strong> | <strong>Post-test: ${updatedStudent.post} ពិន្ទុ</strong> (ការប្រែប្រួល៖ <span class="${diff >= 0 ? 'gain-positive' : 'gain-negative'}">${sign} ពិន្ទុ</span>)`;
-    } else {
-      summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
-    }
-
-    renderChart(updatedStudent);
-    renderTable();
-    resultBox.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  function renderChart(student) {
-    const ctx = document.getElementById('scoreChart').getContext('2d');
-    if (chartInstance) chartInstance.destroy();
-
-    const preVal = student.pre !== null ? student.pre : 0;
-    const postVal = student.post !== null ? student.post : 0;
-
-    chartInstance = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Pre-test (មុនរៀន)', 'Post-test (ក្រោយរៀន)'],
-        datasets: [{
-          label: 'ពិន្ទុទទួលបាន (លើ ៣០)',
-          data: [preVal, postVal],
-          backgroundColor: ['#94a3b8', '#0284c7'],
-          borderRadius: 8,
-          barThickness: 50
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 30,
-            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
-          },
-          x: {
-            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
-          }
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => ` ពិន្ទុ៖ ${ctx.raw} / ៣០`
-            }
-          }
-        }
-      }
-    });
-  }
-
   function exportToCSV() {
     const records = getStudentsData();
     const keys = Object.keys(records);
@@ -1137,7 +1278,7 @@
     document.body.removeChild(link);
   }
 
-  // ចាប់ផ្ដើមដំណើរការ UI ដំបូង
+  // ដំណើរការលើកដំបូង
   renderAdminUI();
   renderTable();
 </script>
