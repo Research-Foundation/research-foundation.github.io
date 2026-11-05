@@ -486,9 +486,19 @@
     return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  // បង្កើត Key សម្រាប់សិស្សម្នាក់ៗឱ្យដូចគ្នាជានិច្ច ទោះមានដកឃ្លា ឬតួអក្សរខ្មែរ
+  // សម្អាតចន្លោះមើលមិនឃើញ (Zero-width spaces) និងចន្លោះដកឃ្លាស្ទួនក្នុងអក្សរខ្មែរ
+  function cleanStudentName(name) {
+    return String(name || '')
+      .normalize('NFC')
+      .replace(/[\u200B-\u200D\uFEFF]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  // បង្កើត Key សម្រាប់សិស្សម្នាក់ៗឱ្យដូចគ្នាជានិច្ច
   function makeStudentKey(name) {
-    return name.trim().toLowerCase().replace(/[\s\.\#\$\[\]\/]+/g, '_');
+    const clean = cleanStudentName(name).toLowerCase();
+    return clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
   }
 
   const questionsData = [
@@ -784,7 +794,8 @@
 
     document.getElementById('timerContainer').style.display = 'none';
 
-    const studentName = document.getElementById('studentName').value.trim();
+    const rawName = document.getElementById('studentName').value;
+    const studentName = cleanStudentName(rawName);
     const testType = document.getElementById('testType').value;
     const examDate = document.getElementById('examDate').value;
 
@@ -981,7 +992,7 @@
     });
   }
 
-  /* ================= FIREBASE STORAGE ENGINE (PATCH MODE) ================= */
+  /* ================= FIREBASE STORAGE ENGINE ================= */
   function getLocalRecords() {
     try {
       return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
@@ -1002,7 +1013,6 @@
       if (res.ok) {
         const cloudData = await res.json();
         if (cloudData) {
-          // Merge ទិន្នន័យឆ្លាតវៃ (មិនឱ្យបាត់ពិន្ទុ Pre ឬ Post)
           const merged = Object.assign({}, local);
           for (const k in cloudData) {
             merged[k] = Object.assign({}, merged[k] || {}, cloudData[k]);
@@ -1017,7 +1027,7 @@
     return local;
   }
 
-  // ២. ប្រើ PATCH ដើម្បីកុំឱ្យជាន់លុបពិន្ទុចាស់ (Update Partial Data)
+  // ២. ប្រើ PATCH ដើម្បីរក្សាទុកពិន្ទុមុនដដែល
   async function patchRecordToCloud(key, partialData) {
     try {
       const res = await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, {
@@ -1033,32 +1043,44 @@
   }
 
   async function updateStudentRecord(name, type, score, date) {
-    // ទាញទិន្នន័យចុងក្រោយបង្អស់ពី Cloud សិនដើម្បីកុំឱ្យបាត់ពិន្ទុមុន
-    let records = await pullFromCloud();
-    const key = makeStudentKey(name);
+    const standardizedName = cleanStudentName(name);
+    const key = makeStudentKey(standardizedName);
 
-    if (!records[key]) {
-      records[key] = { name: name.trim(), lastDate: date };
+    let records = await pullFromCloud();
+
+    // ស្វែងរក record ចាស់តាម Key ឬតាមឈ្មោះដូចគ្នា
+    let existingKey = key;
+    if (!records[existingKey]) {
+      for (const k in records) {
+        if (cleanStudentName(records[k].name).toLowerCase() === standardizedName.toLowerCase()) {
+          existingKey = k;
+          break;
+        }
+      }
+    }
+
+    if (!records[existingKey]) {
+      records[existingKey] = { name: standardizedName, lastDate: date };
     }
 
     const payload = {
-      name: name.trim(),
+      name: standardizedName,
       lastDate: date
     };
 
     if (type === 'Pre-test') {
-      records[key].pre = score;
+      records[existingKey].pre = score;
       payload.pre = score;
     } else {
-      records[key].post = score;
+      records[existingKey].post = score;
       payload.post = score;
     }
-    records[key].lastDate = date;
+    records[existingKey].lastDate = date;
 
     saveLocalRecords(records);
-    await patchRecordToCloud(key, payload);
+    await patchRecordToCloud(existingKey, payload);
 
-    return records[key];
+    return records[existingKey];
   }
 
   async function manualSyncFromCloud() {
@@ -1124,9 +1146,11 @@
     const student = records[key];
     if (!student) return;
     if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
+      // ប្រសិនជា record នោះមាន Keys ច្រើនដែលត្រូវ merged
       delete records[key];
       saveLocalRecords(records);
       await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, { method: 'DELETE' });
+      await pullFromCloud();
       renderTable();
     }
   }
@@ -1150,23 +1174,53 @@
     certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* ================= SCOREBOARD (RECORD ALL) ================= */
+  /* ================= SCOREBOARD (AUTO-MERGE BY NAME) ================= */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getLocalRecords();
-    const keys = Object.keys(records);
+    const rawKeys = Object.keys(records);
     const loggedIn = isAdminLoggedIn();
 
-    if (keys.length === 0) {
+    if (rawKeys.length === 0) {
       tbody.innerHTML = `<tr><td colspan="${loggedIn ? 8 : 7}" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតនៅឡើយទេ។</td></tr>`;
       return;
     }
 
-    tbody.innerHTML = keys.map((k, idx) => {
-      const r = records[k];
+    // ច្របាច់បញ្ចូលគ្នា (Merge) ដោយស្វ័យប្រវត្តិនូវឈ្មោះដែលដូចគ្នា
+    const mergedMap = {};
+    rawKeys.forEach(k => {
+      const item = records[k];
+      if (!item || !item.name) return;
+      const normalized = cleanStudentName(item.name).toLowerCase();
       
-      const hasPre = (r.pre !== undefined && r.pre !== null && r.pre !== "");
-      const hasPost = (r.post !== undefined && r.post !== null && r.post !== "");
+      if (!mergedMap[normalized]) {
+        mergedMap[normalized] = {
+          primaryKey: k,
+          allKeys: [k],
+          name: cleanStudentName(item.name),
+          pre: (item.pre !== undefined && item.pre !== null && item.pre !== "") ? item.pre : null,
+          post: (item.post !== undefined && item.post !== null && item.post !== "") ? item.post : null,
+          lastDate: item.lastDate || ''
+        };
+      } else {
+        mergedMap[normalized].allKeys.push(k);
+        if (item.pre !== undefined && item.pre !== null && item.pre !== "") {
+          mergedMap[normalized].pre = item.pre;
+        }
+        if (item.post !== undefined && item.post !== null && item.post !== "") {
+          mergedMap[normalized].post = item.post;
+        }
+        if (item.lastDate) {
+          mergedMap[normalized].lastDate = item.lastDate;
+        }
+      }
+    });
+
+    const students = Object.values(mergedMap);
+
+    tbody.innerHTML = students.map((r, idx) => {
+      const hasPre = (r.pre !== null && r.pre !== undefined);
+      const hasPost = (r.post !== null && r.post !== undefined);
 
       const preTxt = hasPre ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
       const postTxt = hasPost ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
@@ -1181,12 +1235,12 @@
 
       let certBtn = '<span style="color:#94a3b8;">-</span>';
       if (hasPost && Number(r.post) > 20) {
-        certBtn = `<button type="button" class="btn-action btn-view-cert" data-action="cert" data-key="${esc(k)}">🎓 មើលសញ្ញាបត្រ</button>`;
+        certBtn = `<button type="button" class="btn-action btn-view-cert" data-action="cert" data-key="${esc(r.primaryKey)}">🎓 មើលសញ្ញាបត្រ</button>`;
       }
 
       let actionCell = '';
       if (loggedIn) {
-        actionCell = `<td><button type="button" class="btn-delete-row" data-action="delete" data-key="${esc(k)}">លុប</button></td>`;
+        actionCell = `<td><button type="button" class="btn-delete-row" data-action="delete" data-key="${esc(r.primaryKey)}">លុប</button></td>`;
       }
 
       return `
@@ -1219,18 +1273,39 @@
 
   function exportToCSV() {
     const records = getLocalRecords();
-    const keys = Object.keys(records);
+    const rawKeys = Object.keys(records);
 
-    if (keys.length === 0) {
+    if (rawKeys.length === 0) {
       alert("មិនទាន់មានទិន្នន័យសម្រាប់ទាញយកឡើយ!");
       return;
     }
 
+    // Merge មុនពេល export ដើម្បីកុំឱ្យបែកជួរ
+    const mergedMap = {};
+    rawKeys.forEach(k => {
+      const item = records[k];
+      if (!item || !item.name) return;
+      const normalized = cleanStudentName(item.name).toLowerCase();
+      if (!mergedMap[normalized]) {
+        mergedMap[normalized] = {
+          name: cleanStudentName(item.name),
+          pre: (item.pre !== undefined && item.pre !== null) ? item.pre : null,
+          post: (item.post !== undefined && item.post !== null) ? item.post : null,
+          lastDate: item.lastDate || ''
+        };
+      } else {
+        if (item.pre !== undefined && item.pre !== null) mergedMap[normalized].pre = item.pre;
+        if (item.post !== undefined && item.post !== null) mergedMap[normalized].post = item.post;
+        if (item.lastDate) mergedMap[normalized].lastDate = item.lastDate;
+      }
+    });
+
+    const students = Object.values(mergedMap);
     let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ,ស្ថានភាពជាប់\n";
-    keys.forEach((k, i) => {
-      const r = records[k];
-      const hasPre = (r.pre !== undefined && r.pre !== null);
-      const hasPost = (r.post !== undefined && r.post !== null);
+    
+    students.forEach((r, i) => {
+      const hasPre = (r.pre !== null && r.pre !== undefined);
+      const hasPost = (r.post !== null && r.post !== undefined);
 
       const pre = hasPre ? r.pre : "";
       const post = hasPost ? r.post : "";
