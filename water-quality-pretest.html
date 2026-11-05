@@ -1,1 +1,388 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>តេស្តវាស់ស្ទង់ចំណេះដឹងជាមុន (Pre-Test)៖ គុណភាពទឹក | Research Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg-color: #f0fdfa;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Kantumruy Pro', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 24px 16px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    header {
+      border-bottom: 2px solid #e0f2fe;
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .brand {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      color: #0f172a;
+      margin-top: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .user-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 600px) {
+      .user-info {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .question-card {
+      margin-bottom: 24px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fafafa;
+      transition: border-color 0.2s;
+    }
+
+    .question-card.active {
+      border-color: var(--primary);
+    }
+
+    .q-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .option-label:hover {
+      border-color: var(--primary);
+      background: #f8fafc;
+    }
+
+    .option-label input[type="radio"] {
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 14px 20px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .result-box {
+      display: none;
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 8px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      text-align: center;
+    }
+
+    .result-score {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .feedback-correct {
+      background-color: #dcfce7 !important;
+      border-color: #86efac !important;
+    }
+
+    .feedback-wrong {
+      background-color: #fee2e2 !important;
+      border-color: #fca5a5 !important;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="brand">Research Foundation (www.researchfoundation.top)</div>
+    <h1>តេស្តវាស់ស្ទង់ចំណេះដឹងជាមុន (Pre-Test)</h1>
+    <p class="subtitle">ប្រធានបទ៖ ការត្រួតពិនិត្យ និងវាយតម្លៃគុណភាពទឹកបរិភោគ និងបរិស្ថាន</p>
+  </header>
+
+  <form id="quizForm">
+    <div class="user-info">
+      <div class="input-group">
+        <label for="fullName">ឈ្មោះសិក្ខាកាម / ឈ្មោះពេញ៖</label>
+        <input type="text" id="fullName" placeholder="ឧ. សុខ វិសាល" required>
+      </div>
+      <div class="input-group">
+        <label for="email">អ៊ីមែល ឬលេខទូរស័ព្ទ៖</label>
+        <input type="text" id="email" placeholder="example@email.com" required>
+      </div>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="question-card" id="qblock1">
+      <div class="q-title">១. យោងតាមស្តង់ដារជាតិសម្រាប់គុណភាពទឹកបរិភោគ តម្លៃកម្រិត pH នៃទឹកស្អាតគួរស្ថិតក្នុងចន្លោះណា?</div>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="q1" value="a"> ក. ៤.០ ដល់ ៥.៥
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q1" value="b"> ខ. ៦.៥ ដល់ ៨.៥
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q1" value="c"> គ. ៨.៥ ដល់ ១១.០
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q1" value="d"> ឃ. ១.០ ដល់ ១៤.០
+        </label>
+      </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-card" id="qblock2">
+      <div class="q-title">២. វត្តមានរបស់បាក់តេរីប្រភេទណា ដែលជាសូចនាករសំខាន់បង្ហាញពីការបំពុលដោយកាកសំណល់លាមកក្នុងទឹក?</div>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="q2" value="a"> ក. Escherichia coli (E. coli)
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q2" value="b"> ខ. Lactobacillus
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q2" value="c"> គ. Yeast (មេដំបែ)
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q2" value="d"> ឃ. Spirulina
+        </label>
+      </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-card" id="qblock3">
+      <div class="q-title">៣. ពាក្យកាត់ “NTU” ត្រូវបានប្រើប្រាស់ជាខ្នាតសម្រាប់វាស់វែងអ្វីនៅក្នុងការវិភាគទឹក?</div>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="q3" value="a"> ក. កំហាប់អំបិលរលាយ (Salinity)
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q3" value="b"> ខ. ភាពល្អក់នៃទឹក (Turbidity)
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q3" value="c"> គ. ចរន្តអគ្គិសនីនៃទឹក (Conductivity)
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q3" value="d"> ឃ. សីតុណ្ហភាពទឹក (Temperature)
+        </label>
+      </div>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question-card" id="qblock4">
+      <div class="q-title">៤. តើ “អុកស៊ីសែនរលាយក្នុងទឹក” (Dissolved Oxygen - DO) មានសារៈសំខាន់ដូចម្តេច?</div>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="q4" value="a"> ក. ធ្វើឱ្យទឹកមានក្លិនឈ្ងុយ
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q4" value="b"> ខ. ជួយដល់ការដកដង្ហើម និងការរស់រាននៃជីវចម្រុះក្នុងទឹក
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q4" value="c"> គ. ធ្វើឱ្យទឹកក្លាយជាអាស៊ីតខ្លាំង
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q4" value="d"> ឃ. មិនមានឥទ្ធិពលអ្វីទាល់តែសោះ
+        </label>
+      </div>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question-card" id="qblock5">
+      <div class="q-title">៥. វិធីសាស្ត្រគីមីទូទៅបំផុតដែលត្រូវបានគេប្រើដើម្បីសម្លាប់មេរោគក្នុងប្រព័ន្ធផ្គត់ផ្គង់ទឹកស្អាតគឺអ្វី?</div>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="q5" value="a"> ក. ការបន្ថែមសារធាតុអាសេនិច
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q5" value="b"> ខ. ការប្រើប្រាស់ក្លរីន (Chlorination)
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q5" value="c"> គ. ការដាក់ប្រេងម៉ាស៊ីន
+        </label>
+        <label class="option-label">
+          <input type="radio" name="q5" value="d"> ឃ. ការបន្ថែមស្ករស
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit">ផ្ញើចម្លើយ (Submit Pre-Test)</button>
+  </form>
+
+  <div id="resultBox" class="result-box">
+    <div class="result-score" id="scoreText"></div>
+    <p id="feedbackText"></p>
+  </div>
+
+  <footer>
+    &copy; 2026 Research Foundation (www.researchfoundation.top) - រក្សាសិទ្ធិគ្រប់យ៉ាង
+  </footer>
+</div>
+
+<script>
+  const correctAnswers = {
+    q1: 'b', // 6.5 - 8.5
+    q2: 'a', // E. coli
+    q3: 'b', // Turbidity
+    q4: 'b', // DO for aquatic life
+    q5: 'b'  // Chlorination
+  };
+
+  document.getElementById('quizForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    let score = 0;
+    const totalQuestions = Object.keys(correctAnswers).length;
+
+    for (let key in correctAnswers) {
+      const selectedOption = document.querySelector(`input[name="${key}"]:checked`);
+      const block = document.getElementById(`qblock${key.replace('q', '')}`);
+
+      if (selectedOption) {
+        if (selectedOption.value === correctAnswers[key]) {
+          score++;
+          selectedOption.parentElement.classList.add('feedback-correct');
+        } else {
+          selectedOption.parentElement.classList.add('feedback-wrong');
+        }
+      }
+    }
+
+    const resultBox = document.getElementById('resultBox');
+    const scoreText = document.getElementById('scoreText');
+    const feedbackText = document.getElementById('feedbackText');
+
+    resultBox.style.display = 'block';
+    scoreText.innerText = `ពិន្ទុរបស់អ្នក៖ ${score} / ${totalQuestions}`;
+
+    if (score >= 4) {
+      feedbackText.innerText = 'លទ្ធផលល្អប្រសើរ! អ្នកមានចំណេះដឹងមូលដ្ឋានរឹងមាំអំពីគុណភាពទឹក។';
+    } else {
+      feedbackText.innerText = 'លទ្ធផលជាការវាស់ស្ទង់ជាមុន។ វគ្គបណ្តុះបណ្តាលនឹងជួយពង្រឹងចំណុចដែលនៅខ្វះខាតបន្ថែម។';
+    }
+
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
