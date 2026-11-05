@@ -139,7 +139,6 @@
     /* ================= វិញ្ញាបនបត្រ (CERTIFICATE STYLING) ================= */
     .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
     .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
-
     .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 
     .btn-cert-download {
@@ -426,7 +425,7 @@
 
           <div class="sig-block">
             <div class="signature-wrap">
-              <!-- ហត្ថលេខាពណ៌ខៀវ Vector ដើមរបស់លោកគ្រូ អិន សុខរ៉ា -->
+              <!-- ហត្ថលេខាពណ៌ខៀវ Vector -->
               <img class="teacher-signature" width="70" height="52" alt="Signature"
                 src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
             </div>
@@ -445,7 +444,7 @@
     <div class="table-header">
       <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
       <div class="action-btn-group">
-        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី GitHub ភ្លាមៗ">🔄 Sync Now</button>
+        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី Cloud ភ្លាមៗ">🔄 Sync Now</button>
         <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
         <div id="adminControls"></div>
       </div>
@@ -474,39 +473,11 @@
 </div>
 
 <script>
+  // ភ្ជាប់ជាមួយ Firebase Database របស់អ្នក
+  const FIREBASE_DB_URL = "https://water-quality-test-91aa2-default-rtdb.asia-southeast1.firebasedatabase.app";
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
-
-  // រៀបចំ GitHub Configuration តាមទម្រង់គេហទំព័រដើម
-  function getGitHubConfig() {
-    return {
-      owner: (localStorage.getItem('GH_OWNER') || 'Research-Foundation').trim(),
-      repo: (localStorage.getItem('GH_REPO') || 'research-foundation.github.io').trim(),
-      branch: (localStorage.getItem('GH_BRANCH') || 'main').trim(),
-      token: (localStorage.getItem('GH_TOKEN') || '').trim(),
-      path: 'data.json'
-    };
-  }
-
-  function utf8ToBase64(str) {
-    const bytes = new TextEncoder().encode(str);
-    let binary = '';
-    const chunkSize = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunkSize) {
-      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
-    }
-    return btoa(binary);
-  }
-
-  function base64ToUtf8(base64) {
-    const binary = atob(base64.replace(/\s/g, ''));
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    return new TextDecoder().decode(bytes);
-  }
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
@@ -862,7 +833,7 @@
       const sign = diff >= 0 ? `+${diff}` : `${diff}`;
       summaryElem.innerHTML = `និស្សិតបានបញ្ចប់តេស្តទាំងពីរ៖ <strong>Pre-test: ${updatedStudent.pre} ពិន្ទុ</strong> | <strong>Post-test: ${updatedStudent.post} ពិន្ទុ</strong> (ការប្រែប្រួល៖ <span class="${diff >= 0 ? 'gain-positive' : 'gain-negative'}">${sign} ពិន្ទុ</span>)`;
     } else {
-      summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
+      summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងរក្សាទុកដោយជោគជ័យ។`;
     }
 
     if (testType === 'Post-test' && score > 20) {
@@ -1003,7 +974,7 @@
     });
   }
 
-  /* ================= MULTI-DEVICE STORAGE ENGINE VIA GITHUB ================= */
+  /* ================= FIREBASE CLOUD REALTIME STORAGE ================= */
   function getLocalRecords() {
     try {
       return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
@@ -1016,106 +987,42 @@
     localStorage.setItem('water_assessment_records', JSON.stringify(data));
   }
 
-  // ១. ទាញទិន្នន័យពី GitHub តាមទម្រង់របស់គេហទំព័រដើម (data.json)
+  // ១. ទាញទិន្នន័យពី Firebase
   async function pullFromCloud() {
-    const config = getGitHubConfig();
     const local = getLocalRecords();
-
     try {
-      // ប្រសិនជាមាន Token
-      if (config.token && config.owner && config.repo) {
-        const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.path}?ref=${config.branch}&_cb=${Date.now()}`;
-        const res = await fetch(apiUrl, {
-          cache: 'no-store',
-          headers: {
-            'Authorization': `Bearer ${config.token}`,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
-        if (res.ok) {
-          const fileObj = await res.json();
-          if (fileObj && fileObj.content) {
-            const decoded = JSON.parse(base64ToUtf8(fileObj.content));
-            if (decoded && decoded.exam_records) {
-              const merged = Object.assign({}, local, decoded.exam_records);
-              saveLocalRecords(merged);
-              return merged;
-            }
-          }
-        }
-      }
-
-      // ប្រសិនជាអត់ទាន់មាន Token ទាញពី Raw URL ឬ data.json ផ្ទាល់
-      const staticRes = await fetch(`./data.json?_cb=${Date.now()}`, { cache: 'no-store' });
-      if (staticRes.ok) {
-        const json = await staticRes.json();
-        if (json && json.exam_records) {
-          const merged = Object.assign({}, local, json.exam_records);
-          saveLocalRecords(merged);
-          return merged;
+      const res = await fetch(`${FIREBASE_DB_URL}/exam_records.json?_cb=${Date.now()}`);
+      if (res.ok) {
+        const cloudData = await res.json();
+        if (cloudData) {
+          saveLocalRecords(cloudData);
+          return cloudData;
         }
       }
     } catch (err) {
-      console.warn("Could not pull from GitHub cloud, using local cache:", err);
+      console.warn("Could not pull from Cloud, using local cache:", err);
     }
     return local;
   }
 
-  // ២. បញ្ជូនទិន្នន័យចូល GitHub data.json ដូចគេហទំព័រដើម
-  async function pushToCloud(records) {
-    const config = getGitHubConfig();
-    if (!config.token) return false;
-
+  // ២. រុញទិន្នន័យទៅកាន់ Firebase Cloud (ធ្វើការដោយស្វ័យប្រវត្តគ្មានបញ្ហា Permissions)
+  async function pushSingleRecordToCloud(key, record) {
     try {
-      const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.path}`;
-      let fileSha = null;
-      let fullData = {};
-
-      const getFile = await fetch(`${apiUrl}?ref=${config.branch}&_cb=${Date.now()}`, {
-        cache: 'no-store',
-        headers: {
-          'Authorization': `Bearer ${config.token}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      });
-
-      if (getFile.ok) {
-        const fileInfo = await getFile.json();
-        fileSha = fileInfo.sha;
-        fullData = JSON.parse(base64ToUtf8(fileInfo.content));
-      }
-
-      fullData.exam_records = records;
-      fullData.updatedAt = Date.now();
-
-      const encodedContent = utf8ToBase64(JSON.stringify(fullData, null, 2));
-      const bodyPayload = {
-        message: `Update student exam records [${new Date().toISOString()}]`,
-        content: encodedContent,
-        branch: config.branch
-      };
-      if (fileSha) bodyPayload.sha = fileSha;
-
-      const commitResponse = await fetch(apiUrl, {
+      const res = await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, {
         method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${config.token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(bodyPayload)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(record)
       });
-
-      return commitResponse.ok;
+      return res.ok;
     } catch (e) {
-      console.error("Failed to commit exam data to GitHub:", e);
+      console.error("Failed to sync record to cloud:", e);
       return false;
     }
   }
 
   async function updateStudentRecord(name, type, score, date) {
     let records = await pullFromCloud();
-    const key = name.trim().toLowerCase().replace(/[.#$\[\]\/]/g, '_');
+    const key = encodeURIComponent(name.trim().toLowerCase().replace(/[.#$\[\]\/]/g, '_'));
 
     if (!records[key]) {
       records[key] = { name: name.trim(), pre: null, post: null, lastDate: date };
@@ -1126,7 +1033,7 @@
     records[key].lastDate = date;
 
     saveLocalRecords(records);
-    await pushToCloud(records);
+    await pushSingleRecordToCloud(key, records[key]);
 
     return records[key];
   }
@@ -1145,17 +1052,8 @@
   }
 
   function adminLogin() {
-    const inputPass = prompt("សូមបញ្ចូលលេខសម្ងាត់ Admin ឬ GitHub Token (PAT) ដើម្បីគ្រប់គ្រងទិន្នន័យ៖");
+    const inputPass = prompt("សូមបញ្ចូលលេខសម្ងាត់ Admin ដើម្បីគ្រប់គ្រងទិន្នន័យ៖");
     if (inputPass === null) return;
-
-    if (inputPass.startsWith('ghp_') || inputPass.startsWith('github_pat_')) {
-      localStorage.setItem('GH_TOKEN', inputPass);
-      sessionStorage.setItem('admin_logged_in', 'true');
-      renderAdminUI();
-      pullFromCloud().then(() => renderTable());
-      alert("ចូលគ្រប់គ្រងជា Admin និងបានភ្ជាប់ GitHub Auto-Sync ដោយជោគជ័យ!");
-      return;
-    }
 
     if (inputPass === ADMIN_PASSWORD || inputPass === "Sokra@2026") {
       sessionStorage.setItem('admin_logged_in', 'true');
@@ -1205,7 +1103,7 @@
     if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
       delete records[key];
       saveLocalRecords(records);
-      await pushToCloud(records);
+      await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, { method: 'DELETE' });
       renderTable();
     }
   }
@@ -1214,7 +1112,7 @@
     if (!isAdminLoggedIn()) return;
     if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (ទិន្នន័យនឹងបាត់បង់ទាំងស្រុង)")) {
       saveLocalRecords({});
-      await pushToCloud({});
+      await fetch(`${FIREBASE_DB_URL}/exam_records.json`, { method: 'DELETE' });
       renderTable();
       alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបជោគជ័យ!");
     }
@@ -1327,12 +1225,10 @@
   renderAdminUI();
   pullFromCloud().then(() => renderTable());
 
-  // Auto-Sync ពី GitHub Cloud រៀងរាល់ 15 វិនាទីម្តង
+  // Auto-Sync ទិន្នន័យពី Cloud រៀងរាល់ 8 វិនាទីម្តង
   setInterval(() => {
-    if (isAdminLoggedIn()) {
-      pullFromCloud().then(() => renderTable());
-    }
-  }, 15000);
+    pullFromCloud().then(() => renderTable());
+  }, 8000);
 </script>
 
 </body>
