@@ -1,7 +1,4 @@
-/* Research Foundation – Pre-test / Post-test module
-   Usage: put this file next to index.html and add, just before </body>:
-   <script src="quiz-module.js"></script>
-*/
+/* Research Foundation - Pre-test / Post-test module */
 (function () {
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const getRes = () => { try { return JSON.parse(localStorage.getItem('RF_QUIZ_RESULTS') || '[]'); } catch (e) { return []; } };
