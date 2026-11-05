@@ -7,9 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-  <!-- បណ្ណាល័យ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- បណ្ណាល័យ html2pdf សម្រាប់ Save ជា PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
@@ -26,11 +24,7 @@
       --gold-dark: #92400e;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Kantumruy Pro', sans-serif;
@@ -57,277 +51,101 @@
       text-align: center;
     }
 
-    .university {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-      margin-bottom: 4px;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      color: #0f172a;
-      margin-top: 6px;
-    }
+    .university { font-size: 1.15rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; }
+    h1 { font-size: 1.5rem; color: #0f172a; margin-top: 6px; }
 
     .exam-info {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
+      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+      margin-top: 10px; font-size: 0.9rem; color: var(--text-muted);
     }
 
-    .badge {
-      background: #e0f2fe;
-      color: var(--primary-dark);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-weight: 600;
-    }
+    .badge { background: #e0f2fe; color: var(--primary-dark); padding: 4px 10px; border-radius: 6px; font-weight: 600; }
 
     .objective {
-      background: #f8fafc;
-      border-left: 4px solid var(--primary);
-      padding: 12px 16px;
-      font-size: 0.9rem;
-      margin-top: 16px;
-      text-align: left;
-      border-radius: 0 6px 6px 0;
+      background: #f8fafc; border-left: 4px solid var(--primary);
+      padding: 12px 16px; font-size: 0.9rem; margin-top: 16px;
+      text-align: left; border-radius: 0 6px 6px 0;
     }
 
     .timer-container {
-      display: none;
-      position: sticky;
-      top: 16px;
-      z-index: 100;
-      background: #0f172a;
-      color: #ffffff;
-      padding: 12px 24px;
-      border-radius: 30px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-      margin-bottom: 24px;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
+      display: none; position: sticky; top: 16px; z-index: 100;
+      background: #0f172a; color: #ffffff; padding: 12px 24px; border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25); margin-bottom: 24px;
+      justify-content: space-between; align-items: center; font-weight: 600;
     }
 
-    .timer-time {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #38bdf8;
-      font-family: monospace;
-      letter-spacing: 1px;
-    }
+    .timer-time { font-size: 1.35rem; font-weight: 700; color: #38bdf8; font-family: monospace; letter-spacing: 1px; }
+    .timer-warning { color: #ef4444 !important; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    .timer-warning {
-      color: #ef4444 !important;
-      animation: pulse 1s infinite;
-    }
+    .user-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    @media (max-width: 768px) { .user-info { grid-template-columns: 1fr; } }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    .user-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    @media (max-width: 768px) {
-      .user-info {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
+    .input-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
     .input-group input, .input-group select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 0.95rem;
-      outline: none;
-      background: #fff;
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: 6px; font-family: inherit; font-size: 0.95rem; outline: none; background: #fff;
     }
-
     .input-group input:focus, .input-group select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
     .start-area {
-      text-align: center;
-      padding: 30px 20px;
-      background: #f1f5f9;
-      border-radius: 10px;
-      border: 1px dashed #cbd5e1;
-      margin-bottom: 24px;
+      text-align: center; padding: 30px 20px; background: #f1f5f9;
+      border-radius: 10px; border: 1px dashed #cbd5e1; margin-bottom: 24px;
     }
 
     .btn-start {
-      background-color: var(--success);
-      color: white;
-      border: none;
-      padding: 16px 36px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      font-family: inherit;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
-      transition: all 0.2s;
+      background-color: var(--success); color: white; border: none; padding: 16px 36px;
+      font-size: 1.2rem; font-weight: 700; font-family: inherit; border-radius: 8px;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); transition: all 0.2s;
     }
+    .btn-start:hover { background-color: #15803d; transform: translateY(-2px); }
 
-    .btn-start:hover {
-      background-color: #15803d;
-      transform: translateY(-2px);
-    }
+    #examBody { display: none; }
 
-    #examBody {
-      display: none;
-    }
-
-    .question-card {
-      margin-bottom: 20px;
-      padding: 18px 20px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #ffffff;
-    }
-
-    .q-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #1e293b;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .question-card { margin-bottom: 20px; padding: 18px 20px; border: 1px solid var(--border); border-radius: 8px; background: #ffffff; }
+    .q-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+    .options { display: flex; flex-direction: column; gap: 8px; }
 
     .option-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 6px;
-      background: #fafafa;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.2s;
-      font-size: 0.95rem;
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 6px;
+      background: #fafafa; border: 1px solid var(--border); cursor: pointer;
+      user-select: none; transition: all 0.2s; font-size: 0.95rem;
     }
-
-    .option-label:hover {
-      border-color: var(--primary);
-      background: #f0f9ff;
-    }
-
-    .option-label input[type="radio"] {
-      accent-color: var(--primary);
-      width: 18px;
-      height: 18px;
-    }
+    .option-label:hover { border-color: var(--primary); background: #f0f9ff; }
+    .option-label input[type="radio"] { accent-color: var(--primary); width: 18px; height: 18px; }
 
     .btn-submit {
-      width: 100%;
-      background-color: var(--primary);
-      color: #ffffff;
-      border: none;
-      padding: 16px 20px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      font-family: inherit;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 24px;
-      transition: background 0.2s;
+      width: 100%; background-color: var(--primary); color: #ffffff; border: none;
+      padding: 16px 20px; font-size: 1.1rem; font-weight: 700; font-family: inherit;
+      border-radius: 8px; cursor: pointer; margin-top: 24px; transition: background 0.2s;
     }
-
-    .btn-submit:hover {
-      background-color: var(--primary-dark);
-    }
+    .btn-submit:hover { background-color: var(--primary-dark); }
 
     .result-box {
-      display: none;
-      margin-top: 36px;
-      padding: 28px;
-      border-radius: 10px;
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      text-align: center;
+      display: none; margin-top: 36px; padding: 28px; border-radius: 10px;
+      background: #f8fafc; border: 1px solid #cbd5e1; text-align: center;
     }
+    .score-total { font-size: 2rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
+    .level-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
+    .chart-container { position: relative; max-width: 650px; margin: 20px auto 0 auto; height: 320px; }
 
-    .score-total {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-      margin-bottom: 6px;
-    }
+    /* ================= CERTIFICATE ================= */
+    .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
+    .cert-scroll { overflow-x: auto; padding-bottom: 8px; }
 
-    .level-badge {
-      display: inline-block;
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 1rem;
-      margin-bottom: 12px;
-    }
-
-    .chart-container {
-      position: relative;
-      max-width: 650px;
-      margin: 20px auto 0 auto;
-      height: 320px;
-    }
-
-    /* ================= វិញ្ញាបនបត្រ (CERTIFICATE STYLING) ================= */
-    .certificate-wrapper {
-      display: none;
-      margin-top: 36px;
-      text-align: center;
-    }
-
-    .cert-actions {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
+    .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 
     .btn-cert-download {
-      background-color: var(--gold);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 1rem;
-      font-weight: 700;
-      font-family: inherit;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+      background-color: var(--gold); color: white; border: none; padding: 12px 24px;
+      font-size: 1rem; font-weight: 700; font-family: inherit; border-radius: 6px;
+      cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
     }
     .btn-cert-download:hover { background-color: var(--gold-dark); }
+    .btn-cert-download:disabled { opacity: .6; cursor: wait; }
 
-    /* Fix Certificate Dimensions for Single-Page Landscape PDF */
+    /* Fixed size so the PDF page matches exactly (800 x 540 px) */
     .certificate-card {
       width: 800px;
       height: 540px;
@@ -335,8 +153,6 @@
       background: #ffffff;
       padding: 24px 30px;
       border: 10px solid #0f172a;
-      outline: 3px solid var(--gold);
-      outline-offset: -6px;
       position: relative;
       box-sizing: border-box;
       display: flex;
@@ -347,325 +163,139 @@
       color: #0f172a;
     }
 
-    .cert-corner-decor {
+    /* Gold inner border (replaces CSS outline, which html2canvas ignores) */
+    .certificate-card::before {
+      content: '';
       position: absolute;
-      width: 32px;
-      height: 32px;
+      top: 3px; left: 3px; right: 3px; bottom: 3px;
       border: 3px solid var(--gold);
+      pointer-events: none;
     }
+
+    .cert-corner-decor { position: absolute; width: 32px; height: 32px; border: 3px solid var(--gold); }
     .c-top-left { top: 8px; left: 8px; border-right: none; border-bottom: none; }
     .c-top-right { top: 8px; right: 8px; border-left: none; border-bottom: none; }
     .c-bottom-left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
     .c-bottom-right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
 
-    .cert-logo {
-      width: 65px;
-      height: 65px;
-      object-fit: contain;
-      margin: 0 auto 4px auto;
-      display: block;
-    }
+    .cert-logo { width: 65px; height: 65px; object-fit: contain; margin: 0 auto 4px auto; display: block; }
 
     .cert-org {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: #0f172a;
-      text-transform: uppercase;
+      font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 2px; color: #0f172a; text-transform: uppercase;
     }
 
     .cert-motto {
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      color: var(--gold);
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      font-size: 0.65rem; letter-spacing: 2px; color: var(--gold);
+      font-weight: 700; text-transform: uppercase; margin-bottom: 8px;
     }
 
-    .cert-title-km {
-      font-family: 'Moul', cursive;
-      font-size: 1.4rem;
-      color: var(--gold-dark);
-      margin-bottom: 2px;
-    }
+    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.4rem; color: var(--gold-dark); margin-bottom: 2px; }
 
     .cert-title-en {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: #334155;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700;
+      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 8px;
     }
 
-    .cert-presented {
-      font-size: 0.85rem;
-      color: #64748b;
-    }
+    .cert-presented { font-size: 0.85rem; color: #64748b; }
 
     .cert-student-name {
-      font-family: 'Kantumruy Pro', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-      border-bottom: 2px solid var(--gold);
-      display: inline-block;
-      padding: 0 30px 2px 30px;
-      margin: 4px auto 8px auto;
+      font-family: 'Kantumruy Pro', sans-serif; font-size: 1.6rem; font-weight: 700;
+      color: var(--primary-dark); border-bottom: 2px solid var(--gold);
+      display: inline-block; padding: 0 30px 2px 30px; margin: 4px auto 8px auto;
     }
 
-    .cert-desc {
-      font-size: 0.85rem;
-      line-height: 1.6;
-      color: #334155;
-      max-width: 650px;
-      margin: 0 auto;
-    }
+    .cert-desc { font-size: 0.85rem; line-height: 1.6; color: #334155; max-width: 650px; margin: 0 auto; }
 
-    .cert-signatures {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: 10px;
-      padding: 0 10px;
-    }
+    .cert-signatures { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px; padding: 0 10px; }
+    .sig-block { text-align: center; width: 220px; position: relative; }
 
-    .sig-block {
-      text-align: center;
-      width: 220px;
-      position: relative;
-    }
-
-    /* Official Red Stamp */
     .official-stamp {
-      width: 85px;
-      height: 85px;
-      border: 2px dashed #b91c1c;
-      border-radius: 50%;
-      margin: 0 auto 4px auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #b91c1c;
-      transform: rotate(-10deg);
-      background: rgba(254, 226, 226, 0.25);
-      user-select: none;
+      width: 85px; height: 85px; border: 2px dashed #b91c1c; border-radius: 50%;
+      margin: 0 auto 4px auto; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: #b91c1c;
+      transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25); user-select: none;
+      font-family: 'Kantumruy Pro', sans-serif;
     }
-    .stamp-text-top {
-      font-size: 0.55rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      line-height: 1.1;
-    }
-    .stamp-star {
-      font-size: 0.65rem;
-      margin: 1px 0;
-      color: #dc2626;
-    }
-    .stamp-text-bottom {
-      font-size: 0.55rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
+    .stamp-text-top { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
+    .stamp-star { font-size: 0.62rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
+    .stamp-text-bottom { font-size: 0.62rem; font-weight: 700; line-height: 1.5; padding-top: 1px; }
 
-    /* Teacher Signature Container */
-    .signature-wrap {
-      height: 55px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
+    .signature-wrap { height: 55px; display: flex; align-items: flex-end; justify-content: center; }
+    .teacher-signature { height: 50px; width: auto; display: block; }
 
-    .teacher-signature-svg {
-      height: 50px;
-      max-width: 140px;
-    }
-
-    .sig-line {
-      border-top: 1px solid #94a3b8;
-      margin-top: 4px;
-      padding-top: 4px;
-    }
-
-    .sig-name {
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: #0f172a;
-    }
-
-    .sig-title {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
+    .sig-line { border-top: 1px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
+    .sig-name { font-weight: 700; font-size: 0.9rem; color: #0f172a; }
+    .sig-title { font-size: 0.75rem; color: var(--text-muted); }
 
     .cert-badge-center {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      border: 3px double var(--gold);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      color: var(--gold-dark);
-      font-weight: 700;
-      font-size: 0.7rem;
-      background: #fffbeb;
+      width: 75px; height: 75px; border-radius: 50%; border: 3px double var(--gold);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin: 0 auto; color: var(--gold-dark); font-weight: 700; font-size: 0.7rem; background: #fffbeb;
     }
 
-    /* Scoreboard Section */
-    .table-section {
-      margin-top: 45px;
-      border-top: 2px dashed #cbd5e1;
-      padding-top: 30px;
-    }
-
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .table-header h2 {
-      font-size: 1.25rem;
-      color: #0f172a;
-    }
-
-    .action-btn-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    /* Scoreboard */
+    .table-section { margin-top: 45px; border-top: 2px dashed #cbd5e1; padding-top: 30px; }
+    .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+    .table-header h2 { font-size: 1.25rem; color: #0f172a; }
+    .action-btn-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
     .btn-action {
-      border: none;
-      padding: 8px 14px;
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
+      border: none; padding: 8px 14px; font-family: inherit; font-size: 0.85rem;
+      font-weight: 600; border-radius: 6px; cursor: pointer; transition: background 0.2s;
     }
-
-    .btn-export {
-      background-color: #10b981;
-      color: white;
-    }
+    .btn-export { background-color: #10b981; color: white; }
     .btn-export:hover { background-color: #059669; }
-
-    .btn-admin-auth {
-      background-color: #0284c7;
-      color: white;
-    }
+    .btn-admin-auth { background-color: #0284c7; color: white; }
     .btn-admin-auth:hover { background-color: #0369a1; }
-
-    .btn-logout {
-      background-color: #64748b;
-      color: white;
-    }
+    .btn-logout { background-color: #64748b; color: white; }
     .btn-logout:hover { background-color: #475569; }
-
-    .btn-clear-all {
-      background-color: #dc2626;
-      color: white;
-    }
+    .btn-clear-all { background-color: #dc2626; color: white; }
     .btn-clear-all:hover { background-color: #b91c1c; }
+    .btn-view-cert { background:#d97706; color:#fff; padding:4px 8px; font-size:0.8rem; }
+    .btn-view-cert:hover { background:#92400e; }
 
     .btn-delete-row {
-      background-color: #fee2e2;
-      color: #b91c1c;
-      border: 1px solid #fca5a5;
-      padding: 4px 8px;
-      font-family: inherit;
-      font-size: 0.8rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
+      background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5;
+      padding: 4px 8px; font-family: inherit; font-size: 0.8rem; border-radius: 4px;
+      cursor: pointer; transition: all 0.2s;
     }
-    .btn-delete-row:hover {
-      background-color: #dc2626;
-      color: white;
-    }
+    .btn-delete-row:hover { background-color: #dc2626; color: white; }
 
     .admin-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      background: #ecfdf5;
-      color: #047857;
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: 1px solid #a7f3d0;
-      font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem;
+      background: #ecfdf5; color: #047857; padding: 4px 10px; border-radius: 6px;
+      border: 1px solid #a7f3d0; font-weight: 600;
     }
 
-    .table-responsive {
-      width: 100%;
-      overflow-x: auto;
-    }
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
+    table th, table td { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+    table th { background-color: #f1f5f9; color: #334155; font-weight: 600; }
+    table tbody tr:hover { background-color: #f8fafc; }
+    .empty-msg { text-align: center; color: var(--text-muted); padding: 20px; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.95rem;
-    }
-
-    table th, table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #e2e8f0;
-      vertical-align: middle;
-    }
-
-    table th {
-      background-color: #f1f5f9;
-      color: #334155;
-      font-weight: 600;
-    }
-
-    table tbody tr:hover {
-      background-color: #f8fafc;
-    }
-
-    .empty-msg {
-      text-align: center;
-      color: var(--text-muted);
-      padding: 20px;
-    }
-
-    .gain-positive {
-      color: var(--success);
-      font-weight: 700;
-    }
-
-    .gain-neutral {
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .gain-negative {
-      color: var(--danger);
-      font-weight: 700;
-    }
+    .gain-positive { color: var(--success); font-weight: 700; }
+    .gain-neutral { color: var(--text-muted); font-weight: 600; }
+    .gain-negative { color: var(--danger); font-weight: 700; }
 
     footer {
-      text-align: center;
-      margin-top: 36px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      border-top: 1px solid #e2e8f0;
-      padding-top: 18px;
+      text-align: center; margin-top: 36px; font-size: 0.85rem; color: var(--text-muted);
+      border-top: 1px solid #e2e8f0; padding-top: 18px;
+    }
+
+    /* Print: only the certificate */
+    @page { size: A4 landscape; margin: 0; }
+    @media print {
+      body { background: #fff; padding: 0; }
+      body * { visibility: hidden; }
+      #certificateCard, #certificateCard * { visibility: visible; }
+      #certificateCard {
+        position: fixed; top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(1.2);
+        box-shadow: none;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
     }
   </style>
 </head>
@@ -686,14 +316,12 @@
     </div>
   </header>
 
-  <!-- Sticky Timer Bar -->
   <div id="timerContainer" class="timer-container">
     <span>⏱️ ពេលវេលានៅសល់៖</span>
     <span id="timerDisplay" class="timer-time">30:00</span>
   </div>
 
   <form id="quizForm">
-    <!-- ព័ត៌មាននិស្សិត -->
     <div class="user-info">
       <div class="input-group">
         <label for="studentName">ឈ្មោះនិស្សិត៖ *</label>
@@ -712,7 +340,6 @@
       </div>
     </div>
 
-    <!-- Start Button Area -->
     <div id="startArea" class="start-area">
       <p style="margin-bottom: 14px; font-size: 1rem; color: #475569;">
         សូមបំពេញព័ត៌មានខាងលើឱ្យបានត្រឹមត្រូវ រួចចុចប៊ូតុងខាងក្រោមដើម្បីចាប់ផ្ដើម។ នាឡិកានឹងរាប់ថយក្រោយ <strong>៣០ នាទី</strong> ហើយប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិនៅពេលអស់ម៉ោង។
@@ -720,98 +347,91 @@
       <button type="button" class="btn-start" onclick="startTest()">▶ ចាប់ផ្ដើមធ្វើតេស្ត (Start Test)</button>
     </div>
 
-    <!-- Exam Body -->
     <div id="examBody">
       <div id="questionsContainer"></div>
       <button type="submit" id="submitBtn" class="btn-submit">ផ្ញើចម្លើយបញ្ចប់តេស្ត (Submit Test)</button>
     </div>
   </form>
 
-  <!-- កន្លែងបង្ហាញលទ្ធផល និងក្រាហ្វិក -->
   <div id="resultBox" class="result-box">
     <div class="score-total" id="scoreDisplay"></div>
     <div id="levelDisplay" class="level-badge"></div>
     <p id="comparisonSummary" style="color: var(--text-muted); font-size: 1rem; margin-top: 6px;"></p>
-    
     <div class="chart-container">
       <canvas id="scoreChart"></canvas>
     </div>
   </div>
 
-  <!-- ================= ផ្ទាំងវិញ្ញាបនបត្រ (CERTIFICATE DISPLAY) ================= -->
+  <!-- ================= CERTIFICATE ================= -->
   <div id="certificateWrapper" class="certificate-wrapper">
     <div class="cert-actions">
-      <button type="button" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
+      <button type="button" id="btnDownloadCert" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
       <button type="button" class="btn-action" style="background:#334155; color:#fff;" onclick="window.print()">🖨️ បោះពុម្ព (Print)</button>
     </div>
 
-    <div id="certificateCard" class="certificate-card">
-      <div class="cert-corner-decor c-top-left"></div>
-      <div class="cert-corner-decor c-top-right"></div>
-      <div class="cert-corner-decor c-bottom-left"></div>
-      <div class="cert-corner-decor c-bottom-right"></div>
+    <div class="cert-scroll">
+      <div id="certificateCard" class="certificate-card">
+        <div class="cert-corner-decor c-top-left"></div>
+        <div class="cert-corner-decor c-top-right"></div>
+        <div class="cert-corner-decor c-bottom-left"></div>
+        <div class="cert-corner-decor c-bottom-right"></div>
 
-      <div>
-        <!-- Logo -->
-        <img src="1M.jpg" alt="Research Foundation Logo" class="cert-logo" onerror="this.src='https://www.researchfoundation.top/logo.png'">
-        <div class="cert-org">Research Foundation</div>
-        <div class="cert-motto">Knowledge • Innovation • Impact</div>
+        <div>
+          <!-- Logo: see LOGO_DATA_URI in the script. No onerror fallback on purpose. -->
+          <img id="certLogo" src="1M.jpg" alt="Research Foundation Logo" class="cert-logo" width="65" height="65">
+          <div class="cert-org">Research Foundation</div>
+          <div class="cert-motto">Knowledge • Innovation • Impact</div>
 
-        <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
-        <div class="cert-title-en">Certificate of Achievement</div>
-      </div>
-
-      <div>
-        <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
-        <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
-        <div class="cert-desc">
-          ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«គុណភាពទឹក (Water Quality)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">25/30 ពិន្ទុ</strong>។
+          <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
+          <div class="cert-title-en">Certificate of Achievement</div>
         </div>
-      </div>
 
-      <div class="cert-signatures">
-        <!-- Left: Official Red Stamp -->
-        <div class="sig-block">
-          <div class="official-stamp">
-            <span class="stamp-text-top">RESEARCH FOUNDATION</span>
-            <span class="stamp-star">★ OFFICIAL SEAL ★</span>
-            <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
-          </div>
-          <div style="font-size:0.75rem; color:#64748b;">
-            <div id="certDateText">កាលបរិច្ឆេទ៖ 05/11/2026</div>
-            <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
-            <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
+        <div>
+          <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
+          <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
+          <div class="cert-desc">
+            ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«គុណភាពទឹក (Water Quality)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">25/30 ពិន្ទុ</strong>។
           </div>
         </div>
 
-        <!-- Center: Passed Badge -->
-        <div class="sig-block" style="width: auto;">
-          <div class="cert-badge-center">
-            <span>PASSED</span>
-            <span style="font-size: 0.6rem;">&gt; 20 PTS</span>
+        <div class="cert-signatures">
+          <div class="sig-block">
+            <div class="official-stamp">
+              <span class="stamp-text-top">RESEARCH FOUNDATION</span>
+              <span class="stamp-star">★ OFFICIAL SEAL ★</span>
+              <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
+            </div>
+            <div style="font-size:0.75rem; color:#64748b;">
+              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-05</div>
+              <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
+              <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
+            </div>
           </div>
-        </div>
 
-        <!-- Right: Real Blue Signature (In Sokra) -->
-        <div class="sig-block">
-          <div class="signature-wrap">
-            <svg class="teacher-signature-svg" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60" 
-                    stroke="#0e3a99" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M115 88C119 86 126 84 128 88" 
-                    stroke="#0e3a99" stroke-width="6" stroke-linecap="round"/>
-            </svg>
+          <div class="sig-block" style="width: auto;">
+            <div class="cert-badge-center">
+              <span>PASSED</span>
+              <span style="font-size: 0.6rem;">&gt; 20 PTS</span>
+            </div>
           </div>
-          <div class="sig-line">
-            <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
-            <div class="sig-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
+
+          <div class="sig-block">
+            <div class="signature-wrap">
+              <!-- Signature as <img> with explicit size so html2canvas renders it -->
+              <img class="teacher-signature" width="67" height="50" alt="Signature"
+                src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+            </div>
+            <div class="sig-line">
+              <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
+              <div class="sig-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Scoreboard Section -->
+  <!-- Scoreboard -->
   <div class="table-section">
     <div class="table-header">
       <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
@@ -846,341 +466,237 @@
 <script>
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
+
+  /*
+   * LOGO FOR THE PDF
+   * Best fix: paste your logo as a base64 data URI between the quotes below, e.g.
+   *   const LOGO_DATA_URI = "data:image/jpeg;base64,/9j/4AAQSkZJRg...";
+   * (Terminal: base64 -w0 1M.jpg   |   or use any "image to base64" website.)
+   * If left empty, the code tries to convert "1M.jpg" automatically, which only works
+   * when the page is served from a web server (not opened via file://).
+   */
+  const LOGO_DATA_URI = "";
+
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
   let isTestSubmitted = false;
 
+  /* ---------- helpers ---------- */
+  function esc(str) {
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
   const questionsData = [
-    {
-      id: 1,
-      q: "១. តើគុណភាពទឹក (Water Quality) មានន័យដូចម្ដេច?",
+    { id: 1, q: "១. តើគុណភាពទឹក (Water Quality) មានន័យដូចម្ដេច?",
       options: [
         { key: "A", text: "A. សំដៅលើពណ៌របស់ទឹកតែប៉ុណ្ណោះ" },
         { key: "B", text: "B. សំដៅលើលក្ខណៈរូបសាស្ត្រ គីមី និងជីវសាស្ត្ររបស់ទឹក" },
         { key: "C", text: "C. សំដៅលើសីតុណ្ហភាពរបស់ទឹកតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. សំដៅលើបរិមាណទឹកដែលមាននៅក្នុងធម្មជាតិ" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 2,
-      q: "២. តើមួយណាជាប៉ារ៉ាម៉ែត្ររូបសាស្ត្រនៃគុណភាពទឹក?",
+      ], ans: "B" },
+    { id: 2, q: "២. តើមួយណាជាប៉ារ៉ាម៉ែត្ររូបសាស្ត្រនៃគុណភាពទឹក?",
       options: [
         { key: "A", text: "A. pH" },
         { key: "B", text: "B. អុកស៊ីសែនរលាយ (DO)" },
         { key: "C", text: "C. ភាពល្អក់នៃទឹក (Turbidity)" },
         { key: "D", text: "D. នីត្រាត (Nitrate)" }
-      ],
-      ans: "C"
-    },
-    {
-      id: 3,
-      q: "៣. តម្លៃ pH បង្ហាញពីអ្វី?",
+      ], ans: "C" },
+    { id: 3, q: "៣. តម្លៃ pH បង្ហាញពីអ្វី?",
       options: [
         { key: "A", text: "A. សីតុណ្ហភាពទឹក" },
         { key: "B", text: "B. កម្រិតអាស៊ីត ឬបាសរបស់ទឹក" },
         { key: "C", text: "C. ភាពរឹងរបស់ទឹក" },
         { key: "D", text: "D. បរិមាណមីក្រូសរីរាង្គក្នុងទឹក" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 4,
-      q: "៤. តើកម្រិត pH ដែលគេប្រើជាទូទៅសម្រាប់ទឹកផឹកតាមការណែនាំរបស់ WHO គឺជាចន្លោះណា?",
+      ], ans: "B" },
+    { id: 4, q: "៤. តើកម្រិត pH ដែលគេប្រើជាទូទៅសម្រាប់ទឹកផឹកតាមការណែនាំរបស់ WHO គឺជាចន្លោះណា?",
       options: [
         { key: "A", text: "A. ១–៣" },
         { key: "B", text: "B. ៤–៥" },
         { key: "C", text: "C. ៦.៥–៨.៥" },
         { key: "D", text: "D. ១០–១២" }
-      ],
-      ans: "C"
-    },
-    {
-      id: 5,
-      q: "៥. តើ DO ជាអក្សរកាត់នៃពាក្យអ្វី?",
+      ], ans: "C" },
+    { id: 5, q: "៥. តើ DO ជាអក្សរកាត់នៃពាក្យអ្វី?",
       options: [
         { key: "A", text: "A. Dissolved Organic Matter" },
         { key: "B", text: "B. Dissolved Oxygen" },
         { key: "C", text: "C. Drinking Oxygen" },
         { key: "D", text: "D. Density of Oxygen" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 6,
-      q: "៦. ហេតុអ្វីបានជាអុកស៊ីសែនរលាយ (DO) មានសារៈសំខាន់ចំពោះប្រព័ន្ធអេកូឡូស៊ីក្នុងទឹក?",
+      ], ans: "B" },
+    { id: 6, q: "៦. ហេតុអ្វីបានជាអុកស៊ីសែនរលាយ (DO) មានសារៈសំខាន់ចំពោះប្រព័ន្ធអេកូឡូស៊ីក្នុងទឹក?",
       options: [
         { key: "A", text: "A. ជួយដល់ការរស់រានមានជីវិតរបស់សារពាង្គកាយក្នុងទឹក" },
         { key: "B", text: "B. បង្កើនពណ៌ទឹក" },
         { key: "C", text: "C. សម្លាប់បាក់តេរីទាំងអស់" },
         { key: "D", text: "D. បង្កើនភាពល្អក់នៃទឹក" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 7,
-      q: "៧. តើប៉ារ៉ាម៉ែត្រមួយណាដែលគេប្រើជាទូទៅដើម្បីវាយតម្លៃការបំពុលទឹកដោយសារធាតុសរីរាង្គ?",
+      ], ans: "A" },
+    { id: 7, q: "៧. តើប៉ារ៉ាម៉ែត្រមួយណាដែលគេប្រើជាទូទៅដើម្បីវាយតម្លៃការបំពុលទឹកដោយសារធាតុសរីរាង្គ?",
       options: [
         { key: "A", text: "A. BOD" },
         { key: "B", text: "B. សីតុណ្ហភាព" },
         { key: "C", text: "C. ភាពល្អក់" },
         { key: "D", text: "D. ពណ៌" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 8,
-      q: "៨. តើ EC ប្រើសម្រាប់វាស់អ្វី?",
+      ], ans: "A" },
+    { id: 8, q: "៨. តើ EC ប្រើសម្រាប់វាស់អ្វី?",
       options: [
         { key: "A", text: "A. សមត្ថភាពចម្លងចរន្តអគ្គិសនីរបស់ទឹក" },
         { key: "B", text: "B. ការបំពុលបរិស្ថាន" },
         { key: "C", text: "C. កំហាប់អុកស៊ីសែន" },
         { key: "D", text: "D. សីតុណ្ហភាពទឹក" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 9,
-      q: "៩. តើសារធាតុចិញ្ចឹមមួយណាដែលអាចបង្កឱ្យមានបាតុភូត Eutrophication នៅពេលមានបរិមាណច្រើនលើសកម្រិតក្នុងទឹក?",
+      ], ans: "A" },
+    { id: 9, q: "៩. តើសារធាតុចិញ្ចឹមមួយណាដែលអាចបង្កឱ្យមានបាតុភូត Eutrophication នៅពេលមានបរិមាណច្រើនលើសកម្រិតក្នុងទឹក?",
       options: [
         { key: "A", text: "A. កាល់ស្យូម និងម៉ាញេស្យូម" },
         { key: "B", text: "B. អាសូត និងផូស្វ័រ" },
         { key: "C", text: "C. អុកស៊ីសែន និងអ៊ីដ្រូសែន" },
         { key: "D", text: "D. សូដ្យូម និងប៉ូតាស្យូម" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 10,
-      q: "១០. តើមីក្រូសរីរាង្គមួយណាដែលគេប្រើជាសូចនាករនៃការបំពុលដោយលាមក?",
+      ], ans: "B" },
+    { id: 10, q: "១០. តើមីក្រូសរីរាង្គមួយណាដែលគេប្រើជាសូចនាករនៃការបំពុលដោយលាមក?",
       options: [
         { key: "A", text: "A. Lactobacillus" },
         { key: "B", text: "B. Escherichia coli (E. coli)" },
         { key: "C", text: "C. Saccharomyces" },
         { key: "D", text: "D. Rhizobium" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 11,
-      q: "១១. តើគោលបំណងសំខាន់នៃការយកសំណាកទឹកគឺអ្វី?",
+      ], ans: "B" },
+    { id: 11, q: "១១. តើគោលបំណងសំខាន់នៃការយកសំណាកទឹកគឺអ្វី?",
       options: [
         { key: "A", text: "A. ដើម្បីផ្លាស់ប្ដូរគុណភាពទឹក" },
         { key: "B", text: "B. ដើម្បីប្រមូលសំណាកតំណាងសម្រាប់ការវិភាគ" },
         { key: "C", text: "C. ដើម្បីបង្កើនការលូតលាស់របស់មីក្រូសរីរាង្គ" },
         { key: "D", text: "D. ដើម្បីកម្ចាត់សារធាតុបំពុល" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 12,
-      q: "១២. តើឧបករណ៍មួយណាដែលគេប្រើសម្រាប់វាស់តម្លៃ pH របស់ទឹក?",
+      ], ans: "B" },
+    { id: 12, q: "១២. តើឧបករណ៍មួយណាដែលគេប្រើសម្រាប់វាស់តម្លៃ pH របស់ទឹក?",
       options: [
         { key: "A", text: "A. មីក្រូទស្សន៍" },
         { key: "B", text: "B. ម៉ាស៊ីនវាស់ pH (pH meter)" },
         { key: "C", text: "C. ម៉ាស៊ីនភ្ញាស់មេរោគ (Incubator)" },
         { key: "D", text: "D. ម៉ាស៊ីនអូតូក្លេវ (Autoclave)" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 13,
-      q: "១៣. តើភាពល្អក់ (Turbidity) បង្ហាញពីអ្វី?",
+      ], ans: "B" },
+    { id: 13, q: "១៣. តើភាពល្អក់ (Turbidity) បង្ហាញពីអ្វី?",
       options: [
         { key: "A", text: "A. បរិមាណភាគល្អិតដែលអណ្ដែតនៅក្នុងទឹក" },
         { key: "B", text: "B. បរិមាណអុកស៊ីសែនរលាយ" },
         { key: "C", text: "C. កំហាប់បាក់តេរីតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. សីតុណ្ហភាពទឹក" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 14,
-      q: "១៤. តើឯកតាណាមួយដែលគេប្រើជាទូទៅសម្រាប់បង្ហាញចំនួនបាក់តេរីក្នុងទឹក?",
+      ], ans: "A" },
+    { id: 14, q: "១៤. តើឯកតាណាមួយដែលគេប្រើជាទូទៅសម្រាប់បង្ហាញចំនួនបាក់តេរីក្នុងទឹក?",
       options: [
         { key: "A", text: "A. mg/L" },
         { key: "B", text: "B. °C" },
         { key: "C", text: "C. CFU/100 mL" },
         { key: "D", text: "D. NTU" }
-      ],
-      ans: "C"
-    },
-    {
-      id: 15,
-      q: "១៥. តើវិធីសាស្ត្រមួយណាអាចប្រើដើម្បីរកបាក់តេរីក្នុងទឹក?",
+      ], ans: "C" },
+    { id: 15, q: "១៥. តើវិធីសាស្ត្រមួយណាអាចប្រើដើម្បីរកបាក់តេរីក្នុងទឹក?",
       options: [
         { key: "A", text: "A. Membrane Filtration" },
         { key: "B", text: "B. ការចម្រោះដោយកម្ដៅ (Distillation) តែប៉ុណ្ណោះ" },
         { key: "C", text: "C. ការហួត (Evaporation)" },
         { key: "D", text: "D. ការទុកឱ្យកករធ្លាក់ (Sedimentation) តែប៉ុណ្ណោះ" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 16,
-      q: "១៦. តើការថ្លែងដែលលើកឡើងថា «ទឹកដែលមានរូបរាងថ្លា គឺតែងតែមានសុវត្ថិភាពសម្រាប់ផឹក» ត្រឹមត្រូវដែរឬទេ?",
+      ], ans: "A" },
+    { id: 16, q: "១៦. តើការថ្លែងដែលលើកឡើងថា «ទឹកដែលមានរូបរាងថ្លា គឺតែងតែមានសុវត្ថិភាពសម្រាប់ផឹក» ត្រឹមត្រូវដែរឬទេ?",
       options: [
         { key: "A", text: "A. ត្រូវ ពីព្រោះទឹកថ្លាមិនមានផ្ទុកមេរោគ និងសារធាតុគីមីឡើយ" },
         { key: "B", text: "B. ខុស ពីព្រោះទឹកថ្លាអាចនៅតែមានផ្ទុកមីក្រូសរីរាង្គបង្កជំងឺ ឬសារធាតុគីមីរលាយដែលមើលមិនឃើញ" },
         { key: "C", text: "C. ត្រូវ ពីព្រោះភាពថ្លាជាលក្ខខណ្ឌតែមួយគត់នៃការកំណត់សុវត្ថិភាពទឹក" },
         { key: "D", text: "D. ខុស ពីព្រោះទឹកល្អសម្រាប់ផឹកត្រូវតែមានពណ៌ល្អក់តិចតួច" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 17,
-      q: "១៧. តើភាពល្អក់កម្រិតខ្ពស់នៃទឹកជះឥទ្ធិពលដូចម្ដេចដល់ដំណើរការសម្លាប់មេរោគ (Disinfection)?",
+      ], ans: "B" },
+    { id: 17, q: "១៧. តើភាពល្អក់កម្រិតខ្ពស់នៃទឹកជះឥទ្ធិពលដូចម្ដេចដល់ដំណើរការសម្លាប់មេរោគ (Disinfection)?",
       options: [
         { key: "A", text: "A. បង្កើនប្រសិទ្ធភាពសម្លាប់មេរោគទ្វេដង" },
         { key: "B", text: "B. អាចរារាំង និងកាត់បន្ថយប្រសិទ្ធភាពនៃសារធាតុសម្លាប់មេរោគ (ដូចជា ក្លរីន ឬកាំរស្មី UV)" },
         { key: "C", text: "C. ជួយសម្លាប់មេរោគដោយស្វ័យប្រវត្តិ" },
         { key: "D", text: "D. មិនមានឥទ្ធិពលអ្វីទាល់តែសោះចំពោះការសម្លាប់មេរោគ" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 18,
-      q: "១៨. តើកម្រិតអុកស៊ីសែនរលាយ (DO) មានឥទ្ធិពលយ៉ាងណាលើការរស់នៅរបស់សត្វត្រី?",
+      ], ans: "B" },
+    { id: 18, q: "១៨. តើកម្រិតអុកស៊ីសែនរលាយ (DO) មានឥទ្ធិពលយ៉ាងណាលើការរស់នៅរបស់សត្វត្រី?",
       options: [
         { key: "A", text: "A. ត្រីត្រូវការកំហាប់ DO គ្រប់គ្រាន់ក្នុងទឹកសម្រាប់ការដកដង្ហើម និងការលូតលាស់" },
         { key: "B", text: "B. កំហាប់ DO កាន់តែទាបជួយឱ្យត្រីដកដង្ហើមបានកាន់តែស្រួល" },
         { key: "C", text: "C. ត្រីមិនត្រូវការអុកស៊ីសែនក្នុងទឹកឡើយ" },
         { key: "D", text: "D. DO ជួយតែទៅលើពណ៌ស្រកាត្រីប៉ុណ្ណោះ" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 19,
-      q: "១៩. តើវត្តមានរបស់បាក់តេរី E. coli នៅក្នុងប្រភពទឹកមួយបង្ហាញពីអ្វី?",
+      ], ans: "A" },
+    { id: 19, q: "១៩. តើវត្តមានរបស់បាក់តេរី E. coli នៅក្នុងប្រភពទឹកមួយបង្ហាញពីអ្វី?",
       options: [
         { key: "A", text: "A. ទឹកមានសារធាតុរ៉ែច្រើន" },
         { key: "B", text: "B. ទឹកត្រូវបានបំពុលដោយកាកសំណល់លាមកមនុស្ស ឬសត្វ" },
         { key: "C", text: "C. ទឹកមានសុវត្ថិភាពខ្ពស់បំផុត" },
         { key: "D", text: "D. ប្រភពទឹកគ្មានសារធាតុសរីរាង្គ" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 20,
-      q: "២០. ហេតុអ្វីបានជាការយក និងដឹកជញ្ជូនសំណាកទឹកចាំបាច់ត្រូវអនុវត្តតាមបច្ចេកទេសត្រឹមត្រូវ?",
+      ], ans: "B" },
+    { id: 20, q: "២០. ហេតុអ្វីបានជាការយក និងដឹកជញ្ជូនសំណាកទឹកចាំបាច់ត្រូវអនុវត្តតាមបច្ចេកទេសត្រឹមត្រូវ?",
       options: [
         { key: "A", text: "A. ដើម្បីទទួលបានលទ្ធផលវិភាគត្រឹមត្រូវ និងអាចជឿទុកចិត្តបាន" },
         { key: "B", text: "B. ដើម្បីផ្លាស់ប្ដូរសមាសធាតុគីមីនៃសំណាកទឹក" },
         { key: "C", text: "C. ដើម្បីបង្កើនការលូតលាស់នៃបាក់តេរីក្នុងដបសំណាក" },
         { key: "D", text: "D. ដើម្បីពន្យារពេលវិភាគឱ្យបានយូរតាមការចង់បាន" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 21,
-      q: "២១. តើប៉ារ៉ាម៉ែត្រគុណភាពទឹកត្រូវបានបែងចែកជាប៉ុន្មានប្រភេទធំៗ?",
+      ], ans: "A" },
+    { id: 21, q: "២១. តើប៉ារ៉ាម៉ែត្រគុណភាពទឹកត្រូវបានបែងចែកជាប៉ុន្មានប្រភេទធំៗ?",
       options: [
         { key: "A", text: "A. ២ ប្រភេទ (រូបសាស្ត្រ និងគីមី)" },
         { key: "B", text: "B. ៣ ប្រភេទ (រូបសាស្ត្រ គីមី និងជីវសាស្ត្រ/មីក្រូជីវសាស្ត្រ)" },
         { key: "C", text: "C. ៤ ប្រភេទ (ពណ៌ ក្លិន រសជាតិ និងសីតុណ្ហភាព)" },
         { key: "D", text: "D. ៥ ប្រភេទ (ទឹកភ្លៀង ទឹកស្ទឹង ទឹកបឹង ទឹកអណ្ដូង និងទឹកសមុទ្រ)" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 22,
-      q: "២២. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្ររូបសាស្ត្រ» នៃគុណភាពទឹក?",
+      ], ans: "B" },
+    { id: 22, q: "២២. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្ររូបសាស្ត្រ» នៃគុណភាពទឹក?",
       options: [
         { key: "A", text: "A. សីតុណ្ហភាព និងភាពល្អក់ (Temperature and Turbidity)" },
         { key: "B", text: "B. pH និងនីត្រាត (pH and Nitrate)" },
         { key: "C", text: "C. DO និង E. coli (DO and E. coli)" },
         { key: "D", text: "D. ផូស្វ័រ និងបាក់តេរីកូលីហ្វម (Phosphorus and Coliforms)" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 23,
-      q: "២៣. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្រគីមី» នៃគុណភាពទឹក?",
+      ], ans: "A" },
+    { id: 23, q: "២៣. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្រគីមី» នៃគុណភាពទឹក?",
       options: [
         { key: "A", text: "A. ពណ៌ និងក្លិន (Color and Odor)" },
         { key: "B", text: "B. pH និងកំហាប់នីត្រាត (pH and Nitrate)" },
         { key: "C", text: "C. ភាពល្អក់ និងសីតុណ្ហភាព (Turbidity and Temperature)" },
         { key: "D", text: "D. E. coli និងសារាយ (E. coli and Algae)" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 24,
-      q: "២៤. ហេតុអ្វីបានជាយើងត្រូវធ្វើតេស្តគុណភាពទឹកពីទន្លេ អណ្ដូង និងស្រះ មុនពេលយកមកប្រើប្រាស់ជាទឹកផឹក?",
+      ], ans: "B" },
+    { id: 24, q: "២៤. ហេតុអ្វីបានជាយើងត្រូវធ្វើតេស្តគុណភាពទឹកពីទន្លេ អណ្ដូង និងស្រះ មុនពេលយកមកប្រើប្រាស់ជាទឹកផឹក?",
       options: [
         { key: "A", text: "A. ដើម្បីកំណត់តម្លៃលក់ទឹកលើទីផ្សារ" },
         { key: "B", text: "B. ដើម្បីវាយតម្លៃសុវត្ថិភាព រកឃើញការបំពុល និងការពារហានិភ័យសុខភាព" },
         { key: "C", text: "C. ដើម្បីពន្លឿនលំហូរទឹកក្នុងប្រព័ន្ធធារាសាស្ត្រ" },
         { key: "D", text: "D. ដើម្បីបង្កើនកម្រិតល្អក់នៃទឹក" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 25,
-      q: "២៥. ប្រសិនបើសំណាកទឹកមួយត្រូវបានរកឃើញថាមានវត្តមានបាក់តេរី E. coli តើមានហានិភ័យអ្វីកើតឡើង?",
+      ], ans: "B" },
+    { id: 25, q: "២៥. ប្រសិនបើសំណាកទឹកមួយត្រូវបានរកឃើញថាមានវត្តមានបាក់តេរី E. coli តើមានហានិភ័យអ្វីកើតឡើង?",
       options: [
         { key: "A", text: "A. បង្ហាញពីហានិភ័យនៃការផ្ទុកមេរោគបង្កជំងឺផ្លូវរំលាយអាហារពីលាមក" },
         { key: "B", text: "B. ធ្វើឱ្យទឹកមានសារធាតុចិញ្ចឹមល្អសម្រាប់ផឹក" },
         { key: "C", text: "C. បញ្ជាក់ថាទឹកគ្មានផ្ទុកសារធាតុសរីរាង្គ" },
         { key: "D", text: "D. ជួយទប់ស្កាត់ការកើតជំងឺរាគរូស" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 26,
-      q: "២៦. តើសារធាតុគីមីមួយណាដែលគេប្រើប្រាស់ជាទូទៅបំផុតក្នុងដំណាក់កាលសម្លាប់មេរោគក្នុងទឹកស្អាត?",
+      ], ans: "A" },
+    { id: 26, q: "២៦. តើសារធាតុគីមីមួយណាដែលគេប្រើប្រាស់ជាទូទៅបំផុតក្នុងដំណាក់កាលសម្លាប់មេរោគក្នុងទឹកស្អាត?",
       options: [
         { key: "A", text: "A. អំបិលអ៊ីយ៉ូត" },
         { key: "B", text: "B. ក្លរីន (Chlorine)" },
         { key: "C", text: "C. ស្ករស" },
         { key: "D", text: "D. អាស៊ីតស៊ុលផួរិច" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 27,
-      q: "២៧. តើបាតុភូត Eutrophication ក្នុងបឹងបួ ឬស្រះ ច្រើនបណ្ដាលមកពីមូលហេតុចម្បងអ្វី?",
+      ], ans: "B" },
+    { id: 27, q: "២៧. តើបាតុភូត Eutrophication ក្នុងបឹងបួ ឬស្រះ ច្រើនបណ្ដាលមកពីមូលហេតុចម្បងអ្វី?",
       options: [
         { key: "A", text: "A. ការថយចុះយ៉ាងខ្លាំងនៃពន្លឺព្រះអាទិត្យ" },
         { key: "B", text: "B. ការហូរចូលលើសលប់នៃសារធាតុចិញ្ចឹមអាសូត (N) និងផូស្វ័រ (P)" },
         { key: "C", text: "C. កំហាប់អំបិលរលាយខ្ពស់" },
         { key: "D", text: "D. ការធ្លាក់ចុះសីតុណ្ហភាពទឹកក្រោម ០ °C" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 28,
-      q: "២៨. តើពាក្យ BOD ជាអក្សរកាត់នៃពាក្យបច្ចេកទេសអ្វី?",
+      ], ans: "B" },
+    { id: 28, q: "២៨. តើពាក្យ BOD ជាអក្សរកាត់នៃពាក្យបច្ចេកទេសអ្វី?",
       options: [
         { key: "A", text: "A. Biochemical Oxygen Demand" },
         { key: "B", text: "B. Biological Organic Decomposition" },
         { key: "C", text: "C. Bacterial Oxidation Degree" },
         { key: "D", text: "D. Basic Oxygen Density" }
-      ],
-      ans: "A"
-    },
-    {
-      id: 29,
-      q: "២៩. ប្រសិនបើតម្លៃ BOD ក្នុងទឹកមានកម្រិតខ្ពស់ខ្លាំង តើវាឆ្លុះបញ្ចាំងពីលក្ខខណ្ឌអ្វី?",
+      ], ans: "A" },
+    { id: 29, q: "២៩. ប្រសិនបើតម្លៃ BOD ក្នុងទឹកមានកម្រិតខ្ពស់ខ្លាំង តើវាឆ្លុះបញ្ចាំងពីលក្ខខណ្ឌអ្វី?",
       options: [
         { key: "A", text: "A. ទឹកមានភាពបរិសុទ្ធខ្លាំង" },
         { key: "B", text: "B. ទឹកមានការបំពុលដោយសារធាតុសរីរាង្គកម្រិតខ្ពស់" },
         { key: "C", text: "C. ទឹកមានកំហាប់អុកស៊ីសែនរលាយ (DO) ខ្ពស់បំផុត" },
         { key: "D", text: "D. ទឹកគ្មានវត្តមានបាក់តេរីរស់នៅ" }
-      ],
-      ans: "B"
-    },
-    {
-      id: 30,
-      q: "៣០. តើការទុកដាក់សំណាកទឹកសម្រាប់វិភាគមីក្រូជីវសាស្ត្រគួររក្សាទុកក្នុងលក្ខខណ្ឌណាអំឡុងពេលដឹកជញ្ជូនទៅមន្ទីរពិសោធន៍?",
+      ], ans: "B" },
+    { id: 30, q: "៣០. តើការទុកដាក់សំណាកទឹកសម្រាប់វិភាគមីក្រូជីវសាស្ត្រគួររក្សាទុកក្នុងលក្ខខណ្ឌណាអំឡុងពេលដឹកជញ្ជូនទៅមន្ទីរពិសោធន៍?",
       options: [
         { key: "A", text: "A. ដាក់កម្ដៅថ្ងៃឱ្យក្ដៅខ្លាំង" },
         { key: "B", text: "B. រក្សាទុកក្នុងធុងទឹកកកត្រជាក់ (សីតុណ្ហភាពប្រមាណ ៤ °C)" },
         { key: "C", text: "C. បើកគម្របដបចំហរហូតដល់គោលដៅ" },
         { key: "D", text: "D. លាយសារធាតុគីមីពុលចូលភ្លាមៗ" }
-      ],
-      ans: "B"
-    }
+      ], ans: "B" }
   ];
 
   const qContainer = document.getElementById('questionsContainer');
@@ -1216,14 +732,13 @@
       return;
     }
 
-    document.getElementById('studentName').readOnly = true;
+    nameInput.readOnly = true;
     document.getElementById('testType').disabled = true;
     document.getElementById('examDate').disabled = true;
 
     document.getElementById('startArea').style.display = 'none';
     document.getElementById('examBody').style.display = 'block';
-    const timerElem = document.getElementById('timerContainer');
-    timerElem.style.display = 'flex';
+    document.getElementById('timerContainer').style.display = 'flex';
 
     runTimer();
   }
@@ -1233,7 +748,6 @@
     timerInterval = setInterval(() => {
       timeRemaining--;
       updateTimerDisplay();
-
       if (timeRemaining <= 0) {
         clearInterval(timerInterval);
         alert("⏰ អស់រយៈពេល ៣០ នាទីហើយ! ប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិ។");
@@ -1245,13 +759,9 @@
   function updateTimerDisplay() {
     const minutes = Math.floor(timeRemaining / 60);
     const seconds = timeRemaining % 60;
-    const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     const display = document.getElementById('timerDisplay');
-    display.innerText = formatted;
-
-    if (timeRemaining <= 300) {
-      display.classList.add('timer-warning');
-    }
+    display.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    if (timeRemaining <= 300) display.classList.add('timer-warning');
   }
 
   document.getElementById('quizForm').addEventListener('submit', function (e) {
@@ -1278,15 +788,11 @@
 
     questionsData.forEach(item => {
       const selected = document.querySelector(`input[name="q${item.id}"]:checked`);
-      if (selected && selected.value === item.ans) {
-        score++;
-      }
+      if (selected && selected.value === item.ans) score++;
     });
 
     const formElements = document.getElementById('quizForm').elements;
-    for (let i = 0; i < formElements.length; i++) {
-      formElements[i].disabled = true;
-    }
+    for (let i = 0; i < formElements.length; i++) formElements[i].disabled = true;
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.innerText = "បានផ្ញើរួចរាល់ (Submitted)";
     submitBtn.disabled = true;
@@ -1329,7 +835,6 @@
       summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
     }
 
-    // ពិនិត្យលក្ខខណ្ឌផ្តល់វិញ្ញាបនបត្រ (Post-test > 20 ពិន្ទុ)
     const certWrapper = document.getElementById('certificateWrapper');
     if (testType === 'Post-test' && score > 20) {
       showCertificate(studentName, score, examDate);
@@ -1343,33 +848,100 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
+  /* ================= CERTIFICATE ================= */
   function showCertificate(name, score, date) {
     document.getElementById('certStudentName').innerText = name;
     document.getElementById('certScoreText').innerText = `${score}/30 ពិន្ទុ`;
     document.getElementById('certDateText').innerText = `កាលបរិច្ឆេទ៖ ${date}`;
   }
 
-  function downloadCertificatePDF() {
+  // Put the logo in the card as a data URI so html2canvas can always draw it.
+  function prepareLogo() {
+    const img = document.getElementById('certLogo');
+    if (LOGO_DATA_URI) {
+      img.src = LOGO_DATA_URI;
+      return Promise.resolve();
+    }
+    // Try to convert the file into a data URI (works only on a web server, not file://)
+    return new Promise(resolve => {
+      const probe = new Image();
+      probe.crossOrigin = 'anonymous';
+      probe.onload = () => {
+        try {
+          const c = document.createElement('canvas');
+          c.width = probe.naturalWidth;
+          c.height = probe.naturalHeight;
+          c.getContext('2d').drawImage(probe, 0, 0);
+          img.src = c.toDataURL('image/png');
+        } catch (e) {
+          console.warn('Logo could not be embedded. Paste a base64 string into LOGO_DATA_URI.', e);
+        }
+        resolve();
+      };
+      probe.onerror = () => {
+        console.warn('Logo file "1M.jpg" not found. Paste a base64 string into LOGO_DATA_URI.');
+        resolve();
+      };
+      probe.src = img.getAttribute('src');
+    });
+  }
+
+  function waitForImages(root) {
+    const imgs = Array.from(root.querySelectorAll('img'));
+    return Promise.all(imgs.map(im => (im.complete && im.naturalWidth !== 0)
+      ? Promise.resolve()
+      : new Promise(res => { im.onload = res; im.onerror = res; })));
+  }
+
+  async function downloadCertificatePDF() {
+    const btn = document.getElementById('btnDownloadCert');
     const element = document.getElementById('certificateCard');
     const studentName = document.getElementById('certStudentName').innerText;
 
-    const opt = {
-      margin: [0.15, 0.15, 0.15, 0.15],
-      filename: `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
-        scale: 2, 
-        useCORS: true,
-        logging: false,
-        scrollY: 0
-      },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' },
-      pagebreak: { mode: 'avoid-all' }
-    };
+    btn.disabled = true;
+    const oldLabel = btn.innerText;
+    btn.innerText = '⏳ កំពុងបង្កើត PDF...';
 
-    html2pdf().set(opt).from(element).save();
+    try {
+      await document.fonts.ready;     // make sure Khmer fonts are loaded
+      await prepareLogo();            // embed logo
+      await waitForImages(element);   // make sure all images are decoded
+
+      const opt = {
+        margin: 0,
+        filename: `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
+        image: { type: 'png' },       // lossless, sharper than JPEG
+        html2canvas: {
+          scale: 4,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          scrollX: 0,
+          scrollY: -window.scrollY,   // prevents the capture being shifted/cut
+          width: 800,
+          height: 540,
+          windowWidth: 1000,
+          onclone: (doc) => {
+            const card = doc.getElementById('certificateCard');
+            card.style.boxShadow = 'none';
+            card.style.margin = '0';
+          }
+        },
+        // 800 x 540 px  ->  mm (at 96 dpi), so the page matches the card exactly
+        jsPDF: { unit: 'mm', format: [211.67, 142.88], orientation: 'landscape' },
+        pagebreak: { mode: 'avoid-all' }
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (err) {
+      console.error(err);
+      alert('មិនអាចបង្កើត PDF បានទេ។ សូមព្យាយាមម្ដងទៀត។');
+    } finally {
+      btn.disabled = false;
+      btn.innerText = oldLabel;
+    }
   }
 
+  /* ================= CHART ================= */
   let chartInstance = null;
   function renderChart(student) {
     const ctx = document.getElementById('scoreChart').getContext('2d');
@@ -1394,29 +966,24 @@
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          y: {
-            beginAtZero: true,
-            max: 30,
-            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
-          },
-          x: {
-            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
-          }
+          y: { beginAtZero: true, max: 30, ticks: { font: { family: "'Kantumruy Pro', sans-serif" } } },
+          x: { ticks: { font: { family: "'Kantumruy Pro', sans-serif" } } }
         },
         plugins: {
           legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => ` ពិន្ទុ៖ ${ctx.raw} / ៣០`
-            }
-          }
+          tooltip: { callbacks: { label: (c) => ` ពិន្ទុ៖ ${c.raw} / ៣០` } }
         }
       }
     });
   }
 
+  /* ================= STORAGE ================= */
   function getStudentsData() {
-    return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
+    try {
+      return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
+    } catch (e) {
+      return {};
+    }
   }
 
   function saveAllStudentsData(data) {
@@ -1428,25 +995,18 @@
     const key = name.trim().toLowerCase();
 
     if (!records[key]) {
-      records[key] = {
-        name: name.trim(),
-        pre: null,
-        post: null,
-        lastDate: date
-      };
+      records[key] = { name: name.trim(), pre: null, post: null, lastDate: date };
     }
 
-    if (type === 'Pre-test') {
-      records[key].pre = score;
-    } else {
-      records[key].post = score;
-    }
+    if (type === 'Pre-test') records[key].pre = score;
+    else records[key].post = score;
     records[key].lastDate = date;
 
     saveAllStudentsData(records);
     return records[key];
   }
 
+  /* ================= ADMIN ================= */
   function isAdminLoggedIn() {
     return sessionStorage.getItem('admin_logged_in') === 'true';
   }
@@ -1489,9 +1049,7 @@
       th.innerText = 'លុបជួរ';
       headerRow.appendChild(th);
     } else {
-      ctrl.innerHTML = `
-        <button type="button" class="btn-action btn-admin-auth" onclick="adminLogin()">🔒 Admin Login</button>
-      `;
+      ctrl.innerHTML = `<button type="button" class="btn-action btn-admin-auth" onclick="adminLogin()">🔒 Admin Login</button>`;
     }
   }
 
@@ -1499,6 +1057,7 @@
     if (!isAdminLoggedIn()) return;
     const records = getStudentsData();
     const student = records[key];
+    if (!student) return;
     if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
       delete records[key];
       saveAllStudentsData(records);
@@ -1515,13 +1074,16 @@
     }
   }
 
-  function viewStudentCertificate(name, score, date) {
-    showCertificate(name, score, date);
+  function viewStudentCertificate(key) {
+    const r = getStudentsData()[key];
+    if (!r) return;
+    showCertificate(r.name, r.post, r.lastDate);
     const certWrapper = document.getElementById('certificateWrapper');
     certWrapper.style.display = 'block';
     certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
+  /* ================= SCOREBOARD ================= */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getStudentsData();
@@ -1537,7 +1099,7 @@
       const r = records[k];
       const preTxt = r.pre !== null ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
       const postTxt = r.post !== null ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
-      
+
       let gainTxt = '<span class="gain-neutral">-</span>';
       if (r.pre !== null && r.post !== null) {
         const diff = r.post - r.pre;
@@ -1548,27 +1110,41 @@
 
       let certBtn = '<span style="color:#94a3b8;">-</span>';
       if (r.post !== null && r.post > 20) {
-        certBtn = `<button type="button" class="btn-action" style="background:#d97706; color:#fff; padding:4px 8px; font-size:0.8rem;" onclick="viewStudentCertificate('${r.name}', ${r.post}, '${r.lastDate}')">🎓 មើលសញ្ញាបត្រ</button>`;
+        certBtn = `<button type="button" class="btn-action btn-view-cert" data-action="cert" data-key="${esc(k)}">🎓 មើលសញ្ញាបត្រ</button>`;
       }
 
       let actionCell = '';
       if (loggedIn) {
-        actionCell = `<td><button type="button" class="btn-delete-row" onclick="deleteStudentRow('${k}')">លុប</button></td>`;
+        actionCell = `<td><button type="button" class="btn-delete-row" data-action="delete" data-key="${esc(k)}">លុប</button></td>`;
       }
 
       return `
         <tr>
           <td>${idx + 1}</td>
-          <td><strong>${r.name}</strong></td>
+          <td><strong>${esc(r.name)}</strong></td>
           <td>${preTxt}</td>
           <td>${postTxt}</td>
           <td>${gainTxt}</td>
-          <td>${r.lastDate}</td>
+          <td>${esc(r.lastDate)}</td>
           <td>${certBtn}</td>
           ${actionCell}
         </tr>
       `;
     }).join('');
+  }
+
+  // One listener for table buttons (safe for names with quotes/apostrophes)
+  document.getElementById('studentTableBody').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const key = btn.dataset.key;
+    if (btn.dataset.action === 'cert') viewStudentCertificate(key);
+    if (btn.dataset.action === 'delete') deleteStudentRow(key);
+  });
+
+  /* ================= CSV ================= */
+  function csvCell(v) {
+    return `"${String(v).replace(/"/g, '""')}"`;
   }
 
   function exportToCSV() {
@@ -1587,7 +1163,7 @@
       const post = r.post !== null ? r.post : "";
       const gain = (r.pre !== null && r.post !== null) ? (r.post - r.pre) : "";
       const passed = (r.post !== null && r.post > 20) ? "ជាប់ (ទទួលវិញ្ញាបនបត្រ)" : "មិនទាន់ជាប់";
-      csvContent += `"${i + 1}","${r.name}","${pre}","${post}","${gain}","${r.lastDate}"\n`;
+      csvContent += [i + 1, r.name, pre, post, gain, r.lastDate, passed].map(csvCell).join(',') + "\n";
     });
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -1598,6 +1174,7 @@
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   renderAdminUI();
