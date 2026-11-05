@@ -7,8 +7,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- បណ្ណាល័យ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- បណ្ណាល័យ html2canvas និង jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <!-- Firebase SDK សម្រាប់ Sync ឆ្លង Device (Cloud Storage) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
   <style>
     :root {
       --primary: #0284c7;
@@ -131,9 +140,9 @@
     .level-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
     .chart-container { position: relative; max-width: 650px; margin: 20px auto 0 auto; height: 320px; }
 
-    /* ================= CERTIFICATE ================= */
+    /* ================= វិញ្ញាបនបត្រ (CERTIFICATE STYLING) ================= */
     .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
-    .cert-scroll { overflow-x: auto; padding-bottom: 8px; }
+    .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
 
     .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 
@@ -145,13 +154,14 @@
     .btn-cert-download:hover { background-color: var(--gold-dark); }
     .btn-cert-download:disabled { opacity: .6; cursor: wait; }
 
+    /* សមាមាត្រ A4 Landscape (297:210) 900px x 636px */
     .certificate-card {
-      width: 800px;
-      height: 540px;
+      width: 900px;
+      height: 636px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 24px 30px;
-      border: 10px solid #0f172a;
+      padding: 30px 40px;
+      border: 12px solid #0f172a;
       position: relative;
       box-sizing: border-box;
       display: flex;
@@ -165,71 +175,71 @@
     .certificate-card::before {
       content: '';
       position: absolute;
-      top: 3px; left: 3px; right: 3px; bottom: 3px;
+      top: 4px; left: 4px; right: 4px; bottom: 4px;
       border: 3px solid var(--gold);
       pointer-events: none;
     }
 
-    .cert-corner-decor { position: absolute; width: 32px; height: 32px; border: 3px solid var(--gold); }
-    .c-top-left { top: 8px; left: 8px; border-right: none; border-bottom: none; }
-    .c-top-right { top: 8px; right: 8px; border-left: none; border-bottom: none; }
-    .c-bottom-left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
-    .c-bottom-right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+    .cert-corner-decor { position: absolute; width: 36px; height: 36px; border: 3px solid var(--gold); }
+    .c-top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+    .c-top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+    .c-bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+    .c-bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 
-    .cert-logo { width: 68px; height: 68px; object-fit: contain; margin: 0 auto 4px auto; display: block; }
+    .cert-logo { width: 75px; height: 75px; object-fit: contain; margin: 0 auto 6px auto; display: block; }
 
     .cert-org {
-      font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+      font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
       letter-spacing: 2px; color: #0f172a; text-transform: uppercase;
     }
 
     .cert-motto {
-      font-size: 0.65rem; letter-spacing: 2px; color: var(--gold);
-      font-weight: 700; text-transform: uppercase; margin-bottom: 8px;
+      font-size: 0.7rem; letter-spacing: 2.5px; color: var(--gold);
+      font-weight: 700; text-transform: uppercase; margin-bottom: 10px;
     }
 
-    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.4rem; color: var(--gold-dark); margin-bottom: 2px; }
+    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.6rem; color: var(--gold-dark); margin-bottom: 2px; }
 
     .cert-title-en {
-      font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700;
-      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 8px;
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 12px;
     }
 
-    .cert-presented { font-size: 0.85rem; color: #64748b; }
+    .cert-presented { font-size: 0.95rem; color: #64748b; }
 
     .cert-student-name {
-      font-family: 'Kantumruy Pro', sans-serif; font-size: 1.6rem; font-weight: 700;
+      font-family: 'Kantumruy Pro', sans-serif; font-size: 1.85rem; font-weight: 700;
       color: var(--primary-dark); border-bottom: 2px solid var(--gold);
-      display: inline-block; padding: 0 30px 2px 30px; margin: 4px auto 8px auto;
+      display: inline-block; padding: 0 40px 4px 40px; margin: 6px auto 12px auto;
     }
 
-    .cert-desc { font-size: 0.85rem; line-height: 1.6; color: #334155; max-width: 650px; margin: 0 auto; }
+    .cert-desc { font-size: 0.92rem; line-height: 1.7; color: #334155; max-width: 720px; margin: 0 auto; }
 
-    .cert-signatures { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px; padding: 0 10px; }
-    .sig-block { text-align: center; width: 220px; position: relative; }
+    .cert-signatures { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; padding: 0 15px; }
+    .sig-block { text-align: center; width: 240px; position: relative; }
 
     .official-stamp {
-      width: 85px; height: 85px; border: 2px dashed #b91c1c; border-radius: 50%;
-      margin: 0 auto 4px auto; display: flex; flex-direction: column;
+      width: 95px; height: 95px; border: 2px dashed #b91c1c; border-radius: 50%;
+      margin: 0 auto 6px auto; display: flex; flex-direction: column;
       align-items: center; justify-content: center; color: #b91c1c;
       transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25); user-select: none;
       font-family: 'Kantumruy Pro', sans-serif;
     }
-    .stamp-text-top { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
-    .stamp-star { font-size: 0.62rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
-    .stamp-text-bottom { font-size: 0.62rem; font-weight: 700; line-height: 1.5; padding-top: 1px; }
+    .stamp-text-top { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
+    .stamp-star { font-size: 0.7rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
+    .stamp-text-bottom { font-size: 0.65rem; font-weight: 700; line-height: 1.5; padding-top: 1px; }
 
-    .signature-wrap { height: 55px; display: flex; align-items: flex-end; justify-content: center; }
-    .teacher-signature { height: 50px; width: auto; display: block; }
+    .signature-wrap { height: 60px; display: flex; align-items: flex-end; justify-content: center; }
+    .teacher-signature { height: 55px; width: auto; display: block; }
 
-    .sig-line { border-top: 1px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
-    .sig-name { font-weight: 700; font-size: 0.9rem; color: #0f172a; }
-    .sig-title { font-size: 0.75rem; color: var(--text-muted); }
+    .sig-line { border-top: 1px solid #94a3b8; margin-top: 6px; padding-top: 6px; }
+    .sig-name { font-weight: 700; font-size: 0.95rem; color: #0f172a; }
+    .sig-title { font-size: 0.8rem; color: var(--text-muted); }
 
     .cert-badge-center {
-      width: 75px; height: 75px; border-radius: 50%; border: 3px double var(--gold);
+      width: 82px; height: 82px; border-radius: 50%; border: 3px double var(--gold);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      margin: 0 auto; color: var(--gold-dark); font-weight: 700; font-size: 0.7rem; background: #fffbeb;
+      margin: 0 auto; color: var(--gold-dark); font-weight: 700; font-size: 0.75rem; background: #fffbeb;
     }
 
     /* Scoreboard */
@@ -282,7 +292,7 @@
       border-top: 1px solid #e2e8f0; padding-top: 18px;
     }
 
-    /* Print settings */
+    /* Print Settings */
     @page { size: A4 landscape; margin: 0; }
     @media print {
       body { background: #fff; padding: 0; }
@@ -360,7 +370,7 @@
     </div>
   </div>
 
-  <!-- ================= CERTIFICATE ================= -->
+  <!-- ================= វិញ្ញាបនបត្រ ================= -->
   <div id="certificateWrapper" class="certificate-wrapper">
     <div class="cert-actions">
       <button type="button" id="btnDownloadCert" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
@@ -375,7 +385,7 @@
         <div class="cert-corner-decor c-bottom-right"></div>
 
         <div>
-          <!-- Logo ពី GitHub Repository -->
+          <!-- Logo ពី GitHub -->
           <img id="certLogo" 
                src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
                alt="Research Foundation Logo" 
@@ -420,7 +430,7 @@
 
           <div class="sig-block">
             <div class="signature-wrap">
-              <!-- ហត្ថលេខាពណ៌ខៀវ Vector ច្បាស់ដាច់ 100% -->
+              <!-- ហត្ថលេខាពណ៌ខៀវ Vector ដើមរបស់លោកគ្រូ អិន សុខរ៉ា -->
               <img class="teacher-signature" width="70" height="52" alt="Signature"
                 src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
             </div>
@@ -469,9 +479,30 @@
 <script>
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
-
-  // អាសយដ្ឋាន URL នៃរូប Logo
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
+
+  /* ================= CONFIGURATION FOR CLOUD SYNC =================
+   * ដើម្បី Sync ទិន្នន័យឆ្លងកុំព្យូទ័រ និងទូរស័ព្ទ៖
+   * បង្កើតគម្រោងលើ Firebase Console (Free) រួចប្តូរព័ត៌មានខាងក្រោម៖
+   */
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID"
+  };
+
+  let isFirebaseReady = false;
+  let dbRef = null;
+
+  try {
+    if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+      firebase.initializeApp(firebaseConfig);
+      dbRef = firebase.database().ref('water_assessment_records');
+      isFirebaseReady = true;
+    }
+  } catch (e) {
+    console.log("Using LocalStorage mode (Firebase not configured).");
+  }
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
@@ -843,14 +874,12 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* ================= CERTIFICATE ================= */
   function showCertificate(name, score, date) {
     document.getElementById('certStudentName').innerText = name;
     document.getElementById('certScoreText').innerText = `${score}/30 ពិន្ទុ`;
     document.getElementById('certDateText').innerText = `កាលបរិច្ឆេទ៖ ${date}`;
   }
 
-  // បម្លែងរូបភាព Logo ទៅជា Base64 Data URI ដើម្បីការពារកុំឱ្យបាត់រូបពេល Render ជា PDF
   function prepareLogo() {
     const img = document.getElementById('certLogo');
     if (img.src.startsWith('data:image')) {
@@ -868,12 +897,12 @@
           ctx.drawImage(probe, 0, 0);
           img.src = c.toDataURL('image/png');
         } catch (e) {
-          console.warn('Canvas conversion failed, fallback to direct URL.', e);
+          console.warn('Canvas conversion failed.', e);
         }
         resolve();
       };
       probe.onerror = () => {
-        probe.src = 'logo.png'; // Fallback ក្នង repo ផ្ទាល់
+        probe.src = 'logo.png';
         resolve();
       };
       probe.src = GITHUB_LOGO_URL;
@@ -887,9 +916,10 @@
       : new Promise(res => { im.onload = res; im.onerror = res; })));
   }
 
+  /* ================= DOWNLOAD PDF (PERFECT CENTER FIT) ================= */
   async function downloadCertificatePDF() {
     const btn = document.getElementById('btnDownloadCert');
-    const element = document.getElementById('certificateCard');
+    const card = document.getElementById('certificateCard');
     const studentName = document.getElementById('certStudentName').innerText;
 
     btn.disabled = true;
@@ -899,36 +929,40 @@
     try {
       await document.fonts.ready;
       await prepareLogo();
-      await waitForImages(element);
+      await waitForImages(card);
 
-      const opt = {
-        margin: 0,
-        filename: `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
-        image: { type: 'png' },
-        html2canvas: {
-          scale: 3,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          scrollX: 0,
-          scrollY: -window.scrollY,
-          width: 800,
-          height: 540,
-          windowWidth: 1000,
-          onclone: (doc) => {
-            const card = doc.getElementById('certificateCard');
-            card.style.boxShadow = 'none';
-            card.style.margin = '0';
-          }
-        },
-        jsPDF: { unit: 'mm', format: [211.67, 142.88], orientation: 'landscape' },
-        pagebreak: { mode: 'avoid-all' }
-      };
+      // Render តាម html2canvas កម្រិត Scale 3 (ច្បាស់ដាច់ 300 DPI)
+      const canvas = await html2canvas(card, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0,
+        width: 900,
+        height: 636,
+        windowWidth: 1000
+      });
 
-      await html2pdf().set(opt).from(element).save();
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      
+      // បង្កើត PDF A4 Landscape (297mm x 210mm)
+      const pdf = new jsPDF('landscape', 'mm', 'a4');
+      const pdfWidth = 297;
+      const pdfHeight = 210;
+
+      // គណនា Margin ដើម្បីឱ្យរូបភាពរត់មកចំកណ្តាលទំព័រ A4 យ៉ាងល្អឥតខ្ចោះ
+      const margin = 10;
+      const printWidth = pdfWidth - (margin * 2);
+      const printHeight = (canvas.height * printWidth) / canvas.width;
+      const topOffset = (pdfHeight - printHeight) / 2;
+
+      pdf.addImage(imgData, 'PNG', margin, topOffset, printWidth, printHeight);
+      pdf.save(`Certificate_${studentName.replace(/\s+/g, '_')}.pdf`);
     } catch (err) {
       console.error(err);
-      alert('មិនអាចបង្កើត PDF បានទេ។ សូមព្យាយាមម្ដងទៀត។');
+      alert('មិនអាចបង្កើត PDF បានទេ។ សូមសាកល្បងចុចប៊ូតុង "🖨️ បោះពុម្ព (Print)" រួចជ្រើសយក "Save as PDF"។');
     } finally {
       btn.disabled = false;
       btn.innerText = oldLabel;
@@ -971,8 +1005,13 @@
     });
   }
 
-  /* ================= STORAGE ================= */
+  /* ================= STORAGE & CLOUD SYNC ================= */
+  let inMemoryRecords = {};
+
   function getStudentsData() {
+    if (isFirebaseReady) {
+      return inMemoryRecords;
+    }
     try {
       return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
     } catch (e) {
@@ -981,12 +1020,16 @@
   }
 
   function saveAllStudentsData(data) {
-    localStorage.setItem('water_assessment_records', JSON.stringify(data));
+    if (isFirebaseReady) {
+      dbRef.set(data);
+    } else {
+      localStorage.setItem('water_assessment_records', JSON.stringify(data));
+    }
   }
 
   function updateStudentRecord(name, type, score, date) {
     const records = getStudentsData();
-    const key = name.trim().toLowerCase();
+    const key = name.trim().toLowerCase().replace(/[.#$\[\]\/]/g, '_');
 
     if (!records[key]) {
       records[key] = { name: name.trim(), pre: null, post: null, lastDate: date };
@@ -998,6 +1041,14 @@
 
     saveAllStudentsData(records);
     return records[key];
+  }
+
+  // ស្ដាប់ទិន្នន័យពី Firebase Realtime Database បើសិនជាបានភ្ជាប់
+  if (isFirebaseReady) {
+    dbRef.on('value', (snapshot) => {
+      inMemoryRecords = snapshot.val() || {};
+      renderTable();
+    });
   }
 
   /* ================= ADMIN ================= */
@@ -1062,7 +1113,11 @@
   function adminClearAll() {
     if (!isAdminLoggedIn()) return;
     if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (ទិន្នន័យនឹងបាត់បង់ទាំងស្រុង)")) {
-      localStorage.removeItem('water_assessment_records');
+      if (isFirebaseReady) {
+        dbRef.remove();
+      } else {
+        localStorage.removeItem('water_assessment_records');
+      }
       renderTable();
       alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបជោគជ័យ!");
     }
@@ -1135,7 +1190,7 @@
     if (btn.dataset.action === 'delete') deleteStudentRow(key);
   });
 
-  /* ================= CSV ================= */
+  /* ================= CSV EXPORT ================= */
   function csvCell(v) {
     return `"${String(v).replace(/"/g, '""')}"`;
   }
@@ -1170,7 +1225,6 @@
     URL.revokeObjectURL(url);
   }
 
-  // Pre-load និងរៀបចំ Logo
   prepareLogo();
   renderAdminUI();
   renderTable();
