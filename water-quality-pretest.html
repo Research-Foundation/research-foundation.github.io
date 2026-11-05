@@ -136,7 +136,7 @@
     .level-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
     .chart-container { position: relative; max-width: 650px; margin: 20px auto 0 auto; height: 320px; }
 
-    /* ================= វិញ្ញាបនបត្រ (CERTIFICATE STYLING) ================= */
+    /* ================= វិញ្ញាបនបត្រ ================= */
     .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
     .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
 
@@ -426,7 +426,6 @@
 
           <div class="sig-block">
             <div class="signature-wrap">
-              <!-- ហត្ថលេខាពណ៌ខៀវ Vector ដើម -->
               <img class="teacher-signature" width="70" height="52" alt="Signature"
                 src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
             </div>
@@ -445,7 +444,7 @@
     <div class="table-header">
       <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
       <div class="action-btn-group">
-        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី Firebase Cloud ភ្លាមៗ">🔄 Sync Now</button>
+        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី Cloud ភ្លាមៗ">🔄 Sync Now</button>
         <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
         <div id="adminControls"></div>
       </div>
@@ -474,7 +473,6 @@
 </div>
 
 <script>
-  // ភ្ជាប់ Database Firebase URL ផ្ទាល់ខ្លួនរបស់អ្នក
   const FIREBASE_DB_URL = "https://water-quality-test-91aa2-default-rtdb.asia-southeast1.firebasedatabase.app";
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
@@ -486,6 +484,11 @@
 
   function esc(str) {
     return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  // បង្កើត Key សម្រាប់សិស្សម្នាក់ៗឱ្យដូចគ្នាជានិច្ច ទោះមានដកឃ្លា ឬតួអក្សរខ្មែរ
+  function makeStudentKey(name) {
+    return name.trim().toLowerCase().replace(/[\s\.\#\$\[\]\/]+/g, '_');
   }
 
   const questionsData = [
@@ -892,7 +895,7 @@
       : new Promise(res => { im.onload = res; im.onerror = res; })));
   }
 
-  /* ================= DOWNLOAD PDF (PERFECT CENTER FIT) ================= */
+  /* ================= DOWNLOAD PDF ================= */
   async function downloadCertificatePDF() {
     const btn = document.getElementById('btnDownloadCert');
     const card = document.getElementById('certificateCard');
@@ -978,7 +981,7 @@
     });
   }
 
-  /* ================= STORAGE ENGINE VIA FIREBASE ================= */
+  /* ================= FIREBASE STORAGE ENGINE (PATCH MODE) ================= */
   function getLocalRecords() {
     try {
       return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
@@ -991,7 +994,7 @@
     localStorage.setItem('water_assessment_records', JSON.stringify(data));
   }
 
-  // ១. ទាញទិន្នន័យពី Firebase Cloud
+  // ១. ទាញទិន្នន័យពី Firebase
   async function pullFromCloud() {
     const local = getLocalRecords();
     try {
@@ -999,8 +1002,13 @@
       if (res.ok) {
         const cloudData = await res.json();
         if (cloudData) {
-          saveLocalRecords(cloudData);
-          return cloudData;
+          // Merge ទិន្នន័យឆ្លាតវៃ (មិនឱ្យបាត់ពិន្ទុ Pre ឬ Post)
+          const merged = Object.assign({}, local);
+          for (const k in cloudData) {
+            merged[k] = Object.assign({}, merged[k] || {}, cloudData[k]);
+          }
+          saveLocalRecords(merged);
+          return merged;
         }
       }
     } catch (err) {
@@ -1009,35 +1017,46 @@
     return local;
   }
 
-  // ២. រុញទិន្នន័យទៅកាន់ Firebase Cloud
-  async function pushSingleRecordToCloud(key, record) {
+  // ២. ប្រើ PATCH ដើម្បីកុំឱ្យជាន់លុបពិន្ទុចាស់ (Update Partial Data)
+  async function patchRecordToCloud(key, partialData) {
     try {
       const res = await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(record)
+        body: JSON.stringify(partialData)
       });
       return res.ok;
     } catch (e) {
-      console.error("Failed to sync record to cloud:", e);
+      console.error("Failed to patch record to cloud:", e);
       return false;
     }
   }
 
   async function updateStudentRecord(name, type, score, date) {
+    // ទាញទិន្នន័យចុងក្រោយបង្អស់ពី Cloud សិនដើម្បីកុំឱ្យបាត់ពិន្ទុមុន
     let records = await pullFromCloud();
-    const key = encodeURIComponent(name.trim().toLowerCase().replace(/[.#$\[\]\/]/g, '_'));
+    const key = makeStudentKey(name);
 
     if (!records[key]) {
       records[key] = { name: name.trim(), lastDate: date };
     }
 
-    if (type === 'Pre-test') records[key].pre = score;
-    else records[key].post = score;
+    const payload = {
+      name: name.trim(),
+      lastDate: date
+    };
+
+    if (type === 'Pre-test') {
+      records[key].pre = score;
+      payload.pre = score;
+    } else {
+      records[key].post = score;
+      payload.post = score;
+    }
     records[key].lastDate = date;
 
     saveLocalRecords(records);
-    await pushSingleRecordToCloud(key, records[key]);
+    await patchRecordToCloud(key, payload);
 
     return records[key];
   }
@@ -1131,7 +1150,7 @@
     certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* ================= SCOREBOARD (FIXED) ================= */
+  /* ================= SCOREBOARD (RECORD ALL) ================= */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getLocalRecords();
