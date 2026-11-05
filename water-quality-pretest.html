@@ -1005,28 +1005,26 @@
     localStorage.setItem('water_assessment_records', JSON.stringify(data));
   }
 
-  // ១. ទាញទិន្នន័យពី Firebase
+  // ១. ទាញទិន្នន័យពី Firebase (ជម្រះទិន្នន័យដែលបានលុបចោលឱ្យត្រូវគ្នា ១០០%)
   async function pullFromCloud() {
-    const local = getLocalRecords();
     try {
       const res = await fetch(`${FIREBASE_DB_URL}/exam_records.json?_cb=${Date.now()}`);
       if (res.ok) {
         const cloudData = await res.json();
-        if (cloudData) {
-          const merged = Object.assign({}, local);
-          for (const k in cloudData) {
-            merged[k] = Object.assign({}, merged[k] || {}, cloudData[k]);
-          }
-          saveLocalRecords(merged);
-          return merged;
+        // ប្រសិនបើ Cloud គ្មានទិន្នន័យទាល់តែសោះ (ទើបលុបអស់)
+        if (!cloudData) {
+          saveLocalRecords({});
+          return {};
         }
+        // យកទិន្នន័យពិតពី Cloud មកជំនួស Local Storage ទាំងស្រុង
+        saveLocalRecords(cloudData);
+        return cloudData;
       }
     } catch (err) {
       console.warn("Could not pull from Firebase cloud, using local cache:", err);
     }
-    return local;
+    return getLocalRecords();
   }
-
   // ២. ប្រើ PATCH ដើម្បីរក្សាទុកពិន្ទុមុនដដែល
   async function patchRecordToCloud(key, partialData) {
     try {
