@@ -38,7 +38,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
       background: var(--card-bg);
       padding: 36px 32px;
@@ -234,7 +234,7 @@
       height: 320px;
     }
 
-    /* Student Score Table Section */
+    /* Scoreboard Section */
     .table-section {
       margin-top: 45px;
       border-top: 2px dashed #cbd5e1;
@@ -247,7 +247,7 @@
       align-items: center;
       margin-bottom: 16px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
 
     .table-header h2 {
@@ -257,41 +257,73 @@
 
     .action-btn-group {
       display: flex;
+      align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      border: none;
+      padding: 8px 14px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
     }
 
     .btn-export {
       background-color: #10b981;
       color: white;
-      border: none;
-      padding: 8px 16px;
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
     }
+    .btn-export:hover { background-color: #059669; }
 
-    .btn-export:hover {
-      background-color: #059669;
-    }
-
-    .btn-clear {
-      background-color: #ef4444;
+    .btn-admin-auth {
+      background-color: #0284c7;
       color: white;
-      border: none;
-      padding: 8px 16px;
+    }
+    .btn-admin-auth:hover { background-color: #0369a1; }
+
+    .btn-logout {
+      background-color: #64748b;
+      color: white;
+    }
+    .btn-logout:hover { background-color: #475569; }
+
+    .btn-clear-all {
+      background-color: #dc2626;
+      color: white;
+    }
+    .btn-clear-all:hover { background-color: #b91c1c; }
+
+    .btn-delete-row {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+      padding: 4px 8px;
       font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: 6px;
+      font-size: 0.8rem;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
+    }
+    .btn-delete-row:hover {
+      background-color: #dc2626;
+      color: white;
     }
 
-    .btn-clear:hover {
-      background-color: #dc2626;
+    .admin-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      background: #ecfdf5;
+      color: #047857;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #a7f3d0;
+      font-weight: 600;
     }
 
     .table-responsive {
@@ -309,6 +341,7 @@
     table th, table td {
       padding: 12px 14px;
       border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
     }
 
     table th {
@@ -409,24 +442,27 @@
     <div class="table-header">
       <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
       <div class="action-btn-group">
-        <button type="button" class="btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
-        <button type="button" class="btn-clear" onclick="adminClearData()">🔒 លុបទិន្នន័យ (Admin Only)</button>
+        <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
+        <div id="adminControls">
+          <!-- នឹងត្រូវ Render ទៅតាមស្ថានភាព Login/Logout របស់ Admin -->
+        </div>
       </div>
     </div>
     <div class="table-responsive">
       <table>
         <thead>
-          <tr>
+          <tr id="tableHeaderRow">
             <th>ល.រ</th>
             <th>ឈ្មោះនិស្សិត</th>
             <th>Pre-test (៣០)</th>
             <th>Post-test (៣០)</th>
             <th>ការរីកចម្រើន (Gain)</th>
             <th>កាលបរិច្ឆេទចុងក្រោយ</th>
+            <!-- ជួរឈរ Actions នឹងបង្ហាញនៅពេល Admin Login -->
           </tr>
         </thead>
         <tbody id="studentTableBody">
-          <!-- ទិន្នន័យនិស្សិតនឹងត្រូវបញ្ចូលទីនេះ -->
+          <!-- ទិន្នន័យនិស្សិតនឹងបង្ហាញនៅទីនេះ -->
         </tbody>
       </table>
     </div>
@@ -438,7 +474,7 @@
 </div>
 
 <script>
-  // កំណត់លេខសម្ងាត់សម្រាប់ Admin (លោកគ្រូអាចប្តូរលេខកូដតាមការពេញចិត្ត)
+  // លេខកូដសម្ងាត់សម្រាប់គ្រូ/Admin គ្រប់គ្រង
   const ADMIN_PASSWORD = "admin123";
 
   const questionsData = [
@@ -774,7 +810,7 @@
     }
   ];
 
-  // បង្កើតកម្រងសំណួរ
+  // បង្កើតសំណួរលើទំព័រ
   const qContainer = document.getElementById('questionsContainer');
   questionsData.forEach(item => {
     const card = document.createElement('div');
@@ -800,11 +836,164 @@
     document.getElementById('pageHeading').innerText = `ការវាយតម្លៃគុណភាពទឹក (${type})`;
   }
 
-  renderTable();
+  // ពិនិត្យស្ថានភាព Login របស់ Admin (Session Based)
+  function isAdminLoggedIn() {
+    return sessionStorage.getItem('admin_logged_in') === 'true';
+  }
+
+  function adminLogin() {
+    const inputPass = prompt("សូមបញ្ចូលលេខសម្ងាត់ Admin ដើម្បីគ្រប់គ្រងទិន្នន័យ៖");
+    if (inputPass === null) return;
+    if (inputPass === ADMIN_PASSWORD) {
+      sessionStorage.setItem('admin_logged_in', 'true');
+      renderAdminUI();
+      renderTable();
+      alert("ចូលគ្រប់គ្រងជា Admin បានជោគជ័យ!");
+    } else {
+      alert("លេខសម្ងាត់មិនត្រឹមត្រូវ!");
+    }
+  }
+
+  function adminLogout() {
+    sessionStorage.removeItem('admin_logged_in');
+    renderAdminUI();
+    renderTable();
+    alert("បានចាកចេញពី Admin Mode។");
+  }
+
+  function renderAdminUI() {
+    const ctrl = document.getElementById('adminControls');
+    const headerRow = document.getElementById('tableHeaderRow');
+
+    // លុបជួរឈរ Action ចាស់បើសិនមាន
+    const existingActionHeader = document.getElementById('colActionHeader');
+    if (existingActionHeader) existingActionHeader.remove();
+
+    if (isAdminLoggedIn()) {
+      ctrl.innerHTML = `
+        <span class="admin-indicator">✓ Admin Login</span>
+        <button type="button" class="btn-action btn-clear-all" onclick="adminClearAll()">លុបទាំងអស់ (Clear All)</button>
+        <button type="button" class="btn-action btn-logout" onclick="adminLogout()">ចាកចេញ (Logout)</button>
+      `;
+      // បន្ថែមជួរឈរ "លុប" ទៅ Header
+      const th = document.createElement('th');
+      th.id = 'colActionHeader';
+      th.innerText = 'លុបជួរ';
+      headerRow.appendChild(th);
+    } else {
+      ctrl.innerHTML = `
+        <button type="button" class="btn-action btn-admin-auth" onclick="adminLogin()">🔒 Admin Login</button>
+      `;
+    }
+  }
+
+  // គ្រប់គ្រង LocalStorage
+  function getStudentsData() {
+    return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
+  }
+
+  function saveAllStudentsData(data) {
+    localStorage.setItem('water_assessment_records', JSON.stringify(data));
+  }
+
+  // លុបម្តងមួយជួរ (Delete One by One)
+  function deleteStudentRow(key) {
+    if (!isAdminLoggedIn()) {
+      alert("សូម Login ជា Admin ជាមុនសិន!");
+      return;
+    }
+    const records = getStudentsData();
+    const student = records[key];
+    if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
+      delete records[key];
+      saveAllStudentsData(records);
+      renderTable();
+    }
+  }
+
+  // លុបទិន្នន័យទាំងអស់ (Clear All)
+  function adminClearAll() {
+    if (!isAdminLoggedIn()) {
+      alert("សូម Login ជា Admin ជាមុនសិន!");
+      return;
+    }
+    if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (ទិន្នន័យនឹងបាត់បង់ទាំងស្រុង)")) {
+      localStorage.removeItem('water_assessment_records');
+      renderTable();
+      alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបជោគជ័យ!");
+    }
+  }
+
+  function updateStudentRecord(name, type, score, date) {
+    const records = getStudentsData();
+    const key = name.trim().toLowerCase();
+
+    if (!records[key]) {
+      records[key] = {
+        name: name.trim(),
+        pre: null,
+        post: null,
+        lastDate: date
+      };
+    }
+
+    if (type === 'Pre-test') {
+      records[key].pre = score;
+    } else {
+      records[key].post = score;
+    }
+    records[key].lastDate = date;
+
+    saveAllStudentsData(records);
+    return records[key];
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('studentTableBody');
+    const records = getStudentsData();
+    const keys = Object.keys(records);
+    const loggedIn = isAdminLoggedIn();
+
+    if (keys.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="${loggedIn ? 7 : 6}" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតនៅឡើយទេ។</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = keys.map((k, idx) => {
+      const r = records[k];
+      const preTxt = r.pre !== null ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+      const postTxt = r.post !== null ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+      
+      let gainTxt = '<span class="gain-neutral">-</span>';
+      if (r.pre !== null && r.post !== null) {
+        const diff = r.post - r.pre;
+        const sign = diff > 0 ? `+${diff}` : `${diff}`;
+        const cls = diff > 0 ? 'gain-positive' : (diff < 0 ? 'gain-negative' : 'gain-neutral');
+        gainTxt = `<span class="${cls}">${sign} ពិន្ទុ</span>`;
+      }
+
+      let actionCell = '';
+      if (loggedIn) {
+        actionCell = `<td><button type="button" class="btn-delete-row" onclick="deleteStudentRow('${k}')">លុប</button></td>`;
+      }
+
+      return `
+        <tr>
+          <td>${idx + 1}</td>
+          <td><strong>${r.name}</strong></td>
+          <td>${preTxt}</td>
+          <td>${postTxt}</td>
+          <td>${gainTxt}</td>
+          <td>${r.lastDate}</td>
+          ${actionCell}
+        </tr>
+      `;
+    }).join('');
+  }
 
   let chartInstance = null;
 
-  // ដំណើរការពេល Submit តេស្ត
+  // ដំណើរការពេល Submit Form
   document.getElementById('quizForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -822,7 +1011,7 @@
       }
     });
 
-    // ចាក់សោរ Form មិនឱ្យកែ ឬ Resubmit
+    // ចាក់សោរ Form មិនឱ្យប្តូរចម្លើយ
     const formElements = document.getElementById('quizForm').elements;
     for (let i = 0; i < formElements.length; i++) {
       formElements[i].disabled = true;
@@ -851,10 +1040,9 @@
       levelBg = '#dc2626';
     }
 
-    // រក្សាទុក និងទាញយកកំណត់ត្រាសិស្ស
     const updatedStudent = updateStudentRecord(studentName, testType, score, examDate);
 
-    // បង្ហាញផ្ទាំងលទ្ធផល
+    // បង្ហាញលទ្ធផល
     const resultBox = document.getElementById('resultBox');
     resultBox.style.display = 'block';
     document.getElementById('scoreDisplay').innerText = `ពិន្ទុ ${testType}៖ ${score} / ${totalQuestions}`;
@@ -863,7 +1051,6 @@
     levelBadge.style.backgroundColor = levelBg;
     levelBadge.style.color = levelColor;
 
-    // បង្ហាញព័ត៌មានប្រៀបធៀប (បើសិនជាធ្វើទាំងពីរ)
     const summaryElem = document.getElementById('comparisonSummary');
     if (updatedStudent.pre !== null && updatedStudent.post !== null) {
       const diff = updatedStudent.post - updatedStudent.pre;
@@ -873,16 +1060,11 @@
       summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
     }
 
-    // គូសក្រាហ្វិកប្រៀបធៀប Pre vs Post
     renderChart(updatedStudent);
-
-    // ធ្វើបច្ចុប្បន្នភាពតារាងខាងក្រោម
     renderTable();
-
     resultBox.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // មុខងារគូសក្រាហ្វិក (Bar Chart)
   function renderChart(student) {
     const ctx = document.getElementById('scoreChart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
@@ -927,88 +1109,6 @@
     });
   }
 
-  // មុខងារគ្រប់គ្រង LocalStorage
-  function getStudentsData() {
-    return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
-  }
-
-  function updateStudentRecord(name, type, score, date) {
-    const records = getStudentsData();
-    const key = name.toLowerCase();
-
-    if (!records[key]) {
-      records[key] = {
-        name: name,
-        pre: null,
-        post: null,
-        lastDate: date
-      };
-    }
-
-    if (type === 'Pre-test') {
-      records[key].pre = score;
-    } else {
-      records[key].post = score;
-    }
-    records[key].lastDate = date;
-
-    localStorage.setItem('water_assessment_records', JSON.stringify(records));
-    return records[key];
-  }
-
-  function renderTable() {
-    const tbody = document.getElementById('studentTableBody');
-    const records = getStudentsData();
-    const keys = Object.keys(records);
-
-    if (keys.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតនៅឡើយទេ។</td></tr>`;
-      return;
-    }
-
-    tbody.innerHTML = keys.map((k, idx) => {
-      const r = records[k];
-      const preTxt = r.pre !== null ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
-      const postTxt = r.post !== null ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
-      
-      let gainTxt = '<span class="gain-neutral">-</span>';
-      if (r.pre !== null && r.post !== null) {
-        const diff = r.post - r.pre;
-        const sign = diff > 0 ? `+${diff}` : `${diff}`;
-        const cls = diff > 0 ? 'gain-positive' : (diff < 0 ? 'gain-negative' : 'gain-neutral');
-        gainTxt = `<span class="${cls}">${sign} ពិន្ទុ</span>`;
-      }
-
-      return `
-        <tr>
-          <td>${idx + 1}</td>
-          <td><strong>${r.name}</strong></td>
-          <td>${preTxt}</td>
-          <td>${postTxt}</td>
-          <td>${gainTxt}</td>
-          <td>${r.lastDate}</td>
-        </tr>
-      `;
-    }).join('');
-  }
-
-  // មុខងារ Admin លុបទិន្នន័យដោយមាន Password ការពារ
-  function adminClearData() {
-    const pass = prompt("សូមបញ្ចូលលេខកូដសម្ងាត់ Admin ដើម្បីលុបទិន្នន័យតេស្តទាំងអស់៖");
-    if (pass === null) return; // ចុច Cancel
-
-    if (pass === ADMIN_PASSWORD) {
-      if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (សកម្មភាពនេះមិនអាចត្រឡប់វិញបានឡើយ)")) {
-        localStorage.removeItem('water_assessment_records');
-        renderTable();
-        alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបដោយជោគជ័យ!");
-      }
-    } else {
-      alert("លេខកូដសម្ងាត់មិនត្រឹមត្រូវឡើយ! លោកគ្រូគ្មានសិទ្ធិលុបទិន្នន័យនេះទេ។");
-    }
-  }
-
-  // ទាញយកទិន្នន័យជា CSV
   function exportToCSV() {
     const records = getStudentsData();
     const keys = Object.keys(records);
@@ -1031,11 +1131,15 @@
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", `water_assessment_comparison_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `water_assessment_results_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   }
+
+  // ចាប់ផ្ដើមដំណើរការ UI ដំបូង
+  renderAdminUI();
+  renderTable();
 </script>
 
 </body>
