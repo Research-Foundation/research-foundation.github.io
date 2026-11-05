@@ -915,7 +915,7 @@
     </div>
 </div>
 
-<!-- SCRIPT LOGIC (WITH DYNAMIC MENU TABS MANAGEMENT & MULTI-DEVICE SYNC) -->
+<!-- SCRIPT LOGIC (RELIABLE IN-MODAL TAB MANAGEMENT & SYNC) -->
 <script>
     const PRIMARY_PASS_HASH = "8295b9a8cfd6f85ff53a3fc263cebe0ea238e8cb4fa99723ec0832442cf82dbf"; // Sokra@2026
     const BACKUP_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // admin123
@@ -1149,7 +1149,9 @@
         }
 
         appData = cachedData || JSON.parse(JSON.stringify(DEFAULT_DATA));
-        if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+        if (!appData.navTabs || !Array.isArray(appData.navTabs)) {
+            appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+        }
 
         if (sessionStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true' || localStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true') {
             isAdminLoggedIn = true;
@@ -1210,7 +1212,9 @@
             const localDirty = localStorage.getItem('RF_LOCAL_DIRTY') === 'true';
             if (!isAdminLoggedIn || !localDirty || (bestRemote.updatedAt || 0) >= (cachedData?.updatedAt || 0)) {
                 appData = bestRemote;
-                if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+                if (!appData.navTabs || !Array.isArray(appData.navTabs)) {
+                    appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+                }
                 localStorage.setItem('RF_LOCAL_DIRTY', 'false');
                 try {
                     localStorage.setItem('RF_SITE_DATA', JSON.stringify(appData));
@@ -1514,7 +1518,7 @@
         showToast('បានប្តូរលេខកូដសម្ងាត់ដោយជោគជ័យ!');
     }
 
-    // DYNAMIC NAVIGATION TABS RENDERER & MANAGER
+    // DYNAMIC NAVIGATION TABS RENDERER
     function renderNavTabs() {
         const desktopMenu = document.getElementById('desktopMenu');
         const mobileNavItems = document.getElementById('mobileNavItems');
@@ -1529,7 +1533,7 @@
         const tabs = (appData.navTabs || DEFAULT_DATA.navTabs).filter(t => t.enabled !== false);
 
         tabs.forEach((tab, index) => {
-            // Desktop Item
+            // Desktop Link
             const a = document.createElement('a');
             a.href = tab.target || `#${tab.id}`;
             a.setAttribute('data-menu', tab.id);
@@ -1541,7 +1545,7 @@
             });
             desktopMenu.appendChild(a);
 
-            // Mobile Item
+            // Mobile Link
             const ma = document.createElement('a');
             ma.href = tab.target || `#${tab.id}`;
             ma.className = "mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all";
@@ -1551,7 +1555,7 @@
             });
             mobileNavItems.appendChild(ma);
 
-            // Footer Item
+            // Footer Link
             if (footerLinks) {
                 const fa = document.createElement('a');
                 fa.href = tab.target || `#${tab.id}`;
@@ -1564,46 +1568,66 @@
         lucide.createIcons();
     }
 
+    // SYNCHRONIZED TAB MODAL LOGIC (DIRECT IN-MODAL CREATION & EDITING)
+    function captureActiveTabInputs() {
+        if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+        appData.navTabs.forEach((t, i) => {
+            const labelEl = document.getElementById(`tab_label_${i}`);
+            if (labelEl) {
+                t.label = labelEl.value.trim();
+                t.en = (document.getElementById(`tab_en_${i}`)?.value || '').trim();
+                t.icon = (document.getElementById(`tab_icon_${i}`)?.value || 'circle').trim();
+                t.target = (document.getElementById(`tab_target_${i}`)?.value || `#${t.id}`).trim();
+                t.enabled = document.getElementById(`tab_enabled_${i}`) ? document.getElementById(`tab_enabled_${i}`).checked : true;
+            }
+        });
+    }
+
     function openManageTabsModal() {
         if (!isAdminLoggedIn) {
             openLoginModal();
             return;
         }
 
-        let tabsHtml = '';
-        const tabs = appData.navTabs || DEFAULT_DATA.navTabs;
+        if (!appData.navTabs || !Array.isArray(appData.navTabs)) {
+            appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+        }
 
-        tabs.forEach((t, i) => {
+        let tabsHtml = '';
+        appData.navTabs.forEach((t, i) => {
             tabsHtml += `
-                <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
                     <div class="flex items-center justify-between">
-                        <span class="font-bold text-amber-400">ផ្ទាំងទី ${i + 1} (${t.id})</span>
-                        <div class="flex items-center gap-2">
-                            <label class="flex items-center gap-1 text-slate-400 cursor-pointer">
-                                <input type="checkbox" id="tab_enabled_${i}" ${t.enabled !== false ? 'checked' : ''} class="rounded"> បើក
+                        <div class="flex items-center gap-1.5 font-bold text-amber-400">
+                            <i data-lucide="${t.icon || 'circle'}" class="w-3.5 h-3.5 text-indigo-400"></i>
+                            <span>ផ្ទាំងទី ${i + 1} (${t.id})</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="flex items-center gap-1 text-slate-300 cursor-pointer">
+                                <input type="checkbox" id="tab_enabled_${i}" ${t.enabled !== false ? 'checked' : ''} class="rounded text-emerald-500"> បង្ហាញ
                             </label>
-                            <button type="button" onclick="deleteTabItem(${i})" class="text-rose-400 hover:text-rose-300">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5 inline"></i> លុប
+                            <button type="button" onclick="deleteTabDirectly(${i})" class="text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> លុប
                             </button>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-slate-400 text-[10px]">ឈ្មោះខ្មែរ</label>
+                            <label class="block text-slate-400 text-[10px] mb-0.5">ឈ្មោះខ្មែរ (Khmer)</label>
                             <input id="tab_label_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white" value="${t.label}">
                         </div>
                         <div>
-                            <label class="block text-slate-400 text-[10px]">ឈ្មោះអង់គ្លេស</label>
+                            <label class="block text-slate-400 text-[10px] mb-0.5">ឈ្មោះអង់គ្លេស (English)</label>
                             <input id="tab_en_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-en" value="${t.en || ''}">
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-slate-400 text-[10px]">Icon (Lucide name ដូចជា book, info, laptop, file)</label>
+                            <label class="block text-slate-400 text-[10px] mb-0.5">Icon (book, laptop, info, phone, link, ...)</label>
                             <input id="tab_icon_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-mono" value="${t.icon || 'circle'}">
                         </div>
                         <div>
-                            <label class="block text-slate-400 text-[10px]">Link / Target (#id ឬ URL ក្រៅ)</label>
+                            <label class="block text-slate-400 text-[10px] mb-0.5">Target / Link (#about, #books, ឬ URL)</label>
                             <input id="tab_target_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-mono" value="${t.target || `#${t.id}`}">
                         </div>
                     </div>
@@ -1613,67 +1637,99 @@
 
         const html = `
             <div class="space-y-4">
-                <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-                    <p class="text-xs text-slate-400">បន្ថែម កែឈ្មោះ ឬលុប Tabs ម៉ឺនុយខាងលើ (Sync គ្រប់ឧបករណ៍ទាំងអស់)៖</p>
-                    <button type="button" onclick="addNewTabPrompt()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1 shadow">
-                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> បន្ថែម Tab ថ្មី
-                    </button>
+                <!-- Direct Inline Creator Form -->
+                <div class="p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 space-y-2 text-xs">
+                    <span class="font-bold text-indigo-300 flex items-center gap-1.5">
+                        <i data-lucide="plus-circle" class="w-4 h-4 text-indigo-400"></i> បន្ថែម Tab ថ្មី (Create New Tab)
+                    </span>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-slate-400 text-[10px] mb-0.5">ID សម្គាល់ (ឧ. blog)</label>
+                            <input id="newTabIdInput" type="text" placeholder="blog" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-[10px] mb-0.5">ឈ្មោះខ្មែរ (ឧ. ប្លក់)</label>
+                            <input id="newTabLabelInput" type="text" placeholder="ប្លក់" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-[10px] mb-0.5">ឈ្មោះអង់គ្លេស (ឧ. Blog)</label>
+                            <input id="newTabEnInput" type="text" placeholder="Blog" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-en text-xs">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-12 gap-2 items-end">
+                        <div class="col-span-4">
+                            <label class="block text-slate-400 text-[10px] mb-0.5">Icon (Lucide Name)</label>
+                            <input id="newTabIconInput" type="text" value="layers" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                        </div>
+                        <div class="col-span-5">
+                            <label class="block text-slate-400 text-[10px] mb-0.5">Link / Target (ឧ. #blog ឬ https://...)</label>
+                            <input id="newTabTargetInput" type="text" placeholder="#blog" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-white font-mono text-xs">
+                        </div>
+                        <div class="col-span-3">
+                            <button type="button" onclick="handleDirectTabCreation()" class="w-full py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs flex items-center justify-center gap-1 shadow-md active:scale-95 transition-all">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> បន្ថែម
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+
+                <!-- Existing Tabs List -->
+                <div class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
                     ${tabsHtml}
                 </div>
             </div>
         `;
 
         openModal('<i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i> គ្រប់គ្រងផ្ទាំងម៉ឺនុយ (Navigation Tabs)', html, async () => {
-            const currentTabs = appData.navTabs || DEFAULT_DATA.navTabs;
-            currentTabs.forEach((t, i) => {
-                const labelEl = document.getElementById(`tab_label_${i}`);
-                if (labelEl) {
-                    t.label = labelEl.value.trim();
-                    t.en = document.getElementById(`tab_en_${i}`).value.trim();
-                    t.icon = document.getElementById(`tab_icon_${i}`).value.trim();
-                    t.target = document.getElementById(`tab_target_${i}`).value.trim();
-                    t.enabled = document.getElementById(`tab_enabled_${i}`).checked;
-                }
-            });
+            captureActiveTabInputs();
             renderNavTabs();
             await saveAppState();
         });
     }
 
-    function addNewTabPrompt() {
-        const id = prompt("សូមបញ្ចូល ID សម្គាល់ផ្ទាំងថ្មី (អក្សរឡាតាំងតូច ឧ. contact ឬ blog):");
-        if (!id) return;
-        const cleanId = id.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-        if (!cleanId) return;
+    function handleDirectTabCreation() {
+        const idInput = document.getElementById('newTabIdInput');
+        const labelInput = document.getElementById('newTabLabelInput');
+        const enInput = document.getElementById('newTabEnInput');
+        const iconInput = document.getElementById('newTabIconInput');
+        const targetInput = document.getElementById('newTabTargetInput');
 
-        const label = prompt("សូមបញ្ចូលឈ្មោះខ្មែរ (ឧ. ទំនាក់ទំនង):") || cleanId;
-        const target = prompt("សូមបញ្ចូលតំណភ្ជាប់ (ឧ. #contact ឬ https://...):") || `#${cleanId}`;
+        const rawId = (idInput?.value || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+        if (!rawId) {
+            alert('សូមបញ្ចូល ID សម្គាល់ផ្ទាំងជាអក្សរឡាតាំងតូច (ឧ. blog ឬ contact)!');
+            idInput?.focus();
+            return;
+        }
 
-        if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+        const label = (labelInput?.value || '').trim() || rawId;
+        const en = (enInput?.value || '').trim() || rawId.toUpperCase();
+        const icon = (iconInput?.value || '').trim() || 'layers';
+        const target = (targetInput?.value || '').trim() || `#${rawId}`;
+
+        captureActiveTabInputs();
+
         appData.navTabs.push({
-            id: cleanId,
+            id: rawId,
             label: label,
-            en: cleanId.toUpperCase(),
-            icon: 'layers',
+            en: en,
+            icon: icon,
             target: target,
             enabled: true
         });
 
-        closeModal();
         openManageTabsModal();
+        showToast(`បានបន្ថែម Tab "${label}" ដោយជោគជ័យ!`);
     }
 
-    function deleteTabItem(index) {
-        if (!confirm("តើអ្នកពិតជាចង់លុប Tab នេះមែនទេ?")) return;
-        if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+    function deleteTabDirectly(index) {
+        if (!window.confirm("តើអ្នកពិតជាចង់លុប Tab នេះមែនទេ?")) return;
+        captureActiveTabInputs();
         appData.navTabs.splice(index, 1);
-        closeModal();
         openManageTabsModal();
+        showToast("បានលុប Tab រួចរាល់!");
     }
 
-    // RENDER FUNCTIONS
+    // RENDER SECTIONS
     function renderAboutSection() {
         const a = appData.about || DEFAULT_DATA.about;
         document.getElementById('aboutTitle').textContent = a.title || "អំពីមូលដ្ឋានស្រាវជ្រាវ (Research Foundation)";
@@ -1852,7 +1908,6 @@
                     </div>
                 </div>
 
-                <!-- Hard Copy and Soft Copy Buttons -->
                 <div class="pt-5 border-t border-slate-800 mt-6 grid grid-cols-2 gap-2.5">
                     <button onclick="openOrderModal(${index}, 'hard')" class="p-2.5 rounded-2xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-navy-950 text-amber-300 transition-all flex flex-col items-center text-center group/btn active:scale-95 shadow-sm">
                         <div class="flex items-center gap-1 font-semibold text-xs text-white group-hover/btn:text-navy-950">
