@@ -119,56 +119,19 @@
             transform: translateX(-50%);
             transition: all 0.3s ease;
             opacity: 0;
+            background-color: #34d399;
         }
         .nav-item:hover::after {
             width: 40%;
             opacity: 0.6;
         }
-
-        .nav-item[data-menu="about"]::after { background-color: #34d399; }
-        .nav-item[data-menu="about"].active {
+        .nav-item.active {
             color: #ffffff !important;
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(5, 150, 105, 0.45) 100%) !important;
             border-color: rgba(52, 211, 153, 0.8) !important;
             box-shadow: 0 0 16px -2px rgba(16, 185, 129, 0.6) !important;
         }
-        .nav-item[data-menu="about"].active::after { width: 60%; opacity: 1; }
-
-        .nav-item[data-menu="books"]::after { background-color: #fbbf24; }
-        .nav-item[data-menu="books"].active {
-            color: #ffffff !important;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.45) 100%) !important;
-            border-color: rgba(251, 191, 36, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(245, 158, 11, 0.6) !important;
-        }
-        .nav-item[data-menu="books"].active::after { width: 60%; opacity: 1; }
-
-        .nav-item[data-menu="software"]::after { background-color: #22d3ee; }
-        .nav-item[data-menu="software"].active {
-            color: #ffffff !important;
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.35) 0%, rgba(14, 116, 144, 0.45) 100%) !important;
-            border-color: rgba(34, 211, 238, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(6, 182, 212, 0.6) !important;
-        }
-        .nav-item[data-menu="software"].active::after { width: 60%; opacity: 1; }
-
-        .nav-item[data-menu="publications"]::after { background-color: #c084fc; }
-        .nav-item[data-menu="publications"].active {
-            color: #ffffff !important;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(109, 40, 217, 0.45) 100%) !important;
-            border-color: rgba(167, 139, 250, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(139, 92, 246, 0.6) !important;
-        }
-        .nav-item[data-menu="publications"].active::after { width: 60%; opacity: 1; }
-
-        .nav-item[data-menu="leadership"]::after { background-color: #fb7185; }
-        .nav-item[data-menu="leadership"].active {
-            color: #ffffff !important;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.35) 0%, rgba(190, 18, 60, 0.45) 100%) !important;
-            border-color: rgba(251, 113, 133, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(244, 63, 94, 0.6) !important;
-        }
-        .nav-item[data-menu="leadership"].active::after { width: 60%; opacity: 1; }
+        .nav-item.active::after { width: 60%; opacity: 1; }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #030712; }
@@ -201,6 +164,10 @@
         <button id="toggleEditBtn" onclick="toggleEditMode()" class="px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-navy-950 border border-amber-500/40 text-amber-300 font-medium text-xs transition-all flex items-center gap-1.5 active:scale-95">
             <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             <span id="toggleEditText">បិទរបៀបកែសម្រួល</span>
+        </button>
+        <button onclick="openManageTabsModal()" class="px-2.5 py-1 rounded-lg bg-indigo-950/60 hover:bg-indigo-600 hover:text-white border border-indigo-500/40 text-indigo-300 text-xs transition-all flex items-center gap-1" title="គ្រប់គ្រងផ្ទាំងម៉ឺនុយ Menu Tabs">
+            <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+            <span class="hidden md:inline">គ្រប់គ្រងម៉ឺនុយ (Tabs)</span>
         </button>
         <button onclick="forcePullFromCloud()" class="px-2.5 py-1 rounded-lg bg-emerald-950/60 hover:bg-emerald-600 hover:text-white border border-emerald-500/30 text-emerald-300 text-xs transition-all flex items-center gap-1" title="ទាញទិន្នន័យថ្មីបំផុតពី GitHub">
             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
@@ -259,28 +226,9 @@
                 </div>
             </a>
 
-            <!-- 5 Menus Desktop Navigation -->
+            <!-- Dynamic Desktop Navigation Menu -->
             <nav id="desktopMenu" class="hidden lg:flex items-center gap-1 p-1 rounded-2xl bg-slate-900/80 border border-slate-800/80 text-xs sm:text-sm font-medium text-slate-300 shadow-inner shrink-0">
-                <a href="#about" data-menu="about" class="nav-item px-3.5 py-1.5 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="info" class="w-3.5 h-3.5"></i>
-                    <span>អំពីយើង</span>
-                </a>
-                <a href="#books" data-menu="books" class="nav-item px-3.5 py-1.5 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="book" class="w-3.5 h-3.5"></i>
-                    <span>សៀវភៅ</span>
-                </a>
-                <a href="#software" data-menu="software" class="nav-item px-3.5 py-1.5 rounded-xl border border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="laptop" class="w-3.5 h-3.5"></i>
-                    <span>កម្មវិធី</span>
-                </a>
-                <a href="#publications" data-menu="publications" class="nav-item px-3.5 py-1.5 rounded-xl border border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
-                    <span>អត្ថបទបោះពុម្ព</span>
-                </a>
-                <a href="#leadership" data-menu="leadership" class="nav-item px-3.5 py-1.5 rounded-xl border border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
-                    <span>ស្ថាបនិក</span>
-                </a>
+                <!-- Dynamically rendered by renderNavTabs() -->
             </nav>
 
             <!-- Tidy Action Bar -->
@@ -308,11 +256,9 @@
 
     <!-- Mobile Drawer -->
     <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-800 bg-navy-900/98 px-5 pt-4 pb-6 space-y-2">
-        <a href="#about" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">១. អំពីយើង (About)</a>
-        <a href="#books" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">២. សៀវភៅ (Books)</a>
-        <a href="#software" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៣. កម្មវិធី (Software)</a>
-        <a href="#publications" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
-        <a href="#leadership" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៥. ស្ថាបនិក (Founder)</a>
+        <div id="mobileNavItems" class="space-y-2">
+            <!-- Dynamically rendered by renderNavTabs() -->
+        </div>
         
         <div class="pt-3 grid grid-cols-2 gap-2">
             <a href="mailto:contact@researchfoundation.top" class="col-span-2 py-2 rounded-xl bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
@@ -713,12 +659,8 @@
         </div>
 
         <div class="border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex flex-wrap items-center gap-5 text-[11px]">
-                <a href="#about" class="hover:text-emerald-400 transition-colors">១. អំពីយើង</a>
-                <a href="#books" class="hover:text-amber-400 transition-colors">២. សៀវភៅ</a>
-                <a href="#software" class="hover:text-cyan-400 transition-colors">៣. កម្មវិធី</a>
-                <a href="#publications" class="hover:text-purple-400 transition-colors">៤. អត្ថបទបោះពុម្ព</a>
-                <a href="#leadership" class="hover:text-rose-400 transition-colors">៥. ស្ថាបនិក</a>
+            <div id="footerLinksContainer" class="flex flex-wrap items-center gap-5 text-[11px]">
+                <!-- Dynamically populated footer links matching nav -->
             </div>
 
             <p class="text-slate-500 font-en text-[11px]">
@@ -973,13 +915,20 @@
     </div>
 </div>
 
-<!-- SCRIPT LOGIC (CLOUD-FIRST MULTI-DEVICE REAL-TIME SYNC) -->
+<!-- SCRIPT LOGIC (WITH DYNAMIC MENU TABS MANAGEMENT & MULTI-DEVICE SYNC) -->
 <script>
     const PRIMARY_PASS_HASH = "8295b9a8cfd6f85ff53a3fc263cebe0ea238e8cb4fa99723ec0832442cf82dbf"; // Sokra@2026
     const BACKUP_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // admin123
 
     const DEFAULT_DATA = {
         updatedAt: 1,
+        navTabs: [
+            { id: "about", label: "អំពីយើង", en: "About", icon: "info", target: "#about", enabled: true },
+            { id: "books", label: "សៀវភៅ", en: "Books", icon: "book", target: "#books", enabled: true },
+            { id: "software", label: "កម្មវិធី", en: "Software", icon: "laptop", target: "#software", enabled: true },
+            { id: "publications", label: "អត្ថបទបោះពុម្ព", en: "Publications", icon: "newspaper", target: "#publications", enabled: true },
+            { id: "leadership", label: "ស្ថាបនិក", en: "Founder", icon: "user", target: "#leadership", enabled: true }
+        ],
         about: {
             title: "អំពីមូលដ្ឋានស្រាវជ្រាវ (Research Foundation)",
             intro: "មូលដ្ឋានស្រាវជ្រាវ (Research Foundation) គឺជាអង្គភាពផ្តួចផ្តើម និងស្រាវជ្រាវវិទ្យាសាស្ត្រកម្រិតខ្ពស់មួយនៅកម្ពុជា ដែលត្រូវបានបង្កើតឡើងក្នុងគោលបំណងផ្សារភ្ជាប់រវាងទ្រឹស្តីវិទ្យាសាស្ត្រពិសោធន៍ ការអនុវត្តលើទីវាលកសិកម្ម និងបច្ចេកវិទ្យាវិភាគទិន្នន័យទំនើប។",
@@ -1139,7 +1088,7 @@
     let activeUploadBookIndex = null;
     let activeUploadSubSoftwareIndex = null;
 
-    // MODERN UTF-8 BASE64 ENCODER & DECODER (Prevents Khmer Unicode & Image Corruption)
+    // MODERN UTF-8 BASE64 ENCODER & DECODER
     function utf8ToBase64(str) {
         const bytes = new TextEncoder().encode(str);
         let binary = '';
@@ -1190,7 +1139,6 @@
         let staticData = null;
         let cachedData = null;
 
-        // 1. Read local browser cache
         const cached = localStorage.getItem('RF_SITE_DATA');
         if (cached) {
             try {
@@ -1200,15 +1148,15 @@
             }
         }
 
-        // Render initial fallback immediately so page is never blank
         appData = cachedData || JSON.parse(JSON.stringify(DEFAULT_DATA));
+        if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+
         if (sessionStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true' || localStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true') {
             isAdminLoggedIn = true;
             isEditMode = (localStorage.getItem('RF_ADMIN_EDIT_MODE') !== 'false');
         }
         renderAllSections();
 
-        // 2. Fetch live from GitHub REST API + Static data.json in parallel
         const fetchPromises = [];
 
         if (config.owner && config.repo) {
@@ -1251,7 +1199,6 @@
 
         await Promise.allSettled(fetchPromises);
 
-        // 3. Pick the newest remote version
         let bestRemote = null;
         if (apiData && staticData) {
             bestRemote = ((apiData.updatedAt || 0) >= (staticData.updatedAt || 0)) ? apiData : staticData;
@@ -1259,11 +1206,11 @@
             bestRemote = apiData || staticData;
         }
 
-        // 4. Synchronize state
         if (bestRemote) {
             const localDirty = localStorage.getItem('RF_LOCAL_DIRTY') === 'true';
             if (!isAdminLoggedIn || !localDirty || (bestRemote.updatedAt || 0) >= (cachedData?.updatedAt || 0)) {
                 appData = bestRemote;
+                if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
                 localStorage.setItem('RF_LOCAL_DIRTY', 'false');
                 try {
                     localStorage.setItem('RF_SITE_DATA', JSON.stringify(appData));
@@ -1565,6 +1512,165 @@
         setAdminPasswordHash(newHash);
         closeChangePasswordModal();
         showToast('បានប្តូរលេខកូដសម្ងាត់ដោយជោគជ័យ!');
+    }
+
+    // DYNAMIC NAVIGATION TABS RENDERER & MANAGER
+    function renderNavTabs() {
+        const desktopMenu = document.getElementById('desktopMenu');
+        const mobileNavItems = document.getElementById('mobileNavItems');
+        const footerLinks = document.getElementById('footerLinksContainer');
+
+        if (!desktopMenu || !mobileNavItems) return;
+
+        desktopMenu.innerHTML = '';
+        mobileNavItems.innerHTML = '';
+        if (footerLinks) footerLinks.innerHTML = '';
+
+        const tabs = (appData.navTabs || DEFAULT_DATA.navTabs).filter(t => t.enabled !== false);
+
+        tabs.forEach((tab, index) => {
+            // Desktop Item
+            const a = document.createElement('a');
+            a.href = tab.target || `#${tab.id}`;
+            a.setAttribute('data-menu', tab.id);
+            a.className = "nav-item px-3.5 py-1.5 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap";
+            a.innerHTML = `<i data-lucide="${tab.icon || 'circle'}" class="w-3.5 h-3.5"></i><span>${tab.label}</span>`;
+            a.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelectorAll(`.nav-item[data-menu="${tab.id}"]`).forEach(n => n.classList.add('active'));
+            });
+            desktopMenu.appendChild(a);
+
+            // Mobile Item
+            const ma = document.createElement('a');
+            ma.href = tab.target || `#${tab.id}`;
+            ma.className = "mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all";
+            ma.innerHTML = `${index + 1}. ${tab.label} ${tab.en ? `(${tab.en})` : ''}`;
+            ma.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.add('hidden');
+            });
+            mobileNavItems.appendChild(ma);
+
+            // Footer Item
+            if (footerLinks) {
+                const fa = document.createElement('a');
+                fa.href = tab.target || `#${tab.id}`;
+                fa.className = "hover:text-emerald-400 transition-colors";
+                fa.textContent = `${index + 1}. ${tab.label}`;
+                footerLinks.appendChild(fa);
+            }
+        });
+
+        lucide.createIcons();
+    }
+
+    function openManageTabsModal() {
+        if (!isAdminLoggedIn) {
+            openLoginModal();
+            return;
+        }
+
+        let tabsHtml = '';
+        const tabs = appData.navTabs || DEFAULT_DATA.navTabs;
+
+        tabs.forEach((t, i) => {
+            tabsHtml += `
+                <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-amber-400">ផ្ទាំងទី ${i + 1} (${t.id})</span>
+                        <div class="flex items-center gap-2">
+                            <label class="flex items-center gap-1 text-slate-400 cursor-pointer">
+                                <input type="checkbox" id="tab_enabled_${i}" ${t.enabled !== false ? 'checked' : ''} class="rounded"> បើក
+                            </label>
+                            <button type="button" onclick="deleteTabItem(${i})" class="text-rose-400 hover:text-rose-300">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5 inline"></i> លុប
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-slate-400 text-[10px]">ឈ្មោះខ្មែរ</label>
+                            <input id="tab_label_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white" value="${t.label}">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-[10px]">ឈ្មោះអង់គ្លេស</label>
+                            <input id="tab_en_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-en" value="${t.en || ''}">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-slate-400 text-[10px]">Icon (Lucide name ដូចជា book, info, laptop, file)</label>
+                            <input id="tab_icon_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-mono" value="${t.icon || 'circle'}">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-[10px]">Link / Target (#id ឬ URL ក្រៅ)</label>
+                            <input id="tab_target_${i}" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-mono" value="${t.target || `#${t.id}`}">
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        const html = `
+            <div class="space-y-4">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                    <p class="text-xs text-slate-400">បន្ថែម កែឈ្មោះ ឬលុប Tabs ម៉ឺនុយខាងលើ (Sync គ្រប់ឧបករណ៍ទាំងអស់)៖</p>
+                    <button type="button" onclick="addNewTabPrompt()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1 shadow">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> បន្ថែម Tab ថ្មី
+                    </button>
+                </div>
+                <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+                    ${tabsHtml}
+                </div>
+            </div>
+        `;
+
+        openModal('<i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i> គ្រប់គ្រងផ្ទាំងម៉ឺនុយ (Navigation Tabs)', html, async () => {
+            const currentTabs = appData.navTabs || DEFAULT_DATA.navTabs;
+            currentTabs.forEach((t, i) => {
+                const labelEl = document.getElementById(`tab_label_${i}`);
+                if (labelEl) {
+                    t.label = labelEl.value.trim();
+                    t.en = document.getElementById(`tab_en_${i}`).value.trim();
+                    t.icon = document.getElementById(`tab_icon_${i}`).value.trim();
+                    t.target = document.getElementById(`tab_target_${i}`).value.trim();
+                    t.enabled = document.getElementById(`tab_enabled_${i}`).checked;
+                }
+            });
+            renderNavTabs();
+            await saveAppState();
+        });
+    }
+
+    function addNewTabPrompt() {
+        const id = prompt("សូមបញ្ចូល ID សម្គាល់ផ្ទាំងថ្មី (អក្សរឡាតាំងតូច ឧ. contact ឬ blog):");
+        if (!id) return;
+        const cleanId = id.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (!cleanId) return;
+
+        const label = prompt("សូមបញ្ចូលឈ្មោះខ្មែរ (ឧ. ទំនាក់ទំនង):") || cleanId;
+        const target = prompt("សូមបញ្ចូលតំណភ្ជាប់ (ឧ. #contact ឬ https://...):") || `#${cleanId}`;
+
+        if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+        appData.navTabs.push({
+            id: cleanId,
+            label: label,
+            en: cleanId.toUpperCase(),
+            icon: 'layers',
+            target: target,
+            enabled: true
+        });
+
+        closeModal();
+        openManageTabsModal();
+    }
+
+    function deleteTabItem(index) {
+        if (!confirm("តើអ្នកពិតជាចង់លុប Tab នេះមែនទេ?")) return;
+        if (!appData.navTabs) appData.navTabs = JSON.parse(JSON.stringify(DEFAULT_DATA.navTabs));
+        appData.navTabs.splice(index, 1);
+        closeModal();
+        openManageTabsModal();
     }
 
     // RENDER FUNCTIONS
@@ -1906,6 +2012,7 @@
     }
 
     function renderAllSections() {
+        renderNavTabs();
         renderAboutSection();
         renderBooksSection();
         renderSoftwareSection();
@@ -2676,32 +2783,16 @@
 
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
 
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        const allNavLinks = document.querySelectorAll('.nav-item');
-        allNavLinks.forEach(item => {
-            item.addEventListener('click', function() {
-                const menuType = this.getAttribute('data-menu');
-                allNavLinks.forEach(nav => nav.classList.remove('active'));
-                document.querySelectorAll(`.nav-item[data-menu="${menuType}"]`).forEach(n => n.classList.add('active'));
-            });
         });
 
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const currentId = entry.target.getAttribute('id');
-                    allNavLinks.forEach(link => {
+                    document.querySelectorAll('.nav-item').forEach(link => {
                         if (link.getAttribute('data-menu') === currentId) {
                             link.classList.add('active');
                         } else {
