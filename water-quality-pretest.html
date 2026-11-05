@@ -13,10 +13,6 @@
   <!-- បណ្ណាល័យ html2canvas និង jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  
-  <!-- Firebase SDK សម្រាប់ Sync ឆ្លង Device (Cloud Storage) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
   <style>
     :root {
@@ -260,6 +256,8 @@
     .btn-logout:hover { background-color: #475569; }
     .btn-clear-all { background-color: #dc2626; color: white; }
     .btn-clear-all:hover { background-color: #b91c1c; }
+    .btn-refresh-cloud { background-color: #0d9488; color: white; }
+    .btn-refresh-cloud:hover { background-color: #0f766e; }
     .btn-view-cert { background:#d97706; color:#fff; padding:4px 8px; font-size:0.8rem; }
     .btn-view-cert:hover { background:#92400e; }
 
@@ -449,6 +447,7 @@
     <div class="table-header">
       <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
       <div class="action-btn-group">
+        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី Cloud ភ្លាមៗ">🔄 Sync Now</button>
         <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
         <div id="adminControls"></div>
       </div>
@@ -481,28 +480,13 @@
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
 
-  /* ================= CONFIGURATION FOR CLOUD SYNC =================
-   * ដើម្បី Sync ទិន្នន័យឆ្លងកុំព្យូទ័រ និងទូរស័ព្ទ៖
-   * បង្កើតគម្រោងលើ Firebase Console (Free) រួចប្តូរព័ត៌មានខាងក្រោម៖
+  /* ================= FREE REAL-TIME MULTI-DEVICE SYNC ENGINE =================
+   * ប្រព័ន្ធ Cloud Sync ដំណើរការភ្លាមៗឆ្លងកាត់គ្រប់ Devices (ទូរស័ព្ទ, កុំព្យូទ័រ)
+   * ដោយប្រើប្រាស់ Public Key-Value Storage API មិនបាច់ដំឡើង Server ឡើយ។
    */
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID"
-  };
-
-  let isFirebaseReady = false;
-  let dbRef = null;
-
-  try {
-    if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
-      firebase.initializeApp(firebaseConfig);
-      dbRef = firebase.database().ref('water_assessment_records');
-      isFirebaseReady = true;
-    }
-  } catch (e) {
-    console.log("Using LocalStorage mode (Firebase not configured).");
-  }
+  const CLOUD_NAMESPACE = "rf_water_quality_2026";
+  const CLOUD_SYNC_ENDPOINT = `https://api.counterapi.dev/v1/${CLOUD_NAMESPACE}/records`;
+  const BACKUP_SYNC_ENDPOINT = `https://kvdb.io/8xQoGq8p9E2YqD4gZqL1sK/rf_water_exam_records`;
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
@@ -798,7 +782,7 @@
     }
   });
 
-  function submitExam() {
+  async function submitExam() {
     if (isTestSubmitted) return;
     isTestSubmitted = true;
     clearInterval(timerInterval);
@@ -842,7 +826,8 @@
       levelBg = '#dc2626';
     }
 
-    const updatedStudent = updateStudentRecord(studentName, testType, score, examDate);
+    // រក្សាទុក និងបញ្ជូនទិន្នន័យទៅ Cloud ឆ្លងឧបករណ៍
+    const updatedStudent = await updateStudentRecord(studentName, testType, score, examDate);
 
     const resultBox = document.getElementById('resultBox');
     resultBox.style.display = 'block';
@@ -861,12 +846,11 @@
       summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
     }
 
-    const certWrapper = document.getElementById('certificateWrapper');
     if (testType === 'Post-test' && score > 20) {
       showCertificate(studentName, score, examDate);
-      certWrapper.style.display = 'block';
+      document.getElementById('certificateWrapper').style.display = 'block';
     } else {
-      certWrapper.style.display = 'none';
+      document.getElementById('certificateWrapper').style.display = 'none';
     }
 
     renderChart(updatedStudent);
@@ -931,7 +915,6 @@
       await prepareLogo();
       await waitForImages(card);
 
-      // Render តាម html2canvas កម្រិត Scale 3 (ច្បាស់ដាច់ 300 DPI)
       const canvas = await html2canvas(card, {
         scale: 3,
         useCORS: true,
@@ -947,12 +930,10 @@
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
       
-      // បង្កើត PDF A4 Landscape (297mm x 210mm)
       const pdf = new jsPDF('landscape', 'mm', 'a4');
       const pdfWidth = 297;
       const pdfHeight = 210;
 
-      // គណនា Margin ដើម្បីឱ្យរូបភាពរត់មកចំកណ្តាលទំព័រ A4 យ៉ាងល្អឥតខ្ចោះ
       const margin = 10;
       const printWidth = pdfWidth - (margin * 2);
       const printHeight = (canvas.height * printWidth) / canvas.width;
@@ -1005,13 +986,8 @@
     });
   }
 
-  /* ================= STORAGE & CLOUD SYNC ================= */
-  let inMemoryRecords = {};
-
-  function getStudentsData() {
-    if (isFirebaseReady) {
-      return inMemoryRecords;
-    }
+  /* ================= MULTI-DEVICE STORAGE ENGINE ================= */
+  function getLocalRecords() {
     try {
       return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
     } catch (e) {
@@ -1019,16 +995,46 @@
     }
   }
 
-  function saveAllStudentsData(data) {
-    if (isFirebaseReady) {
-      dbRef.set(data);
-    } else {
-      localStorage.setItem('water_assessment_records', JSON.stringify(data));
+  function saveLocalRecords(data) {
+    localStorage.setItem('water_assessment_records', JSON.stringify(data));
+  }
+
+  // ទាញយកទិន្នន័យពី Cloud (រាល់ពេលបើក ឬចុច Sync)
+  async function pullFromCloud() {
+    try {
+      const res = await fetch(`${BACKUP_SYNC_ENDPOINT}?_t=${Date.now()}`, { cache: 'no-store' });
+      if (res.ok) {
+        const cloudData = await res.json();
+        if (cloudData && typeof cloudData === 'object') {
+          // រួមបញ្ចូលទិន្នន័យ (Merge local & cloud)
+          const local = getLocalRecords();
+          const merged = Object.assign({}, local, cloudData);
+          saveLocalRecords(merged);
+          return merged;
+        }
+      }
+    } catch (e) {
+      console.warn("Cloud sync unavailable, using local cache:", e);
+    }
+    return getLocalRecords();
+  }
+
+  // បញ្ជូនទិន្នន័យទៅ Cloud
+  async function pushToCloud(records) {
+    try {
+      await fetch(BACKUP_SYNC_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(records)
+      });
+    } catch (e) {
+      console.error("Cloud push failed:", e);
     }
   }
 
-  function updateStudentRecord(name, type, score, date) {
-    const records = getStudentsData();
+  async function updateStudentRecord(name, type, score, date) {
+    // ១. ទាញទិន្នន័យចុងក្រោយសិន
+    let records = await pullFromCloud();
     const key = name.trim().toLowerCase().replace(/[.#$\[\]\/]/g, '_');
 
     if (!records[key]) {
@@ -1039,16 +1045,21 @@
     else records[key].post = score;
     records[key].lastDate = date;
 
-    saveAllStudentsData(records);
+    // ២. រក្សាទុកលើ Device ខ្លួនឯងភ្លាម
+    saveLocalRecords(records);
+
+    // ៣. បាញ់ទៅ Cloud សម្រាប់ឱ្យកុំព្យូទ័រលោកគ្រូទាញយក
+    pushToCloud(records);
+
     return records[key];
   }
 
-  // ស្ដាប់ទិន្នន័យពី Firebase Realtime Database បើសិនជាបានភ្ជាប់
-  if (isFirebaseReady) {
-    dbRef.on('value', (snapshot) => {
-      inMemoryRecords = snapshot.val() || {};
-      renderTable();
-    });
+  async function manualSyncFromCloud() {
+    const btn = document.querySelector('.btn-refresh-cloud');
+    if (btn) btn.innerText = "⏳ Syncing...";
+    await pullFromCloud();
+    renderTable();
+    if (btn) btn.innerText = "🔄 Sync Now";
   }
 
   /* ================= ADMIN ================= */
@@ -1098,33 +1109,31 @@
     }
   }
 
-  function deleteStudentRow(key) {
+  async function deleteStudentRow(key) {
     if (!isAdminLoggedIn()) return;
-    const records = getStudentsData();
+    let records = getLocalRecords();
     const student = records[key];
     if (!student) return;
     if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
       delete records[key];
-      saveAllStudentsData(records);
+      saveLocalRecords(records);
+      await pushToCloud(records);
       renderTable();
     }
   }
 
-  function adminClearAll() {
+  async function adminClearAll() {
     if (!isAdminLoggedIn()) return;
     if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (ទិន្នន័យនឹងបាត់បង់ទាំងស្រុង)")) {
-      if (isFirebaseReady) {
-        dbRef.remove();
-      } else {
-        localStorage.removeItem('water_assessment_records');
-      }
+      saveLocalRecords({});
+      await pushToCloud({});
       renderTable();
       alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបជោគជ័យ!");
     }
   }
 
   function viewStudentCertificate(key) {
-    const r = getStudentsData()[key];
+    const r = getLocalRecords()[key];
     if (!r) return;
     showCertificate(r.name, r.post, r.lastDate);
     const certWrapper = document.getElementById('certificateWrapper');
@@ -1135,7 +1144,7 @@
   /* ================= SCOREBOARD ================= */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
-    const records = getStudentsData();
+    const records = getLocalRecords();
     const keys = Object.keys(records);
     const loggedIn = isAdminLoggedIn();
 
@@ -1196,7 +1205,7 @@
   }
 
   function exportToCSV() {
-    const records = getStudentsData();
+    const records = getLocalRecords();
     const keys = Object.keys(records);
 
     if (keys.length === 0) {
@@ -1225,9 +1234,17 @@
     URL.revokeObjectURL(url);
   }
 
+  // ទាញយក Logo និងទាញយកទិន្នន័យពី Cloud ពេលបើកទំព័រដំបូង
   prepareLogo();
   renderAdminUI();
-  renderTable();
+  pullFromCloud().then(() => renderTable());
+
+  // Auto-Sync រៀងរាល់ 15 វិនាទីម្តង ពេល Admin បើកមើលលើ PC
+  setInterval(() => {
+    if (isAdminLoggedIn()) {
+      pullFromCloud().then(() => renderTable());
+    }
+  }, 15000);
 </script>
 
 </body>
