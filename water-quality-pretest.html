@@ -145,7 +145,6 @@
     .btn-cert-download:hover { background-color: var(--gold-dark); }
     .btn-cert-download:disabled { opacity: .6; cursor: wait; }
 
-    /* Fixed size so the PDF page matches exactly (800 x 540 px) */
     .certificate-card {
       width: 800px;
       height: 540px;
@@ -163,7 +162,6 @@
       color: #0f172a;
     }
 
-    /* Gold inner border (replaces CSS outline, which html2canvas ignores) */
     .certificate-card::before {
       content: '';
       position: absolute;
@@ -178,7 +176,7 @@
     .c-bottom-left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
     .c-bottom-right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
 
-    .cert-logo { width: 65px; height: 65px; object-fit: contain; margin: 0 auto 4px auto; display: block; }
+    .cert-logo { width: 68px; height: 68px; object-fit: contain; margin: 0 auto 4px auto; display: block; }
 
     .cert-org {
       font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
@@ -284,7 +282,7 @@
       border-top: 1px solid #e2e8f0; padding-top: 18px;
     }
 
-    /* Print: only the certificate */
+    /* Print settings */
     @page { size: A4 landscape; margin: 0; }
     @media print {
       body { background: #fff; padding: 0; }
@@ -292,7 +290,7 @@
       #certificateCard, #certificateCard * { visibility: visible; }
       #certificateCard {
         position: fixed; top: 50%; left: 50%;
-        transform: translate(-50%, -50%) scale(1.2);
+        transform: translate(-50%, -50%) scale(1.15);
         box-shadow: none;
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
@@ -377,8 +375,13 @@
         <div class="cert-corner-decor c-bottom-right"></div>
 
         <div>
-          <!-- Logo: see LOGO_DATA_URI in the script. No onerror fallback on purpose. -->
-          <img id="certLogo" src="1M.jpg" alt="Research Foundation Logo" class="cert-logo" width="65" height="65">
+          <!-- Logo ពី GitHub Repository -->
+          <img id="certLogo" 
+               src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
+               alt="Research Foundation Logo" 
+               class="cert-logo" 
+               crossorigin="anonymous"
+               onerror="this.src='logo.png'">
           <div class="cert-org">Research Foundation</div>
           <div class="cert-motto">Knowledge • Innovation • Impact</div>
 
@@ -417,8 +420,8 @@
 
           <div class="sig-block">
             <div class="signature-wrap">
-              <!-- Signature as <img> with explicit size so html2canvas renders it -->
-              <img class="teacher-signature" width="67" height="50" alt="Signature"
+              <!-- ហត្ថលេខាពណ៌ខៀវ Vector ច្បាស់ដាច់ 100% -->
+              <img class="teacher-signature" width="70" height="52" alt="Signature"
                 src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
             </div>
             <div class="sig-line">
@@ -467,21 +470,13 @@
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
 
-  /*
-   * LOGO FOR THE PDF
-   * Best fix: paste your logo as a base64 data URI between the quotes below, e.g.
-   *   const LOGO_DATA_URI = "data:image/jpeg;base64,/9j/4AAQSkZJRg...";
-   * (Terminal: base64 -w0 1M.jpg   |   or use any "image to base64" website.)
-   * If left empty, the code tries to convert "1M.jpg" automatically, which only works
-   * when the page is served from a web server (not opened via file://).
-   */
-  const LOGO_DATA_URI = "";
+  // អាសយដ្ឋាន URL នៃរូប Logo
+  const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
   let isTestSubmitted = false;
 
-  /* ---------- helpers ---------- */
   function esc(str) {
     return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
@@ -855,14 +850,12 @@
     document.getElementById('certDateText').innerText = `កាលបរិច្ឆេទ៖ ${date}`;
   }
 
-  // Put the logo in the card as a data URI so html2canvas can always draw it.
+  // បម្លែងរូបភាព Logo ទៅជា Base64 Data URI ដើម្បីការពារកុំឱ្យបាត់រូបពេល Render ជា PDF
   function prepareLogo() {
     const img = document.getElementById('certLogo');
-    if (LOGO_DATA_URI) {
-      img.src = LOGO_DATA_URI;
+    if (img.src.startsWith('data:image')) {
       return Promise.resolve();
     }
-    // Try to convert the file into a data URI (works only on a web server, not file://)
     return new Promise(resolve => {
       const probe = new Image();
       probe.crossOrigin = 'anonymous';
@@ -871,18 +864,19 @@
           const c = document.createElement('canvas');
           c.width = probe.naturalWidth;
           c.height = probe.naturalHeight;
-          c.getContext('2d').drawImage(probe, 0, 0);
+          const ctx = c.getContext('2d');
+          ctx.drawImage(probe, 0, 0);
           img.src = c.toDataURL('image/png');
         } catch (e) {
-          console.warn('Logo could not be embedded. Paste a base64 string into LOGO_DATA_URI.', e);
+          console.warn('Canvas conversion failed, fallback to direct URL.', e);
         }
         resolve();
       };
       probe.onerror = () => {
-        console.warn('Logo file "1M.jpg" not found. Paste a base64 string into LOGO_DATA_URI.');
+        probe.src = 'logo.png'; // Fallback ក្នង repo ផ្ទាល់
         resolve();
       };
-      probe.src = img.getAttribute('src');
+      probe.src = GITHUB_LOGO_URL;
     });
   }
 
@@ -903,20 +897,21 @@
     btn.innerText = '⏳ កំពុងបង្កើត PDF...';
 
     try {
-      await document.fonts.ready;     // make sure Khmer fonts are loaded
-      await prepareLogo();            // embed logo
-      await waitForImages(element);   // make sure all images are decoded
+      await document.fonts.ready;
+      await prepareLogo();
+      await waitForImages(element);
 
       const opt = {
         margin: 0,
         filename: `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
-        image: { type: 'png' },       // lossless, sharper than JPEG
+        image: { type: 'png' },
         html2canvas: {
-          scale: 4,
+          scale: 3,
           useCORS: true,
+          allowTaint: true,
           backgroundColor: '#ffffff',
           scrollX: 0,
-          scrollY: -window.scrollY,   // prevents the capture being shifted/cut
+          scrollY: -window.scrollY,
           width: 800,
           height: 540,
           windowWidth: 1000,
@@ -926,7 +921,6 @@
             card.style.margin = '0';
           }
         },
-        // 800 x 540 px  ->  mm (at 96 dpi), so the page matches the card exactly
         jsPDF: { unit: 'mm', format: [211.67, 142.88], orientation: 'landscape' },
         pagebreak: { mode: 'avoid-all' }
       };
@@ -1133,7 +1127,6 @@
     }).join('');
   }
 
-  // One listener for table buttons (safe for names with quotes/apostrophes)
   document.getElementById('studentTableBody').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-action]');
     if (!btn) return;
@@ -1177,6 +1170,8 @@
     URL.revokeObjectURL(url);
   }
 
+  // Pre-load និងរៀបចំ Logo
+  prepareLogo();
   renderAdminUI();
   renderTable();
 </script>
