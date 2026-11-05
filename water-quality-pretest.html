@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>តេស្តមុនរៀន (Pre-test)៖ គុណភាពទឹក | សាកលវិទ្យាល័យក្រចេះ</title>
+  <title>ការវាយតម្លៃគុណភាពទឹក (Pre-test & Post-test) | សាកលវិទ្យាល័យក្រចេះ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
     }
 
     .container {
-      max-width: 860px;
+      max-width: 900px;
       margin: 0 auto;
       background: var(--card-bg);
       padding: 36px 32px;
@@ -97,12 +97,12 @@
 
     .user-info {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
       margin-bottom: 32px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .user-info {
         grid-template-columns: 1fr;
       }
@@ -115,7 +115,7 @@
       margin-bottom: 6px;
     }
 
-    .input-group input {
+    .input-group input, .input-group select {
       width: 100%;
       padding: 10px 14px;
       border: 1px solid var(--border);
@@ -123,9 +123,10 @@
       font-family: inherit;
       font-size: 0.95rem;
       outline: none;
+      background: #fff;
     }
 
-    .input-group input:focus {
+    .input-group input:focus, .input-group select:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
@@ -228,9 +229,9 @@
 
     .chart-container {
       position: relative;
-      max-width: 550px;
+      max-width: 650px;
       margin: 20px auto 0 auto;
-      height: 300px;
+      height: 320px;
     }
 
     /* Student Score Table Section */
@@ -254,6 +255,11 @@
       color: #0f172a;
     }
 
+    .action-btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
     .btn-export {
       background-color: #10b981;
       color: white;
@@ -269,6 +275,23 @@
 
     .btn-export:hover {
       background-color: #059669;
+    }
+
+    .btn-clear {
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-clear:hover {
+      background-color: #dc2626;
     }
 
     .table-responsive {
@@ -304,6 +327,21 @@
       padding: 20px;
     }
 
+    .gain-positive {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .gain-neutral {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .gain-negative {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
     footer {
       text-align: center;
       margin-top: 36px;
@@ -319,14 +357,14 @@
 <div class="container">
   <header>
     <div class="university">សាកលវិទ្យាល័យក្រចេះ | University of Kratie</div>
-    <h1>តេស្តមុនរៀន (Pre-test)៖ គុណភាពទឹក (Water Quality)</h1>
+    <h1 id="pageHeading">ការវាយតម្លៃគុណភាពទឹក (Water Quality Assessment)</h1>
     <div class="exam-info">
       <span class="badge">កម្រិតបរិញ្ញាបត្រ</span>
       <span class="badge">រយៈពេល៖ ៣០ នាទី</span>
       <span class="badge">ពិន្ទុសរុប៖ ៣០ ពិន្ទុ</span>
     </div>
-    <div class="objective">
-      <strong>គោលបំណង៖</strong> ដើម្បីវាយតម្លៃចំណេះដឹង និងការយល់ដឹងរបស់និស្សិតអំពីគុណភាពទឹក មុនពេលចាប់ផ្ដើមសិក្សាមុខវិជ្ជានេះ។
+    <div class="objective" id="objectiveText">
+      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាគុណភាពទឹក មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។
     </div>
   </header>
 
@@ -337,6 +375,13 @@
         <input type="text" id="studentName" placeholder="បញ្ចូលឈ្មោះពេញ..." required>
       </div>
       <div class="input-group">
+        <label for="testType">ប្រភេទតេស្ត (Test Type)៖ *</label>
+        <select id="testType" required onchange="handleTestTypeChange()">
+          <option value="Pre-test">តេស្តមុនរៀន (Pre-test)</option>
+          <option value="Post-test">តេស្តក្រោយរៀន (Post-test)</option>
+        </select>
+      </div>
+      <div class="input-group">
         <label for="examDate">កាលបរិច្ឆេទ៖ *</label>
         <input type="date" id="examDate" required>
       </div>
@@ -345,14 +390,14 @@
     <!-- សំណួរទាំង ៣០ -->
     <div id="questionsContainer"></div>
 
-    <button type="submit" id="submitBtn" class="btn-submit">ផ្ញើចម្លើយបញ្ចប់តេស្ត (Submit Pre-Test)</button>
+    <button type="submit" id="submitBtn" class="btn-submit">ផ្ញើចម្លើយបញ្ចប់តេស្ត (Submit Test)</button>
   </form>
 
   <!-- កន្លែងបង្ហាញលទ្ធផល និងក្រាហ្វិក -->
   <div id="resultBox" class="result-box">
     <div class="score-total" id="scoreDisplay"></div>
     <div id="levelDisplay" class="level-badge"></div>
-    <p style="color: var(--text-muted); font-size: 0.95rem;">ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។</p>
+    <p id="comparisonSummary" style="color: var(--text-muted); font-size: 1rem; margin-top: 6px;"></p>
     
     <div class="chart-container">
       <canvas id="scoreChart"></canvas>
@@ -362,8 +407,11 @@
   <!-- តារាងកត់ត្រាលទ្ធផលពិន្ទុនិស្សិត -->
   <div class="table-section">
     <div class="table-header">
-      <h2>📊 បញ្ជីលទ្ធផលតេស្តរបស់និស្សិត (Scoreboard)</h2>
-      <button type="button" class="btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
+      <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
+      <div class="action-btn-group">
+        <button type="button" class="btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
+        <button type="button" class="btn-clear" onclick="adminClearData()">🔒 លុបទិន្នន័យ (Admin Only)</button>
+      </div>
     </div>
     <div class="table-responsive">
       <table>
@@ -371,9 +419,10 @@
           <tr>
             <th>ល.រ</th>
             <th>ឈ្មោះនិស្សិត</th>
-            <th>កាលបរិច្ឆេទ</th>
-            <th>ពិន្ទុទទួលបាន</th>
-            <th>កម្រិតចំណេះដឹង</th>
+            <th>Pre-test (៣០)</th>
+            <th>Post-test (៣០)</th>
+            <th>ការរីកចម្រើន (Gain)</th>
+            <th>កាលបរិច្ឆេទចុងក្រោយ</th>
           </tr>
         </thead>
         <tbody id="studentTableBody">
@@ -389,14 +438,16 @@
 </div>
 
 <script>
-  // ទិន្នន័យសំណួរទាំង ៣០
+  // កំណត់លេខសម្ងាត់សម្រាប់ Admin (លោកគ្រូអាចប្តូរលេខកូដតាមការពេញចិត្ត)
+  const ADMIN_PASSWORD = "admin@water2026";
+
   const questionsData = [
     {
       id: 1,
       q: "១. តើគុណភាពទឹក (Water Quality) មានន័យដូចម្ដេច?",
       options: [
         { key: "A", text: "A. សំដៅលើពណ៌របស់ទឹកតែប៉ុណ្ណោះ" },
-        { key: "B", text: "B. សំដៅលើលក្ខណៈរូបសាស្ត្រ គីមី និងជីវសាស្ត្ររបស់ទឹក" },
+        { key: "B", text: "B. សំដៅលើលក្ខណៈរូបវន្ត គីមី និងជីវសាស្ត្ររបស់ទឹក" },
         { key: "C", text: "C. សំដៅលើសីតុណ្ហភាពរបស់ទឹកតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. សំដៅលើបរិមាណទឹកដែលមាននៅក្នុងធម្មជាតិ" }
       ],
@@ -404,7 +455,7 @@
     },
     {
       id: 2,
-      q: "២. តើមួយណាជាប៉ារ៉ាម៉ែត្ររូបសាស្ត្រនៃគុណភាពទឹក?",
+      q: "២. តើមួយណាជាប៉ារ៉ាម៉ែត្ររូបវន្តនៃគុណភាពទឹក?",
       options: [
         { key: "A", text: "A. pH" },
         { key: "B", text: "B. អុកស៊ីសែនរលាយ (DO)" },
@@ -527,7 +578,7 @@
       id: 13,
       q: "១៣. តើភាពល្អក់ (Turbidity) បង្ហាញពីអ្វី?",
       options: [
-        { key: "A", text: "A. បរិមាណភាគល្អិតដែលអណ្ដែតនៅក្នុងទឹក" },
+        { key: "A", text: "A. បរិមាណភាគល្អិតដែលព្យួរនៅក្នុងទឹក" },
         { key: "B", text: "B. បរិមាណអុកស៊ីសែនរលាយ" },
         { key: "C", text: "C. កំហាប់បាក់តេរីតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. សីតុណ្ហភាពទឹក" }
@@ -615,8 +666,8 @@
       id: 21,
       q: "២១. តើប៉ារ៉ាម៉ែត្រគុណភាពទឹកត្រូវបានបែងចែកជាប៉ុន្មានប្រភេទធំៗ?",
       options: [
-        { key: "A", text: "A. ២ ប្រភេទ (រូបសាស្ត្រ និងគីមី)" },
-        { key: "B", text: "B. ៣ ប្រភេទ (រូបសាស្ត្រ គីមី និងជីវសាស្ត្រ/មីក្រូជីវសាស្ត្រ)" },
+        { key: "A", text: "A. ២ ប្រភេទ (រូបវន្ត និងគីមី)" },
+        { key: "B", text: "B. ៣ ប្រភេទ (រូបវន្ត គីមី និងជីវសាស្ត្រ/មីក្រូជីវសាស្ត្រ)" },
         { key: "C", text: "C. ៤ ប្រភេទ (ពណ៌ ក្លិន រសជាតិ និងសីតុណ្ហភាព)" },
         { key: "D", text: "D. ៥ ប្រភេទ (ទឹកភ្លៀង ទឹកស្ទឹង ទឹកបឹង ទឹកអណ្ដូង និងទឹកសមុទ្រ)" }
       ],
@@ -624,7 +675,7 @@
     },
     {
       id: 22,
-      q: "២២. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្ររូបសាស្ត្រ» នៃគុណភាពទឹក?",
+      q: "២២. តើជម្រើសមួយណាជាឧទាហរណ៍នៃ «ប៉ារ៉ាម៉ែត្ររូបវន្ត» នៃគុណភាពទឹក?",
       options: [
         { key: "A", text: "A. សីតុណ្ហភាព និងភាពល្អក់ (Temperature and Turbidity)" },
         { key: "B", text: "B. pH និងនីត្រាត (pH and Nitrate)" },
@@ -723,7 +774,7 @@
     }
   ];
 
-  // បង្កើតសំណួរលើ UI
+  // បង្កើតកម្រងសំណួរ
   const qContainer = document.getElementById('questionsContainer');
   questionsData.forEach(item => {
     const card = document.createElement('div');
@@ -742,22 +793,28 @@
     qContainer.appendChild(card);
   });
 
-  // កំណត់កាលបរិច្ឆេទបច្ចុប្បន្នជា Default
   document.getElementById('examDate').valueAsDate = new Date();
 
-  // ទាញយកទិន្នន័យចាស់មកបង្ហាញក្នុងតារាង
+  function handleTestTypeChange() {
+    const type = document.getElementById('testType').value;
+    document.getElementById('pageHeading').innerText = `ការវាយតម្លៃគុណភាពទឹក (${type})`;
+  }
+
   renderTable();
 
   let chartInstance = null;
 
-  // ដំណើរការពេល Submit
+  // ដំណើរការពេល Submit តេស្ត
   document.getElementById('quizForm').addEventListener('submit', function (e) {
     e.preventDefault();
+
+    const studentName = document.getElementById('studentName').value.trim();
+    const testType = document.getElementById('testType').value;
+    const examDate = document.getElementById('examDate').value;
 
     let score = 0;
     const totalQuestions = questionsData.length;
 
-    // គណនាពិន្ទុ
     questionsData.forEach(item => {
       const selected = document.querySelector(`input[name="q${item.id}"]:checked`);
       if (selected && selected.value === item.ans) {
@@ -765,7 +822,7 @@
       }
     });
 
-    // ចាក់សោរ Form ទាំងស្រុង មិនឱ្យកែ ឬ Resubmit បានឡើយ
+    // ចាក់សោរ Form មិនឱ្យកែ ឬ Resubmit
     const formElements = document.getElementById('quizForm').elements;
     for (let i = 0; i < formElements.length; i++) {
       formElements[i].disabled = true;
@@ -776,7 +833,7 @@
 
     // កំណត់កម្រិតចំណេះដឹង
     let levelText = '';
-    let levelBg = '';
+    let levelBg = '#0284c7';
     let levelColor = '#ffffff';
 
     if (score >= 25) {
@@ -794,113 +851,187 @@
       levelBg = '#dc2626';
     }
 
-    // បង្ហាញពិន្ទុ
+    // រក្សាទុក និងទាញយកកំណត់ត្រាសិស្ស
+    const updatedStudent = updateStudentRecord(studentName, testType, score, examDate);
+
+    // បង្ហាញផ្ទាំងលទ្ធផល
     const resultBox = document.getElementById('resultBox');
     resultBox.style.display = 'block';
-
-    document.getElementById('scoreDisplay').innerText = `ពិន្ទុទទួលបាន៖ ${score} / ${totalQuestions}`;
+    document.getElementById('scoreDisplay').innerText = `ពិន្ទុ ${testType}៖ ${score} / ${totalQuestions}`;
     const levelBadge = document.getElementById('levelDisplay');
     levelBadge.innerText = levelText;
     levelBadge.style.backgroundColor = levelBg;
     levelBadge.style.color = levelColor;
 
-    // គូសក្រាហ្វិក (Doughnut Chart)
+    // បង្ហាញព័ត៌មានប្រៀបធៀប (បើសិនជាធ្វើទាំងពីរ)
+    const summaryElem = document.getElementById('comparisonSummary');
+    if (updatedStudent.pre !== null && updatedStudent.post !== null) {
+      const diff = updatedStudent.post - updatedStudent.pre;
+      const sign = diff >= 0 ? `+${diff}` : `${diff}`;
+      summaryElem.innerHTML = `និស្សិតបានបញ្ចប់តេស្តទាំងពីរ៖ <strong>Pre-test: ${updatedStudent.pre} ពិន្ទុ</strong> | <strong>Post-test: ${updatedStudent.post} ពិន្ទុ</strong> (ការប្រែប្រួល៖ <span class="${diff >= 0 ? 'gain-positive' : 'gain-negative'}">${sign} ពិន្ទុ</span>)`;
+    } else {
+      summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
+    }
+
+    // គូសក្រាហ្វិកប្រៀបធៀប Pre vs Post
+    renderChart(updatedStudent);
+
+    // ធ្វើបច្ចុប្បន្នភាពតារាងខាងក្រោម
+    renderTable();
+
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // មុខងារគូសក្រាហ្វិក (Bar Chart)
+  function renderChart(student) {
     const ctx = document.getElementById('scoreChart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
 
+    const preVal = student.pre !== null ? student.pre : 0;
+    const postVal = student.post !== null ? student.post : 0;
+
     chartInstance = new Chart(ctx, {
-      type: 'doughnut',
+      type: 'bar',
       data: {
-        labels: ['ចម្លើយត្រឹមត្រូវ', 'ចម្លើយមិនត្រឹមត្រូវ'],
+        labels: ['Pre-test (មុនរៀន)', 'Post-test (ក្រោយរៀន)'],
         datasets: [{
-          data: [score, totalQuestions - score],
-          backgroundColor: ['#0284c7', '#e2e8f0'],
-          hoverBackgroundColor: ['#0369a1', '#cbd5e1'],
-          borderWidth: 0
+          label: 'ពិន្ទុទទួលបាន (លើ ៣០)',
+          data: [preVal, postVal],
+          backgroundColor: ['#94a3b8', '#0284c7'],
+          borderRadius: 8,
+          barThickness: 50
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { font: { family: "'Kantumruy Pro', sans-serif" } }
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 30,
+            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
           },
+          x: {
+            ticks: { font: { family: "'Kantumruy Pro', sans-serif" } }
+          }
+        },
+        plugins: {
+          legend: { display: false },
           tooltip: {
             callbacks: {
-              label: function(context) {
-                return ` ${context.label}: ${context.raw} ពិន្ទុ`;
-              }
+              label: (ctx) => ` ពិន្ទុ៖ ${ctx.raw} / ៣០`
             }
           }
         }
       }
     });
-
-    // រក្សាទុកក្នុងតារាងនិស្សិត (localStorage)
-    const studentName = document.getElementById('studentName').value;
-    const examDate = document.getElementById('examDate').value;
-    saveStudentResult({
-      name: studentName,
-      date: examDate,
-      score: score,
-      level: levelText.replace('កម្រិត៖ ', '')
-    });
-
-    resultBox.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  // មុខងារគ្រប់គ្រងតារាងលទ្ធផល
-  function getStoredResults() {
-    return JSON.parse(localStorage.getItem('water_pretest_scores') || '[]');
   }
 
-  function saveStudentResult(record) {
-    const records = getStoredResults();
-    records.push(record);
-    localStorage.setItem('water_pretest_scores', JSON.stringify(records));
-    renderTable();
+  // មុខងារគ្រប់គ្រង LocalStorage
+  function getStudentsData() {
+    return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
+  }
+
+  function updateStudentRecord(name, type, score, date) {
+    const records = getStudentsData();
+    const key = name.toLowerCase();
+
+    if (!records[key]) {
+      records[key] = {
+        name: name,
+        pre: null,
+        post: null,
+        lastDate: date
+      };
+    }
+
+    if (type === 'Pre-test') {
+      records[key].pre = score;
+    } else {
+      records[key].post = score;
+    }
+    records[key].lastDate = date;
+
+    localStorage.setItem('water_assessment_records', JSON.stringify(records));
+    return records[key];
   }
 
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
-    const records = getStoredResults();
-    
-    if (records.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតធ្វើតេស្តនៅឡើយទេ។</td></tr>`;
+    const records = getStudentsData();
+    const keys = Object.keys(records);
+
+    if (keys.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតនៅឡើយទេ។</td></tr>`;
       return;
     }
 
-    tbody.innerHTML = records.map((r, idx) => `
-      <tr>
-        <td>${idx + 1}</td>
-        <td><strong>${r.name}</strong></td>
-        <td>${r.date}</td>
-        <td><span style="font-weight:700; color:var(--primary-dark);">${r.score}</span> / ៣០</td>
-        <td>${r.level}</td>
-      </tr>
-    `).join('');
+    tbody.innerHTML = keys.map((k, idx) => {
+      const r = records[k];
+      const preTxt = r.pre !== null ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+      const postTxt = r.post !== null ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+      
+      let gainTxt = '<span class="gain-neutral">-</span>';
+      if (r.pre !== null && r.post !== null) {
+        const diff = r.post - r.pre;
+        const sign = diff > 0 ? `+${diff}` : `${diff}`;
+        const cls = diff > 0 ? 'gain-positive' : (diff < 0 ? 'gain-negative' : 'gain-neutral');
+        gainTxt = `<span class="${cls}">${sign} ពិន្ទុ</span>`;
+      }
+
+      return `
+        <tr>
+          <td>${idx + 1}</td>
+          <td><strong>${r.name}</strong></td>
+          <td>${preTxt}</td>
+          <td>${postTxt}</td>
+          <td>${gainTxt}</td>
+          <td>${r.lastDate}</td>
+        </tr>
+      `;
+    }).join('');
   }
 
-  // ទាញយកជា CSV សម្រាប់បើកក្នុង Excel
+  // មុខងារ Admin លុបទិន្នន័យដោយមាន Password ការពារ
+  function adminClearData() {
+    const pass = prompt("សូមបញ្ចូលលេខកូដសម្ងាត់ Admin ដើម្បីលុបទិន្នន័យតេស្តទាំងអស់៖");
+    if (pass === null) return; // ចុច Cancel
+
+    if (pass === ADMIN_PASSWORD) {
+      if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (សកម្មភាពនេះមិនអាចត្រឡប់វិញបានឡើយ)")) {
+        localStorage.removeItem('water_assessment_records');
+        renderTable();
+        alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបដោយជោគជ័យ!");
+      }
+    } else {
+      alert("លេខកូដសម្ងាត់មិនត្រឹមត្រូវឡើយ! លោកគ្រូគ្មានសិទ្ធិលុបទិន្នន័យនេះទេ។");
+    }
+  }
+
+  // ទាញយកទិន្នន័យជា CSV
   function exportToCSV() {
-    const records = getStoredResults();
-    if (records.length === 0) {
-      alert("មិនមានទិន្នន័យសម្រាប់ទាញយកឡើយ!");
+    const records = getStudentsData();
+    const keys = Object.keys(records);
+
+    if (keys.length === 0) {
+      alert("មិនទាន់មានទិន្នន័យសម្រាប់ទាញយកឡើយ!");
       return;
     }
 
-    let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,កាលបរិច្ឆេទ,ពិន្ទុ,កម្រិតចំណេះដឹង\n";
-    records.forEach((r, i) => {
-      csvContent += `"${i + 1}","${r.name}","${r.date}","${r.score}/30","${r.level}"\n`;
+    let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ\n";
+    keys.forEach((k, i) => {
+      const r = records[k];
+      const pre = r.pre !== null ? r.pre : "";
+      const post = r.post !== null ? r.post : "";
+      const gain = (r.pre !== null && r.post !== null) ? (r.post - r.pre) : "";
+      csvContent += `"${i + 1}","${r.name}","${pre}","${post}","${gain}","${r.lastDate}"\n`;
     });
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", `water_pretest_results_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `water_assessment_comparison_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
