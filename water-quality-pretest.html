@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ការវាយតម្លៃគុណភាពទឹក (Pre-test & Post-test) | សាកលវិទ្យាល័យក្រចេះ</title>
+  <title>ការវាយតម្លៃគុណភាពទឹក (Pre-test & Post-test) | មូលដ្ឋានស្រាវជ្រាវ-Research Foundation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <!-- បណ្ណាល័យ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- បណ្ណាល័យ html2pdf សម្រាប់ Save ជា PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
       --primary: #0284c7;
@@ -20,7 +22,8 @@
       --border: #cbd5e1;
       --success: #16a34a;
       --danger: #dc2626;
-      --section-bg: #f1f5f9;
+      --gold: #d97706;
+      --gold-dark: #92400e;
     }
 
     * {
@@ -95,7 +98,6 @@
       border-radius: 0 6px 6px 0;
     }
 
-    /* Timer Display Sticky Banner */
     .timer-container {
       display: none;
       position: sticky;
@@ -166,7 +168,6 @@
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
-    /* Start Button Area */
     .start-area {
       text-align: center;
       padding: 30px 20px;
@@ -195,7 +196,6 @@
       transform: translateY(-2px);
     }
 
-    /* Questions container is hidden initially */
     #examBody {
       display: none;
     }
@@ -265,11 +265,6 @@
       background-color: var(--primary-dark);
     }
 
-    .btn-submit:disabled {
-      background-color: #94a3b8;
-      cursor: not-allowed;
-    }
-
     .result-box {
       display: none;
       margin-top: 36px;
@@ -301,6 +296,175 @@
       max-width: 650px;
       margin: 20px auto 0 auto;
       height: 320px;
+    }
+
+    /* ================= វិញ្ញាបនបត្រ (CERTIFICATE STYLING) ================= */
+    .certificate-wrapper {
+      display: none;
+      margin-top: 36px;
+      text-align: center;
+    }
+
+    .cert-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn-cert-download {
+      background-color: var(--gold);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+    }
+    .btn-cert-download:hover { background-color: var(--gold-dark); }
+
+    .certificate-card {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 40px;
+      border: 12px solid #0f172a;
+      outline: 4px solid var(--gold);
+      outline-offset: -8px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      color: #0f172a;
+    }
+
+    .cert-corner-decor {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--gold);
+    }
+    .c-top-left { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+    .c-top-right { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+    .c-bottom-left { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+    .c-bottom-right { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+    .cert-logo {
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      margin: 0 auto 10px auto;
+      display: block;
+    }
+
+    .cert-org {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #0f172a;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .cert-motto {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .cert-title-km {
+      font-family: 'Moul', cursive;
+      font-size: 1.7rem;
+      color: var(--gold-dark);
+      margin-bottom: 4px;
+    }
+
+    .cert-title-en {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #334155;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .cert-presented {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .cert-student-name {
+      font-family: 'Kantumruy Pro', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      border-bottom: 2px solid var(--gold);
+      display: inline-block;
+      padding: 0 40px 6px 40px;
+      margin-bottom: 16px;
+    }
+
+    .cert-desc {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #334155;
+      max-width: 650px;
+      margin: 0 auto 28px auto;
+    }
+
+    .cert-signatures {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 24px;
+      padding: 0 20px;
+    }
+
+    .sig-block {
+      text-align: center;
+      width: 220px;
+    }
+
+    .sig-line {
+      border-top: 1px solid #94a3b8;
+      margin-top: 45px;
+      padding-top: 6px;
+    }
+
+    .sig-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #0f172a;
+    }
+
+    .sig-title {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .cert-badge-center {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px double var(--gold);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      color: var(--gold-dark);
+      font-weight: 700;
+      font-size: 0.7rem;
+      background: #fffbeb;
     }
 
     /* Scoreboard Section */
@@ -464,9 +628,10 @@
       <span class="badge">កម្រិតបរិញ្ញាបត្រ</span>
       <span class="badge">រយៈពេល៖ ៣០ នាទី</span>
       <span class="badge">ពិន្ទុសរុប៖ ៣០ ពិន្ទុ</span>
+      <span class="badge" style="background:#fef3c7; color:#92400e;">ជាប់ទទួលវិញ្ញាបនបត្រ៖ &gt; ២០ ពិន្ទុ</span>
     </div>
     <div class="objective" id="objectiveText">
-      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាគុណភាពទឹក មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។
+      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាគុណភាពទឹក មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។ និស្សិតដែលប្រឡង Post-test ទទួលបានពិន្ទុលើសពី ២០ ពិន្ទុ នឹងទទួលបានវិញ្ញាបនបត្របញ្ជាក់ការសិក្សា។
     </div>
   </header>
 
@@ -496,15 +661,15 @@
       </div>
     </div>
 
-    <!-- ប៊ូតុង Start Test -->
+    <!-- Start Button Area -->
     <div id="startArea" class="start-area">
       <p style="margin-bottom: 14px; font-size: 1rem; color: #475569;">
-        សូមបំពេញឈ្មោះខាងលើឱ្យបានត្រឹមត្រូវ រួចចុចប៊ូតុងខាងក្រោមដើម្បីចាប់ផ្ដើម។ នាឡិកានឹងរាប់ថយក្រោយ <strong>៣០ នាទី</strong> ហើយប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិនៅពេលអស់ម៉ោង។
+        សូមបំពេញព័ត៌មានខាងលើឱ្យបានត្រឹមត្រូវ រួចចុចប៊ូតុងខាងក្រោមដើម្បីចាប់ផ្ដើម។ នាឡិកានឹងរាប់ថយក្រោយ <strong>៣០ នាទី</strong> ហើយប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិនៅពេលអស់ម៉ោង។
       </p>
       <button type="button" class="btn-start" onclick="startTest()">▶ ចាប់ផ្ដើមធ្វើតេស្ត (Start Test)</button>
     </div>
 
-    <!-- តួខ្លួនសំណួរ (លាក់ទុករហូតដល់ចុច Start) -->
+    <!-- Exam Body -->
     <div id="examBody">
       <div id="questionsContainer"></div>
       <button type="submit" id="submitBtn" class="btn-submit">ផ្ញើចម្លើយបញ្ចប់តេស្ត (Submit Test)</button>
@@ -522,15 +687,68 @@
     </div>
   </div>
 
-  <!-- តារាងកត់ត្រាលទ្ធផលពិន្ទុនិស្សិត -->
+  <!-- ================= ផ្ទាំងវិញ្ញាបនបត្រ (CERTIFICATE DISPLAY) ================= -->
+  <div id="certificateWrapper" class="certificate-wrapper">
+    <div class="cert-actions">
+      <button type="button" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
+      <button type="button" class="btn-action" style="background:#334155; color:#fff;" onclick="window.print()">🖨️ បោះពុម្ព (Print)</button>
+    </div>
+
+    <div id="certificateCard" class="certificate-card">
+      <div class="cert-corner-decor c-top-left"></div>
+      <div class="cert-corner-decor c-top-right"></div>
+      <div class="cert-corner-decor c-bottom-left"></div>
+      <div class="cert-corner-decor c-bottom-right"></div>
+
+      <!-- រូប Logo Research & Excellence -->
+      <img src="1M.jpg" alt="Research Foundation Logo" class="cert-logo" onerror="this.src='https://www.researchfoundation.top/logo.png'">
+      <div class="cert-org">Research Foundation</div>
+      <div class="cert-motto">Knowledge • Innovation • Impact</div>
+
+      <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
+      <div class="cert-title-en">Certificate of Achievement</div>
+
+      <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
+      <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
+
+      <div class="cert-desc">
+        ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«គុណភាពទឹក (Water Quality)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">២៥/៣០ ពិន្ទុ</strong>។
+      </div>
+
+      <div class="cert-signatures">
+        <div class="sig-block">
+          <div class="sig-line">
+            <div id="certDateText" style="font-size:0.85rem; color:#475569; margin-bottom:4px;">កាលបរិច្ឆេទ៖ 05/11/2026</div>
+            <div class="sig-name">Research Foundation</div>
+            <div class="sig-title">ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
+          </div>
+        </div>
+
+        <div class="sig-block" style="width: auto;">
+          <div class="cert-badge-center">
+            <span>PASSED</span>
+            <span style="font-size: 0.6rem;">&gt; 20 PTS</span>
+          </div>
+        </div>
+
+        <div class="sig-block">
+          <div class="sig-line">
+            <div style="font-family:'Playfair Display', cursive; font-size:1.1rem; color:var(--primary-dark); margin-bottom:2px;">In Sokra</div>
+            <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
+            <div class="sig-title">សាស្ត្រាចារ្យទទួលបន្ទុកមុខវិជ្ជា</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scoreboard Section -->
   <div class="table-section">
     <div class="table-header">
       <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
       <div class="action-btn-group">
         <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
-        <div id="adminControls">
-          <!-- បង្ហាញតាមស្ថានភាព Admin -->
-        </div>
+        <div id="adminControls"></div>
       </div>
     </div>
     <div class="table-responsive">
@@ -543,11 +761,10 @@
             <th>Post-test (៣០)</th>
             <th>ការរីកចម្រើន (Gain)</th>
             <th>កាលបរិច្ឆេទចុងក្រោយ</th>
+            <th>វិញ្ញាបនបត្រ</th>
           </tr>
         </thead>
-        <tbody id="studentTableBody">
-          <!-- ទិន្នន័យនិស្សិត -->
-        </tbody>
+        <tbody id="studentTableBody"></tbody>
       </table>
     </div>
   </div>
@@ -559,12 +776,11 @@
 
 <script>
   const ADMIN_PASSWORD = "admin123";
-  const TEST_DURATION_MINUTES = 30; // ៣០ នាទី
+  const TEST_DURATION_MINUTES = 30;
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
   let isTestSubmitted = false;
 
-  // កម្រងសំណួរទាំង ៣០ (បានកែ រូបវន្ត -> រូបសាស្ត្រ និង ព្យួរ -> អណ្ដែត)
   const questionsData = [
     {
       id: 1,
@@ -898,7 +1114,6 @@
     }
   ];
 
-  // បង្កើតកម្រងសំណួរ
   const qContainer = document.getElementById('questionsContainer');
   questionsData.forEach(item => {
     const card = document.createElement('div');
@@ -924,7 +1139,6 @@
     document.getElementById('pageHeading').innerText = `ការវាយតម្លៃគុណភាពទឹក (${type})`;
   }
 
-  // ចាប់ផ្ដើមធ្វើតេស្ត
   function startTest() {
     const nameInput = document.getElementById('studentName');
     if (!nameInput.value.trim()) {
@@ -933,18 +1147,15 @@
       return;
     }
 
-    // ចាក់សោរព័ត៌មានខាងលើមិនឱ្យកែពេលកំពុងធ្វើ
     document.getElementById('studentName').readOnly = true;
     document.getElementById('testType').disabled = true;
     document.getElementById('examDate').disabled = true;
 
-    // លាក់ប៊ូតុង Start និងបង្ហាញកម្រងសំណួរ + Timer
     document.getElementById('startArea').style.display = 'none';
     document.getElementById('examBody').style.display = 'block';
     const timerElem = document.getElementById('timerContainer');
     timerElem.style.display = 'flex';
 
-    // ចាប់ផ្តើមរាប់ថយក្រោយ ៣០ នាទី
     runTimer();
   }
 
@@ -969,13 +1180,11 @@
     const display = document.getElementById('timerDisplay');
     display.innerText = formatted;
 
-    // ព្រមានពណ៌ក្រហមនៅពេលសល់ក្រោម ៥ នាទី
     if (timeRemaining <= 300) {
       display.classList.add('timer-warning');
     }
   }
 
-  // ដំណើរការ Submit (ប្រើរួមគ្នារវាងការចុច Submit និង Auto-Submit)
   document.getElementById('quizForm').addEventListener('submit', function (e) {
     e.preventDefault();
     if (isTestSubmitted) return;
@@ -989,7 +1198,6 @@
     isTestSubmitted = true;
     clearInterval(timerInterval);
 
-    // លាក់ Timer Bar
     document.getElementById('timerContainer').style.display = 'none';
 
     const studentName = document.getElementById('studentName').value.trim();
@@ -1006,7 +1214,6 @@
       }
     });
 
-    // ចាក់សោរ Form ទាំងស្រុង
     const formElements = document.getElementById('quizForm').elements;
     for (let i = 0; i < formElements.length; i++) {
       formElements[i].disabled = true;
@@ -1015,7 +1222,6 @@
     submitBtn.innerText = "បានផ្ញើរួចរាល់ (Submitted)";
     submitBtn.disabled = true;
 
-    // កម្រិតចំណេះដឹង
     let levelText = '';
     let levelBg = '#0284c7';
     let levelColor = '#ffffff';
@@ -1037,7 +1243,6 @@
 
     const updatedStudent = updateStudentRecord(studentName, testType, score, examDate);
 
-    // បង្ហាញលទ្ធផល
     const resultBox = document.getElementById('resultBox');
     resultBox.style.display = 'block';
     document.getElementById('scoreDisplay').innerText = `ពិន្ទុ ${testType}៖ ${score} / ${totalQuestions}`;
@@ -1055,12 +1260,39 @@
       summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងចាក់សោរដោយជោគជ័យ។`;
     }
 
+    // ពិនិត្យលក្ខខណ្ឌផ្តល់វិញ្ញាបនបត្រ (Post-test > 20 ពិន្ទុ)
+    const certWrapper = document.getElementById('certificateWrapper');
+    if (testType === 'Post-test' && score > 20) {
+      showCertificate(studentName, score, examDate);
+      certWrapper.style.display = 'block';
+    } else {
+      certWrapper.style.display = 'none';
+    }
+
     renderChart(updatedStudent);
     renderTable();
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // គូសក្រាហ្វិក Bar Chart
+  function showCertificate(name, score, date) {
+    document.getElementById('certStudentName').innerText = name;
+    document.getElementById('certScoreText').innerText = `${score}/៣០ ពិន្ទុ`;
+    document.getElementById('certDateText').innerText = `កាលបរិច្ឆេទ៖ ${date}`;
+  }
+
+  function downloadCertificatePDF() {
+    const element = document.getElementById('certificateCard');
+    const studentName = document.getElementById('certStudentName').innerText;
+    const opt = {
+      margin:       0.2,
+      filename:     `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+    html2pdf().set(opt).from(element).save();
+  }
+
   let chartInstance = null;
   function renderChart(student) {
     const ctx = document.getElementById('scoreChart').getContext('2d');
@@ -1106,7 +1338,6 @@
     });
   }
 
-  // LocalStorage & Admin Management
   function getStudentsData() {
     return JSON.parse(localStorage.getItem('water_assessment_records') || '{}');
   }
@@ -1207,6 +1438,13 @@
     }
   }
 
+  function viewStudentCertificate(name, score, date) {
+    showCertificate(name, score, date);
+    const certWrapper = document.getElementById('certificateWrapper');
+    certWrapper.style.display = 'block';
+    certWrapper.scrollIntoView({ behavior: 'smooth' });
+  }
+
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getStudentsData();
@@ -1214,7 +1452,7 @@
     const loggedIn = isAdminLoggedIn();
 
     if (keys.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${loggedIn ? 7 : 6}" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតនៅឡើយទេ។</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${loggedIn ? 8 : 7}" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតនៅឡើយទេ។</td></tr>`;
       return;
     }
 
@@ -1231,6 +1469,11 @@
         gainTxt = `<span class="${cls}">${sign} ពិន្ទុ</span>`;
       }
 
+      let certBtn = '<span style="color:#94a3b8;">-</span>';
+      if (r.post !== null && r.post > 20) {
+        certBtn = `<button type="button" class="btn-action" style="background:#d97706; color:#fff; padding:4px 8px; font-size:0.8rem;" onclick="viewStudentCertificate('${r.name}', ${r.post}, '${r.lastDate}')">🎓 មើលសញ្ញាបត្រ</button>`;
+      }
+
       let actionCell = '';
       if (loggedIn) {
         actionCell = `<td><button type="button" class="btn-delete-row" onclick="deleteStudentRow('${k}')">លុប</button></td>`;
@@ -1244,6 +1487,7 @@
           <td>${postTxt}</td>
           <td>${gainTxt}</td>
           <td>${r.lastDate}</td>
+          <td>${certBtn}</td>
           ${actionCell}
         </tr>
       `;
@@ -1259,13 +1503,14 @@
       return;
     }
 
-    let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ\n";
+    let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ,ស្ថានភាពជាប់\n";
     keys.forEach((k, i) => {
       const r = records[k];
       const pre = r.pre !== null ? r.pre : "";
       const post = r.post !== null ? r.post : "";
       const gain = (r.pre !== null && r.post !== null) ? (r.post - r.pre) : "";
-      csvContent += `"${i + 1}","${r.name}","${pre}","${post}","${gain}","${r.lastDate}"\n`;
+      const passed = (r.post !== null && r.post > 20) ? "ជាប់ (ទទួលវិញ្ញាបនបត្រ)" : "មិនទាន់ជាប់";
+      csvContent += `"${i + 1}","${r.name}","${pre}","${post}","${gain}","${r.lastDate}","${passed}"\n`;
     });
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -1278,7 +1523,6 @@
     document.body.removeChild(link);
   }
 
-  // ដំណើរការលើកដំបូង
   renderAdminUI();
   renderTable();
 </script>
