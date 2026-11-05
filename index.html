@@ -1,213 +1,2720 @@
-/* Research Foundation - Pre-test / Post-test module */
-(function () {
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const getRes = () => { try { return JSON.parse(localStorage.getItem('RF_QUIZ_RESULTS') || '[]'); } catch (e) { return []; } };
-  const setRes = r => localStorage.setItem('RF_QUIZ_RESULTS', JSON.stringify(r));
-  const quizzes = () => (appData.quizzes = appData.quizzes || []);
+<!DOCTYPE html>
+<html lang="km" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>មូលដ្ឋានស្រាវជ្រាវ | Research Foundation</title>
+    
+    <!-- OpenGraph & SEO Meta Tags -->
+    <meta name="title" content="មូលដ្ឋានស្រាវជ្រាវ | Research Foundation Cambodia">
+    <meta name="description" content="លើកកម្ពស់ចំណេះដឹងស្រាវជ្រាវ វិទ្យាសាស្ត្រស្ថិតិ ជីវបច្ចេកវិទ្យា និងការអភិវឌ្ឍសូហ្វវែរវិភាគទិន្នន័យ (RF Analyzer v6.0) នៅកម្ពុជា។">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://researchfoundation.top/">
+    <meta property="og:title" content="មូលដ្ឋានស្រាវជ្រាវ | Research Foundation Cambodia">
+    <meta property="og:description" content="ផ្សារភ្ជាប់ទ្រឹស្តីវិទ្យាសាស្ត្រពិសោធន៍ ការអនុវត្តជាក់ស្តែង និងបច្ចេកវិទ្យាវិភាគទិន្នន័យស្ថិតិគំរូពិសោធន៍។">
+    <meta property="og:image" content="https://researchfoundation.top/logo.png">
 
-  /* ---------- style ---------- */
-  const st = document.createElement('style');
-  st.textContent = `
-  .nav-item[data-menu="quiz"]::after{background-color:#fb923c}
-  .nav-item[data-menu="quiz"].active{color:#fff!important;background:linear-gradient(135deg,rgba(249,115,22,.35),rgba(194,65,12,.45))!important;border-color:rgba(251,146,60,.8)!important;box-shadow:0 0 16px -2px rgba(249,115,22,.6)!important}
-  .nav-item[data-menu="quiz"].active::after{width:60%;opacity:1}`;
-  document.head.appendChild(st);
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
 
-  /* ---------- nav + section + modal ---------- */
-  const desk = document.getElementById('desktopMenu');
-  if (desk) desk.insertAdjacentHTML('beforeend', `<a href="#quiz" data-menu="quiz" class="nav-item px-3.5 py-1.5 rounded-xl border border-orange-500/30 hover:text-orange-300 transition-all flex items-center gap-1.5 whitespace-nowrap"><i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i><span>តេស្ត</span></a>`);
-  const mob = document.getElementById('mobileMenu');
-  if (mob) mob.querySelector('a.mobile-link:last-of-type')?.insertAdjacentHTML('afterend', `<a href="#quiz" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៦. តេស្ត (Pre/Post Test)</a>`);
-  document.querySelectorAll('#mobileMenu .mobile-link').forEach(l => l.addEventListener('click', () => mob.classList.add('hidden')));
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  document.querySelector('main').insertAdjacentHTML('beforeend', `
-  <section id="quiz" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
-      <div>
-        <div class="text-orange-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2"><i data-lucide="clipboard-check" class="w-4 h-4"></i> ៦. តេស្តសិស្ស (Pre-test & Post-test)</div>
-        <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្រងសំណួរ ធ្វើតេស្តមុន និងក្រោយ</h2>
-        <p class="text-xs text-slate-400 mt-2">បំពេញសំណួរ រួចមើលលទ្ធផល និងក្រាហ្វិកពិន្ទុសរុបភ្លាមៗ</p>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-orange-500/20 border border-orange-500/50 text-orange-300 hover:bg-orange-500 hover:text-navy-950 text-xs font-semibold flex items-center gap-1.5" onclick="quizOpenEditor(-1)"><i data-lucide="plus-circle" class="w-4 h-4"></i> បង្កើតតេស្តថ្មី</button>
-        <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-600 text-slate-300 hover:bg-slate-700 text-xs font-semibold flex items-center gap-1.5" onclick="quizExportCsv()"><i data-lucide="download" class="w-4 h-4"></i> Export លទ្ធផល (CSV)</button>
-      </div>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Kantumruy Pro"', '"Plus Jakarta Sans"', 'sans-serif'],
+                        en: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        },
+                        gold: {
+                            300: '#fef08a',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        },
+                        navy: {
+                            800: '#0f172a',
+                            900: '#0a0f1d',
+                            950: '#030712'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glassmorphism {
+            background: rgba(10, 15, 29, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .card-glass {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 15, 29, 0.9) 100%);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card-glass:hover {
+            border-color: rgba(16, 185, 129, 0.35);
+            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+        .grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        .brand-glow-group:hover .brand-logo-img {
+            filter: drop-shadow(0 0 18px rgba(250, 204, 21, 0.95)) brightness(1.2);
+            transform: scale(1.08) rotate(-1deg);
+        }
+        .brand-glow-group:hover .brand-title {
+            background: linear-gradient(135deg, #ffffff 0%, #fef08a 40%, #facc15 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-item {
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            border-radius: 9999px;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .nav-item:hover::after {
+            width: 40%;
+            opacity: 0.6;
+        }
+
+        .nav-item[data-menu="about"]::after { background-color: #34d399; }
+        .nav-item[data-menu="about"].active {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(5, 150, 105, 0.45) 100%) !important;
+            border-color: rgba(52, 211, 153, 0.8) !important;
+            box-shadow: 0 0 16px -2px rgba(16, 185, 129, 0.6) !important;
+        }
+        .nav-item[data-menu="about"].active::after { width: 60%; opacity: 1; }
+
+        .nav-item[data-menu="books"]::after { background-color: #fbbf24; }
+        .nav-item[data-menu="books"].active {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.45) 100%) !important;
+            border-color: rgba(251, 191, 36, 0.8) !important;
+            box-shadow: 0 0 16px -2px rgba(245, 158, 11, 0.6) !important;
+        }
+        .nav-item[data-menu="books"].active::after { width: 60%; opacity: 1; }
+
+        .nav-item[data-menu="software"]::after { background-color: #22d3ee; }
+        .nav-item[data-menu="software"].active {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.35) 0%, rgba(14, 116, 144, 0.45) 100%) !important;
+            border-color: rgba(34, 211, 238, 0.8) !important;
+            box-shadow: 0 0 16px -2px rgba(6, 182, 212, 0.6) !important;
+        }
+        .nav-item[data-menu="software"].active::after { width: 60%; opacity: 1; }
+
+        .nav-item[data-menu="publications"]::after { background-color: #c084fc; }
+        .nav-item[data-menu="publications"].active {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(109, 40, 217, 0.45) 100%) !important;
+            border-color: rgba(167, 139, 250, 0.8) !important;
+            box-shadow: 0 0 16px -2px rgba(139, 92, 246, 0.6) !important;
+        }
+        .nav-item[data-menu="publications"].active::after { width: 60%; opacity: 1; }
+
+        .nav-item[data-menu="leadership"]::after { background-color: #fb7185; }
+        .nav-item[data-menu="leadership"].active {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.35) 0%, rgba(190, 18, 60, 0.45) 100%) !important;
+            border-color: rgba(251, 113, 133, 0.8) !important;
+            box-shadow: 0 0 16px -2px rgba(244, 63, 94, 0.6) !important;
+        }
+        .nav-item[data-menu="leadership"].active::after { width: 60%; opacity: 1; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+
+<body class="bg-navy-950 text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white relative min-h-screen">
+
+<!-- Background Mesh -->
+<div class="fixed inset-0 grid-pattern pointer-events-none -z-20"></div>
+<div class="fixed top-0 left-1/2 -translate-x-1/2 w-[850px] h-[500px] bg-emerald-600/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-1/4 right-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[180px] pointer-events-none -z-10"></div>
+
+<!-- Secret Admin Top Bar -->
+<div id="adminTopBar" class="hidden bg-slate-900 border-b border-amber-500/40 text-slate-300 px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-3 sticky top-0 z-50 backdrop-blur-md transition-all">
+    <div class="flex items-center gap-2 flex-wrap">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Admin Mode (អិន សុខរ៉ា)</span>
+        </div>
+        <span id="ghSyncBadge" onclick="openGitHubModal()" class="cursor-pointer inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 font-medium text-[11px]" title="ចុចដើម្បីភ្ជាប់ GitHub Auto-Sync">
+            <i data-lucide="cloud-off" class="w-3 h-3"></i> មិនទាន់ភ្ជាប់ GitHub Sync
+        </span>
+        <span id="adminStatusText" class="hidden xl:inline text-slate-400">របៀបកែសម្រួលកំពុងបើក។</span>
     </div>
-    <div id="quizGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </section>
-  <div id="quizModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-start justify-center p-4 hidden overflow-y-auto">
-    <div class="bg-navy-900 border border-orange-500/40 w-full max-w-2xl rounded-3xl p-6 sm:p-8 my-6 space-y-5 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 id="quizModalTitle" class="text-base sm:text-lg font-bold text-white"></h3>
-        <button onclick="quizCloseModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div id="quizModalBody" class="text-sm"></div>
+
+    <div class="flex items-center gap-2 flex-wrap">
+        <button id="toggleEditBtn" onclick="toggleEditMode()" class="px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-navy-950 border border-amber-500/40 text-amber-300 font-medium text-xs transition-all flex items-center gap-1.5 active:scale-95">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            <span id="toggleEditText">បិទរបៀបកែសម្រួល</span>
+        </button>
+        <button onclick="forcePullFromCloud()" class="px-2.5 py-1 rounded-lg bg-emerald-950/60 hover:bg-emerald-600 hover:text-white border border-emerald-500/30 text-emerald-300 text-xs transition-all flex items-center gap-1" title="ទាញទិន្នន័យថ្មីបំផុតពី GitHub">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span class="hidden md:inline">Sync Now</span>
+        </button>
+        <button onclick="openGitHubModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-sky-600 hover:text-white text-slate-300 text-xs transition-all flex items-center gap-1" title="កំណត់ GitHub Auto-Sync">
+            <i data-lucide="github" class="w-3.5 h-3.5"></i>
+            <span class="hidden md:inline">GitHub Sync</span>
+        </button>
+        <button onclick="openChangePasswordModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-all flex items-center gap-1" title="ប្តូរពាក្យសម្ងាត់ Admin">
+            <i data-lucide="key" class="w-3.5 h-3.5"></i>
+            <span class="hidden md:inline">ប្តូរលេខកូដ</span>
+        </button>
+        <button onclick="exportDataJson()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-all flex items-center gap-1" title="ទាញយកទិន្នន័យ JSON">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i> Export
+        </button>
+        <button onclick="resetToDefaultData()" class="px-2.5 py-1 rounded-lg bg-rose-950/40 hover:bg-rose-900 border border-rose-500/30 text-rose-300 text-xs transition-all flex items-center gap-1" title="កំណត់ទិន្នន័យដើមឡើងវិញ">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset
+        </button>
+        <button onclick="adminLogout()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 text-xs transition-all flex items-center gap-1" title="ចាកចេញ">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i> ចាកចេញ
+        </button>
     </div>
-  </div>`);
+</div>
 
-  /* ---------- parsing helpers ---------- */
-  function parseQs(txt) {
-    return txt.split(/\n\s*\n/).map(b => {
-      const lines = b.trim().split('\n').map(l => l.trim()).filter(Boolean);
-      if (lines.length < 3) return null;
-      let correct = -1;
-      const options = lines.slice(1).map((l, i) => {
-        if (l.startsWith('*')) correct = i;
-        return l.replace(/^\*\s*/, '').replace(/^[A-Za-z0-9][\).]\s*/, '');
-      });
-      return { q: lines[0], options, correct };
-    }).filter(Boolean);
-  }
-  const qsToText = qs => (qs || []).map(q => q.q + '\n' + q.options.map((o, i) => (i === q.correct ? '*' : '') + String.fromCharCode(65 + i) + ') ' + o).join('\n')).join('\n\n');
+<!-- Hidden File Inputs -->
+<input type="file" id="directBookFileInput" class="hidden" accept="image/*" onchange="handleDirectBookCoverUpload(event)">
+<input type="file" id="directMainSoftwareFileInput" class="hidden" accept="image/*" onchange="handleDirectMainSoftwareUpload(event)">
+<input type="file" id="directSubSoftwareFileInput" class="hidden" accept="image/*" onchange="handleDirectSubSoftwareUpload(event)">
+<input type="file" id="directFounderFileInput" class="hidden" accept="image/*" onchange="handleDirectFounderPhotoUpload(event)">
 
-  /* ---------- list ---------- */
-  window.renderQuizSection = function () {
-    const grid = document.getElementById('quizGrid'); if (!grid) return;
-    const edit = (typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn && isEditMode) ? '' : 'hidden';
-    const list = quizzes();
-    if (!list.length) { grid.innerHTML = `<p class="text-slate-500 text-sm col-span-full text-center py-10">មិនទាន់មានតេស្តទេ។</p>`; }
-    else grid.innerHTML = list.map((z, i) => {
-      const pre = z.kind === 'pre';
-      return `<div class="p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between relative hover:border-orange-500/50">
-        <div class="edit-only ${edit} absolute top-3 right-3 flex gap-1">
-          <button onclick="quizOpenEditor(${i})" class="p-1.5 rounded-lg bg-orange-500/20 text-orange-300 hover:bg-orange-500 hover:text-navy-950"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
-          <button onclick="quizDelete(${i})" class="p-1.5 rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 border border-emerald-500/40 text-emerald-300 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-sm font-medium">
+    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+    <span id="toast-message">បានរក្សាទុកដោយជោគជ័យ!</span>
+</div>
+
+<!-- TIDY NAVIGATION BAR -->
+<header class="sticky top-0 z-40 glassmorphism transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20 gap-4">
+            
+            <!-- Logo area (Double click opens Admin Login) -->
+            <a href="#" ondblclick="event.preventDefault(); openLoginModal();" class="brand-glow-group flex items-center gap-3 group cursor-pointer transition-all duration-300 select-none shrink-0">
+                <div class="relative flex items-center justify-center">
+                    <img src="logo.png" alt="Research Foundation Logo" class="brand-logo-img w-10 h-10 object-contain rounded-xl transition-all duration-300 ease-out shadow-md shadow-amber-500/10" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0f172a/eab308?text=RF';">
+                </div>
+                <div class="leading-tight">
+                    <span class="brand-title text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-1.5 transition-all duration-300 whitespace-nowrap">
+                        មូលដ្ឋានស្រាវជ្រាវ
+                        <span class="text-[9px] uppercase font-en tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded-full font-semibold">កម្ពុជា</span>
+                    </span>
+                    <span class="block text-[10px] uppercase tracking-wider text-amber-400 font-semibold font-en whitespace-nowrap">
+                        Research Foundation • កំពង់ចាម
+                    </span>
+                </div>
+            </a>
+
+            <!-- 5 Menus Desktop Navigation -->
+            <nav id="desktopMenu" class="hidden lg:flex items-center gap-1 p-1 rounded-2xl bg-slate-900/80 border border-slate-800/80 text-xs sm:text-sm font-medium text-slate-300 shadow-inner shrink-0">
+                <a href="#about" data-menu="about" class="nav-item px-3.5 py-1.5 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                    <span>អំពីយើង</span>
+                </a>
+                <a href="#books" data-menu="books" class="nav-item px-3.5 py-1.5 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <i data-lucide="book" class="w-3.5 h-3.5"></i>
+                    <span>សៀវភៅ</span>
+                </a>
+                <a href="#software" data-menu="software" class="nav-item px-3.5 py-1.5 rounded-xl border border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <i data-lucide="laptop" class="w-3.5 h-3.5"></i>
+                    <span>កម្មវិធី</span>
+                </a>
+                <a href="#publications" data-menu="publications" class="nav-item px-3.5 py-1.5 rounded-xl border border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
+                    <span>អត្ថបទបោះពុម្ព</span>
+                </a>
+                <a href="#leadership" data-menu="leadership" class="nav-item px-3.5 py-1.5 rounded-xl border border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                    <span>ស្ថាបនិក</span>
+                </a>
+            </nav>
+
+            <!-- Tidy Action Bar -->
+            <div class="hidden xl:flex items-center gap-2 shrink-0">
+                <a href="mailto:contact@researchfoundation.top" class="p-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center justify-center transition-all shadow-sm" title="Email: contact@researchfoundation.top">
+                    <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i>
+                </a>
+                <a href="https://t.me/researchfound" target="_blank" class="px-2.5 py-1.5 rounded-xl border border-sky-500/30 bg-sky-950/20 hover:bg-sky-500/20 text-sky-300 text-xs font-medium flex items-center gap-1.5 transition-all whitespace-nowrap">
+                    <i data-lucide="megaphone" class="w-3.5 h-3.5 text-sky-400"></i> Channel
+                </a>
+                <a href="https://t.me/researchfounda" target="_blank" class="px-2.5 py-1.5 rounded-xl border border-teal-500/30 bg-teal-950/20 hover:bg-teal-500/20 text-teal-300 text-xs font-medium flex items-center gap-1.5 transition-all whitespace-nowrap">
+                    <i data-lucide="users" class="w-3.5 h-3.5 text-teal-400"></i> Group
+                </a>
+                <a href="https://t.me/Sokra25" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold transition-all shadow-md shadow-emerald-950/60 flex items-center gap-1.5 active:scale-95 whitespace-nowrap">
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i> @Sokra25
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:text-white active:scale-90 transition-transform" aria-label="Menu">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-800 bg-navy-900/98 px-5 pt-4 pb-6 space-y-2">
+        <a href="#about" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">១. អំពីយើង (About)</a>
+        <a href="#books" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">២. សៀវភៅ (Books)</a>
+        <a href="#software" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៣. កម្មវិធី (Software)</a>
+        <a href="#publications" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
+        <a href="#leadership" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៥. ស្ថាបនិក (Founder)</a>
+        
+        <div class="pt-3 grid grid-cols-2 gap-2">
+            <a href="mailto:contact@researchfoundation.top" class="col-span-2 py-2 rounded-xl bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i> contact@researchfoundation.top
+            </a>
+            <a href="https://t.me/researchfound" target="_blank" class="py-2 rounded-xl bg-sky-950 border border-sky-500/30 text-sky-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
+                <i data-lucide="megaphone" class="w-3.5 h-3.5"></i> Channel
+            </a>
+            <a href="https://t.me/researchfounda" target="_blank" class="py-2 rounded-xl bg-teal-950 border border-teal-500/30 text-teal-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
+                <i data-lucide="users" class="w-3.5 h-3.5"></i> Group
+            </a>
+            <a href="https://t.me/Sokra25" target="_blank" class="col-span-2 py-2.5 rounded-xl bg-emerald-600 text-white text-center font-semibold text-xs flex items-center justify-center gap-2">
+                <i data-lucide="send" class="w-4 h-4"></i> ផ្ញើសារផ្ទាល់ Telegram (@Sokra25)
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="relative pt-6">
+
+    <!-- HERO SECTION -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-center space-y-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            មូលដ្ឋានស្រាវជ្រាវ <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">Research Foundation Cambodia</span>
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base max-w-3xl mx-auto leading-relaxed font-light">
+            មូលដ្ឋានស្រាវជ្រាវ លើកកម្ពស់ចំណេះដឹងស្រាវជ្រាវ វិទ្យាសាស្ត្រស្ថិតិ និងជួយបង្កើនសមត្ថភាព សិស្ស និស្សិត លោកគ្រូអ្នកគ្រូ អ្នកស្រាវជ្រាវ បុគ្គលិក និង សាស្ត្រាចារ្យ។
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a href="mailto:contact@researchfoundation.top" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-950/50 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/40 transition-colors text-xs font-mono">
+                <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i>
+                <span>Official: <strong>contact@researchfoundation.top</strong></span>
+            </a>
+            <a href="https://t.me/researchfound" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-950/50 border border-sky-500/40 text-sky-300 hover:bg-sky-900/40 transition-colors text-xs font-medium">
+                <i data-lucide="send" class="w-4 h-4 text-sky-400"></i>
+                <span>Channel: <strong>@researchfound</strong></span>
+            </a>
+            <a href="https://t.me/researchfounda" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-950/50 border border-teal-500/40 text-teal-300 hover:bg-teal-900/40 transition-colors text-xs font-medium">
+                <i data-lucide="message-square" class="w-4 h-4 text-teal-400"></i>
+                <span>Group: <strong>@researchfounda</strong></span>
+            </a>
+            <a href="https://t.me/Sokra25" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-amber-500/40 text-amber-300 hover:bg-slate-800 transition-colors text-xs font-medium">
+                <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i>
+                <span>ផ្ទាល់ខ្លួន: <strong>@Sokra25</strong></span>
+            </a>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <a href="#books" class="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-semibold text-xs sm:text-sm transition-all shadow-lg shadow-amber-950/50 flex items-center gap-2">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i> មើលសៀវភៅសម្រាប់លក់
+            </a>
+            <button onclick="openSoftwareShowcaseModal()" class="px-6 py-3 rounded-xl border border-cyan-500/60 bg-cyan-950/40 hover:bg-cyan-900/40 active:scale-95 text-cyan-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-cyan-950/40">
+                <i data-lucide="cpu" class="w-4 h-4 text-cyan-400 animate-pulse"></i> កម្មវិធី RF Analyzer v6.0 (Showcase)
+            </button>
+            <a href="#publications" class="px-6 py-3 rounded-xl border border-purple-500/40 bg-purple-950/20 hover:bg-purple-950/40 active:scale-95 text-purple-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2">
+                <i data-lucide="newspaper" class="w-4 h-4"></i> ស្នាដៃបោះពុម្ពស្រាវជ្រាវ
+            </a>
+        </div>
+    </section>
+
+    <!-- ១. អំពីយើង (ABOUT US) -->
+    <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-6">
+                <div class="flex items-center justify-between">
+                    <div class="text-emerald-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                        <i data-lucide="info" class="w-4 h-4"></i> ១. អំពីយើង (About Research Foundation)
+                    </div>
+                    <button class="edit-only hidden px-2.5 py-1 text-xs rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500 hover:text-navy-950 transition-all" onclick="openEditAboutModal()">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5 inline mr-1"></i> កែសម្រួលអំពីយើង
+                    </button>
+                </div>
+
+                <h2 id="aboutTitle" class="text-2xl sm:text-4xl font-bold text-white leading-snug">
+                    អំពីមូលដ្ឋានស្រាវជ្រាវ (Research Foundation)
+                </h2>
+
+                <div class="space-y-4 text-slate-300 text-sm leading-relaxed font-light">
+                    <p id="aboutIntro">
+                        <strong class="text-white font-medium">មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)</strong> ជួយបង្កើតសមត្ថភាពចំណេះដឹងផ្នែក ស្រាវជ្រាវ និងស្ថិតិវិទ្យា។
+                    </p>
+                    
+                    <p id="aboutLocation">
+                        ទីតាំងមូលដ្ឋានស្រាវជ្រាវស្ថិតនៅ <strong class="text-emerald-400 font-semibold">ខេត្តកំពង់ចាម</strong> និងនៅ <strong class="text-emerald-400 font-semibold">រាជធានីភ្នំពេញ</strong> ដោយផ្តោតលើ៖
+                    </p>
+
+                    <ul id="aboutPillars" class="space-y-3 pl-4 border-l-2 border-emerald-500/40 text-xs sm:text-sm text-slate-300">
+                        <li>• <strong class="text-white">ការស្រាវជ្រាវផ្នែកបច្ចេកវិទ្យាជីវៈ (Biotechnology)៖</strong> <span id="aboutP1Text"></span></li>
+                        <li>• <strong class="text-white">ការកែច្នៃកាកសំណល់អនុផលកសិ-ឧស្សាហកម្ម (Agro-Industrial Valorization)៖</strong> <span id="aboutP2Text"></span></li>
+                        <li>• <strong class="text-white">ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ (Biostatistics & Computation)៖</strong> <span id="aboutP3Text"></span></li>
+                    </ul>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                    <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60 text-center hover:border-amber-500/30 transition-colors">
+                        <div class="text-amber-400 font-bold text-lg font-en">KNOWLEDGE</div>
+                        <div class="text-xs text-slate-400 mt-1">ចំណេះដឹងវិទ្យាសាស្ត្រពិត</div>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60 text-center hover:border-emerald-500/30 transition-colors">
+                        <div class="text-emerald-400 font-bold text-lg font-en">INNOVATION</div>
+                        <div class="text-xs text-slate-400 mt-1">នវានុវត្តន៍ & សូហ្វវែរ</div>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60 text-center hover:border-cyan-500/30 transition-colors">
+                        <div class="text-cyan-400 font-bold text-lg font-en">IMPACT</div>
+                        <div class="text-xs text-slate-400 mt-1">ផលជះវិជ្ជមានសង្គម</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="p-8 rounded-3xl border border-slate-800 card-glass space-y-6">
+                    <div class="flex items-center gap-3 pb-4 border-b border-slate-800">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                            <i data-lucide="target" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">ទស្សនវិស័យ & បេសកកម្ម</h3>
+                            <p class="text-xs text-slate-400 font-en">Research Foundation Mission</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-xs sm:text-sm text-slate-300 font-light">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span>បង្កើតដំណោះស្រាយកសិកម្មបៃតង កាត់បន្ថយការប្រើប្រាស់ជីគីមីដែលបំផ្លាញដី។</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span>ជួយសម្រួលដល់និស្សិត និងអ្នកស្រាវជ្រាវកម្ពុជា ឱ្យមានលទ្ធភាពទទួលបានសៀវភៅ និងកម្មវិធីស្ថិតិងាយស្រួលប្រើប្រាស់។</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span>លើកកម្ពស់ស្នាដៃស្រាវជ្រាវជាតិលើឆាកអន្តរជាតិតាមរយៈការបោះពុម្ពផ្សាយបែប Peer-Reviewed។</span>
+                        </li>
+                    </ul>
+
+                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30 flex items-center gap-3">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-emerald-400 shrink-0"></i>
+                        <div class="text-xs">
+                            <div class="font-bold text-white">ទីតាំងប្រតិបត្តិការស្នូល</div>
+                            <div class="text-slate-400">ខេត្តកំពង់ចាម & រាជធានីភ្នំពេញ, ព្រះរាជាណាចក្រកម្ពុជា</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ២. សៀវភៅ (BOOKS FOR SALE) -->
+    <section id="books" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+            <div>
+                <div class="text-amber-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-4 h-4"></i> ២. សៀវភៅសម្រាប់លក់ (Publications & Books)
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">សៀវភៅសិក្សាស្រាវជ្រាវ & ការវិភាគទិន្នន័យ</h2>
+                <p class="text-xs text-slate-400 mt-2">
+                    សៀវភៅបោះពុម្ពជាភាសាខ្មែរ រៀបចំតាមស្តង់ដារបច្ចេកទេស និងក្បួនវិទ្យាសាស្ត្រជាក់ស្តែង (មានទាំងសៀវភៅពុម្ព Hard Copy និង PDF Soft Copy)
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-amber-500/20 border border-amber-500/50 text-amber-300 hover:bg-amber-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openNewBookModal()">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> បន្ថែមសៀវភៅថ្មី
+                </button>
+            </div>
+        </div>
+
+        <div id="booksGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            <!-- Dynamically populated -->
+        </div>
+    </section>
+
+    <!-- ៣. កម្មវិធី (SOFTWARE STORE & LICENSES) -->
+    <section id="software" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <div class="text-cyan-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                    <i data-lucide="cpu" class="w-4 h-4"></i> ៣. កម្មវិធី និងអាជ្ញាប័ណ្ណ (Scientific Software)
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីស្ថិតិ & ឧបករណ៍ស្រាវជ្រាវសម្រាប់លក់</h2>
+                <p class="text-slate-400 text-sm mt-1">កម្មវិធីដែលត្រូវបានបង្កើតឡើងយ៉ាងសម្រិតសម្រាំងសម្រាប់អ្នកស្រាវជ្រាវ និងស្ថាប័នកម្ពុជា</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="openSoftwareShowcaseModal()" class="px-3.5 py-2 rounded-xl bg-cyan-950 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
+                    <i data-lucide="eye" class="w-4 h-4"></i> មើល Showcase & ផ្ទៀងផ្ទាត់
+                </button>
+                <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openNewSoftwareModal()">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> បន្ថែមកម្មវិធីថ្មី
+                </button>
+                <button class="edit-only hidden px-3 py-2 rounded-xl bg-slate-800 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openEditMainSoftwareModal()">
+                    <i data-lucide="edit-3" class="w-4 h-4"></i> កែសម្រួល RF Analyzer v6.0
+                </button>
+            </div>
+        </div>
+
+        <!-- Featured Software: RF Analyzer v6.0 -->
+        <div class="p-8 sm:p-10 rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-slate-900 via-navy-900 to-cyan-950/40 card-glass flex flex-col justify-between space-y-6 relative overflow-hidden mb-10">
+            <div class="space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <span id="mainSoftwareTag" class="px-3 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono">
+                        Flagship Software • Version 6.0 Stable
+                    </span>
+                    <span id="mainSoftwareSubtitle" class="text-xs text-amber-400 font-semibold">
+                        ផ្ទៀងផ្ទាត់សុក្រឹតភាព ១០០% ធៀបនឹង Python, Sas, GraphPad Prism, Excel
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    <div id="mainSoftwareImgContainer" class="md:col-span-4 rounded-2xl overflow-hidden border border-cyan-500/20 bg-slate-950/80 h-56 flex items-center justify-center p-2 relative group/soft cursor-pointer" onclick="openSoftwareShowcaseModal()">
+                        <img id="mainSoftwareImg" src="https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0" alt="RF Analyzer Screenshot" class="w-full h-full object-contain rounded-xl shadow-lg transition-transform duration-300 group-hover/soft:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0';">
+                        
+                        <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/soft:opacity-100 flex items-center justify-center transition-opacity text-xs text-cyan-300 font-semibold gap-1.5 backdrop-blur-xs">
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i> ចុចមើល Showcase & ក្រាហ្វិក
+                        </div>
+
+                        <button class="edit-only hidden absolute inset-0 bg-slate-950/85 text-cyan-300 text-xs font-medium flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover/soft:opacity-100 transition-opacity backdrop-blur-sm" onclick="event.stopPropagation(); triggerDirectMainSoftwareUpload()">
+                            <i data-lucide="upload" class="w-5 h-5 text-cyan-400"></i>
+                            <span>ប្តូររូបភាពកម្មវិធី (Upload Image)</span>
+                        </button>
+                    </div>
+
+                    <div class="md:col-span-8 space-y-3">
+                        <h3 id="mainSoftwareTitle" class="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                            Research Foundation Analyzer v6.0 (RF Analyzer)
+                        </h3>
+                        <p id="mainSoftwareDesc" class="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
+                            កម្មវិធីគណនាស្ថិតិកសិកម្ម ជីវវិទ្យា និងវិទ្យាសាស្ត្រដី ដែលគាំទ្រការវិភាគទិន្នន័យយ៉ាងពេញលេញ៖ CRD, RCBD, Factorial Experiments, Tukey's HSD, Duncan Multiple Range Test, និង Pearson Correlation Heatmaps។
+                        </p>
+
+                        <div id="mainSoftwareFeatures" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300 pt-2 font-mono">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
+                                <span>កម្មវិធីសាមញ្ញ ងាយស្រួលប្រើប្រាស់ សុវត្ថិភាពទិន្នន័យ</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
+                                <span>នាំចេញលទ្ធផលជា Excel & Word ស្អាតស្រាប់</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
+                                <span>វិភាគ និងបកស្រាយលទ្ធផលស្វ័យប្រវត្តិ</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
+                                <span>គាំទ្រទាំងភាសាខ្មែរ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <div class="text-xs text-slate-400">តម្លៃអាជ្ញាប័ណ្ណកម្មវិធី (License Key)</div>
+                    <div id="mainSoftwarePrice" class="text-xl sm:text-2xl font-bold text-cyan-400 font-en">ទាក់ទងតម្លៃពិសេសសម្រាប់និស្សិត / សាកលវិទ្យាល័យ</div>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                    <button onclick="openSoftwareShowcaseModal()" class="w-full sm:w-auto px-5 py-3 rounded-xl border border-cyan-500/40 bg-slate-900 hover:bg-slate-800 text-cyan-300 font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="bar-chart-2" class="w-4 h-4"></i> មើលមុខងារស្ថិតិ
+                    </button>
+                    <a id="mainSoftwareOrderBtn" href="https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចាប់អារម្មណ៍អាជ្ញាប័ណ្ណកម្មវិធី%20RF%20Analyzer%20v6.0" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 active:scale-95 text-white font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-950/50">
+                        <i data-lucide="key" class="w-4 h-4"></i> ទិញអាជ្ញាប័ណ្ណ (@Sokra25)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i> កញ្ចប់កូដ & ឧបករណ៍ជំនួយស្រាវជ្រាវ (Research Tools & Scripts)
+                </h3>
+                <span class="text-xs text-slate-400 font-mono" id="subSoftwareCount"></span>
+            </div>
+            <div id="subSoftwareContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ៤. អត្ថបទបោះពុម្ព (PUBLICATIONS) -->
+    <section id="publications" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+            <div>
+                <div class="text-purple-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                    <i data-lucide="newspaper" class="w-4 h-4"></i> ៤. អត្ថបទបោះពុម្ព (Publications & Scholar)
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">ស្នាដៃសិក្សាស្រាវជ្រាវបោះពុម្ពផ្សាយ</h2>
+                <p class="text-xs text-slate-400 mt-1">ការស្រាវជ្រាវបែប Peer-Reviewed លើទស្សនាវដ្តីវិទ្យាសាស្ត្រជាតិ និងអន្តរជាតិ</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-purple-500/20 border border-purple-500/50 text-purple-300 hover:bg-purple-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openNewPubModal()">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> បន្ថែមអត្ថបទថ្មី (Auto DOI)
+                </button>
+                <a href="https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en" target="_blank" class="px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-900 hover:bg-slate-800 active:scale-95 text-purple-400 hover:text-purple-300 font-semibold text-xs flex items-center gap-2 transition-all shadow-md">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                    <span>Google Scholar Profile</span>
+                </a>
+            </div>
+        </div>
+
+        <div id="publicationsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamically populated -->
+        </div>
+    </section>
+
+    <!-- ៥. ស្ថាបនិក (FOUNDER PROFILE) -->
+    <section id="leadership" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <div class="text-rose-400 text-xs uppercase font-bold tracking-widest flex items-center justify-center gap-2">
+                <i data-lucide="user" class="w-4 h-4"></i> ៥. ស្ថាបនិក និងអ្នកដឹកនាំស្រាវជ្រាវ (Founder Profile)
+            </div>
+            <h2 class="text-3xl font-bold text-white">ស្ថាបនិកមូលដ្ឋានស្រាវជ្រាវ</h2>
+            <p class="text-slate-400 text-sm">អ្នកជំនាញជីវបច្ចេកវិទ្យាជីវៈ​ ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ</p>
+        </div>
+
+        <div class="max-w-3xl mx-auto">
+            <div class="p-8 sm:p-12 rounded-3xl border border-slate-800 card-glass text-center space-y-6 relative">
+                
+                <button class="edit-only hidden absolute top-6 right-6 px-3 py-1.5 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 hover:bg-rose-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 shadow" onclick="openEditFounderModal()">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i> កែសម្រួលព័ត៌មានស្ថាបនិក
+                </button>
+
+                <div class="relative w-36 h-36 mx-auto group/founder">
+                    <div class="w-full h-full rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-teal-400 p-1 flex items-center justify-center shadow-xl overflow-hidden bg-slate-900">
+                        <img id="founderPhoto" src="https://placehold.co/300x300/0a0f1d/eab308?text=In+Sokra" alt="In Sokra" class="w-full h-full object-cover rounded-full transition-transform duration-300 group-hover/founder:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/300x300/0a0f1d/eab308?text=IS';">
+                    </div>
+                    <span class="absolute bottom-1 right-2 w-5 h-5 bg-rose-500 border-2 border-navy-950 rounded-full z-10" title="Active"></span>
+
+                    <button class="edit-only hidden absolute inset-0 rounded-full bg-navy-950/85 text-amber-300 text-xs font-medium flex flex-col items-center justify-center gap-1 opacity-0 group-hover/founder:opacity-100 transition-opacity backdrop-blur-sm shadow-xl" onclick="triggerDirectFounderUpload()">
+                        <i data-lucide="camera" class="w-5 h-5 text-amber-400"></i>
+                        <span class="text-[11px]">ប្តូររូបថត</span>
+                    </button>
+                </div>
+
+                <div>
+                    <h3 id="founderName" class="text-2xl font-bold text-white">លោក អិន សុខរ៉ា (In Sokra)</h3>
+                    <p id="founderRole" class="text-xs text-amber-400 font-semibold mt-1 font-en">Founder & Principal Investigator (PI) • M.Sc. in Biotechnology</p>
+                    <p id="founderAffiliation" class="text-xs text-slate-400 mt-1">សាស្ត្រាចារ្យឧត្តមសិក្សា និងអ្នកស្រាវជ្រាវឯករាជ្យ</p>
+                </div>
+
+                <p id="founderBio" class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl mx-auto font-light">
+                    លោក <strong class="text-white">អិន សុខរ៉ា</strong> ទទួលបានសញ្ញាបត្របរិញ្ញាបត្រជាន់ខ្ពស់ផ្នែកជីវបច្ចេកវិទ្យា (M.Sc. in Biotechnology) ពីសាកលវិទ្យាល័យបច្ចេកវិទ្យាសុរនារី (Suranaree University of Technology)។ លោកជាស្ថាបនិកនៃមូលដ្ឋានស្រាវជ្រាវ និងជាអ្នកអភិវឌ្ឍន៍កម្មវិធី <strong class="text-white">Research Foundation Analyzer (RF Analyzer)</strong>។ លោកបានបោះពុម្ពផ្សាយ និងចូលរួមនិពន្ធអត្ថបទស្រាវជ្រាវវិទ្យាសាស្ត្រជាច្រើនលើទស្សនាវដ្តីជាតិ និងអន្តរជាតិលើផ្នែកមីក្រូជីវសាស្រ្ត ការផ្អាប់កាកសំណល់កសិកម្ម និងជីវស្ថិតិ។
+                </p>
+
+                <div id="founderLinks" class="flex flex-wrap items-center justify-center gap-3 pt-3">
+                    <a id="linkScholar" href="https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en" target="_blank" class="px-4 py-2 rounded-xl bg-purple-600/20 hover:bg-purple-600 border border-purple-500/40 text-purple-300 hover:text-white transition-all text-xs font-semibold flex items-center gap-2 active:scale-95 shadow">
+                        <i data-lucide="graduation-cap" class="w-4 h-4 text-purple-400"></i> Google Scholar Profile
+                    </a>
+                    <a id="linkOrcid" href="https://orcid.org/0009-0002-8842-8070" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white transition-all text-xs font-semibold flex items-center gap-2 active:scale-95 shadow">
+                        <i data-lucide="id-card" class="w-4 h-4 text-emerald-400"></i> ORCID: 0009-0002-8842-8070
+                    </a>
+                    <a id="linkTelegram" href="https://t.me/Sokra25" target="_blank" class="px-4 py-2 rounded-xl bg-sky-600/20 hover:bg-sky-600 border border-sky-500/40 text-sky-300 hover:text-white transition-all text-xs font-semibold flex items-center gap-2 active:scale-95">
+                        <i data-lucide="send" class="w-4 h-4"></i> Telegram (@Sokra25)
+                    </a>
+                    <a id="linkOfficialEmail" href="mailto:contact@researchfoundation.top" class="px-4 py-2 rounded-xl border border-emerald-500/50 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 transition-all text-xs font-mono flex items-center gap-2 active:scale-95">
+                        <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i> contact@researchfoundation.top
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800/80 bg-navy-950 py-12 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="Research Foundation" class="w-10 h-10 object-contain rounded-xl" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0f172a/eab308?text=RF';">
+                <div>
+                    <span class="font-bold text-white text-sm">មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)</span>
+                    <p class="text-[10px] text-amber-400 font-en">Knowledge • Innovation • Impact • ខេត្តកំពង់ចាម</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="mailto:contact@researchfoundation.top" class="px-3.5 py-1.5 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs flex items-center gap-1.5 font-mono">
+                    <i data-lucide="mail" class="w-3.5 h-3.5 text-emerald-400"></i> contact@researchfoundation.top
+                </a>
+                <a href="https://t.me/researchfound" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-slate-900 border border-sky-500/30 text-sky-300 hover:text-white text-xs flex items-center gap-1.5">
+                    <i data-lucide="megaphone" class="w-3.5 h-3.5 text-sky-400"></i> Channel (@researchfound)
+                </a>
+                <a href="https://t.me/researchfounda" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-slate-900 border border-teal-500/30 text-teal-300 hover:text-white text-xs flex items-center gap-1.5">
+                    <i data-lucide="users" class="w-3.5 h-3.5 text-teal-400"></i> Group (@researchfounda)
+                </a>
+                <a href="https://t.me/Sokra25" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-slate-900 border border-amber-500/30 text-amber-300 hover:text-white text-xs flex items-center gap-1.5">
+                    <i data-lucide="send" class="w-3.5 h-3.5 text-amber-400"></i> @Sokra25
+                </a>
+            </div>
+        </div>
+
+        <div class="border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-5 text-[11px]">
+                <a href="#about" class="hover:text-emerald-400 transition-colors">១. អំពីយើង</a>
+                <a href="#books" class="hover:text-amber-400 transition-colors">២. សៀវភៅ</a>
+                <a href="#software" class="hover:text-cyan-400 transition-colors">៣. កម្មវិធី</a>
+                <a href="#publications" class="hover:text-purple-400 transition-colors">៤. អត្ថបទបោះពុម្ព</a>
+                <a href="#leadership" class="hover:text-rose-400 transition-colors">៥. ស្ថាបនិក</a>
+            </div>
+
+            <p class="text-slate-500 font-en text-[11px]">
+                &copy; 2026 Research Foundation Cambodia • អិន សុខរ៉ា (In Sokra). All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- ORDER MODAL (SUPPORTS BOTH HARD COPY & SOFT COPY) -->
+<div id="orderModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-navy-900 border border-slate-700 w-full max-w-md rounded-3xl p-6 space-y-5 card-glass shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 id="orderModalBookTitle" class="text-base font-bold text-white flex items-center gap-2">
+                <i data-lucide="shopping-cart" class="w-5 h-5 text-amber-400"></i> កុម្ម៉ង់ទិញសៀវភៅ
+            </h3>
+            <button onclick="closeOrderModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="space-y-4 text-xs sm:text-sm">
+            <div class="p-3 rounded-2xl bg-slate-950 border border-amber-500/20 flex items-center gap-3">
+                <img id="orderModalBookImg" src="" class="w-14 h-16 object-contain rounded-lg bg-slate-900">
+                <div>
+                    <div id="orderModalBookName" class="text-white font-bold leading-tight"></div>
+                    <div id="orderModalBookPrice" class="text-amber-400 font-mono font-bold mt-1 text-sm"></div>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <p class="text-slate-300 font-medium">ជ្រើសរើសមធ្យោបាយកុម្ម៉ង់ទិញ៖</p>
+                <a id="orderModalTgBtn" href="#" target="_blank" class="w-full p-3 rounded-xl bg-sky-950/60 hover:bg-sky-900/60 border border-sky-500/40 text-sky-200 flex items-center justify-between transition-all">
+                    <span class="flex items-center gap-2 font-medium">
+                        <i data-lucide="send" class="w-4 h-4 text-sky-400"></i> កុម្ម៉ង់ភ្លាមៗតាម Telegram (@Sokra25)
+                    </span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a id="orderModalEmailBtn" href="#" class="w-full p-3 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-200 flex items-center justify-between transition-all font-mono">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i> កុម្ម៉ង់តាម Official Email
+                    </span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 text-[11px] text-slate-400 space-y-1">
+                <div class="font-bold text-slate-300 flex items-center gap-1.5">
+                    <i data-lucide="qr-code" class="w-4 h-4 text-amber-400"></i> ការទូទាត់ប្រាក់ (Bakong KHQR / Cash)
+                </div>
+                <p>លោកអ្នកអាចផ្ញើសារមកកាន់ Telegram ឬ Email ខាងលើដើម្បីទទួល QR Code ស្កេនទូទាត់ប្រាក់តាមប្រព័ន្ធ Bakong ឬគណនីធនាគារក្នុងស្រុកដោយសុវត្ថិភាព។</p>
+            </div>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t border-slate-800">
+            <button onclick="closeOrderModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បិទផ្ទាំង</button>
+        </div>
+    </div>
+</div>
+
+<!-- SOFTWARE SHOWCASE MODAL -->
+<div id="softwareShowcaseModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="bg-navy-900 border border-cyan-500/40 w-full max-w-2xl rounded-3xl p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto card-glass shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+                <i data-lucide="cpu" class="w-6 h-6 text-cyan-400"></i>
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white leading-tight">Research Foundation Analyzer (RF Analyzer v6.0)</h3>
+                    <p class="text-xs text-amber-400 font-mono">Client-Side WebAssembly / Pyodide High-Precision Statistical Engine</p>
+                </div>
+            </div>
+            <button onclick="closeSoftwareShowcaseModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="space-y-4 text-xs sm:text-sm">
+            <div class="rounded-2xl overflow-hidden border border-cyan-500/30 bg-slate-950 p-2">
+                <img id="showcaseModalImg" src="https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0+Interface" class="w-full h-56 object-contain rounded-xl">
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> លក្ខណៈបច្ចេកទេស និងម៉ូដែលស្ថិតិគាំទ្រ៖
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-300 font-mono text-xs">
+                    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">• Completely Randomized Design (CRD)</div>
+                    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">• Randomized Complete Block (RCBD)</div>
+                    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">• Two-Factor & Three-Factor Split-Plot</div>
+                    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">• Tukey's HSD & Duncan MRT</div>
+                    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">• Principal Component Analysis (PCA)</div>
+                    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">• Automated Narrative Interpretation</div>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 space-y-1">
+                <div class="font-bold flex items-center gap-1.5 text-white">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> ផ្ទៀងផ្ទាត់សុក្រឹតភាព ១០០% ធៀបនឹង SAS & SPSS
+                </div>
+                <p>ម៉ាស៊ីនគណនាស្ថិតិត្រូវបានបង្កើតឡើងតាមក្បួនគណិតវិទ្យាសុទ្ធ ដោយផ្តល់តម្លៃ Sum of Squares, F-value, និង P-value ដូចគ្នាបេះបិទទៅនឹងកម្មវិធីស្តង់ដារអន្តរជាតិ ធានាការទទួលស្គាល់ ១០០% ក្នុងការបោះពុម្ពផ្សាយបែបវិទ្យាសាស្ត្រ។</p>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-800">
+            <span class="text-xs text-slate-400 font-mono">Official Support: contact@researchfoundation.top</span>
+            <div class="flex items-center gap-2">
+                <button onclick="closeSoftwareShowcaseModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បិទ</button>
+                <a href="https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចាប់អារម្មណ៍អាជ្ញាប័ណ្ណកម្មវិធី%20RF%20Analyzer%20v6.0" target="_blank" class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow-lg shadow-cyan-950/50">
+                    <i data-lucide="key" class="w-4 h-4"></i> សាកសួរទិញអាជ្ញាប័ណ្ណ (@Sokra25)
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECRET ADMIN LOGIN MODAL -->
+<div id="loginModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-navy-900 border border-slate-700 w-full max-w-sm rounded-3xl p-6 space-y-4 card-glass shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i data-lucide="lock" class="w-5 h-5 text-emerald-400"></i> ផ្ទាំងចូលគ្រប់គ្រង (Admin Login)
+            </h3>
+            <button onclick="closeLoginModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
         </div>
         <div class="space-y-3">
-          <span class="inline-block text-[10px] px-2.5 py-0.5 rounded-full font-semibold border ${pre ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'}">${pre ? 'Pre-test (មុនរៀន)' : 'Post-test (ក្រោយរៀន)'}</span>
-          <h3 class="text-base font-bold text-white leading-snug">${esc(z.title)}</h3>
-          <div class="text-xs font-mono text-orange-400">${esc(z.group || '')}</div>
-          <p class="text-xs text-slate-400 leading-relaxed font-light">${esc(z.desc || '')}</p>
+            <p class="text-xs text-slate-300">សូមបញ្ចូលលេខកូដសម្ងាត់ Admin ឬ GitHub Token (PAT) របស់អ្នក៖</p>
+            <div>
+                <input id="adminPasswordInput" type="password" placeholder="បញ្ចូលលេខកូដសម្ងាត់ ឬ ghp_..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500" onkeydown="if(event.key === 'Enter') checkAdminLogin()">
+            </div>
+            
+            <p id="loginErrorMsg" class="text-xs text-rose-400 hidden flex items-center gap-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> លេខកូដមិនត្រឹមត្រូវទេ!
+            </p>
+
+            <div class="pt-1 flex items-center justify-between text-[11px] text-slate-400">
+                <span>ភ្លេចលេខកូដ?</span>
+                <button type="button" onclick="hardResetAdminCredentials()" class="text-amber-400 hover:underline">
+                    Reset Password (កំណត់ឡើងវិញ)
+                </button>
+            </div>
         </div>
-        <div class="pt-4 mt-5 border-t border-slate-800 flex items-center justify-between">
-          <span class="text-xs text-slate-400">${z.questions.length} សំណួរ</span>
-          <button onclick="quizStart(${i})" class="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-xs flex items-center gap-1.5 active:scale-95"><i data-lucide="play" class="w-3.5 h-3.5"></i> ចាប់ផ្តើមធ្វើតេស្ត</button>
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+            <button onclick="closeLoginModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium">បោះបង់</button>
+            <button onclick="checkAdminLogin()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md">
+                <i data-lucide="log-in" class="w-4 h-4"></i> ផ្ទៀងផ្ទាត់
+            </button>
         </div>
-      </div>`;
-    }).join('');
-    lucide.createIcons();
-  };
+    </div>
+</div>
 
-  /* ---------- admin editor ---------- */
-  const inp = 'w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm';
-  window.quizOpenEditor = function (index, draft) {
-    const z = draft || (index >= 0 ? { ...quizzes()[index], qtext: qsToText(quizzes()[index].questions) } : { title: '', group: '', kind: 'pre', desc: '', webhook: '', qtext: '' });
-    const html = `<div class="space-y-3 text-xs">
-      <div><label class="block text-slate-400 mb-1">ចំណងជើងតេស្ត</label><input id="qzTitle" class="${inp}" value="${esc(z.title)}"></div>
-      <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-slate-400 mb-1">ប្រធានបទ/មេរៀន (Pre និង Post ត្រូវដាក់ឈ្មោះដូចគ្នា)</label><input id="qzGroup" class="${inp}" value="${esc(z.group)}" placeholder="ឧ. ស្ថិតិ ANOVA"></div>
-        <div><label class="block text-slate-400 mb-1">ប្រភេទ</label><select id="qzKind" class="${inp}"><option value="pre" ${z.kind === 'pre' ? 'selected' : ''}>Pre-test</option><option value="post" ${z.kind === 'post' ? 'selected' : ''}>Post-test</option></select></div>
-      </div>
-      <div><label class="block text-slate-400 mb-1">ការពិពណ៌នា</label><input id="qzDesc" class="${inp}" value="${esc(z.desc)}"></div>
-      <div><label class="block text-slate-400 mb-1">សំណួរ (ដាក់ * មុនចម្លើយត្រូវ · ដកឃ្លាមួយបន្ទាត់រវាងសំណួរនីមួយៗ)</label>
-        <textarea id="qzQs" rows="12" class="${inp} font-mono text-xs" placeholder="តើ ANOVA ប្រើសម្រាប់អ្វី?&#10;A) ប្រៀបធៀបមធ្យមភាគច្រើនក្រុម&#10;*B) ...&#10;C) ...&#10;&#10;សំណួរទី២...">${esc(z.qtext)}</textarea></div>
-      <div><label class="block text-slate-400 mb-1">Webhook URL (មិនចាំបាច់ – សម្រាប់ផ្ញើលទ្ធផលសិស្សទៅ Google Sheet/Apps Script)</label><input id="qzHook" class="${inp} font-mono" value="${esc(z.webhook || '')}"></div>
-    </div>`;
-    openModal('<i data-lucide="clipboard-check" class="w-5 h-5 text-orange-400"></i> ' + (index >= 0 ? 'កែសម្រួលតេស្ត' : 'បង្កើតតេស្តថ្មី'), html, async () => {
-      const d = { title: qzTitle.value.trim(), group: qzGroup.value.trim(), kind: qzKind.value, desc: qzDesc.value.trim(), webhook: qzHook.value.trim(), qtext: qzQs.value };
-      const qs = parseQs(d.qtext);
-      const bad = !d.title || !qs.length || qs.some(q => q.correct < 0);
-      if (bad) { alert('សូមបំពេញចំណងជើង សំណួរយ៉ាងតិច ១ និងដាក់ * លើចម្លើយត្រូវគ្រប់សំណួរ។'); setTimeout(() => quizOpenEditor(index, d), 50); return; }
-      const obj = { id: index >= 0 ? quizzes()[index].id : 'q_' + Date.now(), title: d.title, group: d.group || d.title, kind: d.kind, desc: d.desc, webhook: d.webhook, questions: qs };
-      if (index >= 0) quizzes()[index] = obj; else quizzes().push(obj);
-      renderQuizSection(); await saveAppState();
-    });
-  };
-  window.quizDelete = async function (i) {
-    if (!isAdminLoggedIn || !confirm('លុបតេស្តនេះមែនទេ?')) return;
-    quizzes().splice(i, 1); renderQuizSection(); await saveAppState();
-  };
-  window.quizExportCsv = function () {
-    const rows = [['Time', 'Name', 'Group', 'Kind', 'Quiz', 'Score', 'Total', 'Percent']].concat(getRes().map(r => [new Date(r.ts).toISOString(), r.name, r.group, r.kind, r.title, r.score, r.total, r.pct]));
-    const csv = '\ufeff' + rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'quiz-results.csv'; a.click();
-  };
+<!-- GITHUB AUTO-SYNC SETTINGS MODAL -->
+<div id="githubModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-navy-900 border border-slate-700 w-full max-w-sm rounded-3xl p-6 space-y-4 card-glass shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i data-lucide="github" class="w-5 h-5 text-sky-400"></i> កំណត់ GitHub Cloud Sync
+            </h3>
+            <button onclick="closeGitHubModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div class="space-y-3 text-xs">
+            <div class="p-3 rounded-xl bg-sky-950/40 border border-sky-500/30 text-sky-200 leading-relaxed">
+                ដើម្បីឱ្យការកែប្រែរបស់លោកគ្រូ បង្ហាញលើទូរស័ព្ទ និងកុំព្យូទ័រគ្រប់ឧបករណ៍ទាំងអស់ភ្លាមៗ សូមបញ្ចូល <strong>GitHub Personal Access Token (PAT)</strong> ដែលមានសិទ្ធិ <code>repo</code> ឬ <code>contents:write</code>។
+            </div>
+            <div>
+                <label class="block text-slate-400 mb-1">GitHub Owner (Organization/User)</label>
+                <input id="ghOwnerInput" type="text" value="Research-Foundation" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div>
+                <label class="block text-slate-400 mb-1">Repository Name</label>
+                <input id="ghRepoInput" type="text" value="research-foundation" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div>
+                <label class="block text-slate-400 mb-1">Branch</label>
+                <input id="ghBranchInput" type="text" value="main" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div>
+                <label class="block text-slate-400 mb-1">Personal Access Token (PAT)</label>
+                <input id="ghTokenInput" type="password" placeholder="ghp_... ឬ github_pat_..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+                <span class="text-[10px] text-slate-500 mt-1 block">Token រក្សាទុកតែលើ Browser របស់អ្នកប៉ុណ្ណោះ គ្មាននរណាមើលឃើញឡើយ។</span>
+            </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+            <button onclick="closeGitHubModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">បោះបង់</button>
+            <button onclick="saveGitHubConfig()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1">
+                <i data-lucide="save" class="w-4 h-4"></i> រក្សាទុក & Sync ឥឡូវនេះ
+            </button>
+        </div>
+    </div>
+</div>
 
-  /* ---------- student: take quiz ---------- */
-  const modal = () => document.getElementById('quizModal');
-  window.quizCloseModal = () => modal().classList.add('hidden');
-  function showModal(title, body) {
-    document.getElementById('quizModalTitle').innerHTML = title;
-    document.getElementById('quizModalBody').innerHTML = body;
-    modal().classList.remove('hidden'); lucide.createIcons();
-  }
-  window.quizStart = function (i) {
-    const z = quizzes()[i];
-    const body = `<div class="space-y-5">
-      <div><label class="block text-slate-400 text-xs mb-1">ឈ្មោះសិស្ស / លេខសម្គាល់</label><input id="qzName" class="${inp}" placeholder="បញ្ចូលឈ្មោះរបស់អ្នក"></div>
-      ${z.questions.map((q, qi) => `<div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
-        <div class="font-semibold text-white">${qi + 1}. ${esc(q.q)}</div>
-        ${q.options.map((o, oi) => `<label class="flex items-start gap-2 text-slate-300 cursor-pointer"><input type="radio" name="qz${qi}" value="${oi}" class="mt-1 accent-orange-500"><span>${esc(o)}</span></label>`).join('')}
-      </div>`).join('')}
-      <p id="qzErr" class="text-rose-400 text-xs hidden"></p>
-      <div class="flex justify-end"><button onclick="quizSubmit(${i})" class="px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-semibold text-xs flex items-center gap-1.5"><i data-lucide="check" class="w-4 h-4"></i> ដាក់ស្នើ & មើលលទ្ធផល</button></div>
-    </div>`;
-    showModal(esc(z.title), body);
-  };
-  window.quizSubmit = function (i) {
-    const z = quizzes()[i], err = document.getElementById('qzErr');
-    const name = document.getElementById('qzName').value.trim();
-    const answers = z.questions.map((q, qi) => { const c = document.querySelector(`input[name="qz${qi}"]:checked`); return c ? +c.value : -1; });
-    if (!name) { err.textContent = 'សូមបញ្ចូលឈ្មោះ។'; err.classList.remove('hidden'); return; }
-    if (answers.includes(-1)) { err.textContent = 'សូមឆ្លើយគ្រប់សំណួរ (នៅសល់ ' + answers.filter(a => a < 0).length + ')។'; err.classList.remove('hidden'); return; }
-    const score = answers.filter((a, qi) => a === z.questions[qi].correct).length, total = z.questions.length;
-    const rec = { ts: Date.now(), quizId: z.id, title: z.title, group: z.group, kind: z.kind, name, score, total, pct: Math.round(score / total * 100) };
-    const all = getRes(); all.push(rec); setRes(all);
-    if (z.webhook) fetch(z.webhook, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(rec) }).catch(() => {});
-    showResult(z, answers, rec);
-  };
+<!-- CHANGE PASSWORD MODAL -->
+<div id="changePasswordModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-navy-900 border border-slate-700 w-full max-w-sm rounded-3xl p-6 space-y-4 card-glass shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i data-lucide="key" class="w-5 h-5 text-amber-400"></i> ប្តូរលេខកូដសម្ងាត់ Admin
+            </h3>
+            <button onclick="closeChangePasswordModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div class="space-y-3 text-xs">
+            <div>
+                <label class="block text-slate-400 mb-1">លេខកូដចាស់</label>
+                <input id="oldPassInput" type="password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div>
+                <label class="block text-slate-400 mb-1">លេខកូដថ្មី</label>
+                <input id="newPassInput" type="password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div>
+                <label class="block text-slate-400 mb-1">ផ្ទៀងផ្ទាត់លេខកូដថ្មី</label>
+                <input id="confirmPassInput" type="password" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <p id="changePassError" class="text-rose-400 hidden"></p>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+            <button onclick="closeChangePasswordModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បោះបង់</button>
+            <button onclick="saveNewPassword()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold flex items-center gap-1">
+                <i data-lucide="check" class="w-4 h-4"></i> រក្សាទុក
+            </button>
+        </div>
+    </div>
+</div>
 
-  /* ---------- result + chart ---------- */
-  function latest(name, group, kind) {
-    return getRes().filter(r => r.name.toLowerCase() === name.toLowerCase() && r.group === group && r.kind === kind).pop();
-  }
-  function showResult(z, answers, rec) {
-    const pre = latest(rec.name, z.group, 'pre'), post = latest(rec.name, z.group, 'post');
-    const color = rec.pct >= 80 ? 'text-emerald-400' : rec.pct >= 50 ? 'text-amber-400' : 'text-rose-400';
-    let gain = '';
-    if (pre && post) { const d = post.pct - pre.pct; gain = `<p class="text-center text-sm ${d >= 0 ? 'text-emerald-400' : 'text-rose-400'}">ការផ្លាស់ប្តូរពិន្ទុ Pre → Post: <strong>${d >= 0 ? '+' : ''}${d}%</strong></p>`; }
-    else gain = `<p class="text-center text-xs text-slate-400">ធ្វើ ${z.kind === 'pre' ? 'Post-test' : 'Pre-test'} ដោយប្រើឈ្មោះដូចគ្នា ដើម្បីប្រៀបធៀបក្នុងក្រាហ្វិក។</p>`;
-    const review = z.questions.map((q, qi) => {
-      const ok = answers[qi] === q.correct;
-      return `<div class="p-3 rounded-xl border ${ok ? 'border-emerald-500/30 bg-emerald-950/20' : 'border-rose-500/30 bg-rose-950/20'} text-xs space-y-1">
-        <div class="text-white font-semibold">${qi + 1}. ${esc(q.q)}</div>
-        <div class="${ok ? 'text-emerald-300' : 'text-rose-300'}">អ្នកឆ្លើយ: ${esc(q.options[answers[qi]])} ${ok ? '✓' : '✗'}</div>
-        ${ok ? '' : `<div class="text-emerald-300">ចម្លើយត្រូវ: ${esc(q.options[q.correct])}</div>`}</div>`;
-    }).join('');
-    showModal('លទ្ធផលរបស់ ' + esc(rec.name), `<div class="space-y-5">
-      <div class="text-center space-y-1"><div class="text-5xl font-extrabold ${color} font-en">${rec.score}/${rec.total}</div><div class="text-slate-300">${rec.pct}% · ${esc(z.title)}</div></div>
-      <canvas id="qzChart" width="560" height="280" class="w-full rounded-2xl bg-slate-950 border border-slate-800"></canvas>
-      ${gain}
-      <details class="text-xs"><summary class="cursor-pointer text-orange-400 font-semibold">មើលចម្លើយលម្អិត</summary><div class="space-y-2 mt-3">${review}</div></details>
-      <div class="flex justify-end"><button onclick="quizCloseModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បិទ</button></div></div>`);
-    drawChart(document.getElementById('qzChart'), [
-      { label: 'Pre-test', pct: pre ? pre.pct : null, sc: pre ? `${pre.score}/${pre.total}` : '', c: '#fbbf24' },
-      { label: 'Post-test', pct: post ? post.pct : null, sc: post ? `${post.score}/${post.total}` : '', c: '#34d399' }
-    ], z.group);
-  }
-  function drawChart(cv, bars, title) {
-    const g = cv.getContext('2d'), W = cv.width, H = cv.height, L = 50, B = 50, T = 40, R = 20;
-    g.clearRect(0, 0, W, H); g.font = '13px sans-serif'; g.textAlign = 'center';
-    g.fillStyle = '#e2e8f0'; g.fillText('ពិន្ទុសរុប (%) – ' + title, W / 2, 22);
-    g.strokeStyle = '#1e293b'; g.fillStyle = '#94a3b8'; g.textAlign = 'right';
-    for (let v = 0; v <= 100; v += 25) {
-      const y = T + (H - T - B) * (1 - v / 100);
-      g.beginPath(); g.moveTo(L, y); g.lineTo(W - R, y); g.stroke(); g.fillText(v + '%', L - 8, y + 4);
+<!-- EDIT MODAL -->
+<div id="editModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-navy-900 border border-slate-700 w-full max-w-xl rounded-3xl p-6 sm:p-8 space-y-5 max-h-[90vh] overflow-y-auto card-glass shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 id="modalTitle" class="text-lg font-bold text-white flex items-center gap-2">
+                <i data-lucide="edit" class="w-5 h-5 text-amber-400"></i> កែសម្រួលទិន្នន័យ
+            </h3>
+            <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div id="modalBody" class="space-y-4 text-xs sm:text-sm"></div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+            <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+                បោះបង់
+            </button>
+            <button id="modalSaveBtn" onclick="saveModalChanges()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-emerald-950/60">
+                <i data-lucide="save" class="w-4 h-4"></i> រក្សាទុក & Sync គ្រប់ឧបករណ៍
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT LOGIC (CLOUD-FIRST MULTI-DEVICE REAL-TIME SYNC) -->
+<script>
+    const PRIMARY_PASS_HASH = "8295b9a8cfd6f85ff53a3fc263cebe0ea238e8cb4fa99723ec0832442cf82dbf"; // Sokra@2026
+    const BACKUP_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // admin123
+
+    const DEFAULT_DATA = {
+        updatedAt: 1,
+        about: {
+            title: "អំពីមូលដ្ឋានស្រាវជ្រាវ (Research Foundation)",
+            intro: "មូលដ្ឋានស្រាវជ្រាវ (Research Foundation) គឺជាអង្គភាពផ្តួចផ្តើម និងស្រាវជ្រាវវិទ្យាសាស្ត្រកម្រិតខ្ពស់មួយនៅកម្ពុជា ដែលត្រូវបានបង្កើតឡើងក្នុងគោលបំណងផ្សារភ្ជាប់រវាងទ្រឹស្តីវិទ្យាសាស្ត្រពិសោធន៍ ការអនុវត្តលើទីវាលកសិកម្ម និងបច្ចេកវិទ្យាវិភាគទិន្នន័យទំនើប។",
+            location: "យើងប្រតិបត្តិការស្រាវជ្រាវសំខាន់ៗនៅ ខេត្តកំពង់ចាម និងកិច្ចសហការស្រាវជ្រាវនៅ រាជធានីភ្នំពេញ",
+            p1: "ជីវបច្ចេកវិទ្យាកសិកម្ម & ផ្អាប់ជីវសាស្រ្ត (Fermentation Technology)៖ ការស្រាវជ្រាវមីក្រូសារពាង្គកាយដីមានប្រយោជន៍ (ដូចជា Trichoderma spp., Bacillus spp.) ដើម្បីផលិតជាជីជីវសាស្រ្ត និងភ្នាក់ងារការពារដំណាំធម្មជាតិ (Biocontrol Agents)។",
+            p2: "ការកែច្នៃកាកសំណល់អនុផលកសិ-ឧស្សាហកម្ម (Agro-Industrial Valorization)៖ ការទាញយកតម្លៃបន្ថែមពីសំណល់សម្បកដំឡូងមី អង្កាម និងសំណល់ស្វាយចន្ទី ទៅជាជីកំប៉ុស និងអង់ស៊ីមសរីរាង្គ។",
+            p3: "ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ (Biostatistics & Computation)៖ ការផលិតសៀវភៅសិក្សាស្រាវជ្រាវ និងការអភិវឌ្ឍកម្មវិធីវិភាគទិន្នន័យស្ថិតិគំរូពិសោធន៍ស្របតាមស្តង់ដារបោះពុម្ពអន្តរជាតិ។"
+        },
+        books: [
+            {
+                id: "b1",
+                badge: "សៀវភៅណែនាំ",
+                titleEn: "Research Foundation Analyzer v6.0",
+                titleKh: "សៀវភៅណែនាំពីការប្រើប្រាស់កម្មវិធី RF Analyzer",
+                subtitle: "Statistical Data Analysis for Research",
+                desc: "សៀវភៅណែនាំក្បោះក្បាយពីការរៀបចំទិន្នន័យ ការដំណើរការកម្មវិធី RF Analyzer v6.0 ការអានលទ្ធផលតារាង ANOVA, Split-Plot, RCBD និងការបកស្រាយអក្សរប្រៀបធៀបមធ្យមភាគ (Post-Hoc Letters)។",
+                priceHard: "$15.00",
+                priceSoft: "$8.00",
+                image: "https://placehold.co/400x560/0a2540/38bdf8?text=RF+Analyzer+v6.0+Guide",
+                telegramMsgHard: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): RF Analyzer v6.0",
+                telegramMsgSoft: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): RF Analyzer v6.0"
+            },
+            {
+                id: "b2",
+                badge: "Programming",
+                titleEn: "Statistical Data Analysis in Agriculture",
+                titleKh: "ការវិភាគទិន្នន័យស្ថិតិកសិកម្មតាម Python",
+                subtitle: "Using Python Programming",
+                desc: "មគ្គុទ្ទេសក៍ជាក់ស្តែងសម្រាប់ការសរសេរកូដ Python ក្នុងការរៀបចំទិន្នន័យកសិកម្ម គូរក្រាហ្វិក 3D Response Surface, PCA Biplot, Correlation Heatmap និងការវិភាគ ANOVA សម្រាប់និស្សិតកម្រិតឧត្តម។",
+                priceHard: "$12.00",
+                priceSoft: "$6.00",
+                image: "https://placehold.co/400x560/064e3b/34d399?text=Python+Agriculture",
+                telegramMsgHard: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): Python កសិកម្ម",
+                telegramMsgSoft: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): Python កសិកម្ម"
+            },
+            {
+                id: "b3",
+                badge: "IMRAD Guide",
+                titleEn: "Foundation of Biotechnology",
+                titleKh: "មូលដ្ឋានគ្រឹះបច្ចេកវិទ្យាជីវៈ",
+                subtitle: "Foundation of Biotechnology",
+                desc: "ប្រវត្តិបច្ចេកវិទ្យាជីវៈ, សែន និងក្រុមសែន, បច្ចេកវិទ្យាសែន, បច្ចេកវិទ្យាជីវៈមីក្រូជីវសាស្ត្រ, បច្ចេកវិទ្យាល្បើង",
+                priceHard: "$10.00",
+                priceSoft: "$5.00",
+                image: "https://placehold.co/400x560/164e63/22d3ee?text=Foundation+Biotech",
+                telegramMsgHard: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): មូលដ្ឋានគ្រឹះបច្ចេកវិទ្យាជីវៈ",
+                telegramMsgSoft: "សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): មូលដ្ឋានគ្រឹះបច្ចេកវិទ្យាជីវៈ"
+            }
+        ],
+        mainSoftware: {
+            tag: "Flagship Software • Version 6.0 Stable",
+            subtitle: "ផ្ទៀងផ្ទាត់សុក្រឹតភាព ១០០% ធៀបនឹង SAS / SPSS",
+            title: "Research Foundation Analyzer v6.0 (RF Analyzer)",
+            desc: "កម្មវិធីគណនាស្ថិតិកសិកម្ម ជីវវិទ្យា និងវិទ្យាសាស្ត្រដី ដែលគាំទ្រការវិភាគទិន្នន័យយ៉ាងពេញលេញ៖ CRD, RCBD, Latin Square, Factorial Experiments, Split-Plot Design, Response Surface Methodology (RSM), Tukey's HSD, Duncan Multiple Range Test, និង Pearson Correlation Heatmaps។",
+            price: "ទាក់ទងតម្លៃពិសេសសម្រាប់និស្សិត / សាកលវិទ្យាល័យ",
+            image: "https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0"
+        },
+        subSoftware: [
+            {
+                id: "s1",
+                type: "Custom Scripts",
+                title: "Biometrics Data Pipeline Script",
+                desc: "កញ្ចប់កូដ Python ស្វ័យប្រវត្តសម្រាប់សម្អាតទិន្នន័យកសិកម្ម គណនាស្ថិតិពហុអថេរ (Multivariate PCA) និងគូរក្រាហ្វិកសម្រាប់ដាក់ក្នុងសារណាស្រាវជ្រាវ។",
+                price: "$15 / Pack",
+                image: "https://placehold.co/400x260/0f172a/38bdf8?text=Biometrics+Script",
+                telegramLink: "https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចង់ទិញកញ្ចប់%20Biometrics%20Data%20Pipeline"
+            },
+            {
+                id: "s2",
+                type: "Automation Bot",
+                title: "Research Data Auto-Bot",
+                desc: "ប្រព័ន្ធ Telegram Bot ស្វ័យប្រវត្តិសម្រាប់ការទាញយកតារាងស្ថិតិ និងការគ្រប់គ្រងការចែករំលែកឯកសារស្រាវជ្រាវប្រកបដោយសុវត្ថិភាព។",
+                price: "Custom Order",
+                image: "https://placehold.co/400x260/0f172a/22d3ee?text=Research+Auto+Bot",
+                telegramLink: "https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចង់សាកសួរពីសេវាកម្ម%20Telegram%20Research%20Bot"
+            }
+        ],
+        publications: [
+            {
+                id: "p1",
+                year: "2026",
+                journal: "J. Cent. Eur. Agric.",
+                vol: "Vol. 27, No. 3",
+                title: "Effects of postharvest treatments and storage temperatures on shelf-life extension of Keo Romeat mango (Mangifera indica L.)",
+                authors: "I Sokra, S Somaly, H Sarun, C Molikoy, H Meta, D Wulandari",
+                doi: "https://doi.org/10.5513/JCEA01/27.3.xxxx",
+                scholarUrl: "https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en"
+            },
+            {
+                id: "p2",
+                year: "2026",
+                journal: "Asian Journal of Development and Innovation Studies",
+                vol: "Vol. 2, No. 1",
+                title: "Factors affecting rice production: A systematic review",
+                authors: "I Sokra, S Somaly, H Meta, H Sarun, C Molikoy",
+                doi: "",
+                scholarUrl: "https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en"
+            },
+            {
+                id: "p3",
+                year: "2025",
+                journal: "J. Agric. & Tech.",
+                vol: "Vol. 1, No. 1",
+                title: "Different microorganisms used in fermentation for biofertilizer: A review",
+                authors: "I Sokra, H Meta, R Chanra, H Linan, T Pang, H Sarun",
+                doi: "",
+                scholarUrl: "https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en"
+            },
+            {
+                id: "p4",
+                year: "2025",
+                journal: "Int. J. Agric. Syst.",
+                vol: "Peer-Reviewed",
+                title: "Mechanisms and efficacy of Trichoderma spp. against major cashew (Anacardium occidentale) pathogens",
+                authors: "I Sokra, S Somaly, H Sarun, H Meta, D Wulandari, C Molikoy",
+                doi: "https://doi.org/10.20956/ijas.v13i2.xxxx",
+                scholarUrl: "https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en"
+            },
+            {
+                id: "p5",
+                year: "2024",
+                journal: "Cambodian J. Edu. & STEM",
+                vol: "Vol. 2, No. 2",
+                title: "The efficacy of Bordeaux mixture and Trichoderma powder in preventing fungal diseases on cashew nut wounds after pruning",
+                authors: "S Somaly, I Sokra",
+                doi: "",
+                scholarUrl: "https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en"
+            },
+            {
+                id: "p6",
+                year: "2020",
+                journal: "Appl. Microbiol. Biotechnol.",
+                vol: "Vol. 104, No. 22",
+                title: "Combining metabolic engineering and evolutionary adaptation in Klebsiella oxytoca to improve optically pure D-(−)-lactic acid",
+                authors: "S In, P Khunnonkwao, N Wong, C Phosiran, SS Jantama, K Jantama",
+                doi: "https://doi.org/10.1007/s00253-020-10878-3",
+                scholarUrl: "https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en"
+            }
+        ],
+        founder: {
+            name: "លោក អិន សុខរ៉ា (In Sokra)",
+            role: "Founder & Principal Investigator (PI) • M.Sc. in Biotechnology",
+            affiliation: "សាស្ត្រាចារ្យឧត្តមសិក្សា និងអ្នកស្រាវជ្រាវឯករាជ្យ",
+            bio: "លោក អិន សុខរ៉ា ទទួលបានសញ្ញាបត្របរិញ្ញាបត្រជាន់ខ្ពស់ផ្នែកជីវបច្ចេកវិទ្យា (M.Sc. in Biotechnology) ពីសាកលវិទ្យាល័យបច្ចេកវិទ្យាសុរនារី (Suranaree University of Technology)។ លោកជាស្ថាបនិកនៃមូលដ្ឋានស្រាវជ្រាវ និងជាអ្នកអភិវឌ្ឍន៍កម្មវិធី Research Foundation Analyzer (RF Analyzer)។ លោកបានបោះពុម្ពផ្សាយ និងចូលរួមនិពន្ធអត្ថបទស្រាវជ្រាវវិទ្យាសាស្ត្រជាច្រើនលើទស្សនាវដ្តីជាតិ និងអន្តរជាតិលើផ្នែកមីក្រូជីវសាស្រ្ត ការផ្អាប់កាកសំណល់កសិកម្ម និងជីវស្ថិតិ។",
+            photo: "https://placehold.co/300x300/0a0f1d/eab308?text=In+Sokra",
+            scholar: "https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en",
+            orcid: "https://orcid.org/0009-0002-8842-8070",
+            telegram: "https://t.me/Sokra25",
+            email: "contact@researchfoundation.top"
+        }
+    };
+
+    let appData = {};
+    let isAdminLoggedIn = false;
+    let isEditMode = false;
+    let currentModalAction = null;
+    let activeUploadBookIndex = null;
+    let activeUploadSubSoftwareIndex = null;
+
+    // MODERN UTF-8 BASE64 ENCODER & DECODER (Prevents Khmer Unicode & Image Corruption)
+    function utf8ToBase64(str) {
+        const bytes = new TextEncoder().encode(str);
+        let binary = '';
+        const chunkSize = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+            binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+        }
+        return btoa(binary);
     }
-    const slot = (W - L - R) / bars.length, bw = Math.min(110, slot * .5);
-    bars.forEach((b, i) => {
-      const cx = L + slot * i + slot / 2; g.textAlign = 'center';
-      g.fillStyle = '#cbd5e1'; g.fillText(b.label, cx, H - B + 22);
-      if (b.pct === null) { g.fillStyle = '#475569'; g.fillText('មិនទាន់ធ្វើ', cx, H - B - 10); return; }
-      const h = (H - T - B) * b.pct / 100, y = H - B - h;
-      g.fillStyle = b.c; g.fillRect(cx - bw / 2, y, bw, h);
-      g.fillStyle = '#fff'; g.fillText(b.pct + '% (' + b.sc + ')', cx, y - 8);
-    });
-  }
 
-  /* ---------- hook into the existing render cycle ---------- */
-  const origRender = renderAllSections;
-  renderAllSections = function () { origRender(); renderQuizSection(); };
-  renderQuizSection();
-  lucide.createIcons();
-})();
+    function base64ToUtf8(base64) {
+        const binary = atob(base64.replace(/\s/g, ''));
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return new TextDecoder().decode(bytes);
+    }
+
+    async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function getAdminPasswordHash() {
+        return localStorage.getItem('RF_ADMIN_HASH') || PRIMARY_PASS_HASH;
+    }
+
+    function setAdminPasswordHash(newHash) {
+        localStorage.setItem('RF_ADMIN_HASH', newHash);
+    }
+
+    function getGitHubConfig() {
+        return {
+            owner: (localStorage.getItem('GH_OWNER') || 'Research-Foundation').trim(),
+            repo: (localStorage.getItem('GH_REPO') || 'research-foundation').trim(),
+            branch: (localStorage.getItem('GH_BRANCH') || 'main').trim(),
+            token: (localStorage.getItem('GH_TOKEN') || '').trim(),
+            path: 'data.json'
+        };
+    }
+
+    // CLOUD-FIRST MULTI-DEVICE LOADER
+    async function loadDataFromGitHubOrLocal() {
+        const config = getGitHubConfig();
+        let apiData = null;
+        let staticData = null;
+        let cachedData = null;
+
+        // 1. Read local browser cache
+        const cached = localStorage.getItem('RF_SITE_DATA');
+        if (cached) {
+            try {
+                cachedData = JSON.parse(cached);
+            } catch (e) {
+                console.error('Failed to parse cached localStorage data', e);
+            }
+        }
+
+        // Render initial fallback immediately so page is never blank
+        appData = cachedData || JSON.parse(JSON.stringify(DEFAULT_DATA));
+        if (sessionStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true' || localStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true') {
+            isAdminLoggedIn = true;
+            isEditMode = (localStorage.getItem('RF_ADMIN_EDIT_MODE') !== 'false');
+        }
+        renderAllSections();
+
+        // 2. Fetch live from GitHub REST API + Static data.json in parallel
+        const fetchPromises = [];
+
+        if (config.owner && config.repo) {
+            const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.path}?ref=${config.branch}&_cb=${Date.now()}`;
+            const apiHeaders = { 'Accept': 'application/vnd.github.v3+json' };
+            if (config.token) apiHeaders['Authorization'] = `Bearer ${config.token}`;
+
+            fetchPromises.push(
+                fetch(apiUrl, { cache: 'no-store', headers: apiHeaders })
+                    .then(async (res) => {
+                        if (res.ok) {
+                            const fileObj = await res.json();
+                            if (fileObj && fileObj.content) {
+                                const decodedStr = base64ToUtf8(fileObj.content);
+                                const parsed = JSON.parse(decodedStr);
+                                if (parsed && parsed.books) apiData = parsed;
+                            } else if (fileObj && fileObj.download_url) {
+                                const rawRes = await fetch(`${fileObj.download_url}?_cb=${Date.now()}`, { cache: 'no-store' });
+                                if (rawRes.ok) {
+                                    const parsed = await rawRes.json();
+                                    if (parsed && parsed.books) apiData = parsed;
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => console.warn('GitHub API live fetch skipped:', err))
+            );
+        }
+
+        fetchPromises.push(
+            fetch(`./data.json?_cb=${Date.now()}`, { cache: 'no-store' })
+                .then(async (res) => {
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && json.books) staticData = json;
+                    }
+                })
+                .catch(err => console.warn('Static data.json fetch skipped:', err))
+        );
+
+        await Promise.allSettled(fetchPromises);
+
+        // 3. Pick the newest remote version
+        let bestRemote = null;
+        if (apiData && staticData) {
+            bestRemote = ((apiData.updatedAt || 0) >= (staticData.updatedAt || 0)) ? apiData : staticData;
+        } else {
+            bestRemote = apiData || staticData;
+        }
+
+        // 4. Synchronize state
+        if (bestRemote) {
+            const localDirty = localStorage.getItem('RF_LOCAL_DIRTY') === 'true';
+            if (!isAdminLoggedIn || !localDirty || (bestRemote.updatedAt || 0) >= (cachedData?.updatedAt || 0)) {
+                appData = bestRemote;
+                localStorage.setItem('RF_LOCAL_DIRTY', 'false');
+                try {
+                    localStorage.setItem('RF_SITE_DATA', JSON.stringify(appData));
+                } catch (e) {
+                    console.warn('LocalStorage quota full, using in-memory state.');
+                }
+            }
+        }
+
+        renderAllSections();
+    }
+
+    async function forcePullFromCloud() {
+        showToast('កំពុងទាញទិន្នន័យថ្មីបំផុតពី GitHub...');
+        localStorage.setItem('RF_LOCAL_DIRTY', 'false');
+        await loadDataFromGitHubOrLocal();
+        showToast('✓ ទិន្នន័យត្រូវបានធ្វើបច្ចុប្បន្នភាព!');
+    }
+
+    async function saveAppState() {
+        appData.updatedAt = Date.now();
+        localStorage.setItem('RF_LOCAL_DIRTY', 'true');
+        
+        try {
+            localStorage.setItem('RF_SITE_DATA', JSON.stringify(appData));
+        } catch (err) {
+            console.warn('Storage quota exceeded in browser.', err);
+        }
+
+        const config = getGitHubConfig();
+        if (config.token && config.owner && config.repo) {
+            await commitDataToGitHub();
+        } else {
+            showToast('⚠️ បានរក្សាទុកក្នុង Browser! សូមដាក់ GitHub Token ដើម្បីឱ្យឧបករណ៍ផ្សេងឃើញដែរ។');
+            setTimeout(() => {
+                openGitHubModal();
+            }, 600);
+        }
+    }
+
+    async function commitDataToGitHub() {
+        const config = getGitHubConfig();
+        if (!config.token) return false;
+
+        showToast('កំពុងបញ្ជូនទិន្នន័យទៅ GitHub សម្រាប់គ្រប់ឧបករណ៍...');
+
+        try {
+            const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.path}`;
+            
+            let fileSha = null;
+            const getFile = await fetch(`${apiUrl}?ref=${config.branch}&_cb=${Date.now()}`, {
+                cache: 'no-store',
+                headers: {
+                    'Authorization': `Bearer ${config.token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (getFile.ok) {
+                const fileInfo = await getFile.json();
+                fileSha = fileInfo.sha;
+            }
+
+            const jsonString = JSON.stringify(appData, null, 2);
+            const encodedContent = utf8ToBase64(jsonString);
+
+            const bodyPayload = {
+                message: `Update site data [${new Date().toISOString()}]`,
+                content: encodedContent,
+                branch: config.branch
+            };
+            if (fileSha) bodyPayload.sha = fileSha;
+
+            const commitResponse = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${config.token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyPayload)
+            });
+
+            if (commitResponse.ok) {
+                localStorage.setItem('RF_LOCAL_DIRTY', 'false');
+                showToast('✓ បានរក្សាទុកទៅ GitHub! គ្រប់ឧបករណ៍ទាំងអស់នឹងឃើញទិន្នន័យថ្មីនេះភ្លាមៗ។');
+                renderAllSections();
+                return true;
+            } else {
+                const errData = await commitResponse.json();
+                alert('បរាជ័យក្នុងការ Commit ទៅ GitHub៖ ' + (errData.message || 'សូមពិនិត្យ GitHub Token របស់អ្នកឡើងវិញ'));
+                return false;
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('❌ មានបញ្ហាក្នុងការភ្ជាប់ទៅ GitHub API');
+            return false;
+        }
+    }
+
+    function openGitHubModal() {
+        const config = getGitHubConfig();
+        document.getElementById('ghOwnerInput').value = config.owner;
+        document.getElementById('ghRepoInput').value = config.repo;
+        document.getElementById('ghBranchInput').value = config.branch;
+        document.getElementById('ghTokenInput').value = config.token;
+        document.getElementById('githubModal').classList.remove('hidden');
+    }
+
+    function closeGitHubModal() {
+        document.getElementById('githubModal').classList.add('hidden');
+    }
+
+    async function saveGitHubConfig() {
+        localStorage.setItem('GH_OWNER', document.getElementById('ghOwnerInput').value.trim() || 'Research-Foundation');
+        localStorage.setItem('GH_REPO', document.getElementById('ghRepoInput').value.trim() || 'research-foundation');
+        localStorage.setItem('GH_BRANCH', document.getElementById('ghBranchInput').value.trim() || 'main');
+        localStorage.setItem('GH_TOKEN', document.getElementById('ghTokenInput').value.trim());
+        closeGitHubModal();
+        updateAdminUI();
+        await commitDataToGitHub();
+    }
+
+    async function resetToDefaultData() {
+        if (!isAdminLoggedIn) return;
+        if (window.confirm("តើអ្នកពិតជាចង់កំណត់ទិន្នន័យដើមឡើងវិញទាំងអស់មែនទេ?")) {
+            appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            await saveAppState();
+            renderAllSections();
+        }
+    }
+
+    function exportDataJson() {
+        if (!isAdminLoggedIn) return;
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `data.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+        showToast('បានទាញយកឯកសារ data.json រួចរាល់!');
+    }
+
+    // ADMIN AUTHENTICATION
+    function openLoginModal() {
+        document.getElementById('adminPasswordInput').value = '';
+        document.getElementById('loginErrorMsg').classList.add('hidden');
+        document.getElementById('loginModal').classList.remove('hidden');
+        document.getElementById('adminPasswordInput').focus();
+    }
+
+    function closeLoginModal() {
+        document.getElementById('loginModal').classList.add('hidden');
+    }
+
+    function hardResetAdminCredentials() {
+        localStorage.removeItem('RF_ADMIN_HASH');
+        document.getElementById('loginErrorMsg').classList.add('hidden');
+        document.getElementById('adminPasswordInput').value = '';
+        showToast('បានកំណត់ពាក្យសម្ងាត់ដើមឡើងវិញ៖ Sokra@2026');
+        alert("លេខកូដសម្ងាត់ត្រូវបានកំណត់ឡើងវិញទៅជា៖\n\nSokra@2026\n\nសូមវាយបញ្ចូលលេខកូដនេះដើម្បី Login។");
+    }
+
+    async function checkAdminLogin() {
+        const input = document.getElementById('adminPasswordInput').value.trim();
+        if (!input) return;
+
+        const inputHash = await sha256(input);
+        const savedHash = getAdminPasswordHash();
+        const savedToken = (getGitHubConfig().token || '').trim();
+        const isGitHubPat = input.startsWith('ghp_') || input.startsWith('github_pat_');
+
+        const isAuthorized = (inputHash === savedHash) || 
+                             (inputHash === PRIMARY_PASS_HASH) || 
+                             (inputHash === BACKUP_PASS_HASH) || 
+                             (savedToken && input === savedToken) ||
+                             isGitHubPat;
+
+        if (isAuthorized) {
+            if (isGitHubPat) {
+                localStorage.setItem('GH_TOKEN', input);
+            }
+            isAdminLoggedIn = true;
+            isEditMode = true;
+            localStorage.setItem('RF_ADMIN_LOGGED_IN', 'true');
+            localStorage.setItem('RF_ADMIN_EDIT_MODE', 'true');
+            closeLoginModal();
+            updateAdminUI();
+            renderAllSections();
+            showToast('ស្វាគមន៍លោក អិន សុខរ៉ា (Admin ត្រូវបានផ្ទៀងផ្ទាត់)');
+
+            if (!getGitHubConfig().token) {
+                setTimeout(() => {
+                    openGitHubModal();
+                }, 500);
+            }
+        } else {
+            document.getElementById('loginErrorMsg').classList.remove('hidden');
+        }
+    }
+
+    function adminLogout() {
+        isAdminLoggedIn = false;
+        isEditMode = false;
+        localStorage.removeItem('RF_ADMIN_LOGGED_IN');
+        localStorage.removeItem('RF_ADMIN_EDIT_MODE');
+        updateAdminUI();
+        renderAllSections();
+        showToast('បានចាកចេញពីគណនី Admin!');
+    }
+
+    function toggleEditMode() {
+        if (!isAdminLoggedIn) return;
+        isEditMode = !isEditMode;
+        localStorage.setItem('RF_ADMIN_EDIT_MODE', isEditMode ? 'true' : 'false');
+        updateAdminUI();
+        renderAllSections();
+        showToast(isEditMode ? 'បានបើករបៀបកែសម្រួល!' : 'បានបិទរបៀបកែសម្រួល!');
+    }
+
+    function updateAdminUI() {
+        const adminBar = document.getElementById('adminTopBar');
+        const statusText = document.getElementById('adminStatusText');
+        const toggleEditText = document.getElementById('toggleEditText');
+        const ghBadge = document.getElementById('ghSyncBadge');
+        const hasToken = Boolean(getGitHubConfig().token);
+
+        if (ghBadge) {
+            if (hasToken) {
+                ghBadge.className = "cursor-pointer inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-medium text-[11px]";
+                ghBadge.innerHTML = `<i data-lucide="cloud" class="w-3 h-3"></i> GitHub Auto-Sync ដំណើរការ`;
+            } else {
+                ghBadge.className = "cursor-pointer inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 font-medium text-[11px]";
+                ghBadge.innerHTML = `<i data-lucide="cloud-off" class="w-3 h-3"></i> សូមភ្ជាប់ GitHub Token`;
+            }
+        }
+
+        if (isAdminLoggedIn) {
+            adminBar.classList.remove('hidden');
+            adminBar.classList.add('flex');
+            statusText.textContent = isEditMode ? "របៀបកែសម្រួលកំពុងបើក៖ រាល់ការរក្សាទុកនឹង Sync ទៅគ្រប់ឧបករណ៍។" : "របៀបកែសម្រួលត្រូវបានបិទបណ្ដោះអាសន្ន។";
+            toggleEditText.textContent = isEditMode ? "បិទរបៀបកែសម្រួល" : "បើករបៀបកែសម្រួល";
+        } else {
+            adminBar.classList.add('hidden');
+            adminBar.classList.remove('flex');
+        }
+
+        const editElements = document.querySelectorAll('.edit-only');
+        editElements.forEach(el => {
+            if (isAdminLoggedIn && isEditMode) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        });
+        lucide.createIcons();
+    }
+
+    function openChangePasswordModal() {
+        if (!isAdminLoggedIn) return;
+        document.getElementById('oldPassInput').value = '';
+        document.getElementById('newPassInput').value = '';
+        document.getElementById('confirmPassInput').value = '';
+        document.getElementById('changePassError').classList.add('hidden');
+        document.getElementById('changePasswordModal').classList.remove('hidden');
+    }
+
+    function closeChangePasswordModal() {
+        document.getElementById('changePasswordModal').classList.add('hidden');
+    }
+
+    async function saveNewPassword() {
+        const oldP = document.getElementById('oldPassInput').value.trim();
+        const newP = document.getElementById('newPassInput').value.trim();
+        const confP = document.getElementById('confirmPassInput').value.trim();
+        const errEl = document.getElementById('changePassError');
+
+        const oldHash = await sha256(oldP);
+        const currentSavedHash = getAdminPasswordHash();
+
+        if (oldHash !== currentSavedHash && oldHash !== PRIMARY_PASS_HASH && oldHash !== BACKUP_PASS_HASH) {
+            errEl.textContent = "លេខកូដចាស់មិនត្រឹមត្រូវទេ!";
+            errEl.classList.remove('hidden');
+            return;
+        }
+        if (!newP || newP.length < 6) {
+            errEl.textContent = "លេខកូដថ្មីត្រូវមានយ៉ាងតិច ៦ តួអក្សរ!";
+            errEl.classList.remove('hidden');
+            return;
+        }
+        if (newP !== confP) {
+            errEl.textContent = "ការផ្ទៀងផ្ទាត់លេខកូដថ្មីមិនត្រូវគ្នាទេ!";
+            errEl.classList.remove('hidden');
+            return;
+        }
+
+        const newHash = await sha256(newP);
+        setAdminPasswordHash(newHash);
+        closeChangePasswordModal();
+        showToast('បានប្តូរលេខកូដសម្ងាត់ដោយជោគជ័យ!');
+    }
+
+    // RENDER FUNCTIONS
+    function renderAboutSection() {
+        const a = appData.about || DEFAULT_DATA.about;
+        document.getElementById('aboutTitle').textContent = a.title || "អំពីមូលដ្ឋានស្រាវជ្រាវ (Research Foundation)";
+        document.getElementById('aboutIntro').innerHTML = `<strong class="text-white font-medium">មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)</strong> ${a.intro}`;
+        document.getElementById('aboutP1Text').textContent = a.p1;
+        document.getElementById('aboutP2Text').textContent = a.p2;
+        document.getElementById('aboutP3Text').textContent = a.p3;
+    }
+
+    function triggerDirectBookUpload(index) {
+        if (!isAdminLoggedIn || !isEditMode) return;
+        activeUploadBookIndex = index;
+        const fileInput = document.getElementById('directBookFileInput');
+        fileInput.value = '';
+        fileInput.click();
+    }
+
+    function handleDirectBookCoverUpload(event) {
+        if (activeUploadBookIndex === null || !isAdminLoggedIn) return;
+        const file = event.target.files[0];
+        if (!file) return;
+
+        compressAndSaveImage(file, async (compressedBase64) => {
+            appData.books[activeUploadBookIndex].image = compressedBase64;
+            renderBooksSection();
+            await saveAppState();
+            activeUploadBookIndex = null;
+        });
+    }
+
+    function triggerDirectMainSoftwareUpload() {
+        if (!isAdminLoggedIn || !isEditMode) return;
+        const fileInput = document.getElementById('directMainSoftwareFileInput');
+        fileInput.value = '';
+        fileInput.click();
+    }
+
+    function handleDirectMainSoftwareUpload(event) {
+        if (!isAdminLoggedIn) return;
+        const file = event.target.files[0];
+        if (!file) return;
+
+        compressAndSaveImage(file, async (compressedBase64) => {
+            appData.mainSoftware.image = compressedBase64;
+            renderSoftwareSection();
+            await saveAppState();
+        });
+    }
+
+    function triggerDirectSubSoftwareUpload(index) {
+        if (!isAdminLoggedIn || !isEditMode) return;
+        activeUploadSubSoftwareIndex = index;
+        const fileInput = document.getElementById('directSubSoftwareFileInput');
+        fileInput.value = '';
+        fileInput.click();
+    }
+
+    function handleDirectSubSoftwareUpload(event) {
+        if (activeUploadSubSoftwareIndex === null || !isAdminLoggedIn) return;
+        const file = event.target.files[0];
+        if (!file) return;
+
+        compressAndSaveImage(file, async (compressedBase64) => {
+            appData.subSoftware[activeUploadSubSoftwareIndex].image = compressedBase64;
+            renderSoftwareSection();
+            await saveAppState();
+            activeUploadSubSoftwareIndex = null;
+        });
+    }
+
+    function triggerDirectFounderUpload() {
+        if (!isAdminLoggedIn || !isEditMode) return;
+        const fileInput = document.getElementById('directFounderFileInput');
+        fileInput.value = '';
+        fileInput.click();
+    }
+
+    function handleDirectFounderPhotoUpload(event) {
+        if (!isAdminLoggedIn) return;
+        const file = event.target.files[0];
+        if (!file) return;
+
+        compressAndSaveImage(file, async (compressedBase64) => {
+            appData.founder.photo = compressedBase64;
+            renderFounderSection();
+            await saveAppState();
+        });
+    }
+
+    function openOrderModal(index, type = 'hard') {
+        const book = appData.books[index];
+        const isHard = type === 'hard';
+        const typeLabel = isHard ? 'Hard Copy (សៀវភៅពុម្ព)' : 'Soft Copy (PDF E-Book)';
+        const price = isHard ? (book.priceHard || book.price || "$15.00") : (book.priceSoft || "$8.00");
+        
+        document.getElementById('orderModalBookTitle').innerHTML = `
+            <i data-lucide="shopping-cart" class="w-5 h-5 ${isHard ? 'text-amber-400' : 'text-emerald-400'}"></i>
+            <span>កុម្ម៉ង់ ${typeLabel}</span>
+        `;
+        document.getElementById('orderModalBookName').textContent = `${book.titleKh} (${typeLabel})`;
+        document.getElementById('orderModalBookPrice').textContent = price;
+        document.getElementById('orderModalBookImg').src = book.image;
+
+        const defaultTgMsg = isHard 
+            ? (book.telegramMsgHard || `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy: ${book.titleKh} (${price})`)
+            : (book.telegramMsgSoft || `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF): ${book.titleKh} (${price})`);
+
+        document.getElementById('orderModalTgBtn').href = `https://t.me/Sokra25?text=${encodeURIComponent(defaultTgMsg)}`;
+
+        const emailSubject = encodeURIComponent(`បញ្ជាទិញសៀវភៅ ${typeLabel}៖ ${book.titleKh}`);
+        const emailBody = encodeURIComponent(`សួស្តីមូលដ្ឋានស្រាវជ្រាវ,\n\nខ្ញុំមានបំណងចង់បញ្ជាទិញសៀវភៅ៖ ${book.titleKh}\nប្រភេទ៖ ${typeLabel}\nតម្លៃ៖ ${price}\n\nសូមផ្ញើព័ត៌មានលម្អិត និងលេខគណនី/KHQR មកកាន់ខ្ញុំបាទ/នាងខ្ញុំ។\n\nសូមអរគុណ!`);
+        document.getElementById('orderModalEmailBtn').href = `mailto:contact@researchfoundation.top?subject=${emailSubject}&body=${emailBody}`;
+
+        document.getElementById('orderModal').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function closeOrderModal() {
+        document.getElementById('orderModal').classList.add('hidden');
+    }
+
+    function openSoftwareShowcaseModal() {
+        const ms = appData.mainSoftware || DEFAULT_DATA.mainSoftware;
+        document.getElementById('showcaseModalImg').src = ms.image || 'https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0';
+        document.getElementById('softwareShowcaseModal').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function closeSoftwareShowcaseModal() {
+        document.getElementById('softwareShowcaseModal').classList.add('hidden');
+    }
+
+    function renderBooksSection() {
+        const grid = document.getElementById('booksGrid');
+        grid.innerHTML = '';
+
+        (appData.books || []).forEach((book, index) => {
+            const card = document.createElement('div');
+            card.className = "p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between group hover:border-amber-500/50 transition-all relative";
+
+            const showEditClass = (isAdminLoggedIn && isEditMode) ? '' : 'hidden';
+            const priceHard = book.priceHard || book.price || "$15.00";
+            const priceSoft = book.priceSoft || "$8.00";
+
+            card.innerHTML = `
+                <div class="edit-only ${showEditClass} absolute top-3 right-3 z-20 flex items-center gap-1">
+                    <button onclick="openEditBookModal(${index})" class="p-1.5 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500 hover:text-navy-950 transition-colors shadow" title="កែសម្រួល">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="deleteBook(${index})" class="p-1.5 rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white transition-colors shadow" title="លុប">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="rounded-2xl overflow-hidden border border-amber-500/20 bg-slate-950/80 h-72 flex items-center justify-center p-2 relative group/cover cursor-pointer" onclick="openOrderModal(${index}, 'hard')">
+                        <span class="absolute top-3 left-3 text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-semibold z-10 backdrop-blur-md">
+                            ${book.badge || 'សៀវភៅ'}
+                        </span>
+                        
+                        <img src="${book.image}" alt="${book.titleKh}" class="w-full h-full object-contain rounded-xl shadow-lg transition-transform duration-300 group-hover/cover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x560/0a2540/38bdf8?text=Book+Cover';">
+                        
+                        <button class="edit-only ${showEditClass} absolute inset-0 bg-slate-950/85 text-amber-300 text-xs font-medium flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover/cover:opacity-100 transition-opacity backdrop-blur-sm" onclick="event.stopPropagation(); triggerDirectBookUpload(${index})">
+                            <i data-lucide="upload" class="w-5 h-5 text-amber-400"></i>
+                            <span>ប្តូររូបក្របសៀវភៅ (Upload Cover)</span>
+                        </button>
+                    </div>
+
+                    <div>
+                        <div class="text-[11px] font-mono text-amber-400 font-semibold uppercase tracking-wider">${book.subtitle || ''}</div>
+                        <h3 class="text-base font-bold text-white mt-0.5 leading-snug">${book.titleKh}</h3>
+                        <div class="text-xs text-slate-300 font-en font-medium text-emerald-400 mt-0.5">${book.titleEn || ''}</div>
+                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">
+                            ${book.desc}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Hard Copy and Soft Copy Buttons -->
+                <div class="pt-5 border-t border-slate-800 mt-6 grid grid-cols-2 gap-2.5">
+                    <button onclick="openOrderModal(${index}, 'hard')" class="p-2.5 rounded-2xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-navy-950 text-amber-300 transition-all flex flex-col items-center text-center group/btn active:scale-95 shadow-sm">
+                        <div class="flex items-center gap-1 font-semibold text-xs text-white group-hover/btn:text-navy-950">
+                            <i data-lucide="book" class="w-3.5 h-3.5 text-amber-400 group-hover/btn:text-navy-950"></i> Hard Copy
+                        </div>
+                        <span class="text-[10px] text-slate-400 group-hover/btn:text-navy-900 mt-0.5">សៀវភៅពុម្ព</span>
+                        <span class="text-xs font-bold text-amber-400 group-hover/btn:text-navy-950 font-mono mt-1">${priceHard}</span>
+                    </button>
+
+                    <button onclick="openOrderModal(${index}, 'soft')" class="p-2.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 hover:bg-emerald-500 hover:text-navy-950 text-emerald-300 transition-all flex flex-col items-center text-center group/btn active:scale-95 shadow-sm">
+                        <div class="flex items-center gap-1 font-semibold text-xs text-white group-hover/btn:text-navy-950">
+                            <i data-lucide="file-text" class="w-3.5 h-3.5 text-emerald-400 group-hover/btn:text-navy-950"></i> Soft Copy
+                        </div>
+                        <span class="text-[10px] text-slate-400 group-hover/btn:text-navy-900 mt-0.5">PDF E-Book</span>
+                        <span class="text-xs font-bold text-emerald-400 group-hover/btn:text-navy-950 font-mono mt-1">${priceSoft}</span>
+                    </button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        lucide.createIcons();
+    }
+
+    function renderSoftwareSection() {
+        const ms = appData.mainSoftware || DEFAULT_DATA.mainSoftware;
+        document.getElementById('mainSoftwareTag').textContent = ms.tag;
+        document.getElementById('mainSoftwareSubtitle').textContent = ms.subtitle;
+        document.getElementById('mainSoftwareTitle').textContent = ms.title;
+        document.getElementById('mainSoftwareDesc').textContent = ms.desc;
+        document.getElementById('mainSoftwarePrice').textContent = ms.price;
+        document.getElementById('mainSoftwareImg').src = ms.image || 'https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0';
+        document.getElementById('mainSoftwareOrderBtn').href = `https://t.me/Sokra25?text=${encodeURIComponent("សួស្តីលោកគ្រូ ខ្ញុំចាប់អារម្មណ៍ទិញអាជ្ញាប័ណ្ណ " + ms.title)}`;
+
+        const subContainer = document.getElementById('subSoftwareContainer');
+        subContainer.innerHTML = '';
+        const showEditClass = (isAdminLoggedIn && isEditMode) ? '' : 'hidden';
+
+        const subList = appData.subSoftware || [];
+        document.getElementById('subSoftwareCount').textContent = `សរុប៖ ${subList.length} ឧបករណ៍`;
+
+        subList.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = "p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between group hover:border-cyan-500/50 transition-all relative";
+
+            const defaultTgLink = item.telegramLink || `https://t.me/Sokra25?text=${encodeURIComponent("សួស្តីលោកគ្រូ ខ្ញុំចង់ទិញ " + item.title)}`;
+
+            card.innerHTML = `
+                <div class="edit-only ${showEditClass} absolute top-3 right-3 z-20 flex items-center gap-1">
+                    <button onclick="openEditSubSoftwareModal(${index})" class="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 transition-colors shadow" title="កែសម្រួល">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="deleteSubSoftware(${index})" class="p-1.5 rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white transition-colors shadow" title="លុប">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="rounded-2xl overflow-hidden border border-cyan-500/20 bg-slate-950/80 h-44 flex items-center justify-center p-2 relative group/softcover">
+                        <span class="absolute top-3 left-3 text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2.5 py-0.5 rounded-full font-semibold z-10 backdrop-blur-md">
+                            ${item.type || 'Software Tool'}
+                        </span>
+                        
+                        <img src="${item.image || 'https://placehold.co/400x260/0f172a/38bdf8?text=' + encodeURIComponent(item.title)}" alt="${item.title}" class="w-full h-full object-contain rounded-xl transition-transform duration-300 group-hover/softcover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x260/0f172a/38bdf8?text=Tool';">
+                        
+                        <button class="edit-only ${showEditClass} absolute inset-0 bg-slate-950/85 text-cyan-300 text-xs font-medium flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover/softcover:opacity-100 transition-opacity backdrop-blur-sm" onclick="triggerDirectSubSoftwareUpload(${index})">
+                            <i data-lucide="upload" class="w-5 h-5 text-cyan-400"></i>
+                            <span>ប្តូររូបភាព (Upload Image)</span>
+                        </button>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-amber-400 font-mono">${item.type}</span>
+                            <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i>
+                        </div>
+                        <h4 class="text-base font-bold text-white mt-1 leading-snug">${item.title}</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed font-light">${item.desc}</p>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-800 mt-5 flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] text-slate-400 block">តម្លៃកម្មវិធី</span>
+                        <span class="text-sm sm:text-base font-bold text-cyan-400 font-en">${item.price}</span>
+                    </div>
+                    <a href="${defaultTgLink}" target="_blank" class="px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 hover:bg-cyan-500 hover:text-navy-950 text-cyan-300 font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i> បញ្ជាទិញ (@Sokra25)
+                    </a>
+                </div>
+            `;
+            subContainer.appendChild(card);
+        });
+        lucide.createIcons();
+    }
+
+    function renderPublicationsSection() {
+        const grid = document.getElementById('publicationsGrid');
+        grid.innerHTML = '';
+        const showEditClass = (isAdminLoggedIn && isEditMode) ? '' : 'hidden';
+
+        (appData.publications || []).forEach((pub, index) => {
+            const card = document.createElement('div');
+            card.className = "p-6 rounded-2xl border border-slate-800 card-glass flex flex-col justify-between hover:border-purple-500/40 transition-all relative";
+
+            const cleanJournal = (pub.journal || '').replace(/Asain/g, 'Asian');
+            const doiLink = pub.doi ? `<a href="${pub.doi}" target="_blank" class="px-2.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-colors flex items-center gap-1 font-mono text-[11px]"><i data-lucide="link" class="w-3 h-3"></i> DOI</a>` : '';
+
+            card.innerHTML = `
+                <div class="edit-only ${showEditClass} absolute top-3 right-3 z-10 flex items-center gap-1">
+                    <button onclick="openEditPubModal(${index})" class="p-1.5 rounded-lg bg-purple-500/20 text-purple-300 hover:bg-purple-500 hover:text-navy-950 transition-colors shadow" title="កែសម្រួល">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="deletePublication(${index})" class="p-1.5 rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white transition-colors shadow" title="លុប">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs text-slate-400">
+                        <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-semibold font-en">${pub.year}</span>
+                        <span class="font-mono text-[11px] text-purple-300 bg-purple-950/40 border border-purple-800/40 px-2 py-0.5 rounded">${cleanJournal}</span>
+                    </div>
+                    <h3 class="text-sm sm:text-base font-bold text-white hover:text-purple-300 transition-colors leading-snug">
+                        ${pub.title}
+                    </h3>
+                    <p class="text-xs text-slate-400 leading-relaxed font-light">
+                        <strong class="text-slate-300">អ្នកនិពន្ធ៖</strong> ${pub.authors}
+                    </p>
+                </div>
+
+                <div class="pt-4 border-t border-slate-800/80 mt-5 flex items-center justify-between text-xs">
+                    <span class="text-slate-400 font-en text-[11px]">${pub.vol || 'Peer-Reviewed'}</span>
+                    <div class="flex items-center gap-2">
+                        ${doiLink}
+                        <a href="${pub.scholarUrl || 'https://scholar.google.com'}" target="_blank" class="px-2.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500/20 transition-colors flex items-center gap-1 font-mono text-[11px]">
+                            Scholar <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        lucide.createIcons();
+    }
+
+    function renderFounderSection() {
+        const f = appData.founder || DEFAULT_DATA.founder;
+        document.getElementById('founderName').textContent = f.name;
+        document.getElementById('founderRole').textContent = f.role;
+        document.getElementById('founderAffiliation').textContent = f.affiliation;
+        document.getElementById('founderBio').textContent = f.bio;
+        document.getElementById('founderPhoto').src = f.photo || 'https://placehold.co/300x300/0a0f1d/eab308?text=IS';
+        
+        document.getElementById('linkScholar').href = f.scholar;
+        document.getElementById('linkOrcid').href = f.orcid;
+        document.getElementById('linkTelegram').href = f.telegram || "https://t.me/Sokra25";
+    }
+
+    function renderAllSections() {
+        renderAboutSection();
+        renderBooksSection();
+        renderSoftwareSection();
+        renderPublicationsSection();
+        renderFounderSection();
+        updateAdminUI();
+    }
+
+    async function fetchDoiMetadata(prefixId = '') {
+        const doiInput = document.getElementById(prefixId + 'PubDoi');
+        const statusEl = document.getElementById(prefixId + 'DoiFetchStatus');
+        const btn = document.getElementById(prefixId + 'DoiFetchBtn');
+        
+        let rawDoi = doiInput.value.trim();
+        if (!rawDoi) {
+            showToast('សូមបញ្ចូលលេខសម្គាល់ ឬតំណ DOI ជាមុនសិន!');
+            return;
+        }
+
+        rawDoi = rawDoi.replace(/^https?:\/\/(dx\.)?doi\.org\//i, '').trim();
+
+        if (statusEl) {
+            statusEl.textContent = 'កំពុងទាញយកទិន្នន័យពី Crossref...';
+            statusEl.className = 'text-xs text-amber-400 mt-1.5 flex items-center gap-1.5';
+            statusEl.classList.remove('hidden');
+        }
+        if (btn) btn.disabled = true;
+
+        try {
+            const response = await fetch(`https://api.crossref.org/works/${encodeURIComponent(rawDoi)}`);
+            if (!response.ok) throw new Error('រកមិនឃើញទិន្នន័យ DOI នេះទេ (Status: ' + response.status + ')');
+            
+            const data = await response.json();
+            const item = data.message;
+
+            if (item.title && item.title.length > 0) {
+                document.getElementById(prefixId + 'PubTitle').value = item.title[0];
+            }
+
+            if (item.author && Array.isArray(item.author)) {
+                const authorsFormatted = item.author.map(a => {
+                    const givenInitial = a.given ? a.given.split(' ').map(n => n[0]).join('') : '';
+                    return givenInitial ? `${givenInitial} ${a.family}` : (a.family || a.name || '');
+                }).filter(Boolean).join(', ');
+                document.getElementById(prefixId + 'PubAuthors').value = authorsFormatted;
+            }
+
+            if (item['container-title'] && item['container-title'].length > 0) {
+                document.getElementById(prefixId + 'PubJournal').value = item['container-title'][0];
+            } else if (item.publisher) {
+                document.getElementById(prefixId + 'PubJournal').value = item.publisher;
+            }
+
+            let pubYear = '';
+            if (item['published-print'] && item['published-print']['date-parts']) {
+                pubYear = item['published-print']['date-parts'][0][0];
+            } else if (item['published-online'] && item['published-online']['date-parts']) {
+                pubYear = item['published-online']['date-parts'][0][0];
+            } else if (item.created && item.created['date-parts']) {
+                pubYear = item.created['date-parts'][0][0];
+            }
+            if (pubYear) {
+                document.getElementById(prefixId + 'PubYear').value = pubYear;
+            }
+
+            let volStr = '';
+            if (item.volume) volStr += `Vol. ${item.volume}`;
+            if (item.issue) volStr += `${volStr ? ', ' : ''}No. ${item.issue}`;
+            if (item.page) volStr += `${volStr ? ', ' : ''}pp. ${item.page}`;
+            if (!volStr) volStr = 'Peer-Reviewed';
+            document.getElementById(prefixId + 'PubVol').value = volStr;
+
+            doiInput.value = `https://doi.org/${rawDoi}`;
+
+            if (statusEl) {
+                statusEl.textContent = '✓ បានទាញយក និងបំពេញទិន្នន័យដោយជោគជ័យ!';
+                statusEl.className = 'text-xs text-emerald-400 mt-1.5 flex items-center gap-1.5';
+            }
+            showToast('ទាញយកទិន្នន័យ DOI ជោគជ័យ!');
+        } catch (err) {
+            console.error('DOI Fetch Error:', err);
+            if (statusEl) {
+                statusEl.textContent = 'បរាជ័យក្នុងការទាញយក! សូមពិនិត្យ DOI ឬបំពេញដោយផ្ទាល់ដៃ។';
+                statusEl.className = 'text-xs text-rose-400 mt-1.5 flex items-center gap-1.5';
+            }
+            showToast('មិនអាចទាញយកទិន្នន័យពី DOI បានទេ');
+        } finally {
+            if (btn) btn.disabled = false;
+        }
+    }
+
+    const modal = document.getElementById('editModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    function openModal(title, htmlContent, onSaveCallback) {
+        if (!isAdminLoggedIn) {
+            openLoginModal();
+            return;
+        }
+        modalTitle.innerHTML = title;
+        modalBody.innerHTML = htmlContent;
+        currentModalAction = onSaveCallback;
+        modal.classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function closeModal() {
+        modal.classList.add('hidden');
+        currentModalAction = null;
+    }
+
+    async function saveModalChanges() {
+        if (typeof currentModalAction === 'function') {
+            await currentModalAction();
+        }
+        closeModal();
+    }
+
+    function openEditAboutModal() {
+        const a = appData.about;
+        const html = `
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-slate-400 mb-1">ចំណងជើង</label>
+                    <input id="editAboutTitle" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${a.title}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">សេចក្តីផ្តើម</label>
+                    <textarea id="editAboutIntro" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${a.intro}</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">សសរស្តម្ភទី១ (ជីវបច្ចេកវិទ្យា)</label>
+                    <textarea id="editAboutP1" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${a.p1}</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">សសរស្តម្ភទី២ (ការកែច្នៃកាកសំណល់)</label>
+                    <textarea id="editAboutP2" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${a.p2}</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">សសរស្តម្ភទី៣ (ស្ថិតិ និងសូហ្វវែរ)</label>
+                    <textarea id="editAboutP3" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${a.p3}</textarea>
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="info" class="w-5 h-5 text-emerald-400"></i> កែសម្រួលអំពីយើង', html, async () => {
+            appData.about.title = document.getElementById('editAboutTitle').value;
+            appData.about.intro = document.getElementById('editAboutIntro').value;
+            appData.about.p1 = document.getElementById('editAboutP1').value;
+            appData.about.p2 = document.getElementById('editAboutP2').value;
+            appData.about.p3 = document.getElementById('editAboutP3').value;
+            renderAboutSection();
+            await saveAppState();
+        });
+    }
+
+    function openEditBookModal(index) {
+        const b = appData.books[index];
+        const html = `
+            <div class="space-y-4">
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-amber-500/30 flex items-center gap-4">
+                    <img id="editBookPreviewImg" src="${b.image}" alt="Preview" class="w-16 h-20 object-contain rounded-lg border border-slate-800 bg-slate-900 shadow">
+                    <div class="space-y-1.5 flex-1">
+                        <label class="block text-slate-300 font-semibold text-xs">រូបភាពក្របសៀវភៅ (Book Cover)</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="document.getElementById('modalBookFileInput').click()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-navy-950 font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ប្តូររូបភាព (Upload File)
+                            </button>
+                            <input type="file" id="modalBookFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'editBookPreviewImg', 'editBookImage')">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">តំណភ្ជាប់រូបភាពក្រប (Image URL)</label>
+                    <input id="editBookImage" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${b.image || ''}" oninput="document.getElementById('editBookPreviewImg').src = this.value">
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">ផ្លាកសម្គាល់ (Badge)</label>
+                        <input id="editBookBadge" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.badge || ''}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ Hard Copy</label>
+                        <input id="editBookPriceHard" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.priceHard || b.price || '$15.00'}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ Soft Copy</label>
+                        <input id="editBookPriceSoft" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.priceSoft || '$8.00'}">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះសៀវភៅ (ខ្មែរ)</label>
+                    <input id="editBookTitleKh" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.titleKh}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះសៀវភៅ (អង់គ្លេស)</label>
+                    <input id="editBookTitleEn" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.titleEn || ''}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ចំណងជើងរង</label>
+                    <input id="editBookSubtitle" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${b.subtitle || ''}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ការពិពណ៌នា</label>
+                    <textarea id="editBookDesc" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${b.desc}</textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">សារកុម្ម៉ង់ Hard Copy (TG)</label>
+                        <input id="editBookTgMsgHard" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" value="${b.telegramMsgHard || ''}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">សារកុម្ម៉ង់ Soft Copy (TG)</label>
+                        <input id="editBookTgMsgSoft" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" value="${b.telegramMsgSoft || ''}">
+                    </div>
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="book-open" class="w-5 h-5 text-amber-400"></i> កែសម្រួលព័ត៌មានសៀវភៅ', html, async () => {
+            appData.books[index].badge = document.getElementById('editBookBadge').value;
+            appData.books[index].priceHard = document.getElementById('editBookPriceHard').value;
+            appData.books[index].priceSoft = document.getElementById('editBookPriceSoft').value;
+            appData.books[index].titleKh = document.getElementById('editBookTitleKh').value;
+            appData.books[index].titleEn = document.getElementById('editBookTitleEn').value;
+            appData.books[index].subtitle = document.getElementById('editBookSubtitle').value;
+            appData.books[index].desc = document.getElementById('editBookDesc').value;
+            appData.books[index].telegramMsgHard = document.getElementById('editBookTgMsgHard').value;
+            appData.books[index].telegramMsgSoft = document.getElementById('editBookTgMsgSoft').value;
+            appData.books[index].image = document.getElementById('editBookImage').value;
+            renderBooksSection();
+            await saveAppState();
+        });
+    }
+
+    function openNewBookModal() {
+        const defaultCover = 'https://placehold.co/400x560/0a2540/38bdf8?text=New+Book+Cover';
+        const html = `
+            <div class="space-y-4">
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-amber-500/30 flex items-center gap-4">
+                    <img id="newBookPreviewImg" src="${defaultCover}" alt="Preview" class="w-16 h-20 object-contain rounded-lg border border-slate-800 bg-slate-900 shadow">
+                    <div class="space-y-1.5 flex-1">
+                        <label class="block text-slate-300 font-semibold text-xs">រូបភាពក្របសៀវភៅ (Book Cover)</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="document.getElementById('newModalBookFileInput').click()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-navy-950 font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ផ្ទុកឡើងរូបភាព (Upload File)
+                            </button>
+                            <input type="file" id="newModalBookFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'newBookPreviewImg', 'newBookImage')">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">តំណភ្ជាប់រូបភាពក្រប (Image URL)</label>
+                    <input id="newBookImage" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${defaultCover}" oninput="document.getElementById('newBookPreviewImg').src = this.value">
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">ផ្លាកសម្គាល់</label>
+                        <input id="newBookBadge" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. កសិកម្ម">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ Hard Copy ($)</label>
+                        <input id="newBookPriceHard" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="$15.00">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ Soft Copy ($)</label>
+                        <input id="newBookPriceSoft" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="$8.00">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះសៀវភៅ (ខ្មែរ)</label>
+                    <input id="newBookTitleKh" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ចំណងជើងសៀវភៅ...">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះសៀវភៅ (អង់គ្លេស)</label>
+                    <input id="newBookTitleEn" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="English Title...">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ការពិពណ៌នា</label>
+                    <textarea id="newBookDesc" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="សេចក្តីសង្ខេបខ្លីៗពីសៀវភៅ..."></textarea>
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="plus-circle" class="w-5 h-5 text-amber-400"></i> បន្ថែមសៀវភៅថ្មី', html, async () => {
+            const khTitle = document.getElementById('newBookTitleKh').value || 'សៀវភៅស្រាវជ្រាវ';
+            const priceH = document.getElementById('newBookPriceHard').value || '$15.00';
+            const priceS = document.getElementById('newBookPriceSoft').value || '$8.00';
+            const newB = {
+                id: 'b_' + Date.now(),
+                badge: document.getElementById('newBookBadge').value || 'សៀវភៅថ្មី',
+                priceHard: priceH,
+                priceSoft: priceS,
+                titleKh: khTitle,
+                titleEn: document.getElementById('newBookTitleEn').value || '',
+                subtitle: '',
+                desc: document.getElementById('newBookDesc').value || '',
+                image: document.getElementById('newBookImage').value || defaultCover,
+                telegramMsgHard: `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Hard Copy (សៀវភៅពុម្ព): ${khTitle}`,
+                telegramMsgSoft: `សួស្តីលោកគ្រូ ខ្ញុំចង់បញ្ជាទិញសៀវភៅ Soft Copy (PDF E-Book): ${khTitle}`
+            };
+            appData.books.push(newB);
+            renderBooksSection();
+            await saveAppState();
+        });
+    }
+
+    async function deleteBook(index) {
+        if (!isAdminLoggedIn) return;
+        if (window.confirm("តើអ្នកពិតជាចង់លុបសៀវភៅនេះមែនទេ?")) {
+            appData.books.splice(index, 1);
+            renderBooksSection();
+            await saveAppState();
+        }
+    }
+
+    function openEditMainSoftwareModal() {
+        const ms = appData.mainSoftware;
+        const html = `
+            <div class="space-y-4">
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-cyan-500/30 flex items-center gap-4">
+                    <img id="editMainSoftwarePreviewImg" src="${ms.image || 'https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0'}" alt="Preview" class="w-20 h-16 object-cover rounded-lg border border-slate-800 bg-slate-900 shadow">
+                    <div class="space-y-1.5 flex-1">
+                        <label class="block text-slate-300 font-semibold text-xs">រូបភាពកម្មវិធី (Software Screenshot)</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="document.getElementById('modalMainSoftwareFileInput').click()" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ប្តូររូបភាព (Upload File)
+                            </button>
+                            <input type="file" id="modalMainSoftwareFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'editMainSoftwarePreviewImg', 'editSoftImage')">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">តំណភ្ជាប់រូបភាព (Image URL)</label>
+                    <input id="editSoftImage" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${ms.image || ''}" oninput="document.getElementById('editMainSoftwarePreviewImg').src = this.value">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">Tag / Version</label>
+                        <input id="editSoftTag" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${ms.tag}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Subtitle / Status</label>
+                        <input id="editSoftSub" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${ms.subtitle}">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះកម្មវិធី</label>
+                    <input id="editSoftTitle" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${ms.title}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ការពិពណ៌នា</label>
+                    <textarea id="editSoftDesc" rows="4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${ms.desc}</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">តម្លៃអាជ្ញាប័ណ្ណ</label>
+                    <input id="editSoftPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${ms.price}">
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="cpu" class="w-5 h-5 text-cyan-400"></i> កែសម្រួលកម្មវិធី RF Analyzer v6.0', html, async () => {
+            appData.mainSoftware.tag = document.getElementById('editSoftTag').value;
+            appData.mainSoftware.subtitle = document.getElementById('editSoftSub').value;
+            appData.mainSoftware.title = document.getElementById('editSoftTitle').value;
+            appData.mainSoftware.desc = document.getElementById('editSoftDesc').value;
+            appData.mainSoftware.price = document.getElementById('editSoftPrice').value;
+            appData.mainSoftware.image = document.getElementById('editSoftImage').value;
+            renderSoftwareSection();
+            await saveAppState();
+        });
+    }
+
+    function openEditSubSoftwareModal(index) {
+        const item = appData.subSoftware[index];
+        const html = `
+            <div class="space-y-4">
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-cyan-500/30 flex items-center gap-4">
+                    <img id="editSubSoftwarePreviewImg" src="${item.image || 'https://placehold.co/400x260/0f172a/38bdf8?text=Script'}" alt="Preview" class="w-16 h-12 object-contain rounded-lg border border-slate-800 bg-slate-900 shadow">
+                    <div class="space-y-1.5 flex-1">
+                        <label class="block text-slate-300 font-semibold text-xs">រូបភាពឧបករណ៍</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="document.getElementById('modalSubSoftwareFileInput').click()" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ប្តូររូបភាព (Upload File)
+                            </button>
+                            <input type="file" id="modalSubSoftwareFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'editSubSoftwarePreviewImg', 'editSubSoftImage')">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">តំណភ្ជាប់រូបភាព (Image URL)</label>
+                    <input id="editSubSoftImage" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${item.image || ''}" oninput="document.getElementById('editSubSoftwarePreviewImg').src = this.value">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">ប្រភេទ / Badge</label>
+                        <input id="editSubSoftType" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${item.type}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ ($)</label>
+                        <input id="editSubSoftPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${item.price}">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះឧបករណ៍ / កម្មវិធី</label>
+                    <input id="editSubSoftTitle" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${item.title}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ការពិពណ៌នា</label>
+                    <textarea id="editSubSoftDesc" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${item.desc}</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">តំណភ្ជាប់បញ្ជាទិញ Telegram</label>
+                    <input id="editSubSoftTg" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${item.telegramLink || 'https://t.me/Sokra25'}">
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i> កែសម្រួលឧបករណ៍ជំនួយ', html, async () => {
+            appData.subSoftware[index].type = document.getElementById('editSubSoftType').value;
+            appData.subSoftware[index].title = document.getElementById('editSubSoftTitle').value;
+            appData.subSoftware[index].desc = document.getElementById('editSubSoftDesc').value;
+            appData.subSoftware[index].price = document.getElementById('editSubSoftPrice').value;
+            appData.subSoftware[index].image = document.getElementById('editSubSoftImage').value;
+            appData.subSoftware[index].telegramLink = document.getElementById('editSubSoftTg').value;
+            renderSoftwareSection();
+            await saveAppState();
+        });
+    }
+
+    function openNewSoftwareModal() {
+        const defaultThumb = 'https://placehold.co/400x260/0f172a/38bdf8?text=New+Software+Tool';
+        const html = `
+            <div class="space-y-4">
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-cyan-500/30 flex items-center gap-4">
+                    <img id="newSoftwarePreviewImg" src="${defaultThumb}" alt="Preview" class="w-20 h-14 object-contain rounded-lg border border-slate-800 bg-slate-900 shadow">
+                    <div class="space-y-1.5 flex-1">
+                        <label class="block text-slate-300 font-semibold text-xs">រូបភាពកម្មវិធី / ឧបករណ៍</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="document.getElementById('newModalSoftwareFileInput').click()" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ផ្ទុកឡើងរូបភាព (Upload File)
+                            </button>
+                            <input type="file" id="newModalSoftwareFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'newSoftwarePreviewImg', 'newSoftImage')">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">តំណភ្ជាប់រូបភាព (Image URL)</label>
+                    <input id="newSoftImage" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${defaultThumb}" oninput="document.getElementById('newSoftwarePreviewImg').src = this.value">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">ប្រភេទ / Badge</label>
+                        <input id="newSoftType" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. Python Script, Web App">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">តម្លៃ ($ / License)</label>
+                        <input id="newSoftPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. $15 / Pack">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះកម្មវិធី / ឧបករណ៍</label>
+                    <input id="newSoftTitle" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. Agriculture Biometrics Tool">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ការពិពណ៌នា</label>
+                    <textarea id="newSoftDesc" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="សេចក្តីសង្ខេបពីមុខងារ..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">សារកុម្ម៉ង់ Telegram (@Sokra25)</label>
+                    <input id="newSoftTgMsg" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" placeholder="សួស្តីលោកគ្រូ ខ្ញុំចង់ទិញកម្មវិធី...">
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="plus-circle" class="w-5 h-5 text-cyan-400"></i> បន្ថែមកម្មវិធី / ឧបករណ៍ថ្មី', html, async () => {
+            const title = document.getElementById('newSoftTitle').value.trim() || 'Software Tool';
+            const userTgMsg = document.getElementById('newSoftTgMsg').value.trim() || `សួស្តីលោកគ្រូ ខ្ញុំចង់ទិញ ${title}`;
+            const newTool = {
+                id: 's_' + Date.now(),
+                type: document.getElementById('newSoftType').value.trim() || 'Custom Script',
+                title: title,
+                desc: document.getElementById('newSoftDesc').value.trim() || '',
+                price: document.getElementById('newSoftPrice').value.trim() || '$10 / Pack',
+                image: document.getElementById('newSoftImage').value.trim() || defaultThumb,
+                telegramLink: `https://t.me/Sokra25?text=${encodeURIComponent(userTgMsg)}`
+            };
+            appData.subSoftware.push(newTool);
+            renderSoftwareSection();
+            await saveAppState();
+        });
+    }
+
+    async function deleteSubSoftware(index) {
+        if (!isAdminLoggedIn) return;
+        if (window.confirm("តើអ្នកពិតជាចង់លុបកម្មវិធី/ឧបករណ៍នេះមែនទេ?")) {
+            appData.subSoftware.splice(index, 1);
+            renderSoftwareSection();
+            await saveAppState();
+        }
+    }
+
+    function openEditPubModal(index) {
+        const p = appData.publications[index];
+        const html = `
+            <div class="space-y-3.5">
+                <div class="p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/40">
+                    <label class="block text-purple-300 font-semibold text-xs mb-1">តំណភ្ជាប់ DOI (Auto-Fill Metadata)</label>
+                    <div class="flex items-center gap-2">
+                        <input id="editPubDoi" type="text" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs focus:border-purple-500" value="${p.doi || ''}" placeholder="10.xxxx/yyyy ឬ https://doi.org/10.xxxx/..." onkeydown="if(event.key === 'Enter'){ event.preventDefault(); fetchDoiMetadata('edit'); }">
+                        <button type="button" id="editDoiFetchBtn" onclick="fetchDoiMetadata('edit')" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Fetch
+                        </button>
+                    </div>
+                    <p id="editDoiFetchStatus" class="hidden text-xs mt-1.5"></p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">ឆ្នាំ</label>
+                        <input id="editPubYear" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" value="${p.year}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">ទស្សនាវដ្តី</label>
+                        <input id="editPubJournal" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" value="${p.journal}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">លេខ/ក្បាល</label>
+                        <input id="editPubVol" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" value="${p.vol || ''}">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ចំណងជើងអត្ថបទស្រាវជ្រាវ (Title)</label>
+                    <textarea id="editPubTitle" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en">${p.title}</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">អ្នកនិពន្ធ (Authors)</label>
+                    <input id="editPubAuthors" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" value="${p.authors}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Google Scholar Link</label>
+                    <input id="editPubScholar" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${p.scholarUrl || ''}">
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="newspaper" class="w-5 h-5 text-purple-400"></i> កែសម្រួលអត្ថបទបោះពុម្ព', html, async () => {
+            appData.publications[index].year = document.getElementById('editPubYear').value;
+            appData.publications[index].journal = document.getElementById('editPubJournal').value;
+            appData.publications[index].vol = document.getElementById('editPubVol').value;
+            appData.publications[index].title = document.getElementById('editPubTitle').value;
+            appData.publications[index].authors = document.getElementById('editPubAuthors').value;
+            appData.publications[index].doi = document.getElementById('editPubDoi').value;
+            appData.publications[index].scholarUrl = document.getElementById('editPubScholar').value;
+            renderPublicationsSection();
+            await saveAppState();
+        });
+    }
+
+    function openNewPubModal() {
+        const html = `
+            <div class="space-y-3.5">
+                <div class="p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/40">
+                    <label class="block text-purple-300 font-semibold text-xs mb-1">តំណភ្ជាប់ DOI (Auto-Fill Metadata)</label>
+                    <div class="flex items-center gap-2">
+                        <input id="newPubDoi" type="text" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs focus:border-purple-500" placeholder="10.xxxx/yyyy ឬ https://doi.org/10.xxxx/..." onkeydown="if(event.key === 'Enter'){ event.preventDefault(); fetchDoiMetadata('new'); }">
+                        <button type="button" id="newDoiFetchBtn" onclick="fetchDoiMetadata('new')" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Fetch
+                        </button>
+                    </div>
+                    <p id="newDoiFetchStatus" class="hidden text-xs mt-1.5"></p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">ឆ្នាំ</label>
+                        <input id="newPubYear" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" value="2026">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">ទស្សនាវដ្តី</label>
+                        <input id="newPubJournal" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" placeholder="ឧ. J. Agric.">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">លេខ/ក្បាល</label>
+                        <input id="newPubVol" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" placeholder="Vol. 1, No. 1">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ចំណងជើងអត្ថបទស្រាវជ្រាវ (Title)</label>
+                    <textarea id="newPubTitle" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" placeholder="Article Title..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">អ្នកនិពន្ធ (Authors)</label>
+                    <input id="newPubAuthors" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-en" placeholder="I Sokra, S Somaly...">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Google Scholar Link</label>
+                    <input id="newPubScholar" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="https://scholar.google.com/citations?user=-gn6Ri8AAAAJ&hl=en">
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="plus-circle" class="w-5 h-5 text-purple-400"></i> បន្ថែមអត្ថបទបោះពុម្ពថ្មី', html, async () => {
+            const newPub = {
+                id: 'p_' + Date.now(),
+                year: document.getElementById('newPubYear').value || '2026',
+                journal: document.getElementById('newPubJournal').value || 'Scientific Journal',
+                vol: document.getElementById('newPubVol').value || 'Vol. 1',
+                title: document.getElementById('newPubTitle').value || 'Untitled Research Paper',
+                authors: document.getElementById('newPubAuthors').value || 'I Sokra',
+                doi: document.getElementById('newPubDoi').value || '',
+                scholarUrl: document.getElementById('newPubScholar').value || 'https://scholar.google.com'
+            };
+            appData.publications.unshift(newPub);
+            renderPublicationsSection();
+            await saveAppState();
+        });
+    }
+
+    async function deletePublication(index) {
+        if (!isAdminLoggedIn) return;
+        if (window.confirm("តើអ្នកពិតជាចង់លុបអត្ថបទនេះមែនទេ?")) {
+            appData.publications.splice(index, 1);
+            renderPublicationsSection();
+            await saveAppState();
+        }
+    }
+
+    function openEditFounderModal() {
+        const f = appData.founder;
+        const html = `
+            <div class="space-y-4">
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-rose-500/30 flex items-center gap-4">
+                    <img id="editFounderPreviewImg" src="${f.photo || 'https://placehold.co/300x300/0a0f1d/eab308?text=IS'}" alt="Preview" class="w-16 h-16 rounded-full object-cover border-2 border-rose-500/40 shadow">
+                    <div class="space-y-1.5 flex-1">
+                        <label class="block text-slate-300 font-semibold text-xs">រូបថតស្ថាបនិក (Founder Avatar)</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="document.getElementById('modalFounderFileInput').click()" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ប្តូររូបថត (Upload Photo)
+                            </button>
+                            <input type="file" id="modalFounderFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'editFounderPreviewImg', 'editFounderPhoto')">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">តំណភ្ជាប់រូបថត (Photo URL)</label>
+                    <input id="editFounderPhoto" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs" value="${f.photo || ''}" oninput="document.getElementById('editFounderPreviewImg').src = this.value">
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">ឈ្មោះ</label>
+                    <input id="editFounderName" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${f.name}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">តួនាទី / សញ្ញាបត្រ</label>
+                    <input id="editFounderRole" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${f.role}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">មុខតំណែង / ស្ថាប័ន</label>
+                    <input id="editFounderAffiliation" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${f.affiliation}">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">ជីវប្រវត្តិសង្ខេប (Bio)</label>
+                    <textarea id="editFounderBio" rows="4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">${f.bio}</textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">Google Scholar Link</label>
+                        <input id="editFounderScholar" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${f.scholar}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">ORCID Link</label>
+                        <input id="editFounderOrcid" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${f.orcid}">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">Telegram Profile Link</label>
+                        <input id="editFounderTg" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${f.telegram || 'https://t.me/Sokra25'}">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Email</label>
+                        <input id="editFounderEmail" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${f.email}">
+                    </div>
+                </div>
+            </div>
+        `;
+        openModal('<i data-lucide="user" class="w-5 h-5 text-rose-400"></i> កែសម្រួលព័ត៌មានស្ថាបនិក', html, async () => {
+            appData.founder.name = document.getElementById('editFounderName').value;
+            appData.founder.role = document.getElementById('editFounderRole').value;
+            appData.founder.affiliation = document.getElementById('editFounderAffiliation').value;
+            appData.founder.bio = document.getElementById('editFounderBio').value;
+            appData.founder.scholar = document.getElementById('editFounderScholar').value;
+            appData.founder.orcid = document.getElementById('editFounderOrcid').value;
+            appData.founder.telegram = document.getElementById('editFounderTg').value;
+            appData.founder.email = document.getElementById('editFounderEmail').value;
+            appData.founder.photo = document.getElementById('editFounderPhoto').value;
+            renderFounderSection();
+            await saveAppState();
+        });
+    }
+
+    function compressAndSaveImage(file, callback) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 600;
+                let width = img.width;
+                let height = img.height;
+
+                if (width > MAX_WIDTH) {
+                    height = Math.round((height * MAX_WIDTH) / width);
+                    width = MAX_WIDTH;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.65);
+                callback(compressedBase64);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function previewModalImage(event, previewImgId, inputId) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        compressAndSaveImage(file, (compressedBase64) => {
+            document.getElementById(previewImgId).src = compressedBase64;
+            if (inputId) {
+                document.getElementById(inputId).value = compressedBase64;
+            }
+        });
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-message');
+        toastMsg.textContent = message;
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        setTimeout(() => {
+            toast.classList.add('translate-y-20', 'opacity-0');
+            toast.classList.remove('translate-y-0', 'opacity-100');
+        }, 3800);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadDataFromGitHubOrLocal();
+
+        window.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+                e.preventDefault();
+                openLoginModal();
+            }
+        });
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        const allNavLinks = document.querySelectorAll('.nav-item');
+        allNavLinks.forEach(item => {
+            item.addEventListener('click', function() {
+                const menuType = this.getAttribute('data-menu');
+                allNavLinks.forEach(nav => nav.classList.remove('active'));
+                document.querySelectorAll(`.nav-item[data-menu="${menuType}"]`).forEach(n => n.classList.add('active'));
+            });
+        });
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    allNavLinks.forEach(link => {
+                        if (link.getAttribute('data-menu') === currentId) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, { root: null, rootMargin: '-20% 0px -65% 0px', threshold: 0 });
+
+        document.querySelectorAll('section[id]').forEach(sec => sectionObserver.observe(sec));
+    });
+</script>
+
+</body>
+</html>
