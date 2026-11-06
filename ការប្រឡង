@@ -93,18 +93,6 @@ th{color:#94a3b8;font-weight:600}
     <p>ការវាស់ស្ទង់ចំណេះដឹងស្តីពីប៉ារ៉ាម៉ែត្ររូបវន្ត គីមី និងជីវសាស្ត្រនៃទឹក</p>
     <span class="btn-start">ចាប់ផ្តើមប្រឡង →</span>
   </a>
-  <a href="biology-exam.html" class="exam-card">
-    <div class="exam-icon">🧬</div>
-    <h3>តេស្តជីវវិទ្យា</h3>
-    <p>វិញ្ញាសាតេស្តចំណេះដឹងទូទៅលើជីវវិទ្យា ហ្សែន និងប្រព័ន្ធអេកូឡូស៊ី</p>
-    <span class="btn-start">ចាប់ផ្តើមប្រឡង →</span>
-  </a>
-  <a href="microbiology-exam.html" class="exam-card">
-    <div class="exam-icon">🧫</div>
-    <h3>តេស្តមីក្រូជីវសាស្ត្រ</h3>
-    <p>ការវាយតម្លៃលើបាក់តេរី ផ្សិត វីរុស និងការបណ្តុះមេរោគក្នុងមន្ទីរពិសោធន៍</p>
-    <span class="btn-start">ចាប់ផ្តើមប្រឡង →</span>
-  </a>
 </div>
 
 <div class="sec-title">✨ តេស្តដែលបង្កើតថ្មី</div>
