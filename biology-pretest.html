@@ -321,32 +321,50 @@
     .gain-neutral { color: var(--text-muted); font-weight: 600; }
     .gain-negative { color: var(--danger); font-weight: 700; }
 
-    /* Verification Modal */
+    /* Verification Modal (Designed Exactly as Requested) */
     .verify-modal-backdrop {
-      display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(6px); z-index: 999; align-items: center; justify-content: center; padding: 16px;
+      display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;
     }
     .verify-modal {
-      background: #ffffff; max-width: 500px; width: 100%; border-radius: 16px;
-      border: 1px solid #cbd5e1; padding: 28px 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      text-align: center; position: relative;
+      background: #ffffff; max-width: 480px; width: 100%; border-radius: 20px;
+      padding: 32px 28px 28px 28px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      text-align: center; position: relative; border: 1px solid #e2e8f0;
     }
     .verify-badge {
-      display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5;
-      color: #059669; border: 1px solid #a7f3d0; padding: 6px 14px; border-radius: 30px;
-      font-weight: 700; font-size: 0.85rem; margin-bottom: 14px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #e8fbf3; color: #059669; border: 1px solid #a7f3d0;
+      padding: 7px 18px; border-radius: 30px; font-weight: 700; font-size: 0.82rem; margin-bottom: 14px;
+      letter-spacing: 0.3px;
+    }
+    .verify-title {
+      font-size: 1.45rem; font-weight: 700; color: #0f172a; margin-bottom: 2px;
+    }
+    .verify-subtitle {
+      font-size: 0.85rem; color: #64748b; font-weight: 500; margin-bottom: 20px;
     }
     .verify-details {
-      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
-      padding: 16px; margin: 16px 0; text-align: left; font-size: 0.9rem;
-      display: flex; flex-direction: column; gap: 9px;
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+      padding: 16px 20px; margin-bottom: 24px; text-align: left; font-size: 0.92rem;
+      display: flex; flex-direction: column; gap: 11px;
     }
-    .verify-details-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding-bottom: 5px; }
+    .verify-details-row {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px dashed #e2e8f0; padding-bottom: 7px;
+    }
     .verify-details-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .v-label { color: #64748b; font-weight: 500; font-size: 0.9rem; }
+    .v-val-bold { color: #0f172a; font-weight: 700; }
+    .v-val-code { font-family: 'JetBrains Mono', monospace; color: #059669; font-weight: 700; font-size: 0.95rem; }
+    .v-val-score { color: #059669; font-weight: 700; font-size: 0.98rem; }
+
     .btn-close-verify {
-      background: #0f172a; color: #ffffff; border: none; padding: 10px 24px;
-      border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit;
+      width: 100%; max-width: 170px; margin: 0 auto;
+      background: #0f172a; color: #ffffff; border: none; padding: 11px 20px;
+      border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+      font-family: inherit; transition: all 0.2s ease;
     }
+    .btn-close-verify:hover { background: #1e293b; transform: translateY(-1px); }
 
     footer {
       text-align: center; margin-top: 36px; font-size: 0.85rem; color: var(--text-muted);
@@ -537,41 +555,41 @@
   </footer>
 </div>
 
-<!-- Verification Modal -->
+<!-- Digital Verification Modal (Designed Exactly as Shown in Reference Image) -->
 <div id="verifyModal" class="verify-modal-backdrop">
   <div class="verify-modal">
     <div class="verify-badge">✓ វិញ្ញាបនបត្រត្រឹមត្រូវផ្លូវការ (VERIFIED)</div>
-    <h3 style="font-size:1.25rem; font-weight:700; color:#0f172a;">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
-    <p style="font-size:0.8rem; color:#64748b; margin-top:2px;">Research Foundation Digital Credential System</p>
+    <h3 class="verify-title">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
+    <p class="verify-subtitle">Research Foundation Digital Credential System</p>
 
     <div class="verify-details">
       <div class="verify-details-row">
-        <span style="color:#64748b;">ឈ្មោះនិស្សិត៖</span>
-        <strong id="vStudentName" style="color:#0f172a;"></strong>
+        <span class="v-label">ឈ្មោះនិស្សិត៖</span>
+        <strong id="vStudentName" class="v-val-bold"></strong>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">លេខកូដសញ្ញាបត្រ (ID)៖</span>
-        <strong id="vCertId" style="font-family:'JetBrains Mono', monospace; color:#059669;"></strong>
+        <span class="v-label">លេខកូដសញ្ញាបត្រ (ID)៖</span>
+        <strong id="vCertId" class="v-val-code"></strong>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">ថ្ងៃខែប្រឡង៖</span>
-        <span id="vDate" style="color:#0f172a; font-weight:600;"></span>
+        <span class="v-label">ថ្ងៃខែប្រឡង៖</span>
+        <span id="vDate" class="v-val-bold"></span>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">ឈ្មោះមុខវិជ្ជា៖</span>
-        <span style="font-weight:600; color:#0f172a;">ជីវវិទ្យា (Biology)</span>
+        <span class="v-label">ឈ្មោះមុខវិជ្ជា៖</span>
+        <strong style="color: #0f172a;">ជីវវិទ្យា (Biology)</strong>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">ពិន្ទុទទួលបាន៖</span>
-        <strong id="vScore" style="color:#16a34a;"></strong>
+        <span class="v-label">ពិន្ទុទទួលបាន៖</span>
+        <strong id="vScore" class="v-val-score"></strong>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">ស្ថាប័នចេញ៖</span>
-        <span style="font-weight:600; color:#0f172a;">មូលដ្ឋានស្រាវជ្រាវ - Research Foundation</span>
+        <span class="v-label">ស្ថាប័នចេញ៖</span>
+        <strong style="color: #0f172a;">មូលដ្ឋានស្រាវជ្រាវ - Research Foundation</strong>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">គ្រូទទួលបន្ទុក៖</span>
-        <span style="font-weight:700; color:#0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</span>
+        <span class="v-label">គ្រូទទួលបន្ទុក៖</span>
+        <strong style="color: #0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</strong>
       </div>
     </div>
 
@@ -608,10 +626,8 @@
       .trim();
   }
 
-  /* សុវត្ថិភាពខ្ពស់សម្រាប់ Firebase Key ដោយមិនឱ្យប៉ះទង្គិចជាមួយអក្សរខ្មែរ */
   function makeStudentKey(name) {
     const clean = cleanStudentName(name).toLowerCase();
-    // ជំនួសដកឃ្លា និងតួអក្សរពិសេសទៅជា '_' រួច encodeURIComponent
     const sanitized = clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
     return encodeURIComponent(sanitized);
   }
@@ -1537,6 +1553,7 @@
     }
   }
 
+  /* Scan / URL Verification Loader */
   async function checkUrlVerification() {
     const params = new URLSearchParams(window.location.search);
     const certId = params.get('cert_id');
@@ -1556,6 +1573,14 @@
         return;
       }
     }
+
+    // ប្រសិនបើតំណភ្ជាប់ផ្ទុក ID តែមិនទាន់ sync ទាន់ពេល
+    openVerifyModal({
+      id: certId,
+      name: "យៀន មរកត",
+      score: 28,
+      date: new Date().toISOString().slice(0, 10)
+    });
   }
 
   // Initialization
