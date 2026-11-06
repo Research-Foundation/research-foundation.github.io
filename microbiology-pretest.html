@@ -398,7 +398,7 @@
     .verify-badge {
       display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5;
       color: #059669; border: 1px solid #a7f3d0; padding: 6px 14px; border-radius: 30px;
-      font-weight: 700; font-size: 0.85rem; margin-bottom: 14px;
+      font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;
     }
     .verify-details {
       background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
@@ -626,12 +626,18 @@
   </footer>
 </div>
 
-<!-- Verification Modal -->
+<!-- Verification Modal With Dynamic QR Code & Direct Certificate Link -->
 <div id="verifyModal" class="verify-modal-backdrop">
   <div class="verify-modal">
     <div class="verify-badge">✓ វិញ្ញាបនបត្រត្រឹមត្រូវផ្លូវការ (VERIFIED)</div>
     <h3 style="font-size:1.25rem; font-weight:700; color:#0f172a;">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
     <p style="font-size:0.8rem; color:#64748b; margin-top:2px;">Research Foundation Digital Credential System</p>
+
+    <!-- Dynamic Modal QR Box & Link -->
+    <div style="margin: 16px auto 6px auto; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <div id="vModalQrContainer" style="background:#fff; padding:6px; border:1px solid #cbd5e1; border-radius:8px; display:inline-block; box-shadow:0 2px 6px rgba(0,0,0,0.06);"></div>
+      <a id="vModalDirectLink" href="#" target="_blank" style="font-size:0.75rem; color:#059669; font-weight:600; text-decoration:none; word-break:break-all;"></a>
+    </div>
 
     <div class="verify-details">
       <div class="verify-details-row">
@@ -664,7 +670,10 @@
       </div>
     </div>
 
-    <button type="button" class="btn-close-verify" onclick="closeVerifyModal()">បិទផ្ទាំងផ្ទៀងផ្ទាត់</button>
+    <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:14px;">
+      <button type="button" class="btn-action btn-view-cert" style="padding:10px 18px; font-size:0.88rem; font-weight:700;" onclick="viewFullCertFromModal()">🎓 បើកមើលវិញ្ញាបនបត្រធំ</button>
+      <button type="button" class="btn-close-verify" onclick="closeVerifyModal()">បិទផ្ទាំងផ្ទៀងផ្ទាត់</button>
+    </div>
   </div>
 </div>
 
@@ -683,6 +692,7 @@
   let timerInterval = null;
   let isTestSubmitted = false;
   let currentActiveCertData = null;
+  let activeModalData = null;
 
   function esc(str) {
     return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1624,16 +1634,50 @@
 
   /* Digital Verification Modal */
   function openVerifyModal(data) {
+    activeModalData = data;
     document.getElementById('vStudentName').innerText = data.name;
     document.getElementById('vCertId').innerText = data.id;
     document.getElementById('vDate').innerText = data.date;
     document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
+
+    // បង្កើតតំណភ្ជាប់ផ្ទៀងផ្ទាត់ Online Link
+    const verifyUrl = `${VERIFY_BASE_URL}?cert_id=${encodeURIComponent(data.id)}`;
+    const linkElem = document.getElementById('vModalDirectLink');
+    if (linkElem) {
+      linkElem.href = verifyUrl;
+      linkElem.innerText = verifyUrl.replace(/^https?:\/\//, '');
+    }
+
+    // បង្កើត QR Code ភ្លាមៗក្នុងផ្ទាំង Modal
+    const qrElem = document.getElementById('vModalQrContainer');
+    if (qrElem) {
+      qrElem.innerHTML = '';
+      new QRCode(qrElem, {
+        text: verifyUrl,
+        width: 80,
+        height: 80,
+        colorDark: "#0f172a",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
     const modal = document.getElementById('verifyModal');
     modal.style.display = 'flex';
   }
 
   function closeVerifyModal() {
     document.getElementById('verifyModal').style.display = 'none';
+  }
+
+  // អនុគមន៍ចុចមើល និងទាញយកវិញ្ញាបនបត្រ PDF ពីផ្ទាំង Modal
+  function viewFullCertFromModal() {
+    if (!activeModalData) return;
+    showCertificate(activeModalData.name, activeModalData.score, activeModalData.date, activeModalData.id);
+    closeVerifyModal();
+    const certWrapper = document.getElementById('certificateWrapper');
+    certWrapper.style.display = 'block';
+    certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
   function testVerifyModal() {
