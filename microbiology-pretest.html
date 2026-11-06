@@ -6,14 +6,14 @@
   <title>ការវាយតម្លៃមីក្រូជីវវិទ្យា (Pre-test & Post-test) | មូលដ្ឋានស្រាវជ្រាវ-Research Foundation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Kantumruy+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Moul&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   
-  <!-- Chart.js Library -->
+  <!-- បណ្ណាល័យ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- html2canvas and jsPDF Libraries -->
+  <!-- បណ្ណាល័យ html2canvas និង jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- QRCode.js Library -->
+  <!-- បណ្ណាល័យ QRCode.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -27,9 +27,8 @@
       --border: #cbd5e1;
       --success: #16a34a;
       --danger: #dc2626;
-      --gold: #b45309;
-      --gold-light: #fef3c7;
-      --gold-gradient: linear-gradient(135deg, #b45309 0%, #f59e0b 50%, #92400e 100%);
+      --gold: #d97706;
+      --gold-dark: #92400e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,7 +42,7 @@
     }
 
     .container {
-      max-width: 960px;
+      max-width: 940px;
       margin: 0 auto;
       background: var(--card-bg);
       padding: 36px 32px;
@@ -60,7 +59,7 @@
     }
 
     .university { font-size: 1.15rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; }
-    h1 { font-size: 1.55rem; color: #0f172a; margin-top: 6px; }
+    h1 { font-size: 1.5rem; color: #0f172a; margin-top: 6px; }
 
     .exam-info {
       display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
@@ -104,11 +103,11 @@
     }
 
     .btn-start {
-      background-color: var(--primary); color: white; border: none; padding: 16px 36px;
+      background-color: var(--success); color: white; border: none; padding: 16px 36px;
       font-size: 1.2rem; font-weight: 700; font-family: inherit; border-radius: 8px;
-      cursor: pointer; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); transition: all 0.2s;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); transition: all 0.2s;
     }
-    .btn-start:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
+    .btn-start:hover { background-color: #15803d; transform: translateY(-2px); }
 
     #examBody { display: none; }
 
@@ -139,198 +138,152 @@
     .level-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
     .chart-container { position: relative; max-width: 650px; margin: 20px auto 0 auto; height: 320px; }
 
-    /* ==================== CERTIFICATE STYLING ==================== */
+    /* ================= វិញ្ញាបនបត្រ ================= */
     .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
-    .cert-scroll { overflow-x: auto; padding-bottom: 12px; display: flex; justify-content: center; }
+    .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
+
     .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 
     .btn-cert-download {
-      background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
-      color: white; border: none; padding: 12px 26px;
+      background-color: var(--gold); color: white; border: none; padding: 12px 24px;
       font-size: 1rem; font-weight: 700; font-family: inherit; border-radius: 6px;
-      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 14px rgba(180, 83, 9, 0.35);
+      cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
     }
-    .btn-cert-download:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(180, 83, 9, 0.45); }
+    .btn-cert-download:hover { background-color: var(--gold-dark); }
     .btn-cert-download:disabled { opacity: .6; cursor: wait; }
 
     .certificate-card {
-      width: 960px;
-      height: 678px;
+      width: 920px;
+      height: 645px;
       margin: 0 auto;
-      background: radial-gradient(circle at center, #ffffff 60%, #faf8f2 100%);
-      padding: 30px 42px;
-      border: 14px solid #0f172a;
+      background: #ffffff;
+      padding: 24px 34px;
+      border: 12px solid #0f172a;
       position: relative;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       text-align: center;
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       color: #0f172a;
-      overflow: hidden;
     }
 
     .certificate-card::before {
       content: '';
       position: absolute;
-      top: 6px; left: 6px; right: 6px; bottom: 6px;
-      border: 3px double #d97706;
+      top: 4px; left: 4px; right: 4px; bottom: 4px;
+      border: 3px solid var(--gold);
       pointer-events: none;
     }
 
-    .certificate-card::after {
-      content: '';
-      position: absolute;
-      top: 14px; left: 14px; right: 14px; bottom: 14px;
-      border: 1px solid rgba(217, 119, 6, 0.35);
-      pointer-events: none;
-    }
+    .cert-corner-decor { position: absolute; width: 36px; height: 36px; border: 3px solid var(--gold); }
+    .c-top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+    .c-top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+    .c-bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+    .c-bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 
-    /* Watermark Seal */
-    .cert-watermark {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 320px;
-      height: 320px;
-      opacity: 0.035;
-      pointer-events: none;
-      z-index: 0;
-    }
+    .cert-logo { width: 68px; height: 68px; object-fit: contain; margin: 0 auto 3px auto; display: block; }
 
-    .cert-content {
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    /* Ornamental Corners */
-    .cert-corner { position: absolute; width: 44px; height: 44px; pointer-events: none; z-index: 2; }
-    .cert-corner svg { width: 100%; height: 100%; fill: #b45309; }
-    .c-tl { top: 12px; left: 12px; }
-    .c-tr { top: 12px; right: 12px; transform: rotate(90deg); }
-    .c-bl { bottom: 12px; left: 12px; transform: rotate(-90deg); }
-    .c-br { bottom: 12px; right: 12px; transform: rotate(180deg); }
-
-    .cert-header { display: flex; flex-direction: column; align-items: center; }
-    .cert-logo { width: 62px; height: 62px; object-fit: contain; margin-bottom: 4px; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08)); }
     .cert-org {
-      font-family: 'Cinzel', serif; font-size: 1.35rem; font-weight: 800;
-      letter-spacing: 3px; color: #0f172a; text-transform: uppercase;
+      font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
+      letter-spacing: 2px; color: #0f172a; text-transform: uppercase;
     }
+
     .cert-motto {
-      font-size: 0.68rem; letter-spacing: 3.5px; color: var(--gold);
+      font-size: 0.68rem; letter-spacing: 2.5px; color: var(--gold);
       font-weight: 700; text-transform: uppercase; margin-bottom: 6px;
     }
-    .cert-ribbon {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      margin: 2px 0 6px 0;
-    }
-    .cert-ribbon-line {
-      width: 80px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #b45309, transparent);
-    }
-    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.55rem; color: #92400e; letter-spacing: 0.5px; line-height: 1.3; }
+
+    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.55rem; color: var(--gold-dark); margin-bottom: 2px; }
+
     .cert-title-en {
-      font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700;
-      letter-spacing: 3px; color: #334155; text-transform: uppercase; margin-top: 2px;
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 8px;
     }
 
-    .cert-body { margin: 6px 0; }
-    .cert-presented { font-size: 0.9rem; color: #64748b; letter-spacing: 0.5px; }
+    .cert-presented { font-size: 0.95rem; color: #64748b; }
+
     .cert-student-name {
-      font-family: 'Kantumruy Pro', sans-serif; font-size: 2rem; font-weight: 700;
-      color: #064e3b; display: inline-block; padding: 2px 48px 4px 48px;
-      margin: 4px auto 8px auto; position: relative;
+      font-family: 'Kantumruy Pro', sans-serif; font-size: 1.85rem; font-weight: 700;
+      color: var(--primary-dark); border-bottom: 2px solid var(--gold);
+      display: inline-block; padding: 0 40px 4px 40px; margin: 4px auto 8px auto;
     }
-    .cert-name-underline {
-      height: 2px;
-      width: 60%;
-      margin: 0 auto 8px auto;
-      background: linear-gradient(90deg, transparent, #b45309, #d97706, #b45309, transparent);
-    }
-    .cert-desc { font-size: 0.92rem; line-height: 1.7; color: #334155; max-width: 780px; margin: 0 auto; }
-    .cert-desc strong { color: #0f172a; }
+
+    .cert-desc { font-size: 0.9rem; line-height: 1.65; color: #334155; max-width: 760px; margin: 0 auto; }
 
     .cert-signatures { 
       display: grid; 
       grid-template-columns: 240px 1fr 240px; 
       align-items: flex-end; 
-      padding: 0 10px;
-      margin-top: 8px;
+      margin-top: 10px; 
+      padding: 0 10px; 
     }
     .sig-block { text-align: center; position: relative; }
 
-    /* Official Gold & Red Seal */
-    .official-seal-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
     .official-stamp {
-      width: 90px; height: 90px; border: 2.5px dashed #b91c1c; border-radius: 50%;
+      width: 86px; height: 86px; border: 2px dashed #b91c1c; border-radius: 50%;
       margin: 0 auto 4px auto; display: flex; flex-direction: column;
       align-items: center; justify-content: center; color: #b91c1c;
-      transform: rotate(-8deg); background: radial-gradient(circle, rgba(254, 226, 226, 0.45) 40%, rgba(254, 202, 202, 0.2) 100%);
-      box-shadow: 0 2px 8px rgba(185, 28, 28, 0.15);
-      user-select: none; font-family: 'Kantumruy Pro', sans-serif;
+      transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25); user-select: none;
+      font-family: 'Kantumruy Pro', sans-serif;
     }
-    .stamp-text-top { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.8px; line-height: 1.2; }
-    .stamp-star { font-size: 0.7rem; margin: 1px 0; color: #dc2626; line-height: 1.2; }
-    .stamp-text-bottom { font-size: 0.62rem; font-weight: 700; line-height: 1.3; }
+    .stamp-text-top { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
+    .stamp-star { font-size: 0.65rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
+    .stamp-text-bottom { font-size: 0.6rem; font-weight: 700; line-height: 1.4; padding-top: 1px; }
 
     .signature-wrap { height: 50px; display: flex; align-items: flex-end; justify-content: center; }
-    .teacher-signature { height: 48px; width: auto; display: block; }
-    .sig-line { border-top: 1.5px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
-    .sig-name { font-weight: 700; font-size: 0.94rem; color: #0f172a; }
+    .teacher-signature { height: 46px; width: auto; display: block; }
+
+    .sig-line { border-top: 1px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
+    .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
     .sig-title { font-size: 0.78rem; color: var(--text-muted); }
 
+    /* Center QR Box */
     .cert-center-panel {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
     }
+
     .cert-qr-box {
-      width: 76px;
-      height: 76px;
+      width: 74px;
+      height: 74px;
       background: #ffffff;
       padding: 4px;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .cert-qr-box canvas {
-      width: 68px !important;
-      height: 68px !important;
+      width: 66px !important;
+      height: 66px !important;
       display: block !important;
       margin: 0 auto !important;
     }
-    .cert-qr-box img { display: none !important; }
+
+    .cert-qr-box img {
+      display: none !important;
+    }
+
     .cert-id-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
       font-weight: 700;
-      color: #064e3b;
-      background: #ecfdf5;
-      padding: 2px 8px;
+      color: #0f172a;
+      background: #f1f5f9;
+      padding: 1px 7px;
       border-radius: 4px;
-      border: 1px solid #a7f3d0;
+      border: 1px solid #cbd5e1;
       letter-spacing: 0.5px;
     }
+
     .cert-verify-link-text {
       font-size: 0.62rem;
       color: var(--primary-dark);
@@ -359,8 +312,9 @@
     .btn-clear-all:hover { background-color: #b91c1c; }
     .btn-refresh-cloud { background-color: #0d9488; color: white; }
     .btn-refresh-cloud:hover { background-color: #0f766e; }
-    .btn-view-cert { background: #d97706; color: #fff; padding: 4px 10px; font-size: 0.8rem; border-radius: 4px; }
-    .btn-view-cert:hover { background: #92400e; }
+    .btn-view-cert { background:#d97706; color:#fff; padding:4px 8px; font-size:0.8rem; }
+    .btn-view-cert:hover { background:#92400e; }
+
     .btn-delete-row {
       background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5;
       padding: 4px 8px; font-family: inherit; font-size: 0.8rem; border-radius: 4px;
@@ -385,31 +339,73 @@
     .gain-neutral { color: var(--text-muted); font-weight: 600; }
     .gain-negative { color: var(--danger); font-weight: 700; }
 
-    /* Verification Modal */
+    /* ================= VERIFICATION MODAL ================= */
     .verify-modal-backdrop {
-      display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(6px); z-index: 99999; align-items: center; justify-content: center; padding: 16px;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
     .verify-modal {
-      background: #ffffff; max-width: 500px; width: 100%; border-radius: 16px;
-      border: 1px solid #cbd5e1; padding: 28px 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      text-align: center; position: relative;
+      background: #ffffff;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      padding: 28px 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
     }
     .verify-badge {
-      display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5;
-      color: #059669; border: 1px solid #a7f3d0; padding: 6px 14px; border-radius: 30px;
-      font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
     }
     .verify-details {
-      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
-      padding: 16px; margin: 16px 0; text-align: left; font-size: 0.9rem;
-      display: flex; flex-direction: column; gap: 9px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: left;
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
     }
-    .verify-details-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding-bottom: 5px; }
-    .verify-details-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .verify-details-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #e2e8f0;
+      padding-bottom: 5px;
+    }
+    .verify-details-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
     .btn-close-verify {
-      background: #0f172a; color: #ffffff; border: none; padding: 10px 24px;
-      border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit;
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
     }
 
     footer {
@@ -424,8 +420,9 @@
       #certificateCard, #certificateCard * { visibility: visible; }
       #certificateCard {
         position: fixed; top: 50%; left: 50%;
-        transform: translate(-50%, -50%) scale(1.08);
-        box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+        transform: translate(-50%, -50%) scale(1.12);
+        box-shadow: none;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
     }
   </style>
@@ -443,7 +440,7 @@
       <span class="badge" style="background:#fef3c7; color:#92400e;">ជាប់ទទួលវិញ្ញាបនបត្រ៖ &gt; ២០ ពិន្ទុ</span>
     </div>
     <div class="objective" id="objectiveText">
-      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាមីក្រូជីវវិទ្យា មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។ និស្សិតដែលប្រឡង Post-test ទទួលបានពិន្ទុលើសពី ២០ ពិន្ទុ នឹងទទួលបានវិញ្ញាបនបត្របញ្ជាក់ការសិក្សាផ្លូវការដែលមានលេខសម្គាល់ និង QR Code ផ្ទៀងផ្ទាត់លើប្រព័ន្ធ។
+      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាមីក្រូជីវវិទ្យា មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។ និស្សិតដែលប្រឡង Post-test ទទួលបានពិន្ទុលើសពី ២០ ពិន្ទុ នឹងទទួលបានវិញ្ញាបនបត្រផ្លូវការដែលមាន QR Code ផ្ទៀងផ្ទាត់សុពលភាពលើប្រព័ន្ធ។
     </div>
   </header>
 
@@ -493,7 +490,7 @@
     </div>
   </div>
 
-  <!-- Certificate Area -->
+  <!-- ================= វិញ្ញាបនបត្រ ================= -->
   <div id="certificateWrapper" class="certificate-wrapper">
     <div class="cert-actions">
       <button type="button" id="btnDownloadCert" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
@@ -503,89 +500,64 @@
 
     <div class="cert-scroll">
       <div id="certificateCard" class="certificate-card">
-        <!-- SVG Corner Ornaments -->
-        <div class="cert-corner c-tl">
-          <svg viewBox="0 0 100 100"><path d="M0,0 L100,0 C60,0 20,40 20,80 L20,100 L0,100 Z M28,28 L70,28 C50,35 35,50 28,70 Z"/></svg>
-        </div>
-        <div class="cert-corner c-tr">
-          <svg viewBox="0 0 100 100"><path d="M0,0 L100,0 C60,0 20,40 20,80 L20,100 L0,100 Z M28,28 L70,28 C50,35 35,50 28,70 Z"/></svg>
-        </div>
-        <div class="cert-corner c-bl">
-          <svg viewBox="0 0 100 100"><path d="M0,0 L100,0 C60,0 20,40 20,80 L20,100 L0,100 Z M28,28 L70,28 C50,35 35,50 28,70 Z"/></svg>
-        </div>
-        <div class="cert-corner c-br">
-          <svg viewBox="0 0 100 100"><path d="M0,0 L100,0 C60,0 20,40 20,80 L20,100 L0,100 Z M28,28 L70,28 C50,35 35,50 28,70 Z"/></svg>
+        <div class="cert-corner-decor c-top-left"></div>
+        <div class="cert-corner-decor c-top-right"></div>
+        <div class="cert-corner-decor c-bottom-left"></div>
+        <div class="cert-corner-decor c-bottom-right"></div>
+
+        <div>
+          <img id="certLogo" 
+               src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
+               alt="Research Foundation Logo" 
+               class="cert-logo" 
+               crossorigin="anonymous"
+               onerror="this.src='logo.png'">
+          <div class="cert-org">Research Foundation</div>
+          <div class="cert-motto">Knowledge • Innovation • Impact</div>
+
+          <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
+          <div class="cert-title-en">Certificate of Achievement</div>
         </div>
 
-        <!-- SVG Subtle Center Watermark -->
-        <svg class="cert-watermark" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="90" fill="none" stroke="#059669" stroke-width="4"/>
-          <circle cx="100" cy="100" r="75" fill="none" stroke="#d97706" stroke-width="2"/>
-          <path d="M100 25 L108 55 L138 60 L115 80 L122 110 L95 92 L70 110 L78 80 L55 60 L85 55 Z" fill="#059669"/>
-        </svg>
-
-        <div class="cert-content">
-          <div class="cert-header">
-            <img id="certLogo" 
-                 src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
-                 alt="Research Foundation Logo" 
-                 class="cert-logo" 
-                 crossorigin="anonymous"
-                 onerror="this.src='logo.png'">
-            <div class="cert-org">Research Foundation</div>
-            <div class="cert-motto">Knowledge • Innovation • Impact</div>
-
-            <div class="cert-ribbon">
-              <span class="cert-ribbon-line"></span>
-              <span style="color:#d97706; font-size:0.75rem;">✦ ✦ ✦</span>
-              <span class="cert-ribbon-line"></span>
-            </div>
-
-            <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
-            <div class="cert-title-en">Certificate of Achievement</div>
+        <div>
+          <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
+          <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
+          <div class="cert-desc">
+            ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«មីក្រូជីវវិទ្យា (Microbiology)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">25/30 ពិន្ទុ</strong>។
           </div>
+        </div>
 
-          <div class="cert-body">
-            <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
-            <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
-            <div class="cert-name-underline"></div>
-            <div class="cert-desc">
-              ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«មីក្រូជីវវិទ្យា (Microbiology)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">25/30 ពិន្ទុ</strong>។
+        <div class="cert-signatures">
+          <!-- ត្រាផ្លូវការ -->
+          <div class="sig-block">
+            <div class="official-stamp">
+              <span class="stamp-text-top">RESEARCH FOUNDATION</span>
+              <span class="stamp-star">★ OFFICIAL SEAL ★</span>
+              <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
+            </div>
+            <div style="font-size:0.75rem; color:#64748b;">
+              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-06</div>
+              <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
+              <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
             </div>
           </div>
 
-          <div class="cert-signatures">
-            <!-- Stamp -->
-            <div class="sig-block official-seal-wrap">
-              <div class="official-stamp">
-                <span class="stamp-text-top">RESEARCH FOUNDATION</span>
-                <span class="stamp-star">★ OFFICIAL SEAL ★</span>
-                <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
-              </div>
-              <div style="font-size:0.75rem; color:#64748b;">
-                <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-06</div>
-                <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
-                <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
-              </div>
-            </div>
+          <!-- QR Code ទំហំ Normal ច្បាស់ទាំង PC និង Mobile -->
+          <div class="sig-block cert-center-panel">
+            <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
+            <div id="certIdDisplay" class="cert-id-tag">ID: RF-MIC-2026-XXXX</div>
+            <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/microbiology-pretest.html?cert_id=...</a>
+          </div>
 
-            <!-- QR Code Center -->
-            <div class="sig-block cert-center-panel">
-              <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
-              <div id="certIdDisplay" class="cert-id-tag">ID: RF-MIC-2026-XXXX</div>
-              <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/microbiology-pretest.html?cert_id=...</a>
+          <!-- ហត្ថលេខាគ្រូបង្រៀន -->
+          <div class="sig-block">
+            <div class="signature-wrap">
+              <img class="teacher-signature" width="70" height="52" alt="Signature"
+                src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
             </div>
-
-            <!-- Signature -->
-            <div class="sig-block">
-              <div class="signature-wrap">
-                <img class="teacher-signature" width="70" height="52" alt="Signature"
-                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
-              </div>
-              <div class="sig-line">
-                <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
-                <div class="sig-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
-              </div>
+            <div class="sig-line">
+              <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
+              <div class="sig-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
             </div>
           </div>
         </div>
@@ -626,18 +598,12 @@
   </footer>
 </div>
 
-<!-- Verification Modal With Dynamic QR Code & Direct Certificate Link -->
+<!-- ================= OFFICIAL VERIFICATION MODAL ================= -->
 <div id="verifyModal" class="verify-modal-backdrop">
   <div class="verify-modal">
     <div class="verify-badge">✓ វិញ្ញាបនបត្រត្រឹមត្រូវផ្លូវការ (VERIFIED)</div>
     <h3 style="font-size:1.25rem; font-weight:700; color:#0f172a;">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
     <p style="font-size:0.8rem; color:#64748b; margin-top:2px;">Research Foundation Digital Credential System</p>
-
-    <!-- Dynamic Modal QR Box & Link -->
-    <div style="margin: 16px auto 6px auto; display: flex; flex-direction: column; align-items: center; gap: 6px;">
-      <div id="vModalQrContainer" style="background:#fff; padding:6px; border:1px solid #cbd5e1; border-radius:8px; display:inline-block; box-shadow:0 2px 6px rgba(0,0,0,0.06);"></div>
-      <a id="vModalDirectLink" href="#" target="_blank" style="font-size:0.75rem; color:#059669; font-weight:600; text-decoration:none; word-break:break-all;"></a>
-    </div>
 
     <div class="verify-details">
       <div class="verify-details-row">
@@ -670,32 +636,27 @@
       </div>
     </div>
 
-    <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:14px;">
-      <button type="button" class="btn-action btn-view-cert" style="padding:10px 18px; font-size:0.88rem; font-weight:700;" onclick="viewFullCertFromModal()">🎓 បើកមើលវិញ្ញាបនបត្រធំ</button>
-      <button type="button" class="btn-close-verify" onclick="closeVerifyModal()">បិទផ្ទាំងផ្ទៀងផ្ទាត់</button>
-    </div>
+    <button type="button" class="btn-close-verify" onclick="closeVerifyModal()">បិទផ្ទាំងផ្ទៀងផ្ទាត់</button>
   </div>
 </div>
 
 <script>
-  /* FIREBASE REALTIME CLOUD ENDPOINT */
   const FIREBASE_DB_URL = "https://water-quality-test-91aa2-default-rtdb.asia-southeast1.firebasedatabase.app";
   const DB_PATH = "microbiology_assessment_records";
-  const LOCAL_STORAGE_KEY = "microbiology_assessment_records";
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
   
+  // Link ស្កេនទៅកាន់ទីតាំងបច្ចុប្បន្នផ្ទាល់
   const VERIFY_BASE_URL = window.location.origin + window.location.pathname;
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
   let isTestSubmitted = false;
   let currentActiveCertData = null;
-  let activeModalData = null;
 
   function esc(str) {
-    return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
   function cleanStudentName(name) {
@@ -706,7 +667,6 @@
       .trim();
   }
 
-  /* Key formatting strictly matching the water-quality approach */
   function makeStudentKey(name) {
     const clean = cleanStudentName(name).toLowerCase();
     return clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
@@ -724,223 +684,211 @@
     return `RF-MIC-${yr}-${code}`;
   }
 
-  /* 30 Microbiology Questions */
   const questionsData = [
-    // ផ្នែកទី១៖ មូលដ្ឋានគ្រឹះមីក្រូជីវវិទ្យា
-    { id: 1, section: "ផ្នែកទី១៖ មូលដ្ឋានគ្រឹះមីក្រូជីវវិទ្យា", q: "១. តើមីក្រូជីវវិទ្យាសិក្សាអំពីអ្វី?",
+    { id: 1, q: "១. តើមីក្រូជីវវិទ្យាសិក្សាអំពីអ្វី?",
       options: [
         { key: "A", text: "A. សិក្សាអំពីសត្វធំៗ" },
         { key: "B", text: "B. សិក្សាអំពីសារពាង្គកាយតូចៗដែលមើលមិនឃើញដោយភ្នែកទទេ" },
         { key: "C", text: "C. សិក្សាអំពីរុក្ខជាតិផ្កា" },
         { key: "D", text: "D. សិក្សាអំពីថ្ម និងដី" }
       ], ans: "B" },
-    { id: 2, section: "ផ្នែកទី១៖ មូលដ្ឋានគ្រឹះមីក្រូជីវវិទ្យា", q: "២. តើសារពាង្គកាយណាមួយខាងក្រោមជាបាក់តេរី?",
+    { id: 2, q: "២. តើសារពាង្គកាយណាមួយខាងក្រោមជាបាក់តេរី?",
       options: [
         { key: "A", text: "A. Escherichia coli" },
         { key: "B", text: "B. Agaricus bisporus" },
         { key: "C", text: "C. Plasmodium" },
         { key: "D", text: "D. Yeast" }
       ], ans: "A" },
-    { id: 3, section: "ផ្នែកទី១៖ មូលដ្ឋានគ្រឹះមីក្រូជីវវិទ្យា", q: "៣. តើបាក់តេរីជាសារពាង្គកាយប្រភេទណា?",
+    { id: 3, q: "៣. តើបាក់តេរីជាសារពាង្គកាយប្រភេទណា?",
       options: [
         { key: "A", text: "A. Eukaryotic" },
         { key: "B", text: "B. Prokaryotic" },
         { key: "C", text: "C. Multicellular" },
         { key: "D", text: "D. Acellular" }
       ], ans: "B" },
-    { id: 4, section: "ផ្នែកទី១៖ មូលដ្ឋានគ្រឹះមីក្រូជីវវិទ្យា", q: "៤. តើផ្នែកណាមួយរបស់បាក់តេរីមានតួនាទីការពារ និងកំណត់ទម្រង់កោសិកា?",
+    { id: 4, q: "៤. តើផ្នែកណាមួយរបស់បាក់តេរីមានតួនាទីការពារ និងកំណត់ទម្រង់កោសិកា?",
       options: [
         { key: "A", text: "A. Nucleus" },
         { key: "B", text: "B. Cell wall" },
         { key: "C", text: "C. Mitochondria" },
         { key: "D", text: "D. Chloroplast" }
       ], ans: "B" },
-    { id: 5, section: "ផ្នែកទី១៖ មូលដ្ឋានគ្រឹះមីក្រូជីវវិទ្យា", q: "៥. តើបាក់តេរីភាគច្រើនបន្តពូជតាមរយៈវិធីណា?",
+    { id: 5, q: "៥. តើបាក់តេរីភាគច្រើនបន្តពូជតាមរយៈវិធីណា?",
       options: [
         { key: "A", text: "A. Budding" },
         { key: "B", text: "B. Binary fission" },
         { key: "C", text: "C. Meiosis" },
         { key: "D", text: "D. Pollination" }
       ], ans: "B" },
-
-    // ផ្នែកទី២៖ ទម្រង់ និងរចនាសម្ព័ន្ធរបស់មីក្រូសារពាង្គកាយ
-    { id: 6, section: "ផ្នែកទី២៖ ទម្រង់ និងរចនាសម្ព័ន្ធរបស់មីក្រូសារពាង្គកាយ", q: "៦. តើបាក់តេរីមានរាងមូលគេហៅថាអ្វី?",
+    { id: 6, q: "៦. តើបាក់តេរីមានរាងមូលគេហៅថាអ្វី?",
       options: [
         { key: "A", text: "A. Bacillus" },
         { key: "B", text: "B. Coccus" },
         { key: "C", text: "C. Spirillum" },
         { key: "D", text: "D. Vibrio" }
       ], ans: "B" },
-    { id: 7, section: "ផ្នែកទី២៖ ទម្រង់ និងរចនាសម្ព័ន្ធរបស់មីក្រូសារពាង្គកាយ", q: "៧. តើបាក់តេរីមានរាងដំបងគេហៅថាអ្វី?",
+    { id: 7, q: "៧. តើបាក់តេរីមានរាងដំបងគេហៅថាអ្វី?",
       options: [
         { key: "A", text: "A. Coccus" },
         { key: "B", text: "B. Bacillus" },
         { key: "C", text: "C. Spirillum" },
         { key: "D", text: "D. Spirochete" }
       ], ans: "B" },
-    { id: 8, section: "ផ្នែកទី២៖ ទម្រង់ និងរចនាសម្ព័ន្ធរបស់មីក្រូសារពាង្គកាយ", q: "៨. តើផ្នែកណាមួយជួយឱ្យបាក់តេរីធ្វើចលនា?",
+    { id: 8, q: "៨. តើផ្នែកណាមួយជួយឱ្យបាក់តេរីធ្វើចលនា?",
       options: [
         { key: "A", text: "A. Capsule" },
         { key: "B", text: "B. Flagellum" },
         { key: "C", text: "C. Cell wall" },
         { key: "D", text: "D. Ribosome" }
       ], ans: "B" },
-    { id: 9, section: "ផ្នែកទី២៖ ទម្រង់ និងរចនាសម្ព័ន្ធរបស់មីក្រូសារពាង្គកាយ", q: "៩. តើមុខងារសំខាន់របស់ Capsule នៅក្នុងបាក់តេរីគឺជាអ្វី?",
+    { id: 9, q: "៩. តើមុខងារសំខាន់របស់ Capsule នៅក្នុងបាក់តេរីគឺជាអ្វី?",
       options: [
         { key: "A", text: "A. ផលិតថាមពល" },
         { key: "B", text: "B. ជួយការពារបាក់តេរីពីកត្តាបរិស្ថាន និងប្រព័ន្ធភាពស៊ាំរបស់ម្ចាស់ផ្ទះ" },
         { key: "C", text: "C. បង្កើតប្រូតេអ៊ីន" },
         { key: "D", text: "D. បង្កើតស្ព័ររបស់ផ្សិត" }
       ], ans: "B" },
-    { id: 10, section: "ផ្នែកទី២៖ ទម្រង់ និងរចនាសម្ព័ន្ធរបស់មីក្រូសារពាង្គកាយ", q: "១០. តើមីក្រូសារពាង្គកាយមួយណាមានរចនាសម្ព័ន្ធជាកោសិកា Eukaryotic?",
+    { id: 10, q: "១០. តើមីក្រូសារពាង្គកាយមួយណាមានរចនាសម្ព័ន្ធជាកោសិកា Eukaryotic?",
       options: [
         { key: "A", text: "A. Bacteria" },
         { key: "B", text: "B. Virus" },
         { key: "C", text: "C. Fungi" },
         { key: "D", text: "D. Archaea" }
       ], ans: "C" },
-
-    // ផ្នែកទី៣៖ ការដាំដុះ និងការកំណត់អត្តសញ្ញាណមីក្រូសារពាង្គកាយ
-    { id: 11, section: "ផ្នែកទី៣៖ ការដាំដុះ និងការកំណត់អត្តសញ្ញាណមីក្រូសារពាង្គកាយ", q: "១១. តើ NA (Nutrient Agar) ត្រូវបានប្រើប្រាស់សម្រាប់អ្វី?",
+    { id: 11, q: "១១. តើ NA (Nutrient Agar) ត្រូវបានប្រើប្រាស់សម្រាប់អ្វី?",
       options: [
         { key: "A", text: "A. ដាំដុះបាក់តេរីទូទៅ" },
         { key: "B", text: "B. ដាំដុះតែផ្សិតប៉ុណ្ណោះ" },
         { key: "C", text: "C. ដាំដុះវីរុស" },
         { key: "D", text: "D. សម្លាប់បាក់តេរី" }
       ], ans: "A" },
-    { id: 12, section: "ផ្នែកទី៣៖ ការដាំដុះ និងការកំណត់អត្តសញ្ញាណមីក្រូសារពាង្គកាយ", q: "១២. តើ PDA (Potato Dextrose Agar) ត្រូវបានប្រើប្រាស់ជាទូទៅសម្រាប់ដាំដុះអ្វី?",
+    { id: 12, q: "១២. តើ PDA (Potato Dextrose Agar) ត្រូវបានប្រើប្រាស់ជាទូទៅសម្រាប់ដាំដុះអ្វី?",
       options: [
         { key: "A", text: "A. បាក់តេរី" },
         { key: "B", text: "B. ផ្សិត និង Yeast" },
         { key: "C", text: "C. វីរុស" },
         { key: "D", text: "D. សារាយសមុទ្រតែប៉ុណ្ណោះ" }
       ], ans: "B" },
-    { id: 13, section: "ផ្នែកទី៣៖ ការដាំដុះ និងការកំណត់អត្តសញ្ញាណមីក្រូសារពាង្គកាយ", q: "១៣. តើសីតុណ្ហភាពណាមួយត្រូវបានប្រើប្រាស់ជាទូទៅសម្រាប់ដាំដុះបាក់តេរីជាច្រើនប្រភេទដែលមានទំនាក់ទំនងនឹងមនុស្ស?",
+    { id: 13, q: "១៣. តើសីតុណ្ហភាពណាមួយត្រូវបានប្រើប្រាស់ជាទូទៅសម្រាប់ដាំដុះបាក់តេរីជាច្រើនប្រភេទដែលមានទំនាក់ទំនងនឹងមនុស្ស?",
       options: [
         { key: "A", text: "A. ០°C" },
         { key: "B", text: "B. ១០°C" },
         { key: "C", text: "C. ៣៧°C" },
         { key: "D", text: "D. ១០០°C" }
       ], ans: "C" },
-    { id: 14, section: "ផ្នែកទី៣៖ ការដាំដុះ និងការកំណត់អត្តសញ្ញាណមីក្រូសារពាង្គកាយ", q: "១៤. តើគោលបំណងសំខាន់នៃការប្រើប្រាស់ Autoclave គឺអ្វី?",
+    { id: 14, q: "១៤. តើគោលបំណងសំខាន់នៃការប្រើប្រាស់ Autoclave គឺអ្វី?",
       options: [
         { key: "A", text: "A. បង្កើនចំនួនបាក់តេរី" },
         { key: "B", text: "B. សម្លាប់មីក្រូសារពាង្គកាយដោយប្រើចំហាយទឹកក្រោមសម្ពាធ" },
         { key: "C", text: "C. វាស់ pH" },
         { key: "D", text: "D. វាស់សីតុណ្ហភាព" }
       ], ans: "B" },
-    { id: 15, section: "ផ្នែកទី៣៖ ការដាំដុះ និងការកំណត់អត្តសញ្ញាណមីក្រូសារពាង្គកាយ", q: "១៥. តើ Gram staining ប្រើប្រាស់សម្រាប់គោលបំណងអ្វី?",
+    { id: 15, q: "១៥. តើ Gram staining ប្រើប្រាស់សម្រាប់គោលបំណងអ្វី?",
       options: [
         { key: "A", text: "A. កំណត់ប្រភេទដី" },
         { key: "B", text: "B. បែងចែកបាក់តេរីជា Gram-positive និង Gram-negative" },
         { key: "C", text: "C. វាស់ចំនួនផ្សិត" },
         { key: "D", text: "D. វាស់ល្បឿនកំណើនបាក់តេរី" }
       ], ans: "B" },
-
-    // ផ្នែកទី៤៖ ការរីកលូតលាស់ និងការគណនាបាក់តេរី
-    { id: 16, section: "ផ្នែកទី៤៖ ការរីកលូតលាស់ និងការគណនាបាក់តេរី", q: "១៦. តើបាក់តេរី Gram-positive មានពណ៌អ្វីបន្ទាប់ពីធ្វើ Gram staining?",
+    { id: 16, q: "១៦. តើបាក់តេរី Gram-positive មានពណ៌អ្វីបន្ទាប់ពីធ្វើ Gram staining?",
       options: [
         { key: "A", text: "A. ពណ៌ផ្កាឈូក" },
         { key: "B", text: "B. ពណ៌ស្វាយ" },
         { key: "C", text: "C. ពណ៌លឿង" },
         { key: "D", text: "D. ពណ៌បៃតង" }
       ], ans: "B" },
-    { id: 17, section: "ផ្នែកទី៤៖ ការរីកលូតលាស់ និងការគណនាបាក់តេរី", q: "១៧. តើបាក់តេរី Gram-negative មានពណ៌អ្វីបន្ទាប់ពីធ្វើ Gram staining?",
+    { id: 17, q: "១៧. តើបាក់តេរី Gram-negative មានពណ៌អ្វីបន្ទាប់ពីធ្វើ Gram staining?",
       options: [
         { key: "A", text: "A. ពណ៌ស្វាយ" },
         { key: "B", text: "B. ពណ៌ខៀវ" },
         { key: "C", text: "C. ពណ៌ផ្កាឈូក ឬក្រហម" },
         { key: "D", text: "D. ពណ៌ខ្មៅ" }
       ], ans: "C" },
-    { id: 18, section: "ផ្នែកទី៤៖ ការរីកលូតលាស់ និងការគណនាបាក់តេរី", q: "១៨. តើ Serial dilution មានគោលបំណងអ្វី?",
+    { id: 18, q: "១៨. តើ Serial dilution មានគោលបំណងអ្វី?",
       options: [
         { key: "A", text: "A. បង្កើនទំហំកោសិកា" },
         { key: "B", text: "B. បន្ថយកំហាប់សំណាកជាបន្តបន្ទាប់" },
         { key: "C", text: "C. សម្លាប់បាក់តេរីទាំងអស់" },
         { key: "D", text: "D. បង្កើនសីតុណ្ហភាព" }
       ], ans: "B" },
-    { id: 19, section: "ផ្នែកទី៤៖ ការរីកលូតលាស់ និងការគណនាបាក់តេរី", q: "១៩. តើ CFU មានន័យដូចម្តេច?",
+    { id: 19, q: "១៩. តើ CFU មានន័យដូចម្តេច?",
       options: [
         { key: "A", text: "A. Cell Formation Unit" },
         { key: "B", text: "B. Colony Forming Unit" },
         { key: "C", text: "C. Culture Filtration Unit" },
         { key: "D", text: "D. Chemical Formation Unit" }
       ], ans: "B" },
-    { id: 20, section: "ផ្នែកទី៤៖ ការរីកលូតលាស់ និងការគណនាបាក់តេរី", q: "២០. ប្រសិនបើចាន Petri មានអាណានិគមបាក់តេរីចំនួន ៨០ ហើយដាក់សំណាក 0.1 mL ពីការរំលាយ 10⁻⁴ តើកំហាប់បាក់តេរីដើមមានប៉ុន្មាន CFU/mL?",
+    { id: 20, q: "២០. ប្រសិនបើចាន Petri មានអាណានិគមបាក់តេរីចំនួន ៨០ ហើយដាក់សំណាក 0.1 mL ពីការរំលាយ 10⁻⁴ តើកំហាប់បាក់តេរីដើមមានប៉ុន្មាន CFU/mL?",
       options: [
         { key: "A", text: "A. 8 × 10⁴ CFU/mL" },
         { key: "B", text: "B. 8 × 10⁵ CFU/mL" },
         { key: "C", text: "C. 8 × 10⁶ CFU/mL" },
         { key: "D", text: "D. 8 × 10⁷ CFU/mL" }
       ], ans: "C" },
-
-    // ផ្នែកទី៥៖ ផ្សិត វីរុស និងមីក្រូសារពាង្គកាយបង្កជំងឺ
-    { id: 21, section: "ផ្នែកទី៥៖ ផ្សិត វីរុស និងមីក្រូសារពាង្គកាយបង្កជំងឺ", q: "២១. តើផ្សិត Trichoderma spp. មានសារៈសំខាន់អ្វីក្នុងកសិកម្ម?",
+    { id: 21, q: "២១. តើផ្សិត Trichoderma spp. មានសារៈសំខាន់អ្វីក្នុងកសិកម្ម?",
       options: [
         { key: "A", text: "A. ជួយគ្រប់គ្រងផ្សិតបង្កជំងឺរុក្ខជាតិ" },
         { key: "B", text: "B. បង្កើតជំងឺគ្រប់ប្រភេទក្នុងរុក្ខជាតិ" },
         { key: "C", text: "C. បំផ្លាញសារធាតុចិញ្ចឹមទាំងអស់ក្នុងដី" },
         { key: "D", text: "D. បង្កើតវីរុស" }
       ], ans: "A" },
-    { id: 22, section: "ផ្នែកទី៥៖ ផ្សិត វីរុស និងមីក្រូសារពាង្គកាយបង្កជំងឺ", q: "២២. តើវីរុសខុសពីបាក់តេរីយ៉ាងដូចម្តេច?",
+    { id: 22, q: "២២. តើវីរុសខុសពីបាក់តេរីយ៉ាងដូចម្តេច?",
       options: [
         { key: "A", text: "A. វីរុសមានកោសិកាពេញលេញ" },
         { key: "B", text: "B. វីរុសអាចបន្តពូជដោយខ្លួនឯងនៅក្នុងបរិស្ថាន" },
         { key: "C", text: "C. វីរុសត្រូវការកោសិកាម្ចាស់ផ្ទះដើម្បីបង្កើតច្បាប់ចម្លងថ្មី" },
         { key: "D", text: "D. វីរុសមានជញ្ជាំងកោសិកា Peptidoglycan" }
       ], ans: "C" },
-    { id: 23, section: "ផ្នែកទី៥៖ ផ្សិត វីរុស និងមីក្រូសារពាង្គកាយបង្កជំងឺ", q: "២៣. តើ Escherichia coli ជាទូទៅមានរាងដូចម្តេច?",
+    { id: 23, q: "២៣. តើ Escherichia coli ជាទូទៅមានរាងដូចម្តេច?",
       options: [
         { key: "A", text: "A. រាងមូល" },
         { key: "B", text: "B. រាងដំបង" },
         { key: "C", text: "C. រាងស្ពៀរ" },
         { key: "D", text: "D. រាងផ្កាយ" }
       ], ans: "B" },
-    { id: 24, section: "ផ្នែកទី៥៖ ផ្សិត វីរុស និងមីក្រូសារពាង្គកាយបង្កជំងឺ", q: "២៤. តើមីក្រូសារពាង្គកាយណាមួយត្រូវបានគេស្គាល់ថាអាចបង្កជំងឺអាសន្នរោគ (Cholera)?",
+    { id: 24, q: "២៤. តើមីក្រូសារពាង្គកាយណាមួយត្រូវបានគេស្គាល់ថាអាចបង្កជំងឺអាសន្នរោគ (Cholera)?",
       options: [
         { key: "A", text: "A. Vibrio cholerae" },
         { key: "B", text: "B. Escherichia coli" },
         { key: "C", text: "C. Bacillus subtilis" },
         { key: "D", text: "D. Saccharomyces cerevisiae" }
       ], ans: "A" },
-    { id: 25, section: "ផ្នែកទី៥៖ ផ្សិត វីរុស និងមីក្រូសារពាង្គកាយបង្កជំងឺ", q: "២៥. តើមីក្រូសារពាង្គកាយណាមួយជាផ្សិតប្រភេទ Yeast?",
+    { id: 25, q: "២៥. តើមីក្រូសារពាង្គកាយណាមួយជាផ្សិតប្រភេទ Yeast?",
       options: [
         { key: "A", text: "A. E. coli" },
         { key: "B", text: "B. Saccharomyces cerevisiae" },
         { key: "C", text: "C. Pseudomonas aeruginosa" },
         { key: "D", text: "D. Bacillus subtilis" }
       ], ans: "B" },
-
-    // ផ្នែកទី៦៖ ការអនុវត្តមីក្រូជីវវិទ្យា និងសុវត្ថិភាពមន្ទីរពិសោធន៍
-    { id: 26, section: "ផ្នែកទី៦៖ ការអនុវត្តមីក្រូជីវវិទ្យា និងសុវត្ថិភាពមន្ទីរពិសោធន៍", q: "២៦. តើហេតុអ្វីបានជាត្រូវប្រើបច្ចេកទេស Aseptic technique នៅក្នុងមន្ទីរពិសោធន៍?",
+    { id: 26, q: "២៦. តើហេតុអ្វីបានជាត្រូវប្រើបច្ចេកទេស Aseptic technique នៅក្នុងមន្ទីរពិសោធន៍?",
       options: [
         { key: "A", text: "A. ដើម្បីធ្វើឱ្យបាក់តេរីលូតលាស់លឿន" },
         { key: "B", text: "B. ដើម្បីការពារការចម្លងរោគ និងការបំពុលសំណាក" },
         { key: "C", text: "C. ដើម្បីបង្កើនសីតុណ្ហភាព" },
         { key: "D", text: "D. ដើម្បីផ្លាស់ប្តូរពណ៌បាក់តេរី" }
       ], ans: "B" },
-    { id: 27, section: "ផ្នែកទី៦៖ ការអនុវត្តមីក្រូជីវវិទ្យា និងសុវត្ថិភាពមន្ទីរពិសោធន៍", q: "២៧. តើអ្វីជាមូលហេតុដែលត្រូវលាងដៃមុន និងក្រោយពេលធ្វើការក្នុងមន្ទីរពិសោធន៍?",
+    { id: 27, q: "២៧. តើអ្វីជាមូលហេតុដែលត្រូវលាងដៃមុន និងក្រោយពេលធ្វើការក្នុងមន្ទីរពិសោធន៍?",
       options: [
         { key: "A", text: "A. ដើម្បីបង្កើនកំណើនមីក្រូសារពាង្គកាយ" },
         { key: "B", text: "B. ដើម្បីកាត់បន្ថយការចម្លងមេរោគ" },
         { key: "C", text: "C. ដើម្បីធ្វើឱ្យដៃស្អាតតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. ដើម្បីបង្កើនសកម្មភាពអង់ស៊ីម" }
       ], ans: "B" },
-    { id: 28, section: "ផ្នែកទី៦៖ ការអនុវត្តមីក្រូជីវវិទ្យា និងសុវត្ថិភាពមន្ទីរពិសោធន៍", q: "២៨. តើការប្រើប្រាស់ Microscope មានគោលបំណងអ្វី?",
+    { id: 28, q: "២៨. តើការប្រើប្រាស់ Microscope មានគោលបំណងអ្វី?",
       options: [
         { key: "A", text: "A. វាស់ទម្ងន់សំណាក" },
         { key: "B", text: "B. ពង្រីករូបភាពដើម្បីសង្កេតមើលមីក្រូសារពាង្គកាយ" },
         { key: "C", text: "C. វាស់ pH" },
         { key: "D", text: "D. សម្លាប់មេរោគ" }
       ], ans: "B" },
-    { id: 29, section: "ផ្នែកទី៦៖ ការអនុវត្តមីក្រូជីវវិទ្យា និងសុវត្ថិភាពមន្ទីរពិសោធន៍", q: "២៩. តើមីក្រូសារពាង្គកាយណាមួយមានសមត្ថភាពជួយបំបែកសារធាតុសរីរាង្គនៅក្នុងបរិស្ថាន?",
+    { id: 29, q: "២៩. តើមីក្រូសារពាង្គកាយណាមួយមានសមត្ថភាពជួយបំបែកសារធាតុសរីរាង្គនៅក្នុងបរិស្ថាន?",
       options: [
         { key: "A", text: "A. ផ្សិត និងបាក់តេរីមួយចំនួន" },
         { key: "B", text: "B. វីរុសទាំងអស់" },
         { key: "C", text: "C. សត្វល្អិតតែប៉ុណ្ណោះ" },
         { key: "D", text: "D. ត្រីទឹកសាប" }
       ], ans: "A" },
-    { id: 30, section: "ផ្នែកទី៦៖ ការអនុវត្តមីក្រូជីវវិទ្យា និងសុវត្ថិភាពមន្ទីរពិសោធន៍", q: "៣០. តើមីក្រូសារពាង្គកាយមានសារៈសំខាន់អ្វីក្នុងវិស័យកសិកម្ម?",
+    { id: 30, q: "៣០. តើមីក្រូសារពាង្គកាយមានសារៈសំខាន់អ្វីក្នុងវិស័យកសិកម្ម?",
       options: [
         { key: "A", text: "A. ជួយបំបែកសារធាតុសរីរាង្គ និងជួយផ្គត់ផ្គង់សារធាតុចិញ្ចឹមដល់ដី" },
         { key: "B", text: "B. បង្កជំងឺដល់រុក្ខជាតិទាំងអស់" },
@@ -950,16 +898,7 @@
   ];
 
   const qContainer = document.getElementById('questionsContainer');
-  let currentSection = '';
   questionsData.forEach(item => {
-    if (item.section && item.section !== currentSection) {
-      currentSection = item.section;
-      const secHeader = document.createElement('div');
-      secHeader.style.cssText = 'background:#ecfdf5; color:#065f46; padding:10px 16px; border-radius:6px; font-weight:700; margin:24px 0 14px 0; border-left:4px solid #059669;';
-      secHeader.innerText = currentSection;
-      qContainer.appendChild(secHeader);
-    }
-
     const card = document.createElement('div');
     card.className = 'question-card';
     card.innerHTML = `
@@ -1110,14 +1049,15 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
+  // បង្កើត QR Code ច្បាស់ មិន Duplicate (ទំហំ Normal 64px)
   function generateCertQRCode(verifyUrl) {
     const qrContainer = document.getElementById('certQrContainer');
     qrContainer.innerHTML = '';
     
     new QRCode(qrContainer, {
       text: verifyUrl,
-      width: 68,
-      height: 68,
+      width: 64,
+      height: 64,
       colorDark : "#0f172a",
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.M
@@ -1182,7 +1122,7 @@
       : new Promise(res => { im.onload = res; im.onerror = res; })));
   }
 
-  /* PDF Generation */
+  /* ================= DOWNLOAD PDF សមស្របទាំងលើ MOBILE និង PC ================= */
   async function downloadCertificatePDF() {
     const btn = document.getElementById('btnDownloadCert');
     const card = document.getElementById('certificateCard');
@@ -1207,8 +1147,8 @@
         backgroundColor: '#ffffff',
         scrollX: 0,
         scrollY: 0,
-        width: 960,
-        height: 678,
+        width: 920,
+        height: 645,
         windowWidth: 1024
       });
 
@@ -1254,7 +1194,7 @@
     }
   }
 
-  /* Bar Chart */
+  /* ================= CHART ================= */
   let chartInstance = null;
   function renderChart(student) {
     const ctx = document.getElementById('scoreChart').getContext('2d');
@@ -1290,17 +1230,17 @@
     });
   }
 
-  /* Multi-Device Storage Engine */
+  /* ================= FIREBASE STORAGE ENGINE ================= */
   function getLocalRecords() {
     try {
-      return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+      return JSON.parse(localStorage.getItem('microbiology_assessment_records') || '{}');
     } catch (e) {
       return {};
     }
   }
 
   function saveLocalRecords(data) {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem('microbiology_assessment_records', JSON.stringify(data));
   }
 
   async function pullFromCloud() {
@@ -1390,7 +1330,7 @@
     if (btn) btn.innerText = "🔄 Sync Now";
   }
 
-  /* Admin Authentication */
+  /* ================= ADMIN ================= */
   function isAdminLoggedIn() {
     return sessionStorage.getItem('admin_logged_in') === 'true' || localStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true';
   }
@@ -1472,7 +1412,7 @@
     certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* Scoreboard Rendering */
+  /* ================= SCOREBOARD (AUTO-MERGE BY NAME) ================= */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getLocalRecords();
@@ -1567,7 +1507,7 @@
     if (btn.dataset.action === 'delete') deleteStudentRow(key);
   });
 
-  /* Export CSV */
+  /* ================= CSV EXPORT ================= */
   function csvCell(v) {
     return `"${String(v).replace(/"/g, '""')}"`;
   }
@@ -1627,54 +1567,18 @@
     URL.revokeObjectURL(url);
   }
 
-  /* Digital Verification Modal */
+  /* ================= DIGITAL VERIFICATION MODAL ENGINE ================= */
   function openVerifyModal(data) {
-    activeModalData = data;
+    document.getElementById('vStudentName').innerText = data.name;
+    document.getElementById('vCertId').innerText = data.id;
+    document.getElementById('vDate').innerText = data.date;
+    document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
     const modal = document.getElementById('verifyModal');
-    if (!modal) return;
-
-    document.getElementById('vStudentName').innerText = data.name || "មិនស្គាល់";
-    document.getElementById('vCertId').innerText = data.id || "";
-    document.getElementById('vDate').innerText = data.date || "2026-11-06";
-    document.getElementById('vScore').innerText = `${data.score || 0} / 30 ពិន្ទុ`;
-
-    // បង្កើតតំណភ្ជាប់ផ្ទៀងផ្ទាត់ Online Link
-    const verifyUrl = `${VERIFY_BASE_URL}?cert_id=${encodeURIComponent(data.id)}`;
-    const linkElem = document.getElementById('vModalDirectLink');
-    if (linkElem) {
-      linkElem.href = verifyUrl;
-      linkElem.innerText = verifyUrl.replace(/^https?:\/\//, '');
-    }
-
-    // បង្កើត QR Code ភ្លាមៗក្នុងផ្ទាំង Modal
-    const qrElem = document.getElementById('vModalQrContainer');
-    if (qrElem) {
-      qrElem.innerHTML = '';
-      new QRCode(qrElem, {
-        text: verifyUrl,
-        width: 80,
-        height: 80,
-        colorDark: "#0f172a",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M
-      });
-    }
-
-    modal.style.setProperty('display', 'flex', 'important');
+    modal.style.display = 'flex';
   }
 
   function closeVerifyModal() {
-    const modal = document.getElementById('verifyModal');
-    if (modal) modal.style.setProperty('display', 'none', 'important');
-  }
-
-  function viewFullCertFromModal() {
-    if (!activeModalData) return;
-    showCertificate(activeModalData.name, activeModalData.score, activeModalData.date, activeModalData.id);
-    closeVerifyModal();
-    const certWrapper = document.getElementById('certificateWrapper');
-    certWrapper.style.display = 'block';
-    certWrapper.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('verifyModal').style.display = 'none';
   }
 
   function testVerifyModal() {
@@ -1685,72 +1589,29 @@
     }
   }
 
-  /* Robust QR Scan / URL Verification Loader */
+  // ពិនិត្យ Query Parameter ?cert_id=... នៅពេលស្កេន QR Code
   async function checkUrlVerification() {
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const rawCertId = urlParams.get('cert_id');
-      if (!rawCertId) return;
+    const params = new URLSearchParams(window.location.search);
+    const certId = params.get('cert_id');
+    if (!certId) return;
 
-      const certId = decodeURIComponent(rawCertId).trim();
-
-      // ១. ស្វែងរកក្នុង Local Records ជាមុន
-      let records = getLocalRecords();
-      let matched = false;
-
-      for (const k in records) {
-        const item = records[k];
-        if (!item) continue;
-        const testId = (item.certId || generateCertId(k, item.lastDate || '')).trim();
-        if (testId.toUpperCase() === certId.toUpperCase()) {
-          openVerifyModal({
-            id: testId,
-            name: item.name,
-            score: item.post || 0,
-            date: item.lastDate || ''
-          });
-          matched = true;
-          break;
-        }
-      }
-      if (matched) return;
-
-      // ២. បើមិនទាន់ឃើញ ទាញពី Cloud Firebase
-      records = await pullFromCloud();
-      for (const k in records) {
-        const item = records[k];
-        if (!item) continue;
-        const testId = (item.certId || generateCertId(k, item.lastDate || '')).trim();
-        if (testId.toUpperCase() === certId.toUpperCase()) {
-          openVerifyModal({
-            id: testId,
-            name: item.name,
-            score: item.post || 0,
-            date: item.lastDate || ''
-          });
-          matched = true;
-          break;
-        }
-      }
-
-      // ៣. បើ Cloud មិនទាន់ sync ទាន់ បើក fallback បង្ហាញលេខកូដសញ្ញាបត្រនោះផ្ទាល់
-      if (!matched) {
+    const records = await pullFromCloud();
+    for (const k in records) {
+      const item = records[k];
+      const testId = item.certId || generateCertId(k, item.lastDate);
+      if (testId.trim().toUpperCase() === certId.trim().toUpperCase()) {
         openVerifyModal({
-          id: certId,
-          name: "និស្សិតជោគជ័យ",
-          score: 28,
-          date: "2026-11-06"
+          id: testId,
+          name: item.name,
+          score: item.post || 0,
+          date: item.lastDate || ''
         });
+        return;
       }
-    } catch (err) {
-      console.warn("Could not verify cert from URL:", err);
     }
   }
 
-  // ដំណើរការត្រួតពិនិត្យ URL ភ្លាមៗពេលទំព័រចាប់ផ្តើម
-  checkUrlVerification();
-
-  // Initialization
+  // ដំណើរការពេលបើកទំព័រដំបូង
   prepareLogo();
   renderAdminUI();
   pullFromCloud().then(() => {
@@ -1758,7 +1619,7 @@
     checkUrlVerification();
   });
 
-  // Auto-Sync from cloud every 8 seconds
+  // Auto-Sync ពី Firebase Cloud រៀងរាល់ 8 វិនាទីម្តង
   setInterval(() => {
     pullFromCloud().then(() => renderTable());
   }, 8000);
