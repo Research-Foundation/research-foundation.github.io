@@ -13,7 +13,7 @@
   <!-- បណ្ណាល័យ html2canvas និង jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- បណ្ណាល័យ QRCode.js សម្រាប់បង្កើត QR Code លើ Certificate -->
+  <!-- បណ្ណាល័យ QRCode.js សម្រាប់បង្កើត QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -157,7 +157,7 @@
       height: 645px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 26px 36px;
+      padding: 24px 34px;
       border: 12px solid #0f172a;
       position: relative;
       box-sizing: border-box;
@@ -183,7 +183,7 @@
     .c-bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
     .c-bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 
-    .cert-logo { width: 70px; height: 70px; object-fit: contain; margin: 0 auto 4px auto; display: block; }
+    .cert-logo { width: 68px; height: 68px; object-fit: contain; margin: 0 auto 3px auto; display: block; }
 
     .cert-org {
       font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
@@ -192,14 +192,14 @@
 
     .cert-motto {
       font-size: 0.68rem; letter-spacing: 2.5px; color: var(--gold);
-      font-weight: 700; text-transform: uppercase; margin-bottom: 8px;
+      font-weight: 700; text-transform: uppercase; margin-bottom: 6px;
     }
 
     .cert-title-km { font-family: 'Moul', cursive; font-size: 1.55rem; color: var(--gold-dark); margin-bottom: 2px; }
 
     .cert-title-en {
       font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
-      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 10px;
+      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 8px;
     }
 
     .cert-presented { font-size: 0.95rem; color: #64748b; }
@@ -207,79 +207,86 @@
     .cert-student-name {
       font-family: 'Kantumruy Pro', sans-serif; font-size: 1.85rem; font-weight: 700;
       color: var(--primary-dark); border-bottom: 2px solid var(--gold);
-      display: inline-block; padding: 0 40px 4px 40px; margin: 4px auto 10px auto;
+      display: inline-block; padding: 0 40px 4px 40px; margin: 4px auto 8px auto;
     }
 
     .cert-desc { font-size: 0.9rem; line-height: 1.65; color: #334155; max-width: 760px; margin: 0 auto; }
 
-    /* Footer Details with QR Section */
+    /* Footer Details with Standard Sized QR */
     .cert-signatures { 
       display: grid; 
       grid-template-columns: 240px 1fr 240px; 
       align-items: flex-end; 
-      margin-top: 14px; 
+      margin-top: 10px; 
       padding: 0 10px; 
     }
     .sig-block { text-align: center; position: relative; }
 
     .official-stamp {
-      width: 90px; height: 90px; border: 2px dashed #b91c1c; border-radius: 50%;
-      margin: 0 auto 5px auto; display: flex; flex-direction: column;
+      width: 86px; height: 86px; border: 2px dashed #b91c1c; border-radius: 50%;
+      margin: 0 auto 4px auto; display: flex; flex-direction: column;
       align-items: center; justify-content: center; color: #b91c1c;
       transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25); user-select: none;
       font-family: 'Kantumruy Pro', sans-serif;
     }
-    .stamp-text-top { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
-    .stamp-star { font-size: 0.68rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
-    .stamp-text-bottom { font-size: 0.62rem; font-weight: 700; line-height: 1.4; padding-top: 1px; }
+    .stamp-text-top { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
+    .stamp-star { font-size: 0.65rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
+    .stamp-text-bottom { font-size: 0.6rem; font-weight: 700; line-height: 1.4; padding-top: 1px; }
 
-    .signature-wrap { height: 55px; display: flex; align-items: flex-end; justify-content: center; }
-    .teacher-signature { height: 50px; width: auto; display: block; }
+    .signature-wrap { height: 50px; display: flex; align-items: flex-end; justify-content: center; }
+    .teacher-signature { height: 46px; width: auto; display: block; }
 
-    .sig-line { border-top: 1px solid #94a3b8; margin-top: 5px; padding-top: 5px; }
+    .sig-line { border-top: 1px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
     .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
     .sig-title { font-size: 0.78rem; color: var(--text-muted); }
 
-    /* Center Badge + QR Container */
+    /* Center Panel: Normal QR Box */
     .cert-center-panel {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .cert-qr-box {
+      width: 74px;
+      height: 74px;
       background: #ffffff;
       padding: 5px;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      display: inline-block;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .cert-qr-box canvas, .cert-qr-box img {
+      width: 64px !important;
+      height: 64px !important;
       display: block !important;
-      margin: 0 auto;
+      margin: 0 auto !important;
     }
 
     .cert-id-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: #0f172a;
       background: #f1f5f9;
-      padding: 2px 8px;
+      padding: 1px 7px;
       border-radius: 4px;
       border: 1px solid #cbd5e1;
       letter-spacing: 0.5px;
     }
 
     .cert-verify-link-text {
-      font-size: 0.66rem;
+      font-size: 0.64rem;
       color: var(--primary-dark);
       font-weight: 600;
       text-decoration: none;
+      word-break: break-all;
     }
 
     /* Scoreboard */
@@ -343,7 +350,7 @@
     }
     .verify-modal {
       background: #ffffff;
-      max-width: 500px;
+      max-width: 520px;
       width: 100%;
       border-radius: 16px;
       border: 1px solid #cbd5e1;
@@ -375,13 +382,13 @@
       font-size: 0.9rem;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
     .verify-details-row {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px dashed #e2e8f0;
-      padding-bottom: 4px;
+      padding-bottom: 5px;
     }
     .verify-details-row:last-child {
       border-bottom: none;
@@ -533,11 +540,11 @@
             </div>
           </div>
 
-          <!-- QR Code ផ្ទៀងផ្ទាត់ផ្លូវការ និងលេខកូដសម្គាល់ -->
+          <!-- QR Code ផ្ទៀងផ្ទាត់ផ្លូវការ (Normal Size: 64x64px) និងលេខកូដសម្គាល់ -->
           <div class="sig-block cert-center-panel">
             <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
             <div id="certIdDisplay" class="cert-id-tag">ID: RF-WQ-2026-XXXX</div>
-            <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/verify</a>
+            <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/?cert_id=...</a>
           </div>
 
           <!-- ហត្ថលេខាគ្រូបង្រៀន -->
@@ -598,15 +605,19 @@
 
     <div class="verify-details">
       <div class="verify-details-row">
-        <span style="color:#64748b;">លេខកូដសម្គាល់៖</span>
-        <strong id="vCertId" style="font-family:'JetBrains Mono', monospace; color:#0284c7;"></strong>
-      </div>
-      <div class="verify-details-row">
         <span style="color:#64748b;">ឈ្មោះនិស្សិត៖</span>
         <strong id="vStudentName" style="color:#0f172a;"></strong>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">មុខវិជ្ជា៖</span>
+        <span style="color:#64748b;">លេខកូដសញ្ញាបត្រ (ID)៖</span>
+        <strong id="vCertId" style="font-family:'JetBrains Mono', monospace; color:#0284c7;"></strong>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ថ្ងៃខែប្រឡង៖</span>
+        <span id="vDate" style="color:#0f172a; font-weight:600;"></span>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ឈ្មោះមុខវិជ្ជា៖</span>
         <span style="font-weight:600; color:#0f172a;">គុណភាពទឹក (Water Quality)</span>
       </div>
       <div class="verify-details-row">
@@ -614,16 +625,12 @@
         <strong id="vScore" style="color:#16a34a;"></strong>
       </div>
       <div class="verify-details-row">
-        <span style="color:#64748b;">កាលបរិច្ឆេទប្រឡង៖</span>
-        <span id="vDate" style="color:#0f172a;"></span>
-      </div>
-      <div class="verify-details-row">
         <span style="color:#64748b;">ស្ថាប័នចេញ៖</span>
         <span style="font-weight:600; color:#0f172a;">Research Foundation Cambodia</span>
       </div>
       <div class="verify-details-row">
         <span style="color:#64748b;">គ្រូទទួលបន្ទុក៖</span>
-        <span style="font-weight:600; color:#0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</span>
+        <span style="font-weight:700; color:#0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</span>
       </div>
     </div>
 
@@ -1040,14 +1047,14 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // បង្កើត QR Code លើវិញ្ញាបនបត្រ
+  // បង្កើត QR Code លើវិញ្ញាបនបត្រទំហំធម្មតា (64x64px)
   function generateCertQRCode(verifyUrl) {
     const qrContainer = document.getElementById('certQrContainer');
     qrContainer.innerHTML = '';
     new QRCode(qrContainer, {
       text: verifyUrl,
-      width: 76,
-      height: 76,
+      width: 64,
+      height: 64,
       colorDark : "#0f172a",
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.M
@@ -1538,10 +1545,10 @@
 
   /* ================= DIGITAL VERIFICATION MODAL ENGINE ================= */
   function openVerifyModal(data) {
-    document.getElementById('vCertId').innerText = data.id;
     document.getElementById('vStudentName').innerText = data.name;
-    document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
+    document.getElementById('vCertId').innerText = data.id;
     document.getElementById('vDate').innerText = data.date;
+    document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
     const modal = document.getElementById('verifyModal');
     modal.style.display = 'flex';
   }
