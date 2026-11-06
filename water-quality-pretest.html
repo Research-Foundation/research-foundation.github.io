@@ -6,13 +6,15 @@
   <title>ការវាយតម្លៃគុណភាពទឹក (Pre-test & Post-test) | មូលដ្ឋានស្រាវជ្រាវ-Research Foundation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   
   <!-- បណ្ណាល័យ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- បណ្ណាល័យ html2canvas និង jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- បណ្ណាល័យ QRCode.js សម្រាប់បង្កើត QR Code លើ Certificate -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
     :root {
@@ -40,7 +42,7 @@
     }
 
     .container {
-      max-width: 920px;
+      max-width: 940px;
       margin: 0 auto;
       background: var(--card-bg);
       padding: 36px 32px;
@@ -151,11 +153,11 @@
     .btn-cert-download:disabled { opacity: .6; cursor: wait; }
 
     .certificate-card {
-      width: 900px;
-      height: 636px;
+      width: 920px;
+      height: 645px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 30px 40px;
+      padding: 26px 36px;
       border: 12px solid #0f172a;
       position: relative;
       box-sizing: border-box;
@@ -181,7 +183,7 @@
     .c-bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
     .c-bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 
-    .cert-logo { width: 75px; height: 75px; object-fit: contain; margin: 0 auto 6px auto; display: block; }
+    .cert-logo { width: 70px; height: 70px; object-fit: contain; margin: 0 auto 4px auto; display: block; }
 
     .cert-org {
       font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
@@ -189,15 +191,15 @@
     }
 
     .cert-motto {
-      font-size: 0.7rem; letter-spacing: 2.5px; color: var(--gold);
-      font-weight: 700; text-transform: uppercase; margin-bottom: 10px;
+      font-size: 0.68rem; letter-spacing: 2.5px; color: var(--gold);
+      font-weight: 700; text-transform: uppercase; margin-bottom: 8px;
     }
 
-    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.6rem; color: var(--gold-dark); margin-bottom: 2px; }
+    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.55rem; color: var(--gold-dark); margin-bottom: 2px; }
 
     .cert-title-en {
       font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
-      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 12px;
+      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 10px;
     }
 
     .cert-presented { font-size: 0.95rem; color: #64748b; }
@@ -205,36 +207,79 @@
     .cert-student-name {
       font-family: 'Kantumruy Pro', sans-serif; font-size: 1.85rem; font-weight: 700;
       color: var(--primary-dark); border-bottom: 2px solid var(--gold);
-      display: inline-block; padding: 0 40px 4px 40px; margin: 6px auto 12px auto;
+      display: inline-block; padding: 0 40px 4px 40px; margin: 4px auto 10px auto;
     }
 
-    .cert-desc { font-size: 0.92rem; line-height: 1.7; color: #334155; max-width: 720px; margin: 0 auto; }
+    .cert-desc { font-size: 0.9rem; line-height: 1.65; color: #334155; max-width: 760px; margin: 0 auto; }
 
-    .cert-signatures { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; padding: 0 15px; }
-    .sig-block { text-align: center; width: 240px; position: relative; }
+    /* Footer Details with QR Section */
+    .cert-signatures { 
+      display: grid; 
+      grid-template-columns: 240px 1fr 240px; 
+      align-items: flex-end; 
+      margin-top: 14px; 
+      padding: 0 10px; 
+    }
+    .sig-block { text-align: center; position: relative; }
 
     .official-stamp {
-      width: 95px; height: 95px; border: 2px dashed #b91c1c; border-radius: 50%;
-      margin: 0 auto 6px auto; display: flex; flex-direction: column;
+      width: 90px; height: 90px; border: 2px dashed #b91c1c; border-radius: 50%;
+      margin: 0 auto 5px auto; display: flex; flex-direction: column;
       align-items: center; justify-content: center; color: #b91c1c;
       transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25); user-select: none;
       font-family: 'Kantumruy Pro', sans-serif;
     }
-    .stamp-text-top { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
-    .stamp-star { font-size: 0.7rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
-    .stamp-text-bottom { font-size: 0.65rem; font-weight: 700; line-height: 1.5; padding-top: 1px; }
+    .stamp-text-top { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
+    .stamp-star { font-size: 0.68rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
+    .stamp-text-bottom { font-size: 0.62rem; font-weight: 700; line-height: 1.4; padding-top: 1px; }
 
-    .signature-wrap { height: 60px; display: flex; align-items: flex-end; justify-content: center; }
-    .teacher-signature { height: 55px; width: auto; display: block; }
+    .signature-wrap { height: 55px; display: flex; align-items: flex-end; justify-content: center; }
+    .teacher-signature { height: 50px; width: auto; display: block; }
 
-    .sig-line { border-top: 1px solid #94a3b8; margin-top: 6px; padding-top: 6px; }
-    .sig-name { font-weight: 700; font-size: 0.95rem; color: #0f172a; }
-    .sig-title { font-size: 0.8rem; color: var(--text-muted); }
+    .sig-line { border-top: 1px solid #94a3b8; margin-top: 5px; padding-top: 5px; }
+    .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
+    .sig-title { font-size: 0.78rem; color: var(--text-muted); }
 
-    .cert-badge-center {
-      width: 82px; height: 82px; border-radius: 50%; border: 3px double var(--gold);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      margin: 0 auto; color: var(--gold-dark); font-weight: 700; font-size: 0.75rem; background: #fffbeb;
+    /* Center Badge + QR Container */
+    .cert-center-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .cert-qr-box {
+      background: #ffffff;
+      padding: 5px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: inline-block;
+    }
+
+    .cert-qr-box canvas, .cert-qr-box img {
+      display: block !important;
+      margin: 0 auto;
+    }
+
+    .cert-id-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0f172a;
+      background: #f1f5f9;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      letter-spacing: 0.5px;
+    }
+
+    .cert-verify-link-text {
+      font-size: 0.66rem;
+      color: var(--primary-dark);
+      font-weight: 600;
+      text-decoration: none;
     }
 
     /* Scoreboard */
@@ -284,6 +329,75 @@
     .gain-neutral { color: var(--text-muted); font-weight: 600; }
     .gain-negative { color: var(--danger); font-weight: 700; }
 
+    /* ================= VERIFICATION MODAL ================= */
+    .verify-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .verify-modal {
+      background: #ffffff;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      padding: 28px 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+    }
+    .verify-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+    .verify-details {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: left;
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .verify-details-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #e2e8f0;
+      padding-bottom: 4px;
+    }
+    .verify-details-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .btn-close-verify {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
     footer {
       text-align: center; margin-top: 36px; font-size: 0.85rem; color: var(--text-muted);
       border-top: 1px solid #e2e8f0; padding-top: 18px;
@@ -296,7 +410,7 @@
       #certificateCard, #certificateCard * { visibility: visible; }
       #certificateCard {
         position: fixed; top: 50%; left: 50%;
-        transform: translate(-50%, -50%) scale(1.15);
+        transform: translate(-50%, -50%) scale(1.12);
         box-shadow: none;
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
@@ -316,7 +430,7 @@
       <span class="badge" style="background:#fef3c7; color:#92400e;">ជាប់ទទួលវិញ្ញាបនបត្រ៖ &gt; ២០ ពិន្ទុ</span>
     </div>
     <div class="objective" id="objectiveText">
-      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាគុណភាពទឹក មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។ និស្សិតដែលប្រឡង Post-test ទទួលបានពិន្ទុលើសពី ២០ ពិន្ទុ នឹងទទួលបានវិញ្ញាបនបត្របញ្ជាក់ការសិក្សា។
+      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាគុណភាពទឹក មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។ និស្សិតដែលប្រឡង Post-test ទទួលបានពិន្ទុលើសពី ២០ ពិន្ទុ នឹងទទួលបានវិញ្ញាបនបត្រផ្លូវការដែលមាន QR Code ផ្ទៀងផ្ទាត់សុពលភាពលើប្រព័ន្ធ។
     </div>
   </header>
 
@@ -371,6 +485,7 @@
     <div class="cert-actions">
       <button type="button" id="btnDownloadCert" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
       <button type="button" class="btn-action" style="background:#334155; color:#fff;" onclick="window.print()">🖨️ បោះពុម្ព (Print)</button>
+      <button type="button" class="btn-action" style="background:#0284c7; color:#fff;" onclick="testVerifyModal()">🔍 ផ្ទៀងផ្ទាត់ QR Online</button>
     </div>
 
     <div class="cert-scroll">
@@ -404,6 +519,7 @@
         </div>
 
         <div class="cert-signatures">
+          <!-- ត្រាផ្លូវការ -->
           <div class="sig-block">
             <div class="official-stamp">
               <span class="stamp-text-top">RESEARCH FOUNDATION</span>
@@ -411,19 +527,20 @@
               <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
             </div>
             <div style="font-size:0.75rem; color:#64748b;">
-              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-05</div>
+              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-06</div>
               <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
               <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
             </div>
           </div>
 
-          <div class="sig-block" style="width: auto;">
-            <div class="cert-badge-center">
-              <span>PASSED</span>
-              <span style="font-size: 0.6rem;">&gt; 20 PTS</span>
-            </div>
+          <!-- QR Code ផ្ទៀងផ្ទាត់ផ្លូវការ និងលេខកូដសម្គាល់ -->
+          <div class="sig-block cert-center-panel">
+            <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
+            <div id="certIdDisplay" class="cert-id-tag">ID: RF-WQ-2026-XXXX</div>
+            <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/verify</a>
           </div>
 
+          <!-- ហត្ថលេខាគ្រូបង្រៀន -->
           <div class="sig-block">
             <div class="signature-wrap">
               <img class="teacher-signature" width="70" height="52" alt="Signature"
@@ -472,15 +589,59 @@
   </footer>
 </div>
 
+<!-- ================= OFFICIAL VERIFICATION MODAL ================= -->
+<div id="verifyModal" class="verify-modal-backdrop">
+  <div class="verify-modal">
+    <div class="verify-badge">✓ វិញ្ញាបនបត្រត្រឹមត្រូវផ្លូវការ (VERIFIED)</div>
+    <h3 style="font-size:1.25rem; font-weight:700; color:#0f172a;">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
+    <p style="font-size:0.8rem; color:#64748b; margin-top:2px;">Research Foundation Digital Credential System</p>
+
+    <div class="verify-details">
+      <div class="verify-details-row">
+        <span style="color:#64748b;">លេខកូដសម្គាល់៖</span>
+        <strong id="vCertId" style="font-family:'JetBrains Mono', monospace; color:#0284c7;"></strong>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ឈ្មោះនិស្សិត៖</span>
+        <strong id="vStudentName" style="color:#0f172a;"></strong>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">មុខវិជ្ជា៖</span>
+        <span style="font-weight:600; color:#0f172a;">គុណភាពទឹក (Water Quality)</span>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ពិន្ទុទទួលបាន៖</span>
+        <strong id="vScore" style="color:#16a34a;"></strong>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">កាលបរិច្ឆេទប្រឡង៖</span>
+        <span id="vDate" style="color:#0f172a;"></span>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ស្ថាប័នចេញ៖</span>
+        <span style="font-weight:600; color:#0f172a;">Research Foundation Cambodia</span>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">គ្រូទទួលបន្ទុក៖</span>
+        <span style="font-weight:600; color:#0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</span>
+      </div>
+    </div>
+
+    <button type="button" class="btn-close-verify" onclick="closeVerifyModal()">បិទផ្ទាំងផ្ទៀងផ្ទាត់</button>
+  </div>
+</div>
+
 <script>
   const FIREBASE_DB_URL = "https://water-quality-test-91aa2-default-rtdb.asia-southeast1.firebasedatabase.app";
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
+  const VERIFY_BASE_URL = "https://researchfoundation.top/";
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
   let isTestSubmitted = false;
+  let currentActiveCertData = null;
 
   function esc(str) {
     return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -499,6 +660,19 @@
   function makeStudentKey(name) {
     const clean = cleanStudentName(name).toLowerCase();
     return clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
+  }
+
+  // បង្កើត Certificate ID ផ្លូវការ (Unique & Professional)
+  function generateCertId(key, dateStr) {
+    let hash = 0;
+    const str = `${key}_${dateStr}`;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0;
+    }
+    const code = Math.abs(hash).toString(36).toUpperCase().padStart(5, '0').slice(0, 5);
+    const yr = (dateStr || '2026').slice(0, 4);
+    return `RF-WQ-${yr}-${code}`;
   }
 
   const questionsData = [
@@ -855,7 +1029,7 @@
     }
 
     if (testType === 'Post-test' && score > 20) {
-      showCertificate(studentName, score, examDate);
+      showCertificate(studentName, score, examDate, updatedStudent.certId);
       document.getElementById('certificateWrapper').style.display = 'block';
     } else {
       document.getElementById('certificateWrapper').style.display = 'none';
@@ -866,10 +1040,42 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
-  function showCertificate(name, score, date) {
-    document.getElementById('certStudentName').innerText = name;
+  // បង្កើត QR Code លើវិញ្ញាបនបត្រ
+  function generateCertQRCode(verifyUrl) {
+    const qrContainer = document.getElementById('certQrContainer');
+    qrContainer.innerHTML = '';
+    new QRCode(qrContainer, {
+      text: verifyUrl,
+      width: 76,
+      height: 76,
+      colorDark : "#0f172a",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.M
+    });
+  }
+
+  function showCertificate(name, score, date, certId) {
+    const standardizedName = cleanStudentName(name);
+    const key = makeStudentKey(standardizedName);
+    const actualCertId = certId || generateCertId(key, date);
+
+    currentActiveCertData = {
+      id: actualCertId,
+      name: standardizedName,
+      score: score,
+      date: date
+    };
+
+    document.getElementById('certStudentName').innerText = standardizedName;
     document.getElementById('certScoreText').innerText = `${score}/30 ពិន្ទុ`;
     document.getElementById('certDateText').innerText = `កាលបរិច្ឆេទ៖ ${date}`;
+    document.getElementById('certIdDisplay').innerText = `ID: ${actualCertId}`;
+
+    const verifyFullUrl = `${VERIFY_BASE_URL}?cert_id=${encodeURIComponent(actualCertId)}`;
+    document.getElementById('certVerifyUrlLink').href = verifyFullUrl;
+    document.getElementById('certVerifyUrlLink').innerText = `researchfoundation.top/?cert_id=${actualCertId}`;
+
+    generateCertQRCode(verifyFullUrl);
   }
 
   function prepareLogo() {
@@ -928,9 +1134,9 @@
         backgroundColor: '#ffffff',
         scrollX: 0,
         scrollY: 0,
-        width: 900,
-        height: 636,
-        windowWidth: 1000
+        width: 920,
+        height: 645,
+        windowWidth: 1024
       });
 
       const imgData = canvas.toDataURL('image/png');
@@ -940,7 +1146,7 @@
       const pdfWidth = 297;
       const pdfHeight = 210;
 
-      const margin = 10;
+      const margin = 8;
       const printWidth = pdfWidth - (margin * 2);
       const printHeight = (canvas.height * printWidth) / canvas.width;
       const topOffset = (pdfHeight - printHeight) / 2;
@@ -1005,18 +1211,15 @@
     localStorage.setItem('water_assessment_records', JSON.stringify(data));
   }
 
-  // ១. ទាញទិន្នន័យពី Firebase (ជម្រះទិន្នន័យដែលបានលុបចោលឱ្យត្រូវគ្នា ១០០%)
   async function pullFromCloud() {
     try {
       const res = await fetch(`${FIREBASE_DB_URL}/exam_records.json?_cb=${Date.now()}`);
       if (res.ok) {
         const cloudData = await res.json();
-        // ប្រសិនបើ Cloud គ្មានទិន្នន័យទាល់តែសោះ (ទើបលុបអស់)
         if (!cloudData) {
           saveLocalRecords({});
           return {};
         }
-        // យកទិន្នន័យពិតពី Cloud មកជំនួស Local Storage ទាំងស្រុង
         saveLocalRecords(cloudData);
         return cloudData;
       }
@@ -1025,7 +1228,7 @@
     }
     return getLocalRecords();
   }
-  // ២. ប្រើ PATCH ដើម្បីរក្សាទុកពិន្ទុមុនដដែល
+
   async function patchRecordToCloud(key, partialData) {
     try {
       const res = await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, {
@@ -1046,7 +1249,6 @@
 
     let records = await pullFromCloud();
 
-    // ស្វែងរក record ចាស់តាម Key ឬតាមឈ្មោះដូចគ្នា
     let existingKey = key;
     if (!records[existingKey]) {
       for (const k in records) {
@@ -1073,6 +1275,14 @@
       records[existingKey].post = score;
       payload.post = score;
     }
+
+    // ប្រសិនបើប្រឡងជាប់ Post-test បង្កើត និងរក្សាទុក certId
+    if ((records[existingKey].post || 0) > 20) {
+      const cId = records[existingKey].certId || generateCertId(existingKey, date);
+      records[existingKey].certId = cId;
+      payload.certId = cId;
+    }
+
     records[existingKey].lastDate = date;
 
     saveLocalRecords(records);
@@ -1144,7 +1354,6 @@
     const student = records[key];
     if (!student) return;
     if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
-      // ប្រសិនជា record នោះមាន Keys ច្រើនដែលត្រូវ merged
       delete records[key];
       saveLocalRecords(records);
       await fetch(`${FIREBASE_DB_URL}/exam_records/${key}.json`, { method: 'DELETE' });
@@ -1166,7 +1375,7 @@
   function viewStudentCertificate(key) {
     const r = getLocalRecords()[key];
     if (!r) return;
-    showCertificate(r.name, r.post, r.lastDate);
+    showCertificate(r.name, r.post, r.lastDate, r.certId);
     const certWrapper = document.getElementById('certificateWrapper');
     certWrapper.style.display = 'block';
     certWrapper.scrollIntoView({ behavior: 'smooth' });
@@ -1184,7 +1393,6 @@
       return;
     }
 
-    // ច្របាច់បញ្ចូលគ្នា (Merge) ដោយស្វ័យប្រវត្តិនូវឈ្មោះដែលដូចគ្នា
     const mergedMap = {};
     rawKeys.forEach(k => {
       const item = records[k];
@@ -1198,7 +1406,8 @@
           name: cleanStudentName(item.name),
           pre: (item.pre !== undefined && item.pre !== null && item.pre !== "") ? item.pre : null,
           post: (item.post !== undefined && item.post !== null && item.post !== "") ? item.post : null,
-          lastDate: item.lastDate || ''
+          lastDate: item.lastDate || '',
+          certId: item.certId || ''
         };
       } else {
         mergedMap[normalized].allKeys.push(k);
@@ -1210,6 +1419,9 @@
         }
         if (item.lastDate) {
           mergedMap[normalized].lastDate = item.lastDate;
+        }
+        if (item.certId) {
+          mergedMap[normalized].certId = item.certId;
         }
       }
     });
@@ -1233,7 +1445,7 @@
 
       let certBtn = '<span style="color:#94a3b8;">-</span>';
       if (hasPost && Number(r.post) > 20) {
-        certBtn = `<button type="button" class="btn-action btn-view-cert" data-action="cert" data-key="${esc(r.primaryKey)}">🎓 មើលសញ្ញាបត្រ</button>`;
+        certBtn = `<button type="button" class="btn-action btn-view-cert" data-action="cert" data-key="${esc(r.primaryKey)}">🎓 មើលសញ្ញាបត្រ & QR</button>`;
       }
 
       let actionCell = '';
@@ -1278,7 +1490,6 @@
       return;
     }
 
-    // Merge មុនពេល export ដើម្បីកុំឱ្យបែកជួរ
     const mergedMap = {};
     rawKeys.forEach(k => {
       const item = records[k];
@@ -1289,17 +1500,19 @@
           name: cleanStudentName(item.name),
           pre: (item.pre !== undefined && item.pre !== null) ? item.pre : null,
           post: (item.post !== undefined && item.post !== null) ? item.post : null,
-          lastDate: item.lastDate || ''
+          lastDate: item.lastDate || '',
+          certId: item.certId || ''
         };
       } else {
         if (item.pre !== undefined && item.pre !== null) mergedMap[normalized].pre = item.pre;
         if (item.post !== undefined && item.post !== null) mergedMap[normalized].post = item.post;
         if (item.lastDate) mergedMap[normalized].lastDate = item.lastDate;
+        if (item.certId) mergedMap[normalized].certId = item.certId;
       }
     });
 
     const students = Object.values(mergedMap);
-    let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ,ស្ថានភាពជាប់\n";
+    let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ,ស្ថានភាពជាប់,Certificate ID\n";
     
     students.forEach((r, i) => {
       const hasPre = (r.pre !== null && r.pre !== undefined);
@@ -1309,7 +1522,7 @@
       const post = hasPost ? r.post : "";
       const gain = (hasPre && hasPost) ? (Number(r.post) - Number(r.pre)) : "";
       const passed = (hasPost && Number(r.post) > 20) ? "ជាប់ (ទទួលវិញ្ញាបនបត្រ)" : "មិនទាន់ជាប់";
-      csvContent += [i + 1, r.name, pre, post, gain, r.lastDate, passed].map(csvCell).join(',') + "\n";
+      csvContent += [i + 1, r.name, pre, post, gain, r.lastDate, passed, r.certId || ""].map(csvCell).join(',') + "\n";
     });
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -1323,10 +1536,57 @@
     URL.revokeObjectURL(url);
   }
 
+  /* ================= DIGITAL VERIFICATION MODAL ENGINE ================= */
+  function openVerifyModal(data) {
+    document.getElementById('vCertId').innerText = data.id;
+    document.getElementById('vStudentName').innerText = data.name;
+    document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
+    document.getElementById('vDate').innerText = data.date;
+    const modal = document.getElementById('verifyModal');
+    modal.style.display = 'flex';
+  }
+
+  function closeVerifyModal() {
+    document.getElementById('verifyModal').style.display = 'none';
+  }
+
+  function testVerifyModal() {
+    if (currentActiveCertData) {
+      openVerifyModal(currentActiveCertData);
+    } else {
+      alert("សូមជ្រើសរើសវិញ្ញាបនបត្រណាមួយជាមុនសិន!");
+    }
+  }
+
+  // ពិនិត្យ Query Parameter ?cert_id=... នៅពេលមានអ្នកស្កេន QR Code
+  async function checkUrlVerification() {
+    const params = new URLSearchParams(window.location.search);
+    const certId = params.get('cert_id');
+    if (!certId) return;
+
+    const records = await pullFromCloud();
+    for (const k in records) {
+      const item = records[k];
+      const testId = item.certId || generateCertId(k, item.lastDate);
+      if (testId.trim().toUpperCase() === certId.trim().toUpperCase()) {
+        openVerifyModal({
+          id: testId,
+          name: item.name,
+          score: item.post || 0,
+          date: item.lastDate || ''
+        });
+        return;
+      }
+    }
+  }
+
   // ដំណើរការពេលបើកទំព័រដំបូង
   prepareLogo();
   renderAdminUI();
-  pullFromCloud().then(() => renderTable());
+  pullFromCloud().then(() => {
+    renderTable();
+    checkUrlVerification();
+  });
 
   // Auto-Sync ពី Firebase Cloud រៀងរាល់ 8 វិនាទីម្តង
   setInterval(() => {
