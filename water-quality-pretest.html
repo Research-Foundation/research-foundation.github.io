@@ -13,7 +13,7 @@
   <!-- បណ្ណាល័យ html2canvas និង jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- បណ្ណាល័យ QRCode.js សម្រាប់បង្កើត QR Code -->
+  <!-- បណ្ណាល័យ QRCode.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -240,20 +240,20 @@
     .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
     .sig-title { font-size: 0.78rem; color: var(--text-muted); }
 
-    /* Center Panel: Normal QR Box */
+    /* Fix Duplicate QR Display: Hide canvas and show only image */
     .cert-center-panel {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
     }
 
     .cert-qr-box {
       width: 74px;
       height: 74px;
       background: #ffffff;
-      padding: 5px;
+      padding: 4px;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
@@ -262,16 +262,21 @@
       justify-content: center;
     }
 
-    .cert-qr-box canvas, .cert-qr-box img {
-      width: 64px !important;
-      height: 64px !important;
+    /* Important: Prevent double QR by hiding redundant canvas */
+    .cert-qr-box canvas {
+      display: none !important;
+    }
+
+    .cert-qr-box img {
+      width: 66px !important;
+      height: 66px !important;
       display: block !important;
       margin: 0 auto !important;
     }
 
     .cert-id-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: #0f172a;
       background: #f1f5f9;
@@ -282,7 +287,7 @@
     }
 
     .cert-verify-link-text {
-      font-size: 0.64rem;
+      font-size: 0.62rem;
       color: var(--primary-dark);
       font-weight: 600;
       text-decoration: none;
@@ -350,7 +355,7 @@
     }
     .verify-modal {
       background: #ffffff;
-      max-width: 520px;
+      max-width: 500px;
       width: 100%;
       border-radius: 16px;
       border: 1px solid #cbd5e1;
@@ -503,7 +508,6 @@
         <div class="cert-corner-decor c-bottom-right"></div>
 
         <div>
-          <!-- Logo ពី GitHub -->
           <img id="certLogo" 
                src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
                alt="Research Foundation Logo" 
@@ -534,13 +538,13 @@
               <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
             </div>
             <div style="font-size:0.75rem; color:#64748b;">
-              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-06</div>
+              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-05</div>
               <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
               <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
             </div>
           </div>
 
-          <!-- QR Code ផ្ទៀងផ្ទាត់ផ្លូវការ (Normal Size: 64x64px) និងលេខកូដសម្គាល់ -->
+          <!-- QR Code ទំហំ Normal មិន duplicate -->
           <div class="sig-block cert-center-panel">
             <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
             <div id="certIdDisplay" class="cert-id-tag">ID: RF-WQ-2026-XXXX</div>
@@ -643,7 +647,9 @@
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
-  const VERIFY_BASE_URL = "https://researchfoundation.top/";
+  
+  // កំណត់ Link ស្កេនទៅកាន់គេហទំព័រផ្ទាល់
+  const VERIFY_BASE_URL = window.location.origin + window.location.pathname;
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
   let timerInterval = null;
@@ -654,7 +660,6 @@
     return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  // សម្អាតចន្លោះមើលមិនឃើញ (Zero-width spaces) និងចន្លោះដកឃ្លាស្ទួនក្នុងអក្សរខ្មែរ
   function cleanStudentName(name) {
     return String(name || '')
       .normalize('NFC')
@@ -663,13 +668,11 @@
       .trim();
   }
 
-  // បង្កើត Key សម្រាប់សិស្សម្នាក់ៗឱ្យដូចគ្នាជានិច្ច
   function makeStudentKey(name) {
     const clean = cleanStudentName(name).toLowerCase();
     return clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
   }
 
-  // បង្កើត Certificate ID ផ្លូវការ (Unique & Professional)
   function generateCertId(key, dateStr) {
     let hash = 0;
     const str = `${key}_${dateStr}`;
@@ -1047,10 +1050,11 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // បង្កើត QR Code លើវិញ្ញាបនបត្រទំហំធម្មតា (64x64px)
+  // បង្កើត QR Code មិនឱ្យចេញស្ទួន (Clear មុនពេល generate និងទុកតែរូបភាព img)
   function generateCertQRCode(verifyUrl) {
     const qrContainer = document.getElementById('certQrContainer');
     qrContainer.innerHTML = '';
+    
     new QRCode(qrContainer, {
       text: verifyUrl,
       width: 64,
@@ -1283,7 +1287,6 @@
       payload.post = score;
     }
 
-    // ប្រសិនបើប្រឡងជាប់ Post-test បង្កើត និងរក្សាទុក certId
     if ((records[existingKey].post || 0) > 20) {
       const cId = records[existingKey].certId || generateCertId(existingKey, date);
       records[existingKey].certId = cId;
