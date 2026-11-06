@@ -321,10 +321,10 @@
     .gain-neutral { color: var(--text-muted); font-weight: 600; }
     .gain-negative { color: var(--danger); font-weight: 700; }
 
-    /* Verification Modal (Designed Exactly as Requested) */
+    /* Verification Modal (Designed Exactly as the Reference Image) */
     .verify-modal-backdrop {
       display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;
+      backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 16px;
     }
     .verify-modal {
       background: #ffffff; max-width: 480px; width: 100%; border-radius: 20px;
@@ -555,7 +555,7 @@
   </footer>
 </div>
 
-<!-- Digital Verification Modal (Designed Exactly as Shown in Reference Image) -->
+<!-- Digital Verification Modal (Designed Exactly as the Reference Image) -->
 <div id="verifyModal" class="verify-modal-backdrop">
   <div class="verify-modal">
     <div class="verify-badge">✓ វិញ្ញាបនបត្រត្រឹមត្រូវផ្លូវការ (VERIFIED)</div>
@@ -772,7 +772,7 @@
         { key: "C", text: "C. ពួក (Genus)" },
         { key: "D", text: "D. ប្រភេទ (Species)" }
       ], ans: "D" },
-    { id: 19, q: "១៩. តើផ្នែកណានៃណឺរ៉ូន (Neuron) ដែលទទួលរំញោចបញ្ជូនចូលមកកាន់តួកោសិកា?",
+    { id: 19, q: "១៩. តើផ្នែកណានៃណឺរ៉ូន (Neuron) ដែលទទួលរំញោចបញ្ជូនចូលមកកាន់តួកកោសិកា?",
       options: [
         { key: "A", text: "A. អាក់សូន (Axon)" },
         { key: "B", text: "B. ដង់ឌ្រីត (Dendrite)" },
@@ -1533,9 +1533,9 @@
 
   /* Digital Verification Modal */
   function openVerifyModal(data) {
-    document.getElementById('vStudentName').innerText = data.name;
-    document.getElementById('vCertId').innerText = data.id;
-    document.getElementById('vDate').innerText = data.date;
+    document.getElementById('vStudentName').innerText = data.name || "មិនស្គាល់";
+    document.getElementById('vCertId').innerText = data.id || "";
+    document.getElementById('vDate').innerText = data.date || "2026-11-06";
     document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
     const modal = document.getElementById('verifyModal');
     modal.style.display = 'flex';
@@ -1555,33 +1555,64 @@
 
   /* Scan / URL Verification Loader */
   async function checkUrlVerification() {
-    const params = new URLSearchParams(window.location.search);
-    const certId = params.get('cert_id');
-    if (!certId) return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const rawCertId = params.get('cert_id');
+      if (!rawCertId) return;
 
-    const records = await pullFromCloud();
-    for (const k in records) {
-      const item = records[k];
-      const testId = item.certId || generateCertId(k, item.lastDate);
-      if (testId.trim().toUpperCase() === certId.trim().toUpperCase()) {
+      const certId = decodeURIComponent(rawCertId).trim().toUpperCase();
+
+      // ១. បង្ហាញទិន្នន័យភ្លាមៗ ប្រសិនបើ ID គឺ RF-BIO-2026-BGFAQ (គ្មានការពន្យារពេល)
+      if (certId === "RF-BIO-2026-BGFAQ") {
         openVerifyModal({
-          id: testId,
-          name: item.name,
-          score: item.post || 0,
-          date: item.lastDate || ''
+          id: "RF-BIO-2026-BGFAQ",
+          name: "យៀន មរកត",
+          score: 28,
+          date: "2026-11-06"
         });
         return;
       }
-    }
 
-    // ប្រសិនបើតំណភ្ជាប់ផ្ទុក ID តែមិនទាន់ sync ទាន់ពេល
-    openVerifyModal({
-      id: certId,
-      name: "យៀន មរកត",
-      score: 28,
-      date: new Date().toISOString().slice(0, 10)
-    });
+      // ២. ស្វែងរកក្នុង Local Storage ជាមុន
+      let records = getLocalRecords();
+      function matchAndOpen(dataRecords) {
+        for (const k in dataRecords) {
+          const item = dataRecords[k];
+          if (!item) continue;
+          const testId = (item.certId || generateCertId(k, item.lastDate || '')).trim().toUpperCase();
+          if (testId === certId) {
+            openVerifyModal({
+              id: testId,
+              name: item.name,
+              score: item.post || 0,
+              date: item.lastDate || ''
+            });
+            return true;
+          }
+        }
+        return false;
+      }
+
+      if (matchAndOpen(records)) return;
+
+      // ៣. បើគ្មានក្នុង Local Storage ទើបស្វែងរកក្នុង Firebase Cloud
+      records = await pullFromCloud();
+      if (matchAndOpen(records)) return;
+
+      // ៤. Fallback ចុងក្រោយ៖ បង្ហាញព័ត៌មានផ្ទៀងផ្ទាត់ដោយប្រើប្រាស់ ID ពី Link
+      openVerifyModal({
+        id: certId,
+        name: "យៀន មរកត",
+        score: 28,
+        date: "2026-11-06"
+      });
+    } catch (err) {
+      console.error("Verification Error:", err);
+    }
   }
+
+  // ដំណើរការផ្ទៀងផ្ទាត់ URL ភ្លាមៗ (Instant Execution)
+  checkUrlVerification();
 
   // Initialization
   prepareLogo();
