@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ការប្រឡង - Research Foundation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
+        body {
+            background-color: #0d131a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .header-container {
+            text-align: center;
+            max-width: 700px;
+            margin-bottom: 50px;
+        }
+        .header-container h1 {
+            font-size: 2.2rem;
+            color: #4ade80;
+            margin-bottom: 12px;
+        }
+        .header-container p {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+        /* Grid សម្រាប់ប៊ូតុងធំៗ */
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 960px;
+        }
+        /* រចនាប័ទ្មប៊ូតុងធំ (Exam Card Button) */
+        .exam-card {
+            background: #16202c;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 30px 24px;
+            text-decoration: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+        .exam-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d26a;
+            box-shadow: 0 8px 30px rgba(0, 210, 106, 0.2);
+            background: #1b2737;
+        }
+        .exam-icon {
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            background: rgba(0, 210, 106, 0.1);
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+        .exam-card h3 {
+            font-size: 1.3rem;
+            color: #f8fafc;
+            margin-bottom: 8px;
+        }
+        .exam-card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .btn-start {
+            display: inline-block;
+            background-color: #00d26a;
+            color: #0d131a;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .back-link {
+            margin-top: 40px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #4ade80;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>មជ្ឈមណ្ឌលប្រឡង និងតេស្តសមត្ថភាព</h1>
+        <p>សូមជ្រើសរើសមុខវិជ្ជាខាងក្រោមដើម្បីចាប់ផ្តើមធ្វើតេស្តវាស់ស្ទង់សមត្ថភាពរបស់អ្នក</p>
+    </div>
+
+    <div class="exam-grid">
+        <!-- ប៊ូតុងតេស្តគុណភាពទឹក -->
+        <a href="water-quality-pretest.html" class="exam-card">
+            <div class="exam-icon">💧</div>
+            <h3>តេស្តគុណភាពទឹក</h3>
+            <p>ការវាស់ស្ទង់ចំណេះដឹងស្តីពីប៉ារ៉ាម៉ែត្ររូបវន្ត គីមី និងជីវសាស្ត្រនៃទឹក</p>
+            <span class="btn-start">ចាប់ផ្តើមប្រឡង →</span>
+        </a>
+
+        <!-- ប៊ូតុងតេស្តជីវវិទ្យា -->
+        <a href="biology-exam.html" class="exam-card">
+            <div class="exam-icon">🧬</div>
+            <h3>តេស្តជីវវិទ្យា</h3>
+            <p>វិញ្ញាសាតេស្តចំណេះដឹងទូទៅលើជីវវិទ្យា ហ្សែន និងប្រព័ន្ធអេកូឡូស៊ី</p>
+            <span class="btn-start">ចាប់ផ្តើមប្រឡង →</span>
+        </a>
+
+        <!-- ប៊ូតុងតេស្តមីក្រូជីវសាស្ត្រ -->
+        <a href="microbiology-exam.html" class="exam-card">
+            <div class="exam-icon">🧫</div>
+            <h3>តេស្តមីក្រូជីវសាស្ត្រ</h3>
+            <p>ការវាយតម្លៃលើបាក់តេរី ផ្សិត វីរុស និងការបណ្តុះមេរោគក្នុងមន្ទីរពិសោធន៍</p>
+            <span class="btn-start">ចាប់ផ្តើមប្រឡង →</span>
+        </a>
+    </div>
+
+    <a href="index.html" class="back-link">← ត្រឡប់ទៅទំព័រដើមវិញ</a>
+
+</body>
+</html>
