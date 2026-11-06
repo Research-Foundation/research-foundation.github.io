@@ -170,7 +170,7 @@
         }
         .nav-item[data-menu="leadership"].active::after { width: 60%; opacity: 1; }
 
-        /* EXAMS TAB (same effect as the other tabs, orange theme) */
+        /* EXAMS TAB */
         .nav-item[data-menu="exams"]::after { background-color: #fb923c; }
         .nav-item[data-menu="exams"]:hover {
             color: #fdba74;
@@ -184,6 +184,31 @@
             box-shadow: 0 0 16px -2px rgba(249, 115, 22, 0.6) !important;
         }
         .nav-item[data-menu="exams"].active::after { width: 60%; opacity: 1; }
+
+        /* Exam Option styles */
+        .opt-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 0.9rem;
+            border-radius: 0.75rem;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .opt-label:hover {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.08);
+        }
+        .opt-label.is-correct {
+            border-color: #10b981 !important;
+            background: rgba(16, 185, 129, 0.15) !important;
+        }
+        .opt-label.is-wrong {
+            border-color: #ef4444 !important;
+            background: rgba(239, 68, 68, 0.15) !important;
+        }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #030712; }
@@ -274,29 +299,29 @@
                 </div>
             </a>
 
-            <!-- 5 Menus Desktop Navigation -->
+            <!-- 6 Menus Desktop Navigation -->
             <nav id="desktopMenu" class="hidden lg:flex items-center gap-1 p-1 rounded-2xl bg-slate-900/80 border border-slate-800/80 text-xs sm:text-sm font-medium text-slate-300 shadow-inner shrink-0">
-                <a href="#about" data-menu="about" class="nav-item px-3.5 py-1.5 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#about" data-menu="about" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="info" class="w-3.5 h-3.5"></i>
                     <span>អំពីយើង</span>
                 </a>
-                <a href="#books" data-menu="books" class="nav-item px-3.5 py-1.5 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#books" data-menu="books" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="book" class="w-3.5 h-3.5"></i>
                     <span>សៀវភៅ</span>
                 </a>
-                <a href="#software" data-menu="software" class="nav-item px-3.5 py-1.5 rounded-xl border border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#software" data-menu="software" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="laptop" class="w-3.5 h-3.5"></i>
                     <span>កម្មវិធី</span>
                 </a>
-                <a href="#publications" data-menu="publications" class="nav-item px-3.5 py-1.5 rounded-xl border border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#publications" data-menu="publications" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
                     <span>អត្ថបទបោះពុម្ព</span>
                 </a>
-                <a href="#leadership" data-menu="leadership" class="nav-item px-3.5 py-1.5 rounded-xl border border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#leadership" data-menu="leadership" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="user" class="w-3.5 h-3.5"></i>
                     <span>ស្ថាបនិក</span>
                 </a>
-                <a href="exams.html" data-menu="exams" class="nav-item px-3.5 py-1.5 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#exams" data-menu="exams" class="nav-item px-3 py-1.5 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i>
                     <span>ការប្រឡង</span>
                 </a>
@@ -332,8 +357,7 @@
         <a href="#software" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៣. កម្មវិធី (Software)</a>
         <a href="#publications" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
         <a href="#leadership" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៥. ស្ថាបនិក (Founder)</a>
-        <a href="exams.html" data-menu="exams" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-sm transition-all">៦. 📋 ការប្រឡង (Exams)</a>
-        <a href="water-quality-pretest.html" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-emerald-400 border border-emerald-500/30 font-semibold text-sm transition-all">៧. 📝 តេស្តគុណភាពទឹក (Water Test)</a>
+        <a href="#exams" data-menu="exams" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-sm transition-all">៦. 📋 ការប្រឡង (Exams)</a>
         
         <div class="pt-3 grid grid-cols-2 gap-2">
             <a href="mailto:contact@researchfoundation.top" class="col-span-2 py-2 rounded-xl bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
@@ -358,7 +382,7 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-center space-y-6">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ</span>
+            <span>សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ និងការប្រឡង</span>
         </div>
 
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
@@ -395,8 +419,8 @@
             <button onclick="openSoftwareShowcaseModal()" class="px-6 py-3 rounded-xl border border-cyan-500/60 bg-cyan-950/40 hover:bg-cyan-900/40 active:scale-95 text-cyan-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-cyan-950/40">
                 <i data-lucide="cpu" class="w-4 h-4 text-cyan-400 animate-pulse"></i> កម្មវិធី RF Analyzer v6.0 (Showcase)
             </button>
-            <a href="#publications" class="px-6 py-3 rounded-xl border border-purple-500/40 bg-purple-950/20 hover:bg-purple-950/40 active:scale-95 text-purple-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2">
-                <i data-lucide="newspaper" class="w-4 h-4"></i> ស្នាដៃបោះពុម្ពស្រាវជ្រាវ
+            <a href="#exams" class="px-6 py-3 rounded-xl border border-orange-500/50 bg-orange-950/30 hover:bg-orange-900/40 active:scale-95 text-orange-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-orange-950/40">
+                <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-400"></i> មជ្ឈមណ្ឌលប្រឡងតេស្ត
             </a>
         </div>
     </section>
@@ -703,6 +727,25 @@
         </div>
     </section>
 
+    <!-- ៦. ការប្រឡង (EXAMS & PRE-TESTS) -->
+    <section id="exams" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+            <div>
+                <div class="text-orange-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                    <i data-lucide="clipboard-check" class="w-4 h-4"></i> ៦. មជ្ឈមណ្ឌលប្រឡង និងតេស្តសមត្ថភាព (Exams & Assessment)
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">ប្រព័ន្ធប្រឡងវាស់ស្ទង់ចំណេះដឹងវិទ្យាសាស្ត្រ</h2>
+                <p class="text-xs text-slate-400 mt-2">
+                    ជ្រើសរើសមុខវិជ្ជាខាងក្រោមដើម្បីចាប់ផ្តើមធ្វើតេស្តចំណេះដឹងតាមប្រព័ន្ធកំណត់ម៉ោង និងគណនាពិន្ទុស្វ័យប្រវត្តិ
+                </p>
+            </div>
+        </div>
+
+        <div id="examsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+            <!-- Populated via Javascript -->
+        </div>
+    </section>
+
 </main>
 
 <!-- FOOTER -->
@@ -740,6 +783,7 @@
                 <a href="#software" class="hover:text-cyan-400 transition-colors">៣. កម្មវិធី</a>
                 <a href="#publications" class="hover:text-purple-400 transition-colors">៤. អត្ថបទបោះពុម្ព</a>
                 <a href="#leadership" class="hover:text-rose-400 transition-colors">៥. ស្ថាបនិក</a>
+                <a href="#exams" class="hover:text-orange-400 transition-colors">៦. ការប្រឡង</a>
             </div>
 
             <p class="text-slate-500 font-en text-[11px]">
@@ -748,6 +792,70 @@
         </div>
     </div>
 </footer>
+
+<!-- EXAM RUNNER MODAL -->
+<div id="examModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-start justify-center p-4 overflow-y-auto hidden">
+    <div class="bg-navy-900 border border-orange-500/40 w-full max-w-2xl rounded-3xl p-6 sm:p-8 space-y-6 card-glass shadow-2xl my-8">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div class="flex items-center gap-3">
+                <span id="examModalIcon" class="text-3xl">📝</span>
+                <div>
+                    <h3 id="examModalTitle" class="text-lg font-bold text-white leading-snug"></h3>
+                    <p id="examModalMeta" class="text-xs text-orange-400 font-mono"></p>
+                </div>
+            </div>
+            <button onclick="closeExamModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Timer Header -->
+        <div id="examTimerBar" class="hidden items-center justify-between px-4 py-2.5 rounded-2xl bg-slate-950 border border-slate-800">
+            <div class="flex items-center gap-2 text-xs text-slate-300">
+                <i data-lucide="clock" class="w-4 h-4 text-orange-400"></i>
+                <span>ពេលវេលានៅសល់៖</span>
+            </div>
+            <span id="examTimerTxt" class="font-mono text-base font-bold text-sky-400">00:00</span>
+        </div>
+
+        <!-- Registration Step -->
+        <div id="examStartStep" class="space-y-4 text-xs sm:text-sm">
+            <p id="examModalDesc" class="text-slate-300 leading-relaxed font-light"></p>
+            <div class="space-y-1.5 pt-2">
+                <label class="block text-slate-300 font-medium">សូមបញ្ចូលឈ្មោះពេញរបស់បេក្ខជន ឬនិស្សិត *</label>
+                <input type="text" id="examStudentName" placeholder="ឈ្មោះនិស្សិត..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-orange-500 focus:outline-none">
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+                <button onclick="closeExamModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បោះបង់</button>
+                <button onclick="launchExamSession()" class="px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-orange-950/60">
+                    <i data-lucide="play" class="w-4 h-4"></i> ចាប់ផ្តើមធ្វើតេស្ត
+                </button>
+            </div>
+        </div>
+
+        <!-- Questions Step -->
+        <div id="examBodyStep" class="hidden space-y-6">
+            <div id="examQuestionsContainer" class="space-y-6"></div>
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+                <button onclick="if(confirm('តើអ្នកពិតជាចង់ផ្ញើចម្លើយបញ្ចប់តេស្តមែនទេ?')) finishExamSession()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-emerald-950/60">
+                    <i data-lucide="send" class="w-4 h-4"></i> បញ្ជូនចម្លើយបញ្ចប់តេស្ត
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Step -->
+        <div id="examResultStep" class="hidden text-center space-y-4 py-4">
+            <div id="examResultScore" class="text-4xl sm:text-5xl font-black text-emerald-400 font-mono"></div>
+            <div id="examResultBadge" class="inline-block px-5 py-1.5 rounded-full text-xs font-bold font-mono"></div>
+            <p id="examResultDetails" class="text-xs text-slate-400"></p>
+            <div class="pt-4 flex justify-center">
+                <button onclick="closeExamModal()" class="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold">
+                    បិទផ្ទាំងលទ្ធផល
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- ORDER MODAL (SUPPORTS BOTH HARD COPY & SOFT COPY) -->
 <div id="orderModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
@@ -994,10 +1102,137 @@
     </div>
 </div>
 
-<!-- SCRIPT LOGIC (CLOUD-FIRST MULTI-DEVICE REAL-TIME SYNC) -->
+<!-- SCRIPT LOGIC -->
 <script>
     const PRIMARY_PASS_HASH = "8295b9a8cfd6f85ff53a3fc263cebe0ea238e8cb4fa99723ec0832442cf82dbf"; // Sokra@2026
     const BACKUP_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // admin123
+
+    const DEFAULT_EXAMS = {
+        "water": {
+            id: "water",
+            icon: "💧",
+            title: "តេស្តគុណភាពទឹក",
+            subtitle: "Water Quality Parameters",
+            desc: "វាស់ស្ទង់ចំណេះដឹងលើប៉ារ៉ាម៉ែត្ររូបវន្ត គីមី និងជីវសាស្ត្រនៃទឹក (pH, DO, BOD, COD, Turbidity)។",
+            minutes: 20,
+            pass: 3,
+            questions: [
+                {
+                    q: "តើប៉ារ៉ាម៉ែត្រ DO (Dissolved Oxygen) សំដៅលើអ្វី?",
+                    o: ["បរិមាណអុកស៊ីសែនរលាយក្នុងទឹក", "កម្រិតជាតិអាស៊ីតនៃទឹក", "កម្រិតល្អក់កករនៃទឹក", "សារធាតុសរីរាង្គក្នុងទឹក"],
+                    a: 0
+                },
+                {
+                    q: "តម្លៃ pH ស្តង់ដារនៃទឹកធម្មជាតិជាទូទៅស្ថិតក្នុងរង្វង់ណា?",
+                    o: ["2.0 - 4.5", "6.5 - 8.5", "9.0 - 12.0", "1.0 - 3.0"],
+                    a: 1
+                },
+                {
+                    q: "តើ BOD (Biochemical Oxygen Demand) ខ្ពស់បង្ហាញពីអ្វី?",
+                    o: ["ទឹកមានអុកស៊ីសែនច្រើន", "ទឹកមានការបំពុលដោយសារធាតុសរីរាង្គខ្ពស់", "ទឹកមានជាតិប្រៃខ្ពស់", "ទឹកគ្មានបាក់តេរីរស់នៅ"],
+                    a: 1
+                },
+                {
+                    q: "តើឧបករណ៍អ្វីប្រើសម្រាប់វាស់កម្រិតល្អក់កករនៃទឹក (Turbidity)?",
+                    o: ["Secchi disk / Turbidimeter", "pH Meter", "Hydrometer", "Spectrophotometer"],
+                    a: 0
+                }
+            ]
+        },
+        "bio": {
+            id: "bio",
+            icon: "🧬",
+            title: "តេស្តជីវវិទ្យាទូទៅ",
+            subtitle: "General Biology & Genetics",
+            desc: "វាស់ស្ទង់ទ្រឹស្តីកោសិកា ដំណើរការមេតាបូលីស ហ្សែន និងជីវមណ្ឌល។",
+            minutes: 20,
+            pass: 3,
+            questions: [
+                {
+                    q: "តើសរីរាង្គកោសិកា (Organelle) ណាជាកន្លែងផលិតថាមពល ATP?",
+                    o: ["Ribosome", "Mitochondria", "Golgi apparatus", "Lysosome"],
+                    a: 1
+                },
+                {
+                    q: "តើម៉ូលេគុលណាផ្ទុកព័ត៌មានពន្ធុវិទ្យាចម្បងក្នុងកោសិកាសត្វ និងរុក្ខជាតិ?",
+                    o: ["RNA", "DNA", "ATP", "Lipid"],
+                    a: 1
+                },
+                {
+                    q: "ដំណើរការរស្មីសំយោគកើតឡើងនៅសរីរាង្គកោសិកាណា?",
+                    o: ["Mitochondria", "Chloroplast", "Nucleus", "Vacuole"],
+                    a: 1
+                },
+                {
+                    q: "កោសិកា Prokaryote ខុសពី Eukaryote ដោយសារអ្វី?",
+                    o: ["គ្មានភ្នាសណ្វៃយ៉ូ (Nuclear membrane)", "គ្មានកោសិកា", "គ្មាន DNA", "គ្មាន Ribosome"],
+                    a: 0
+                }
+            ]
+        },
+        "microbio": {
+            id: "microbio",
+            icon: "🔬",
+            title: "តេស្តមីក្រូជីវវិទ្យា",
+            subtitle: "Microbiology & Fermentation",
+            desc: "ចំណេះដឹងអំពីបាក់តេរី មេរោគ ផ្សិត និងបច្ចេកទេសបណ្តុះមេរោគក្នុងមន្ទីរពិសោធន៍។",
+            minutes: 20,
+            pass: 3,
+            questions: [
+                {
+                    q: "ក្នុងការលាបពណ៌ Gram (Gram Staining) តើបាក់តេរី Gram-positive បង្ហាញពណ៌អ្វី?",
+                    o: ["ពណ៌ផ្កាឈូក/ក្រហម", "ពណ៌ស្វាយ/ខៀវចាស់", "ពណ៌បៃតង", "គ្មានពណ៌"],
+                    a: 1
+                },
+                {
+                    q: "សីតុណ្ហភាព និងសម្ពាធស្តង់ដារនៃ Autoclave សម្រាប់សម្លាប់មេរោគគឺ៖",
+                    o: ["100°C រយៈពេល 5 នាទី", "121°C សម្ពាធ 15 psi រយៈពេល 15-20 នាទី", "60°C រយៈពេល 30 នាទី", "150°C សម្ពាធ 5 psi"],
+                    a: 1
+                },
+                {
+                    q: "តើបាក់តេរីណាជាសូចនាករនៃការចម្លងរោគលាមកក្នុងទឹក (Fecal coliform)?",
+                    o: ["Bacillus subtilis", "Escherichia coli (E. coli)", "Lactobacillus", "Staphylococcus"],
+                    a: 1
+                },
+                {
+                    q: "តើផ្សិត Yeast (មេដំបែ) ស្ថិតក្នុងក្រុមណា?",
+                    o: ["Eukaryotic microorganism", "Prokaryotic bacteria", "Virus", "Algae"],
+                    a: 0
+                }
+            ]
+        },
+        "statistics": {
+            id: "statistics",
+            icon: "📊",
+            title: "តេស្តស្ថិតិ និងវិធីសាស្ត្រស្រាវជ្រាវ",
+            subtitle: "Biostatistics & Experimental Design",
+            desc: "វាស់ស្ទង់ការរៀបចំពិសោធន៍ (CRD, RCBD), ANOVA, និងការសាកល្បងសម្មតិកម្ម។",
+            minutes: 20,
+            pass: 3,
+            questions: [
+                {
+                    q: "នៅពេល p-value < 0.05 តើការសម្រេចចិត្តបែបស្ថិតិគឺជាអ្វី?",
+                    o: ["ទទួលយក Null Hypothesis (H0)", "បដិសេធ Null Hypothesis (H0) មានន័យថាមានភាពខុសគ្នាស្ថិតិ", "ទិន្នន័យខុសទាំងស្រុង", "មិនអាចធ្វើការសន្និដ្ឋានបាន"],
+                    a: 1
+                },
+                {
+                    q: "តើការរៀបចំពិសោធន៍បែប RCBD សមស្របសម្រាប់លក្ខខណ្ឌបែបណា?",
+                    o: ["អង្គភាពពិសោធន៍មានភាពដូចគ្នាបេះបិទ", "អង្គភាពពិសោធន៍មានកត្តាបំរែបំរួលទិសដៅមួយ (Heterogeneous block)", "ពិសោធន៍គ្មានការព្យាបាល", "ពិសោធន៍ក្នុងបន្ទប់ម៉ាស៊ីនត្រជាក់"],
+                    a: 1
+                },
+                {
+                    q: "តើតេស្ត ANOVA ត្រូវបានប្រើប្រាស់ដើម្បីប្រៀបធៀបអ្វី?",
+                    o: ["ប្រៀបធៀបមធ្យមភាគចាប់ពី ៣ ក្រុមឡើងទៅ", "ប្រៀបធៀបគម្លាតស្តង់ដារនៃ ២ ក្រុម", "វាស់ទំនោរលីនេអ៊ែរ", "គណនាភាគរយសំណាក"],
+                    a: 0
+                },
+                {
+                    q: "តើកត្តាណាជាសូចនាករវាស់កម្រិតបំរែបំរួលទិន្នន័យជុំវិញតម្លៃមធ្យម?",
+                    o: ["Mean", "Standard Deviation (SD)", "Mode", "Sample Size (n)"],
+                    a: 1
+                }
+            ]
+        }
+    };
 
     const DEFAULT_DATA = {
         updatedAt: 1,
@@ -1159,6 +1394,12 @@
     let currentModalAction = null;
     let activeUploadBookIndex = null;
     let activeUploadSubSoftwareIndex = null;
+
+    /* Live Exam State */
+    let activeExam = null;
+    let examTimer = null;
+    let examSecondsLeft = 0;
+    let isExamFinished = false;
 
     // MODERN UTF-8 BASE64 ENCODER & DECODER
     function utf8ToBase64(str) {
@@ -1921,12 +2162,194 @@
         document.getElementById('linkTelegram').href = f.telegram || "https://t.me/Sokra25";
     }
 
+    /* RENDER EXAMS SECTION */
+    function renderExamsSection() {
+        const grid = document.getElementById('examsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const examsList = Object.values(DEFAULT_EXAMS);
+        examsList.forEach(e => {
+            const card = document.createElement('div');
+            card.className = "p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between group hover:border-orange-500/50 transition-all relative cursor-pointer";
+            card.onclick = () => openExamModal(e.id);
+
+            card.innerHTML = `
+                <div class="space-y-4">
+                    <div class="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                        ${e.icon}
+                    </div>
+                    <div>
+                        <span class="text-[11px] font-mono text-orange-400 font-semibold uppercase tracking-wider">${e.subtitle}</span>
+                        <h3 class="text-base font-bold text-white mt-1 leading-snug group-hover:text-orange-300 transition-colors">${e.title}</h3>
+                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">${e.desc}</p>
+                    </div>
+                </div>
+
+                <div class="pt-5 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs">
+                    <div class="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
+                        <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i> ${e.minutes} នាទី • ${e.questions.length} សំណួរ
+                    </div>
+                    <span class="px-3 py-1.5 rounded-xl bg-orange-500/20 border border-orange-500/40 text-orange-300 font-bold group-hover:bg-orange-500 group-hover:text-navy-950 transition-all flex items-center gap-1 shadow-sm">
+                        <span>ប្រឡង</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </span>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        lucide.createIcons();
+    }
+
+    /* EXAM RUNNER LOGIC */
+    function openExamModal(examId) {
+        activeExam = DEFAULT_EXAMS[examId];
+        if (!activeExam) return;
+        isExamFinished = false;
+        clearInterval(examTimer);
+
+        document.getElementById('examModalIcon').textContent = activeExam.icon;
+        document.getElementById('examModalTitle').textContent = activeExam.title;
+        document.getElementById('examModalMeta').textContent = `${activeExam.questions.length} សំណួរ • ${activeExam.minutes} នាទី • ពិន្ទុជាប់ ≥ ${activeExam.pass}`;
+        document.getElementById('examModalDesc').textContent = `${activeExam.desc} នាឡិកានឹងរាប់ថយក្រោយដោយស្វ័យប្រវត្ត។`;
+        document.getElementById('examStudentName').value = '';
+        document.getElementById('examStudentName').disabled = false;
+
+        document.getElementById('examStartStep').classList.remove('hidden');
+        document.getElementById('examBodyStep').classList.add('hidden');
+        document.getElementById('examResultStep').classList.add('hidden');
+        document.getElementById('examTimerBar').classList.add('hidden');
+
+        document.getElementById('examModal').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function closeExamModal() {
+        clearInterval(examTimer);
+        document.getElementById('examModal').classList.add('hidden');
+    }
+
+    function launchExamSession() {
+        const studentName = document.getElementById('examStudentName').value.trim();
+        if (!studentName) {
+            alert('សូមបញ្ចូលឈ្មោះរបស់អ្នកជាមុនសិន!');
+            return;
+        }
+
+        document.getElementById('examStartStep').classList.add('hidden');
+        document.getElementById('examBodyStep').classList.remove('hidden');
+        document.getElementById('examTimerBar').classList.remove('hidden');
+        document.getElementById('examTimerBar').classList.add('flex');
+
+        const container = document.getElementById('examQuestionsContainer');
+        const LET = ['A', 'B', 'C', 'D'];
+        container.innerHTML = activeExam.questions.map((q, idx) => `
+            <div class="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3 exam-qbox">
+                <div class="text-sm font-bold text-white leading-relaxed">
+                    ${idx + 1}. ${q.q}
+                </div>
+                <div class="space-y-2">
+                    ${q.o.map((opt, k) => `
+                        <label class="opt-label text-xs sm:text-sm text-slate-300">
+                            <input type="radio" name="q_${idx}" value="${k}" class="w-4 h-4 text-orange-500 accent-orange-500">
+                            <span class="font-bold text-orange-400 font-mono">${LET[k]}.</span>
+                            <span class="leading-relaxed">${opt}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        examSecondsLeft = activeExam.minutes * 60;
+        updateExamTimerUI();
+
+        examTimer = setInterval(() => {
+            examSecondsLeft--;
+            updateExamTimerUI();
+            if (examSecondsLeft <= 0) {
+                clearInterval(examTimer);
+                alert('⏰ អស់ពេលកំណត់! ប្រព័ន្ធនឹងផ្ញើចម្លើយដោយស្វ័យប្រវត្តិ។');
+                finishExamSession();
+            }
+        }, 1000);
+
+        lucide.createIcons();
+    }
+
+    function updateExamTimerUI() {
+        const m = Math.floor(Math.max(examSecondsLeft, 0) / 60);
+        const s = Math.max(examSecondsLeft, 0) % 60;
+        const txtEl = document.getElementById('examTimerTxt');
+        txtEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        if (examSecondsLeft <= 60) {
+            txtEl.className = 'font-mono text-base font-bold text-rose-400 animate-pulse';
+        } else {
+            txtEl.className = 'font-mono text-base font-bold text-sky-400';
+        }
+    }
+
+    function finishExamSession() {
+        if (isExamFinished) return;
+        isExamFinished = true;
+        clearInterval(examTimer);
+
+        let score = 0;
+        const total = activeExam.questions.length;
+        const qBoxes = document.querySelectorAll('#examQuestionsContainer .exam-qbox');
+
+        activeExam.questions.forEach((q, idx) => {
+            const selected = document.querySelector(`input[name="q_${idx}"]:checked`);
+            const optLabels = qBoxes[idx].querySelectorAll('.opt-label');
+
+            optLabels.forEach((lb, k) => {
+                const inp = lb.querySelector('input');
+                if (inp) inp.disabled = true;
+
+                if (k === q.a) {
+                    lb.classList.add('is-correct');
+                } else if (selected && parseInt(selected.value) === k) {
+                    lb.classList.add('is-wrong');
+                }
+            });
+
+            if (selected && parseInt(selected.value) === q.a) {
+                score++;
+            }
+        });
+
+        document.getElementById('examTimerBar').classList.add('hidden');
+        document.getElementById('examBodyStep').querySelector('button').classList.add('hidden');
+
+        const studentName = document.getElementById('examStudentName').value.trim();
+        const passed = score >= activeExam.pass;
+        const resultStep = document.getElementById('examResultStep');
+        resultStep.classList.remove('hidden');
+
+        document.getElementById('examResultScore').textContent = `${score} / ${total}`;
+        const badge = document.getElementById('examResultBadge');
+        if (passed) {
+            badge.textContent = "✓ ជាប់ការប្រឡង (PASSED)";
+            badge.className = "inline-block px-5 py-1.5 rounded-full text-xs font-bold font-mono bg-emerald-500/20 border border-emerald-500/40 text-emerald-300";
+        } else {
+            badge.textContent = "✗ មិនទាន់ជាប់ (NOT PASSED)";
+            badge.className = "inline-block px-5 py-1.5 rounded-full text-xs font-bold font-mono bg-rose-500/20 border border-rose-500/40 text-rose-300";
+        }
+
+        document.getElementById('examResultDetails').innerHTML = `
+            បេក្ខជន៖ <strong class="text-white">${studentName}</strong> • កាលបរិច្ឆេទ៖ ${new Date().toLocaleDateString('km-KH')}<br>
+            ចម្លើយត្រឹមត្រូវត្រូវបានគូសបញ្ជាក់ជា <span class="text-emerald-400 font-semibold">ពណ៌បៃតង</span> ខាងលើ។
+        `;
+
+        resultStep.scrollIntoView({ behavior: 'smooth' });
+    }
+
     function renderAllSections() {
         renderAboutSection();
         renderBooksSection();
         renderSoftwareSection();
         renderPublicationsSection();
         renderFounderSection();
+        renderExamsSection();
         updateAdminUI();
     }
 
