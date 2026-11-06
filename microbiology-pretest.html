@@ -6,7 +6,7 @@
   <title>ការវាយតម្លៃមីក្រូជីវវិទ្យា (Pre-test & Post-test) | មូលដ្ឋានស្រាវជ្រាវ-Research Foundation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Kantumruy+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Moul&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   
   <!-- បណ្ណាល័យ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -42,7 +42,7 @@
     }
 
     .container {
-      max-width: 940px;
+      max-width: 960px;
       margin: 0 auto;
       background: var(--card-bg);
       padding: 36px 32px;
@@ -138,116 +138,240 @@
     .level-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
     .chart-container { position: relative; max-width: 650px; margin: 20px auto 0 auto; height: 320px; }
 
-    /* ================= វិញ្ញាបនបត្រ ================= */
+    /* ================= NEW LUXURY CERTIFICATE DESIGN ================= */
     .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
-    .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
-
+    .cert-scroll { overflow-x: auto; padding-bottom: 10px; display: flex; justify-content: center; }
     .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 
     .btn-cert-download {
-      background-color: var(--gold); color: white; border: none; padding: 12px 24px;
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; border: none; padding: 12px 26px;
       font-size: 1rem; font-weight: 700; font-family: inherit; border-radius: 6px;
-      cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+      cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
     }
-    .btn-cert-download:hover { background-color: var(--gold-dark); }
+    .btn-cert-download:hover { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); transform: translateY(-1px); }
     .btn-cert-download:disabled { opacity: .6; cursor: wait; }
 
     .certificate-card {
-      width: 920px;
-      height: 645px;
+      width: 960px;
+      height: 650px;
       margin: 0 auto;
       background: #ffffff;
       padding: 24px 34px;
-      border: 12px solid #0f172a;
       position: relative;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15);
       color: #0f172a;
+      overflow: hidden;
     }
 
+    /* Double Gold & Navy Border */
     .certificate-card::before {
       content: '';
       position: absolute;
-      top: 4px; left: 4px; right: 4px; bottom: 4px;
-      border: 3px solid var(--gold);
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 2px solid #b45309;
+      pointer-events: none;
+    }
+    .certificate-card::after {
+      content: '';
+      position: absolute;
+      top: 15px; left: 15px; right: 15px; bottom: 15px;
+      border: 1px solid #eab308;
       pointer-events: none;
     }
 
-    .cert-corner-decor { position: absolute; width: 36px; height: 36px; border: 3px solid var(--gold); }
-    .c-top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
-    .c-top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
-    .c-bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
-    .c-bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+    /* Corner Luxury Ornaments */
+    .cert-corner-ornament {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .c-tl { top: 8px; left: 8px; border-top: 5px solid #0f3460; border-left: 5px solid #0f3460; }
+    .c-tr { top: 8px; right: 8px; border-top: 5px solid #0f3460; border-right: 5px solid #0f3460; }
+    .c-bl { bottom: 8px; left: 8px; border-bottom: 5px solid #0f3460; border-left: 5px solid #0f3460; }
+    .c-br { bottom: 8px; right: 8px; border-bottom: 5px solid #0f3460; border-right: 5px solid #0f3460; }
 
-    .cert-logo { width: 68px; height: 68px; object-fit: contain; margin: 0 auto 3px auto; display: block; }
-
-    .cert-org {
-      font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
-      letter-spacing: 2px; color: #0f172a; text-transform: uppercase;
+    /* Top Left Modern Geometric Accents */
+    .cert-top-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 320px;
+      height: 140px;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .cert-motto {
-      font-size: 0.68rem; letter-spacing: 2.5px; color: var(--gold);
-      font-weight: 700; text-transform: uppercase; margin-bottom: 6px;
+    /* Left Scientific Watermark (Microscope & DNA) */
+    .cert-watermark-left {
+      position: absolute;
+      top: 130px;
+      left: 15px;
+      width: 220px;
+      height: 380px;
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.55rem; color: var(--gold-dark); margin-bottom: 2px; }
+    /* Right Botanical Watermark */
+    .cert-watermark-right {
+      position: absolute;
+      top: 170px;
+      right: 10px;
+      width: 170px;
+      height: 360px;
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 1;
+    }
 
+    /* Golden Trophy Badge (Top Right) */
+    .cert-gold-badge {
+      position: absolute;
+      top: 86px;
+      right: 56px;
+      width: 124px;
+      height: 178px;
+      z-index: 4;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.18));
+    }
+
+    .cert-inner-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .cert-header { margin-top: 4px; }
+    .cert-rf-logo {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      margin: 0 auto 2px auto;
+      display: block;
+      filter: drop-shadow(0 2px 5px rgba(217, 119, 6, 0.25));
+    }
+    .cert-rf-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      color: #0f2744;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .cert-rf-motto {
+      font-size: 0.65rem;
+      letter-spacing: 3.5px;
+      color: #b45309;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 2px;
+      margin-bottom: 6px;
+    }
+
+    .cert-title-km {
+      font-family: 'Moul', cursive;
+      font-size: 2.15rem;
+      color: #0a2540;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      margin: 2px 0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
     .cert-title-en {
-      font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
-      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #b45309;
+      text-transform: uppercase;
     }
 
-    .cert-presented { font-size: 0.95rem; color: #64748b; }
-
-    .cert-student-name {
-      font-family: 'Kantumruy Pro', sans-serif; font-size: 1.85rem; font-weight: 700;
-      color: var(--primary-dark); border-bottom: 2px solid var(--gold);
-      display: inline-block; padding: 0 40px 4px 40px; margin: 4px auto 8px auto;
+    .cert-body-section { margin: 6px 0; }
+    .cert-presented-txt {
+      font-size: 0.96rem;
+      color: #0f2744;
+      font-weight: 600;
+      margin-bottom: 3px;
     }
-
-    .cert-desc { font-size: 0.9rem; line-height: 1.65; color: #334155; max-width: 760px; margin: 0 auto; }
-
-    .cert-signatures { 
-      display: grid; 
-      grid-template-columns: 240px 1fr 240px; 
-      align-items: flex-end; 
-      margin-top: 10px; 
-      padding: 0 10px; 
-    }
-    .sig-block { text-align: center; position: relative; }
-
-    .official-stamp {
-      width: 86px; height: 86px; border: 2px dashed #b91c1c; border-radius: 50%;
-      margin: 0 auto 4px auto; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; color: #b91c1c;
-      transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25); user-select: none;
+    .cert-recipient-name {
       font-family: 'Kantumruy Pro', sans-serif;
+      font-size: 2.45rem;
+      font-weight: 700;
+      color: #064e3b;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
     }
-    .stamp-text-top { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
-    .stamp-star { font-size: 0.65rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
-    .stamp-text-bottom { font-size: 0.6rem; font-weight: 700; line-height: 1.4; padding-top: 1px; }
+    .cert-main-desc {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #1e293b;
+      max-width: 790px;
+      margin: 0 auto;
+    }
+    .cert-main-desc strong { color: #0f172a; }
+    .cert-score-box {
+      display: inline-block;
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      color: #78350f;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
 
-    .signature-wrap { height: 50px; display: flex; align-items: flex-end; justify-content: center; }
-    .teacher-signature { height: 46px; width: auto; display: block; }
+    /* Bottom Signatures & Stamp Layout */
+    .cert-bottom-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr 240px;
+      align-items: flex-end;
+      padding: 0 10px;
+      margin-bottom: 4px;
+    }
+    .cert-bottom-block { text-align: center; }
 
-    .sig-line { border-top: 1px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
-    .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
-    .sig-title { font-size: 0.78rem; color: var(--text-muted); }
-
-    /* Center QR Box */
-    .cert-center-panel {
+    /* Red Stamp Seal */
+    .cert-stamp-badge {
+      width: 78px;
+      height: 78px;
+      border: 2px dashed #b91c1c;
+      border-radius: 50%;
+      margin: 0 auto 3px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      color: #b91c1c;
+      transform: rotate(-10deg);
+      background: rgba(254, 226, 226, 0.35);
+      user-select: none;
+      font-family: 'Kantumruy Pro', sans-serif;
     }
+    .stamp-top { font-size: 0.55rem; font-weight: 800; letter-spacing: 0.6px; line-height: 1.1; }
+    .stamp-mid { font-size: 0.62rem; margin: 1px 0; color: #dc2626; line-height: 1; }
+    .stamp-bot { font-size: 0.55rem; font-weight: 700; line-height: 1.2; }
 
+    /* Middle QR */
+    .cert-qr-center-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
     .cert-qr-box {
       width: 74px;
       height: 74px;
@@ -260,37 +384,34 @@
       align-items: center;
       justify-content: center;
     }
+    .cert-qr-box canvas { width: 66px !important; height: 66px !important; display: block !important; margin: 0 auto !important; }
+    .cert-qr-box img { display: none !important; }
 
-    .cert-qr-box canvas {
-      width: 66px !important;
-      height: 66px !important;
-      display: block !important;
-      margin: 0 auto !important;
-    }
-
-    .cert-qr-box img {
-      display: none !important;
-    }
-
-    .cert-id-tag {
+    .cert-id-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      color: #0f172a;
-      background: #f1f5f9;
-      padding: 1px 7px;
+      color: #0f2744;
+      background: #f8fafc;
+      padding: 1px 8px;
       border-radius: 4px;
       border: 1px solid #cbd5e1;
       letter-spacing: 0.5px;
     }
-
-    .cert-verify-link-text {
-      font-size: 0.62rem;
-      color: var(--primary-dark);
+    .cert-verify-link-wrap {
+      font-size: 0.64rem;
+      color: #1e3a8a;
       font-weight: 600;
       text-decoration: none;
       word-break: break-all;
     }
+
+    /* Right Signature */
+    .sig-img-wrap { height: 48px; display: flex; align-items: flex-end; justify-content: center; }
+    .sig-svg-image { height: 46px; width: auto; display: block; }
+    .sig-divider { border-top: 1.5px solid #94a3b8; margin-top: 3px; padding-top: 3px; }
+    .sig-person-name { font-weight: 700; font-size: 0.95rem; color: #0f172a; }
+    .sig-person-title { font-size: 0.76rem; color: var(--text-muted); }
 
     /* Scoreboard */
     .table-section { margin-top: 45px; border-top: 2px dashed #cbd5e1; padding-top: 30px; }
@@ -420,7 +541,7 @@
       #certificateCard, #certificateCard * { visibility: visible; }
       #certificateCard {
         position: fixed; top: 50%; left: 50%;
-        transform: translate(-50%, -50%) scale(1.12);
+        transform: translate(-50%, -50%) scale(1.08);
         box-shadow: none;
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
@@ -490,7 +611,7 @@
     </div>
   </div>
 
-  <!-- ================= វិញ្ញាបនបត្រ ================= -->
+  <!-- ================= វិញ្ញាបនបត្រ (REDESIGNED LUXURY) ================= -->
   <div id="certificateWrapper" class="certificate-wrapper">
     <div class="cert-actions">
       <button type="button" id="btnDownloadCert" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
@@ -500,64 +621,148 @@
 
     <div class="cert-scroll">
       <div id="certificateCard" class="certificate-card">
-        <div class="cert-corner-decor c-top-left"></div>
-        <div class="cert-corner-decor c-top-right"></div>
-        <div class="cert-corner-decor c-bottom-left"></div>
-        <div class="cert-corner-decor c-bottom-right"></div>
+        <!-- Corner Frame Ornaments -->
+        <div class="cert-corner-ornament c-tl"></div>
+        <div class="cert-corner-ornament c-tr"></div>
+        <div class="cert-corner-ornament c-bl"></div>
+        <div class="cert-corner-ornament c-br"></div>
 
-        <div>
-          <img id="certLogo" 
-               src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
-               alt="Research Foundation Logo" 
-               class="cert-logo" 
-               crossorigin="anonymous"
-               onerror="this.src='logo.png'">
-          <div class="cert-org">Research Foundation</div>
-          <div class="cert-motto">Knowledge • Innovation • Impact</div>
+        <!-- Top Left Curved Geometric Accent SVG -->
+        <svg class="cert-top-shapes" viewBox="0 0 320 140" fill="none">
+          <path d="M-20,0 C80,20 160,80 230,0 L0,0 Z" fill="#0f3460" opacity="0.95"/>
+          <path d="M-30,0 C70,40 180,105 280,0 L0,0 Z" fill="#b45309" opacity="0.35"/>
+          <path d="M-10,0 C90,10 140,55 200,0 L0,0 Z" fill="#eab308" opacity="0.5"/>
+        </svg>
 
-          <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
-          <div class="cert-title-en">Certificate of Achievement</div>
-        </div>
+        <!-- Left Scientific Watermark (Microscope & DNA) -->
+        <svg class="cert-watermark-left" viewBox="0 0 200 350" fill="none" stroke="#0284c7" stroke-width="2.2">
+          <!-- DNA Helix -->
+          <path d="M40,20 Q80,50 40,80 T40,140 T40,200" stroke-linecap="round"/>
+          <path d="M80,20 Q40,50 80,80 T80,140 T80,200" stroke-linecap="round"/>
+          <line x1="45" y1="35" x2="75" y2="35"/>
+          <line x1="50" y1="50" x2="70" y2="50"/>
+          <line x1="45" y1="65" x2="75" y2="65"/>
+          <line x1="42" y1="95" x2="78" y2="95"/>
+          <line x1="50" y1="110" x2="70" y2="110"/>
+          <line x1="42" y1="125" x2="78" y2="125"/>
+          <!-- Microscope -->
+          <circle cx="90" cy="225" r="14" fill="#0284c7" fill-opacity="0.2"/>
+          <rect x="76" y="240" width="28" height="42" rx="4" fill="#0284c7" fill-opacity="0.25"/>
+          <path d="M50,330 L130,330 L120,315 L60,315 Z" fill="#0284c7" fill-opacity="0.3"/>
+          <path d="M90,282 C60,282 50,300 50,315" stroke-width="4"/>
+          <line x1="90" y1="210" x2="115" y2="175" stroke-width="5"/>
+        </svg>
 
-        <div>
-          <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
-          <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
-          <div class="cert-desc">
-            ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«មីក្រូជីវវិទ្យា (Microbiology)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">25/30 ពិន្ទុ</strong>។
-          </div>
-        </div>
+        <!-- Right Botanical Watermark (Leaves) -->
+        <svg class="cert-watermark-right" viewBox="0 0 150 300" fill="#059669">
+          <path d="M80,260 Q60,180 120,120 Q100,190 80,260 Z" opacity="0.3"/>
+          <path d="M90,240 Q130,190 145,140 Q110,180 90,240 Z" opacity="0.25"/>
+          <path d="M70,220 Q30,170 20,130 Q50,165 70,220 Z" opacity="0.25"/>
+          <path d="M100,160 Q135,115 140,80 Q115,110 100,160 Z" opacity="0.2"/>
+          <path d="M60,150 Q25,110 30,70 Q50,105 60,150 Z" opacity="0.2"/>
+        </svg>
 
-        <div class="cert-signatures">
-          <!-- ត្រាផ្លូវការ -->
-          <div class="sig-block">
-            <div class="official-stamp">
-              <span class="stamp-text-top">RESEARCH FOUNDATION</span>
-              <span class="stamp-star">★ OFFICIAL SEAL ★</span>
-              <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
+        <!-- Golden Trophy Ribbon Badge (SVG Exact Replica) -->
+        <svg class="cert-gold-badge" viewBox="0 0 140 200" fill="none">
+          <!-- Blue Ribbons -->
+          <path d="M42,120 L25,185 L50,170 L70,185 L56,120 Z" fill="#0f3460"/>
+          <path d="M98,120 L115,185 L90,170 L70,185 L84,120 Z" fill="#162a45"/>
+          <!-- Rosette Petals Outer -->
+          <circle cx="70" cy="72" r="54" fill="url(#goldGrad)" stroke="#78350f" stroke-width="1.5"/>
+          <!-- Rosette Inner Rim -->
+          <circle cx="70" cy="72" r="44" fill="#0a192f" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="3,2"/>
+          <circle cx="70" cy="72" r="38" fill="url(#goldGradDark)"/>
+          <!-- Trophy Icon inside -->
+          <path d="M58,54 L82,54 L80,68 C79,76 74,80 70,80 C66,80 61,76 60,68 Z" fill="#fbbf24" stroke="#78350f" stroke-width="1"/>
+          <path d="M58,57 C52,57 50,65 55,70 C57,72 59,72 60,71" stroke="#fbbf24" stroke-width="1.8" fill="none"/>
+          <path d="M82,57 C88,57 90,65 85,70 C83,72 81,72 80,71" stroke="#fbbf24" stroke-width="1.8" fill="none"/>
+          <rect x="67" y="80" width="6" height="8" fill="#fbbf24"/>
+          <rect x="62" y="88" width="16" height="4" rx="1" fill="#f59e0b"/>
+          <polygon points="70,58 72,63 77,63 73,66 75,71 70,68 65,71 67,66 63,63 68,63" fill="#ffffff"/>
+          <!-- Laurel Wreath in Medal -->
+          <path d="M50,78 C48,65 52,55 56,50" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M90,78 C92,65 88,55 84,50" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fde047"/>
+              <stop offset="0.4" stop-color="#d97706"/>
+              <stop offset="0.8" stop-color="#b45309"/>
+              <stop offset="1" stop-color="#fef08a"/>
+            </linearGradient>
+            <linearGradient id="goldGradDark" x1="40" y1="40" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#78350f"/>
+              <stop offset="0.5" stop-color="#b45309"/>
+              <stop offset="1" stop-color="#451a03"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div class="cert-inner-content">
+          <!-- Top Header -->
+          <div class="cert-header">
+            <img id="certLogo" 
+                 src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
+                 alt="Research Foundation Logo" 
+                 class="cert-rf-logo" 
+                 crossorigin="anonymous"
+                 onerror="this.src='logo.png'">
+            <div class="cert-rf-name">RESEARCH FOUNDATION</div>
+            <div class="cert-rf-motto">KNOWLEDGE • INNOVATION • IMPACT</div>
+
+            <!-- Khmer Laurel Title -->
+            <div style="display:inline-flex; align-items:center; justify-content:center; gap:14px; margin-top:2px;">
+              <span style="font-size:1.4rem; color:#b45309;">🌾</span>
+              <div class="cert-title-km">វិញ្ញាបនបត្រជោគជ័យ</div>
+              <span style="font-size:1.4rem; color:#b45309; transform:scaleX(-1);">🌾</span>
             </div>
-            <div style="font-size:0.75rem; color:#64748b;">
-              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-06</div>
-              <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
-              <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
+            <div class="cert-title-en">CERTIFICATE OF ACHIEVEMENT</div>
+          </div>
+
+          <!-- Body Info -->
+          <div class="cert-body-section">
+            <div class="cert-presented-txt">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូន</div>
+            <div id="certStudentName" class="cert-recipient-name">ឈ្មោះនិស្សិត</div>
+            
+            <div class="cert-main-desc">
+              បានបញ្ចប់ការធ្វើតេស្តក្រោយការរៀន (Post-test) នៃមុខវិជ្ជា <strong>«មីក្រូជីវវិទ្យា (Microbiology)»</strong><br>
+              ដោយទទួលបានលទ្ធផលពិន្ទុ <span class="cert-score-box" id="certScoreText">25/30 (83.3%)</span> ដែលបញ្ជាក់ពីការយល់ដឹងល្អប្រសើរ។
             </div>
           </div>
 
-          <!-- QR Code ទំហំ Normal ច្បាស់ទាំង PC និង Mobile -->
-          <div class="sig-block cert-center-panel">
-            <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
-            <div id="certIdDisplay" class="cert-id-tag">ID: RF-MIC-2026-XXXX</div>
-            <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/microbiology-pretest.html?cert_id=...</a>
-          </div>
-
-          <!-- ហត្ថលេខាគ្រូបង្រៀន -->
-          <div class="sig-block">
-            <div class="signature-wrap">
-              <img class="teacher-signature" width="70" height="52" alt="Signature"
-                src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+          <!-- Bottom Grid: Seal, QR, Signature -->
+          <div class="cert-bottom-grid">
+            <!-- Left: Red Official Stamp -->
+            <div class="cert-bottom-block">
+              <div class="cert-stamp-badge">
+                <span class="stamp-top">RESEARCH</span>
+                <span class="stamp-top" style="font-size:0.5rem;">FOUNDATION</span>
+                <span class="stamp-mid">★ OFFICIAL SEAL ★</span>
+                <span class="stamp-bot">មូលដ្ឋានស្រាវជ្រាវ</span>
+              </div>
+              <div style="font-size:0.75rem; color:#64748b; line-height:1.3;">
+                <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-06</div>
+                <div style="font-weight:700; color:#0f172a;">Research Foundation</div>
+                <div style="font-size:0.7rem;">ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
+              </div>
             </div>
-            <div class="sig-line">
-              <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
-              <div class="sig-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
+
+            <!-- Center: QR Code & ID Tag -->
+            <div class="cert-bottom-block cert-qr-center-wrap">
+              <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
+              <div id="certIdDisplay" class="cert-id-badge">ID: RF-MIC-2026-XXXX</div>
+              <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-wrap">🔗 verify at: researchfoundation.top/microbiology-pretest.html?cert_id=...</a>
+            </div>
+
+            <!-- Right: Teacher Signature -->
+            <div class="cert-bottom-block">
+              <div class="sig-img-wrap">
+                <img class="sig-svg-image" width="70" height="52" alt="Signature"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+              </div>
+              <div class="sig-divider">
+                <div class="sig-person-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
+                <div class="sig-person-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
+              </div>
             </div>
           </div>
         </div>
@@ -647,7 +852,6 @@
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
   
-  // Link ស្កេនទៅកាន់ទីតាំងបច្ចុប្បន្នផ្ទាល់
   const VERIFY_BASE_URL = window.location.origin + window.location.pathname;
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
@@ -1049,15 +1253,14 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // បង្កើត QR Code ច្បាស់ មិន Duplicate (ទំហំ Normal 64px)
   function generateCertQRCode(verifyUrl) {
     const qrContainer = document.getElementById('certQrContainer');
     qrContainer.innerHTML = '';
     
     new QRCode(qrContainer, {
       text: verifyUrl,
-      width: 64,
-      height: 64,
+      width: 66,
+      height: 66,
       colorDark : "#0f172a",
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.M
@@ -1068,6 +1271,7 @@
     const standardizedName = cleanStudentName(name);
     const key = makeStudentKey(standardizedName);
     const actualCertId = certId || generateCertId(key, date);
+    const percent = ((score / 30) * 100).toFixed(1);
 
     currentActiveCertData = {
       id: actualCertId,
@@ -1077,13 +1281,13 @@
     };
 
     document.getElementById('certStudentName').innerText = standardizedName;
-    document.getElementById('certScoreText').innerText = `${score}/30 ពិន្ទុ`;
+    document.getElementById('certScoreText').innerText = `${score}/30 (${percent}%)`;
     document.getElementById('certDateText').innerText = `កាលបរិច្ឆេទ៖ ${date}`;
     document.getElementById('certIdDisplay').innerText = `ID: ${actualCertId}`;
 
     const verifyFullUrl = `${VERIFY_BASE_URL}?cert_id=${encodeURIComponent(actualCertId)}`;
     document.getElementById('certVerifyUrlLink').href = verifyFullUrl;
-    document.getElementById('certVerifyUrlLink').innerText = `researchfoundation.top/microbiology-pretest.html?cert_id=${actualCertId}`;
+    document.getElementById('certVerifyUrlLink').innerText = `🔗 verify at: researchfoundation.top/microbiology-pretest.html?cert_id=${actualCertId}`;
 
     generateCertQRCode(verifyFullUrl);
   }
@@ -1122,7 +1326,7 @@
       : new Promise(res => { im.onload = res; im.onerror = res; })));
   }
 
-  /* ================= DOWNLOAD PDF សមស្របទាំងលើ MOBILE និង PC ================= */
+  /* PDF Generation with High-Res Fit */
   async function downloadCertificatePDF() {
     const btn = document.getElementById('btnDownloadCert');
     const card = document.getElementById('certificateCard');
@@ -1147,8 +1351,8 @@
         backgroundColor: '#ffffff',
         scrollX: 0,
         scrollY: 0,
-        width: 920,
-        height: 645,
+        width: 960,
+        height: 650,
         windowWidth: 1024
       });
 
@@ -1194,7 +1398,7 @@
     }
   }
 
-  /* ================= CHART ================= */
+  /* Bar Chart */
   let chartInstance = null;
   function renderChart(student) {
     const ctx = document.getElementById('scoreChart').getContext('2d');
@@ -1230,7 +1434,7 @@
     });
   }
 
-  /* ================= FIREBASE STORAGE ENGINE ================= */
+  /* Firebase Storage Engine */
   function getLocalRecords() {
     try {
       return JSON.parse(localStorage.getItem('microbiology_assessment_records') || '{}');
@@ -1330,7 +1534,7 @@
     if (btn) btn.innerText = "🔄 Sync Now";
   }
 
-  /* ================= ADMIN ================= */
+  /* Admin Authentication */
   function isAdminLoggedIn() {
     return sessionStorage.getItem('admin_logged_in') === 'true' || localStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true';
   }
@@ -1412,7 +1616,7 @@
     certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* ================= SCOREBOARD (AUTO-MERGE BY NAME) ================= */
+  /* Scoreboard Rendering */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getLocalRecords();
@@ -1507,7 +1711,7 @@
     if (btn.dataset.action === 'delete') deleteStudentRow(key);
   });
 
-  /* ================= CSV EXPORT ================= */
+  /* Export CSV */
   function csvCell(v) {
     return `"${String(v).replace(/"/g, '""')}"`;
   }
@@ -1567,7 +1771,7 @@
     URL.revokeObjectURL(url);
   }
 
-  /* ================= DIGITAL VERIFICATION MODAL ENGINE ================= */
+  /* Digital Verification Modal */
   function openVerifyModal(data) {
     document.getElementById('vStudentName').innerText = data.name;
     document.getElementById('vCertId').innerText = data.id;
