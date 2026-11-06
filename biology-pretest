@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ការវាយតម្លៃជីវវិទ្យា (Pre-test & Post-test) | មូលដ្ឋានស្រាវជ្រាវ-Research Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- html2canvas and jsPDF Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-dark: #047857;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --gold: #d97706;
+      --gold-dark: #92400e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Kantumruy Pro', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 24px 16px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 940px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 36px 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    header {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .university { font-size: 1.15rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; }
+    h1 { font-size: 1.5rem; color: #0f172a; margin-top: 6px; }
+
+    .exam-info {
+      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+      margin-top: 10px; font-size: 0.9rem; color: var(--text-muted);
+    }
+
+    .badge { background: #dcfce7; color: var(--primary-dark); padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+
+    .objective {
+      background: #f8fafc; border-left: 4px solid var(--primary);
+      padding: 12px 16px; font-size: 0.9rem; margin-top: 16px;
+      text-align: left; border-radius: 0 6px 6px 0;
+    }
+
+    .timer-container {
+      display: none; position: sticky; top: 16px; z-index: 100;
+      background: #0f172a; color: #ffffff; padding: 12px 24px; border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25); margin-bottom: 24px;
+      justify-content: space-between; align-items: center; font-weight: 600;
+    }
+
+    .timer-time { font-size: 1.35rem; font-weight: 700; color: #34d399; font-family: monospace; letter-spacing: 1px; }
+    .timer-warning { color: #ef4444 !important; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .user-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    @media (max-width: 768px) { .user-info { grid-template-columns: 1fr; } }
+
+    .input-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+    .input-group input, .input-group select {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: 6px; font-family: inherit; font-size: 0.95rem; outline: none; background: #fff;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .start-area {
+      text-align: center; padding: 30px 20px; background: #f1f5f9;
+      border-radius: 10px; border: 1px dashed #cbd5e1; margin-bottom: 24px;
+    }
+
+    .btn-start {
+      background-color: var(--primary); color: white; border: none; padding: 16px 36px;
+      font-size: 1.2rem; font-weight: 700; font-family: inherit; border-radius: 8px;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); transition: all 0.2s;
+    }
+    .btn-start:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
+
+    #examBody { display: none; }
+
+    .question-card { margin-bottom: 20px; padding: 18px 20px; border: 1px solid var(--border); border-radius: 8px; background: #ffffff; }
+    .q-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+    .options { display: flex; flex-direction: column; gap: 8px; }
+
+    .option-label {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 6px;
+      background: #fafafa; border: 1px solid var(--border); cursor: pointer;
+      user-select: none; transition: all 0.2s; font-size: 0.95rem;
+    }
+    .option-label:hover { border-color: var(--primary); background: #f0fdf4; }
+    .option-label input[type="radio"] { accent-color: var(--primary); width: 18px; height: 18px; }
+
+    .btn-submit {
+      width: 100%; background-color: var(--primary); color: #ffffff; border: none;
+      padding: 16px 20px; font-size: 1.1rem; font-weight: 700; font-family: inherit;
+      border-radius: 8px; cursor: pointer; margin-top: 24px; transition: background 0.2s;
+    }
+    .btn-submit:hover { background-color: var(--primary-dark); }
+
+    .result-box {
+      display: none; margin-top: 36px; padding: 28px; border-radius: 10px;
+      background: #f8fafc; border: 1px solid #cbd5e1; text-align: center;
+    }
+    .score-total { font-size: 2rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
+    .level-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
+    .chart-container { position: relative; max-width: 650px; margin: 20px auto 0 auto; height: 320px; }
+
+    /* ================= វិញ្ញាបនបត្រ ================= */
+    .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
+    .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
+
+    .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+
+    .btn-cert-download {
+      background-color: var(--gold); color: white; border: none; padding: 12px 24px;
+      font-size: 1rem; font-weight: 700; font-family: inherit; border-radius: 6px;
+      cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+    }
+    .btn-cert-download:hover { background-color: var(--gold-dark); }
+    .btn-cert-download:disabled { opacity: .6; cursor: wait; }
+
+    .certificate-card {
+      width: 920px;
+      height: 645px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 24px 34px;
+      border: 12px solid #0f172a;
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      color: #0f172a;
+    }
+
+    .certificate-card::before {
+      content: '';
+      position: absolute;
+      top: 4px; left: 4px; right: 4px; bottom: 4px;
+      border: 3px solid var(--gold);
+      pointer-events: none;
+    }
+
+    .cert-corner-decor { position: absolute; width: 36px; height: 36px; border: 3px solid var(--gold); }
+    .c-top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+    .c-top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+    .c-bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+    .c-bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+    .cert-logo { width: 68px; height: 68px; object-fit: contain; margin: 0 auto 3px auto; display: block; }
+
+    .cert-org {
+      font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
+      letter-spacing: 2px; color: #0f172a; text-transform: uppercase;
+    }
+
+    .cert-motto {
+      font-size: 0.68rem; letter-spacing: 2.5px; color: var(--gold);
+      font-weight: 700; text-transform: uppercase; margin-bottom: 6px;
+    }
+
+    .cert-title-km { font-family: 'Moul', cursive; font-size: 1.55rem; color: var(--gold-dark); margin-bottom: 2px; }
+
+    .cert-title-en {
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    .cert-presented { font-size: 0.95rem; color: #64748b; }
+
+    .cert-student-name {
+      font-family: 'Kantumruy Pro', sans-serif; font-size: 1.85rem; font-weight: 700;
+      color: var(--primary-dark); border-bottom: 2px solid var(--gold);
+      display: inline-block; padding: 0 40px 4px 40px; margin: 4px auto 8px auto;
+    }
+
+    .cert-desc { font-size: 0.9rem; line-height: 1.65; color: #334155; max-width: 760px; margin: 0 auto; }
+
+    .cert-signatures { 
+      display: grid; 
+      grid-template-columns: 240px 1fr 240px; 
+      align-items: flex-end; 
+      margin-top: 10px; 
+      padding: 0 10px; 
+    }
+    .sig-block { text-align: center; position: relative; }
+
+    .official-stamp {
+      width: 86px; height: 86px; border: 2px dashed #b91c1c; border-radius: 50%;
+      margin: 0 auto 4px auto; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: #b91c1c;
+      transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25); user-select: none;
+      font-family: 'Kantumruy Pro', sans-serif;
+    }
+    .stamp-text-top { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
+    .stamp-star { font-size: 0.65rem; margin: 2px 0; color: #dc2626; line-height: 1.2; }
+    .stamp-text-bottom { font-size: 0.6rem; font-weight: 700; line-height: 1.4; padding-top: 1px; }
+
+    .signature-wrap { height: 50px; display: flex; align-items: flex-end; justify-content: center; }
+    .teacher-signature { height: 46px; width: auto; display: block; }
+
+    .sig-line { border-top: 1px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
+    .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
+    .sig-title { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Center QR Box */
+    .cert-center-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .cert-qr-box {
+      width: 74px;
+      height: 74px;
+      background: #ffffff;
+      padding: 4px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cert-qr-box canvas {
+      width: 66px !important;
+      height: 66px !important;
+      display: block !important;
+      margin: 0 auto !important;
+    }
+
+    .cert-qr-box img {
+      display: none !important;
+    }
+
+    .cert-id-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0f172a;
+      background: #f1f5f9;
+      padding: 1px 7px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      letter-spacing: 0.5px;
+    }
+
+    .cert-verify-link-text {
+      font-size: 0.62rem;
+      color: var(--primary-dark);
+      font-weight: 600;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    /* Scoreboard */
+    .table-section { margin-top: 45px; border-top: 2px dashed #cbd5e1; padding-top: 30px; }
+    .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+    .table-header h2 { font-size: 1.25rem; color: #0f172a; }
+    .action-btn-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .btn-action {
+      border: none; padding: 8px 14px; font-family: inherit; font-size: 0.85rem;
+      font-weight: 600; border-radius: 6px; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-export { background-color: #10b981; color: white; }
+    .btn-export:hover { background-color: #059669; }
+    .btn-admin-auth { background-color: #059669; color: white; }
+    .btn-admin-auth:hover { background-color: #047857; }
+    .btn-logout { background-color: #64748b; color: white; }
+    .btn-logout:hover { background-color: #475569; }
+    .btn-clear-all { background-color: #dc2626; color: white; }
+    .btn-clear-all:hover { background-color: #b91c1c; }
+    .btn-refresh-cloud { background-color: #0d9488; color: white; }
+    .btn-refresh-cloud:hover { background-color: #0f766e; }
+    .btn-view-cert { background:#d97706; color:#fff; padding:4px 8px; font-size:0.8rem; }
+    .btn-view-cert:hover { background:#92400e; }
+
+    .btn-delete-row {
+      background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5;
+      padding: 4px 8px; font-family: inherit; font-size: 0.8rem; border-radius: 4px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-delete-row:hover { background-color: #dc2626; color: white; }
+
+    .admin-indicator {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem;
+      background: #ecfdf5; color: #047857; padding: 4px 10px; border-radius: 6px;
+      border: 1px solid #a7f3d0; font-weight: 600;
+    }
+
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
+    table th, table td { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+    table th { background-color: #f1f5f9; color: #334155; font-weight: 600; }
+    table tbody tr:hover { background-color: #f8fafc; }
+    .empty-msg { text-align: center; color: var(--text-muted); padding: 20px; }
+
+    .gain-positive { color: var(--success); font-weight: 700; }
+    .gain-neutral { color: var(--text-muted); font-weight: 600; }
+    .gain-negative { color: var(--danger); font-weight: 700; }
+
+    /* Verification Modal */
+    .verify-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .verify-modal {
+      background: #ffffff;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      padding: 28px 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+    }
+    .verify-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+    .verify-details {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: left;
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .verify-details-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #e2e8f0;
+      padding-bottom: 5px;
+    }
+    .verify-details-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .btn-close-verify {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    footer {
+      text-align: center; margin-top: 36px; font-size: 0.85rem; color: var(--text-muted);
+      border-top: 1px solid #e2e8f0; padding-top: 18px;
+    }
+
+    @page { size: A4 landscape; margin: 0; }
+    @media print {
+      body { background: #fff; padding: 0; }
+      body * { visibility: hidden; }
+      #certificateCard, #certificateCard * { visibility: visible; }
+      #certificateCard {
+        position: fixed; top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(1.12);
+        box-shadow: none;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="university">មូលដ្ឋានស្រាវជ្រាវ | Research Foundation</div>
+    <h1 id="pageHeading">ការវាយតម្លៃជីវវិទ្យា (Pre-test)</h1>
+    <div class="exam-info">
+      <span class="badge">កម្រិតបរិញ្ញាបត្រ</span>
+      <span class="badge">រយៈពេល៖ ៣០ នាទី</span>
+      <span class="badge">ពិន្ទុសរុប៖ ៣០ ពិន្ទុ</span>
+      <span class="badge" style="background:#fef3c7; color:#92400e;">ជាប់ទទួលវិញ្ញាបនបត្រ៖ &gt; ២០ ពិន្ទុ</span>
+    </div>
+    <div class="objective" id="objectiveText">
+      <strong>គោលបំណង៖</strong> វាស់ស្ទង់ និងវាយតម្លៃចំណេះដឹងរបស់និស្សិតលើមុខវិជ្ជាជីវវិទ្យា មុន និងក្រោយការបង្រៀន (Pre-test vs Post-test)។ និស្សិតដែលប្រឡង Post-test ទទួលបានពិន្ទុលើសពី ២០ ពិន្ទុ នឹងទទួលបានវិញ្ញាបនបត្រផ្លូវការដែលមាន QR Code ផ្ទៀងផ្ទាត់សុពលភាពលើប្រព័ន្ធ។
+    </div>
+  </header>
+
+  <div id="timerContainer" class="timer-container">
+    <span>⏱️ ពេលវេលានៅសល់៖</span>
+    <span id="timerDisplay" class="timer-time">30:00</span>
+  </div>
+
+  <form id="quizForm">
+    <div class="user-info">
+      <div class="input-group">
+        <label for="studentName">ឈ្មោះនិស្សិត៖ *</label>
+        <input type="text" id="studentName" placeholder="បញ្ចូលឈ្មោះពេញ..." required>
+      </div>
+      <div class="input-group">
+        <label for="testType">ប្រភេទតេស្ត (Test Type)៖ *</label>
+        <select id="testType" required onchange="handleTestTypeChange()">
+          <option value="Pre-test">តេស្តមុនរៀន (Pre-test)</option>
+          <option value="Post-test">តេស្តក្រោយរៀន (Post-test)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="examDate">កាលបរិច្ឆេទ៖ *</label>
+        <input type="date" id="examDate" required>
+      </div>
+    </div>
+
+    <div id="startArea" class="start-area">
+      <p style="margin-bottom: 14px; font-size: 1rem; color: #475569;">
+        សូមបំពេញព័ត៌មានខាងលើឱ្យបានត្រឹមត្រូវ រួចចុចប៊ូតុងខាងក្រោមដើម្បីចាប់ផ្ដើម។ នាឡិកានឹងរាប់ថយក្រោយ <strong>៣០ នាទី</strong> ហើយប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិនៅពេលអស់ម៉ោង។
+      </p>
+      <button type="button" class="btn-start" onclick="startTest()">▶ ចាប់ផ្ដើមធ្វើតេស្ត (Start Test)</button>
+    </div>
+
+    <div id="examBody">
+      <div id="questionsContainer"></div>
+      <button type="submit" id="submitBtn" class="btn-submit">ផ្ញើចម្លើយបញ្ចប់តេស្ត (Submit Test)</button>
+    </div>
+  </form>
+
+  <div id="resultBox" class="result-box">
+    <div class="score-total" id="scoreDisplay"></div>
+    <div id="levelDisplay" class="level-badge"></div>
+    <p id="comparisonSummary" style="color: var(--text-muted); font-size: 1rem; margin-top: 6px;"></p>
+    <div class="chart-container">
+      <canvas id="scoreChart"></canvas>
+    </div>
+  </div>
+
+  <!-- ================= វិញ្ញាបនបត្រ ================= -->
+  <div id="certificateWrapper" class="certificate-wrapper">
+    <div class="cert-actions">
+      <button type="button" id="btnDownloadCert" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
+      <button type="button" class="btn-action" style="background:#334155; color:#fff;" onclick="window.print()">🖨️ បោះពុម្ព (Print)</button>
+      <button type="button" class="btn-action" style="background:#059669; color:#fff;" onclick="testVerifyModal()">🔍 ផ្ទៀងផ្ទាត់ QR Online</button>
+    </div>
+
+    <div class="cert-scroll">
+      <div id="certificateCard" class="certificate-card">
+        <div class="cert-corner-decor c-top-left"></div>
+        <div class="cert-corner-decor c-top-right"></div>
+        <div class="cert-corner-decor c-bottom-left"></div>
+        <div class="cert-corner-decor c-bottom-right"></div>
+
+        <div>
+          <img id="certLogo" 
+               src="https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png" 
+               alt="Research Foundation Logo" 
+               class="cert-logo" 
+               crossorigin="anonymous"
+               onerror="this.src='logo.png'">
+          <div class="cert-org">Research Foundation</div>
+          <div class="cert-motto">Knowledge • Innovation • Impact</div>
+
+          <div class="cert-title-km">វិញ្ញាបនបត្របញ្ជាក់ការសិក្សា</div>
+          <div class="cert-title-en">Certificate of Achievement</div>
+        </div>
+
+        <div>
+          <div class="cert-presented">វិញ្ញាបនបត្រនេះត្រូវបានប្រគល់ជូនដល់៖</div>
+          <div id="certStudentName" class="cert-student-name">ឈ្មោះនិស្សិត</div>
+          <div class="cert-desc">
+            ដែលបានបញ្ចប់ដោយជោគជ័យនូវការវាយតម្លៃតេស្តក្រោយរៀន (Post-test) លើមុខវិជ្ជា <strong>«ជីវវិទ្យា (Biology)»</strong> កម្រិតបរិញ្ញាបត្រ ដោយទទួលបានលទ្ធផលប្រឡងជាប់ <strong id="certScoreText">25/30 ពិន្ទុ</strong>។
+          </div>
+        </div>
+
+        <div class="cert-signatures">
+          <!-- ត្រាផ្លូវការ -->
+          <div class="sig-block">
+            <div class="official-stamp">
+              <span class="stamp-text-top">RESEARCH FOUNDATION</span>
+              <span class="stamp-star">★ OFFICIAL SEAL ★</span>
+              <span class="stamp-text-bottom">មូលដ្ឋានស្រាវជ្រាវ</span>
+            </div>
+            <div style="font-size:0.75rem; color:#64748b;">
+              <div id="certDateText">កាលបរិច្ឆេទ៖ 2026-11-06</div>
+              <div style="font-weight:600; color:#0f172a;">Research Foundation</div>
+              <div>ស្ថាប័នស្រាវជ្រាវ និងវាយតម្លៃ</div>
+            </div>
+          </div>
+
+          <!-- QR Code ទំហំ Normal ច្បាស់ទាំង PC និង Mobile -->
+          <div class="sig-block cert-center-panel">
+            <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
+            <div id="certIdDisplay" class="cert-id-tag">ID: RF-BIO-2026-XXXX</div>
+            <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/?cert_id=...</a>
+          </div>
+
+          <!-- ហត្ថលេខាគ្រូបង្រៀន -->
+          <div class="sig-block">
+            <div class="signature-wrap">
+              <img class="teacher-signature" width="70" height="52" alt="Signature"
+                src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120' width='160' height='120' fill='none'%3E%3Cpath d='M72 10C68 25 58 55 48 72C38 88 22 98 12 92C4 85 8 68 22 55C38 40 52 52 56 65C62 80 75 92 88 82C96 75 98 68 100 60' stroke='%230e3a99' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M115 88C119 86 126 84 128 88' stroke='%230e3a99' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+            </div>
+            <div class="sig-line">
+              <div class="sig-name">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</div>
+              <div class="sig-title">គ្រូបង្រៀនទទួលបន្ទុកមុខវិជ្ជា</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scoreboard -->
+  <div class="table-section">
+    <div class="table-header">
+      <h2>📊 បញ្ជីប្រៀបធៀបលទ្ធផល Pre-test និង Post-test (Scoreboard)</h2>
+      <div class="action-btn-group">
+        <button type="button" class="btn-action btn-refresh-cloud" onclick="manualSyncFromCloud()" title="ទាញទិន្នន័យពី Cloud ភ្លាមៗ">🔄 Sync Now</button>
+        <button type="button" class="btn-action btn-export" onclick="exportToCSV()">ទាញយកជា CSV</button>
+        <div id="adminControls"></div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr id="tableHeaderRow">
+            <th>ល.រ</th>
+            <th>ឈ្មោះនិស្សិត</th>
+            <th>Pre-test (៣០)</th>
+            <th>Post-test (៣០)</th>
+            <th>ការរីកចម្រើន (Gain)</th>
+            <th>កាលបរិច្ឆេទចុងក្រោយ</th>
+            <th>វិញ្ញាបនបត្រ</th>
+          </tr>
+        </thead>
+        <tbody id="studentTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 មូលដ្ឋានស្រាវជ្រាវ | ការស្រាវជ្រាវនាំមកនូវអភិវឌ្ឍន៍ដោយ Research Foundation (www.researchfoundation.top)
+  </footer>
+</div>
+
+<!-- ================= OFFICIAL VERIFICATION MODAL ================= -->
+<div id="verifyModal" class="verify-modal-backdrop">
+  <div class="verify-modal">
+    <div class="verify-badge">✓ វិញ្ញាបនបត្រត្រឹមត្រូវផ្លូវការ (VERIFIED)</div>
+    <h3 style="font-size:1.25rem; font-weight:700; color:#0f172a;">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
+    <p style="font-size:0.8rem; color:#64748b; margin-top:2px;">Research Foundation Digital Credential System</p>
+
+    <div class="verify-details">
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ឈ្មោះនិស្សិត៖</span>
+        <strong id="vStudentName" style="color:#0f172a;"></strong>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">លេខកូដសញ្ញាបត្រ (ID)៖</span>
+        <strong id="vCertId" style="font-family:'JetBrains Mono', monospace; color:#059669;"></strong>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ថ្ងៃខែប្រឡង៖</span>
+        <span id="vDate" style="color:#0f172a; font-weight:600;"></span>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ឈ្មោះមុខវិជ្ជា៖</span>
+        <span style="font-weight:600; color:#0f172a;">ជីវវិទ្យា (Biology)</span>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ពិន្ទុទទួលបាន៖</span>
+        <strong id="vScore" style="color:#16a34a;"></strong>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">ស្ថាប័នចេញ៖</span>
+        <span style="font-weight:600; color:#0f172a;">មូលដ្ឋានស្រាវជ្រាវ - Research Foundation</span>
+      </div>
+      <div class="verify-details-row">
+        <span style="color:#64748b;">គ្រូទទួលបន្ទុក៖</span>
+        <span style="font-weight:700; color:#0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</span>
+      </div>
+    </div>
+
+    <button type="button" class="btn-close-verify" onclick="closeVerifyModal()">បិទផ្ទាំងផ្ទៀងផ្ទាត់</button>
+  </div>
+</div>
+
+<script>
+  const FIREBASE_DB_URL = "https://water-quality-test-91aa2-default-rtdb.asia-southeast1.firebasedatabase.app";
+  const DB_PATH = "biology_assessment_records";
+  const LOCAL_STORAGE_KEY = "biology_assessment_records";
+  const ADMIN_PASSWORD = "admin123";
+  const TEST_DURATION_MINUTES = 30;
+  const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
+  
+  const VERIFY_BASE_URL = window.location.origin + window.location.pathname;
+
+  let timeRemaining = TEST_DURATION_MINUTES * 60;
+  let timerInterval = null;
+  let isTestSubmitted = false;
+  let currentActiveCertData = null;
+
+  function esc(str) {
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function cleanStudentName(name) {
+    return String(name || '')
+      .normalize('NFC')
+      .replace(/[\u200B-\u200D\uFEFF]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function makeStudentKey(name) {
+    const clean = cleanStudentName(name).toLowerCase();
+    return clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
+  }
+
+  function generateCertId(key, dateStr) {
+    let hash = 0;
+    const str = `${key}_${dateStr}`;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0;
+    }
+    const code = Math.abs(hash).toString(36).toUpperCase().padStart(5, '0').slice(0, 5);
+    const yr = (dateStr || '2026').slice(0, 4);
+    return `RF-BIO-${yr}-${code}`;
+  }
+
+  /* 30 University-Level Biology Questions */
+  const questionsData = [
+    { id: 1, q: "១. តើសរីរាង្គកោសិកា (Organelle) មួយណាដែលទទួលខុសត្រូវលើការផលិតថាមពល ATP តាមរយៈដំណើរការដកដង្ហើមកោសិកា?",
+      options: [
+        { key: "A", text: "A. កាកស៊ីកូលជី (Golgi Apparatus)" },
+        { key: "B", text: "B. មីតូកុងឌ្រី (Mitochondria)" },
+        { key: "C", text: "C. រីបូសូម (Ribosome)" },
+        { key: "D", text: "D. លីសូម (Lysosome)" }
+      ], ans: "B" },
+    { id: 2, q: "២. តើស្រទាប់ភ្នាសកោសិកា (Plasma Membrane) ត្រូវបានផ្សំឡើងជាចម្បងដោយសារធាតុអ្វី?",
+      options: [
+        { key: "A", text: "A. ស្រទាប់ពីរនៃផូស្វ័រលីពីដ និងប្រូតេអ៊ីន (Phospholipid bilayer)" },
+        { key: "B", text: "B. សែលុយឡូស និងប៉ិកទីនសុទ្ធសាធ" },
+        { key: "C", text: "C. គ្លីកូសែន និងអាស៊ីតអាមីនេ" },
+        { key: "D", text: "D. អាស៊ីតរីបូនុយក្លេអ៊ិច (RNA)" }
+      ], ans: "A" },
+    { id: 3, q: "៣. តើសរីរាង្គកោសិកាមួយណាដែលមានវត្តមានតែនៅក្នុងកោសិការុក្ខជាតិ ហើយមិនមានក្នុងកោសិកាសត្វ?",
+      options: [
+        { key: "A", text: "A. មីតូកុងឌ្រី និងរីបូសូម" },
+        { key: "B", text: "B. ក្លរ៉ូប្លាស និងជញ្ជាំងកោសិកា (Chloroplast & Cell Wall)" },
+        { key: "C", text: "C. ស្នូលកោសិកា និងកណ្តាលកោសិកា" },
+        { key: "D", text: "D. អង់ដូប្លាស្មិចរ៉េទីគូឡូម" }
+      ], ans: "B" },
+    { id: 4, q: "៤. តើម៉ូលេគុលណាដែលដើរតួជាពាហកៈផ្ទុកព័ត៌មានពន្ធុកម្មពី DNA ទៅកាន់រីបូសូមដើម្បីសំយោគប្រូតេអ៊ីន?",
+      options: [
+        { key: "A", text: "A. tRNA (Transfer RNA)" },
+        { key: "B", text: "B. rRNA (Ribosomal RNA)" },
+        { key: "C", text: "C. mRNA (Messenger RNA)" },
+        { key: "D", text: "D. snRNA (Small nuclear RNA)" }
+      ], ans: "C" },
+    { id: 5, q: "៥. នៅក្នុងដំណើរការស្វ័យតម្រង DNA (DNA Replication) តើអង់ស៊ីមមួយណាមាននាទីសំយោគច្រវាក់ DNA ថ្មី?",
+      options: [
+        { key: "A", text: "A. DNA Ligase" },
+        { key: "B", text: "B. DNA Polymerase" },
+        { key: "C", text: "C. RNA Helicase" },
+        { key: "D", text: "D. Amylase" }
+      ], ans: "B" },
+    { id: 6, q: "៦. យោងតាមច្បាប់បំពេញបាសនៃម៉ូលេគុល DNA តើបាសអាដេនីន (Adenine) ភ្ជាប់ជាមួយបាសណាមួយ?",
+      options: [
+        { key: "A", text: "A. ស៊ីតូស៊ីន (Cytosine)" },
+        { key: "B", text: "B. ទីមីន (Thymine)" },
+        { key: "C", text: "C. អ៊ុយរ៉ាស៊ីល (Uracil)" },
+        { key: "D", text: "D. ហ្គានីន (Guanine)" }
+      ], ans: "B" },
+    { id: 7, q: "៧. តើដំណើរការសំយោគពន្លឺ (Photosynthesis) កើតឡើងនៅក្នុងផ្នែកណានៃកោសិការុក្ខជាតិ?",
+      options: [
+        { key: "A", text: "A. ក្លរ៉ូប្លាស (Chloroplast)" },
+        { key: "B", text: "B. មីតូកុងឌ្រី" },
+        { key: "C", text: "C. វ៉ាគុយអូល" },
+        { key: "D", text: "D. ណ្វៃយ៉ូ (Nucleus)" }
+      ], ans: "A" },
+    { id: 8, q: "៨. តើឧស្ម័នណាដែលត្រូវបានស្រូបយកដោយរុក្ខជាតិអំឡុងប្រតិកម្មមិនពឹងពន្លឺ (Calvin Cycle)?",
+      options: [
+        { key: "A", text: "A. អុកស៊ីសែន (O₂)" },
+        { key: "B", text: "B. កាបូនឌីអុកស៊ីត (CO₂)" },
+        { key: "C", text: "C. អាសូត (N₂)" },
+        { key: "D", text: "D. មេតាន (CH₄)" }
+      ], ans: "B" },
+    { id: 9, q: "៩. តើការបែងចែកកោសិកាប្រភេទណាដែលបង្កើតកោសិកាកូនមានចំនួនក្រូម៉ូសូមស្មើពាក់កណ្តាលនៃកោសិកាមេ (Haploid)?",
+      options: [
+        { key: "A", text: "A. មីតូស (Mitosis)" },
+        { key: "B", text: "B. មេយ៉ូស (Meiosis)" },
+        { key: "C", text: "C. ការបំបែកជាពីរ (Binary Fission)" },
+        { key: "D", text: "D. ការបង្កើតពន្លក (Budding)" }
+      ], ans: "B" },
+    { id: 10, q: "១០. តើហ្សែនប្រភេទណាដែលបង្ហាញលក្ខណៈរូបរាង (Phenotype) ទោះបីជាមានវត្តមានតែមួយអាឡែលក៏ដោយ?",
+      options: [
+        { key: "A", text: "A. អាឡែលលប់ (Dominant allele)" },
+        { key: "B", text: "B. អាឡែលអន់ (Recessive allele)" },
+        { key: "C", text: "C. អាឡែលអព្យាក្រឹត" },
+        { key: "D", text: "D. អាឡែលកូដូមីណង់" }
+      ], ans: "A" },
+    { id: 11, q: "១១. តើបាក់តេរីជាសារពាង្គកាយស្ថិតនៅក្នុងក្រុមណា?",
+      options: [
+        { key: "A", text: "A. អឺការីយ៉ូត (Eukaryotes)" },
+        { key: "B", text: "B. ប្រូការីយ៉ូត (Prokaryotes)" },
+        { key: "C", text: "C. ផ្សិត (Fungi)" },
+        { key: "D", text: "D. វីរុស (Viruses)" }
+      ], ans: "B" },
+    { id: 12, q: "១២. ហេតុអ្វីបានជាវីរុស (Virus) មិនត្រូវបានចាត់ទុកជាកោសិការស់ពិតប្រាកដ?",
+      options: [
+        { key: "A", text: "A. គ្មានសារធាតុពន្ធុកម្ម" },
+        { key: "B", text: "B. គ្មានរចនាសម្ព័ន្ធកោសិកា និងមិនអាចធ្វើមេតាបូលីសដោយខ្លួនឯងបានក្រៅពីកោសិកាម្ចាស់" },
+        { key: "C", text: "C. មានទំហំធំជាងបាក់តេរី" },
+        { key: "D", text: "D. មិនអាចបម្លែងហ្សែនបាន" }
+      ], ans: "B" },
+    { id: 13, q: "១៣. នៅក្នុងប្រព័ន្ធឈាមរត់របស់មនុស្ស តើសរសៃឈាមមួយណាដឹកនាំឈាមសម្បូរអុកស៊ីសែនចេញពីបេះដូងទៅចិញ្ចឹមរាងកាយ?",
+      options: [
+        { key: "A", text: "A. សរសៃអាកទែរអ័រត៍ (Aorta)" },
+        { key: "B", text: "B. សរសៃវ៉ែនកាវ៉ា (Vena Cava)" },
+        { key: "C", text: "C. សរសៃអាកទែរសួត (Pulmonary Artery)" },
+        { key: "D", text: "D. សរសៃឈាមប្តូរ" }
+      ], ans: "A" },
+    { id: 14, q: "១៤. តើគោលិកាឈាមប្រភេទណាដែលមានតួនាទីចម្បងក្នុងការការពាររាងកាយប្រឆាំងនឹងមេរោគបង្ករោគ?",
+      options: [
+        { key: "A", text: "A. គោលិកាឈាមក្រហម (Erythrocytes)" },
+        { key: "B", text: "B. គោលិកាឈាមស (Leukocytes)" },
+        { key: "C", text: "C. ប្លាកែតឈាម (Platelets)" },
+        { key: "D", text: "D. ប្លាស្មាឈាម" }
+      ], ans: "B" },
+    { id: 15, q: "១៥. តើអង់ស៊ីម Pepsin នៅក្នុងក្រពះបំពេញមុខងារបំបែកសារធាតុចិញ្ចឹមប្រភេទណា?",
+      options: [
+        { key: "A", text: "A. កាបូអ៊ីដ្រាត (Carbohydrates)" },
+        { key: "B", text: "B. ប្រូតេអ៊ីន (Proteins)" },
+        { key: "C", text: "C. លីពីដ (Lipids)" },
+        { key: "D", text: "D. អាស៊ីតនុយក្លេអ៊ិច" }
+      ], ans: "B" },
+    { id: 16, q: "១៦. តើអង្គធាតុណាដែលត្រូវបានចាត់ទុកជាអ្នកផលិតចម្បង (Primary Producer) ក្នុងខ្សែច្រវាក់អាហារនៅលើដី?",
+      options: [
+        { key: "A", text: "A. សត្វស៊ីស្មៅ" },
+        { key: "B", text: "B. រុក្ខជាតិបៃតង" },
+        { key: "C", text: "C. មីក្រូសរីរាង្គបំបែកកាកសំណល់" },
+        { key: "D", text: "D. សត្វស៊ីសាច់" }
+      ], ans: "B" },
+    { id: 17, q: "១៧. តើលំនាំនៃទំនាក់ទំនងរវាងសារពាង្គកាយពីរប្រភេទដែលផ្តល់ផលប្រយោជន៍ឱ្យគ្នាទៅវិញទៅមកហៅថាអ្វី?",
+      options: [
+        { key: "A", text: "A. ប៉ារ៉ាស៊ីតនិយម (Parasitism)" },
+        { key: "B", text: "B. សហជីវិតផ្ដល់ផលទៅវិញទៅមក (Mutualism)" },
+        { key: "C", text: "C. ភោជននិយម (Commensalism)" },
+        { key: "D", text: "D. ការប្រកួតប្រជែង (Competition)" }
+      ], ans: "B" },
+    { id: 18, q: "១៨. នៅក្នុងប្រព័ន្ធតម្រៀបថ្នាក់សារពាង្គកាយ (Taxonomy) តើលំដាប់ណាដែលជាក់លាក់បំផុត (Specific)?",
+      options: [
+        { key: "A", text: "A. អាណាចក្រ (Kingdom)" },
+        { key: "B", text: "B. ច្រក (Phylum)" },
+        { key: "C", text: "C. ពួក (Genus)" },
+        { key: "D", text: "D. ប្រភេទ (Species)" }
+      ], ans: "D" },
+    { id: 19, q: "១៩. តើផ្នែកណានៃណឺរ៉ូន (Neuron) ដែលទទួលរំញោចបញ្ជូនចូលមកកាន់តួកោសិកា?",
+      options: [
+        { key: "A", text: "A. អាក់សូន (Axon)" },
+        { key: "B", text: "B. ដង់ឌ្រីត (Dendrite)" },
+        { key: "C", text: "C. ស្រទាប់មីយេលីន (Myelin sheath)" },
+        { key: "D", text: "D. ចុងអាក់សូន" }
+      ], ans: "B" },
+    { id: 20, q: "២០. តើអ័រម៉ូនមួយណាដែលបញ្ចេញដោយលំពែងដើម្បីបញ្ចុះកម្រិតជាតិស្ករគ្លុយកូសក្នុងឈាម?",
+      options: [
+        { key: "A", text: "A. គ្លុយកាកុង (Glucagon)" },
+        { key: "B", text: "B. អាំងស៊ុយលីន (Insulin)" },
+        { key: "C", text: "C. អាដ្រេណាលីន (Adrenaline)" },
+        { key: "D", text: "D. ទីរ៉ុកស៊ីន (Thyroxine)" }
+      ], ans: "B" },
+    { id: 21, q: "២១. តើដំណើរការបំប្លែងព័ត៌មានពី DNA ទៅជា mRNA ហៅថាអ្វី?",
+      options: [
+        { key: "A", text: "A. ការចម្លងកូដ (Transcription)" },
+        { key: "B", text: "B. ការបកប្រែកូដ (Translation)" },
+        { key: "C", text: "C. ស្វ័យតម្រង (Replication)" },
+        { key: "D", text: "D. មុយតាស៊ីយ៉ុង (Mutation)" }
+      ], ans: "A" },
+    { id: 22, q: "២២. តើកូដុងផ្ដើម (Start codon) នៃការបកប្រែកូដសំយោគប្រូតេអ៊ីនមានត្រីធាតុបាសដូចម្តេច?",
+      options: [
+        { key: "A", text: "A. UAA" },
+        { key: "B", text: "B. AUG" },
+        { key: "C", text: "C. UGA" },
+        { key: "D", text: "D. UAG" }
+      ], ans: "B" },
+    { id: 23, q: "២៣. តើជាលិការុក្ខជាតិណាដែលទទួលខុសត្រូវលើការដឹកនាំទឹក និងអំបិលរ៉ែពីឫសឡើងទៅកាន់ស្លឹក?",
+      options: [
+        { key: "A", text: "A. ផ្លូអែម (Phloem)" },
+        { key: "B", text: "B. ស៊ីឡែម (Xylem)" },
+        { key: "C", text: "C. ប៉ារ៉ង់ស៊ីម (Parenchyma)" },
+        { key: "D", text: "D. កូលឡង់ស៊ីម (Collenchyma)" }
+      ], ans: "B" },
+    { id: 24, q: "២៤. តើអង់ទីករ (Antibodies) ត្រូវបានផលិតឡើងដោយកោសិកាប្រភេទណា?",
+      options: [
+        { key: "A", text: "A. កោសិកា B-lymphocytes (Plasma cells)" },
+        { key: "B", text: "B. កោសិកា T-cytotoxic" },
+        { key: "C", text: "C. គោលិកាក្រហម" },
+        { key: "D", text: "D. ណឺត្រDouble" }
+      ], ans: "A" },
+    { id: 25, q: "២៥. តើដំណើរការដឹកនាំម៉ូលេគុលឆ្លងកាត់ភ្នាសកោសិកាដោយប្រើប្រាស់ថាមពល ATP ប្រឆាំងនឹងកំហាប់ហៅថាអ្វី?",
+      options: [
+        { key: "A", text: "A. ការសាយភាយធម្មតា (Simple diffusion)" },
+        { key: "B", text: "B. អូស្មូស (Osmosis)" },
+        { key: "C", text: "C. ដំណឹកនាំសកម្ម (Active transport)" },
+        { key: "D", text: "D. ការសាយសម្រួល (Facilitated diffusion)" }
+      ], ans: "C" },
+    { id: 26, q: "២៦. តើកោសិកាណាដែលទទួលខុសត្រូវក្នុងការបើក និងបិទស្តូម៉ាត (Stomata) លើផ្ទៃស្លឹករុក្ខជាតិ?",
+      options: [
+        { key: "A", text: "A. កោសិកាអេពីឌែម" },
+        { key: "B", text: "B. កោសិកាការពារ (Guard cells)" },
+        { key: "C", text: "C. កោសិកាសរសៃនាំ" },
+        { key: "D", text: "D. កោសិកាក្រពេញ" }
+      ], ans: "B" },
+    { id: 27, q: "២៧. នៅក្នុងដំណើរការ Glycolysis តើម៉ូលេគុលគ្លុយកូស (Glucose) មួយត្រូវបានបំបែកទៅជាអ្វី?",
+      options: [
+        { key: "A", text: "A. ពីរម៉ូលេគុលពីរូវ៉ាត (2 Pyruvate)" },
+        { key: "B", text: "B. អាស៊ីតឡាក់ទិចតែមួយគត់" },
+        { key: "C", text: "C. អាសេទីលកូអង់ស៊ីម A ចំនួនបួន" },
+        { key: "D", text: "D. ឧស្ម័នកាបូនិច និងទឹក" }
+      ], ans: "A" },
+    { id: 28, q: "២៨. តើបម្រែបម្រួលនៃលំដាប់នុយក្លេអូទីដនៅក្នុងម៉ូលេគុល DNA ត្រូវបានហៅថាអ្វី?",
+      options: [
+        { key: "A", text: "A. មុយតាស៊ីយ៉ុង (Mutation)" },
+        { key: "B", text: "B. ការផ្ទេរហ្សែន" },
+        { key: "C", text: "C. ការសំយោគឡើងវិញ" },
+        { key: "D", text: "D. អេពីហ្សែន" }
+      ], ans: "A" },
+    { id: 29, q: "២៩. តើលក្ខខណ្ឌណាដែលកំណត់ថាបាក់តេរីមួយជា Gram-positive បន្ទាប់ពីការជ្រលក់ពណ៌ Gram stain?",
+      options: [
+        { key: "A", text: "A. មានជញ្ជាំងកោសិកា peptidoglycan ក្រាស់ ហើយរក្សាពណ៌ស្វាយ (Crystal violet)" },
+        { key: "B", text: "B. មានពណ៌ក្រហមផ្កាឈូកនៃ Safranin" },
+        { key: "C", text: "C. គ្មានជញ្ជាំងកោសិកា" },
+        { key: "D", text: "D. រលាយបាត់បង់រូបរាងក្រោមជាតិអាល់កុល" }
+      ], ans: "A" },
+    { id: 30, q: "៣០. តើកត្តាណាជាកត្តាអជីវៈ (Abiotic factor) នៅក្នុងប្រព័ន្ធអេកូឡូស៊ី?",
+      options: [
+        { key: "A", text: "A. បាក់តេរីដី" },
+        { key: "B", text: "B. ពន្លឺព្រះអាទិត្យ សីតុណ្ហភាព និងទឹក" },
+        { key: "C", text: "C. រុក្ខជាតិ និងសត្វព្រៃ" },
+        { key: "D", text: "D. ផ្សិតបំបែកកាកសំណល់" }
+      ], ans: "B" }
+  ];
+
+  const qContainer = document.getElementById('questionsContainer');
+  questionsData.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.innerHTML = `
+      <div class="q-title">${item.q}</div>
+      <div class="options">
+        ${item.options.map(opt => `
+          <label class="option-label">
+            <input type="radio" name="q${item.id}" value="${opt.key}">
+            ${opt.text}
+          </label>
+        `).join('')}
+      </div>
+    `;
+    qContainer.appendChild(card);
+  });
+
+  document.getElementById('examDate').valueAsDate = new Date();
+
+  function handleTestTypeChange() {
+    const type = document.getElementById('testType').value;
+    document.getElementById('pageHeading').innerText = `ការវាយតម្លៃជីវវិទ្យា (${type})`;
+  }
+
+  function startTest() {
+    const nameInput = document.getElementById('studentName');
+    if (!nameInput.value.trim()) {
+      alert("សូមបញ្ចូលឈ្មោះនិស្សិតជាមុនសិន!");
+      nameInput.focus();
+      return;
+    }
+
+    nameInput.readOnly = true;
+    document.getElementById('testType').disabled = true;
+    document.getElementById('examDate').disabled = true;
+
+    document.getElementById('startArea').style.display = 'none';
+    document.getElementById('examBody').style.display = 'block';
+    document.getElementById('timerContainer').style.display = 'flex';
+
+    runTimer();
+  }
+
+  function runTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert("⏰ អស់រយៈពេល ៣០ នាទីហើយ! ប្រព័ន្ធនឹងបញ្ជូនចម្លើយដោយស្វ័យប្រវត្តិ។");
+        submitExam();
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    const display = document.getElementById('timerDisplay');
+    display.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    if (timeRemaining <= 300) display.classList.add('timer-warning');
+  }
+
+  document.getElementById('quizForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (isTestSubmitted) return;
+    if (confirm("តើអ្នកពិតជាចង់បញ្ចប់ និងផ្ញើចម្លើយតេស្តនេះមែនទេ?")) {
+      submitExam();
+    }
+  });
+
+  async function submitExam() {
+    if (isTestSubmitted) return;
+    isTestSubmitted = true;
+    clearInterval(timerInterval);
+
+    document.getElementById('timerContainer').style.display = 'none';
+
+    const rawName = document.getElementById('studentName').value;
+    const studentName = cleanStudentName(rawName);
+    const testType = document.getElementById('testType').value;
+    const examDate = document.getElementById('examDate').value;
+
+    let score = 0;
+    const totalQuestions = questionsData.length;
+
+    questionsData.forEach(item => {
+      const selected = document.querySelector(`input[name="q${item.id}"]:checked`);
+      if (selected && selected.value === item.ans) score++;
+    });
+
+    const formElements = document.getElementById('quizForm').elements;
+    for (let i = 0; i < formElements.length; i++) formElements[i].disabled = true;
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerText = "បានផ្ញើរួចរាល់ (Submitted)";
+    submitBtn.disabled = true;
+
+    let levelText = '';
+    let levelBg = '#059669';
+    let levelColor = '#ffffff';
+
+    if (score >= 25) {
+      levelText = 'កម្រិត៖ ចំណេះដឹងល្អ (Good)';
+      levelBg = '#16a34a';
+    } else if (score >= 19) {
+      levelText = 'កម្រិត៖ ចំណេះដឹងមធ្យម (Moderate)';
+      levelBg = '#059669';
+    } else if (score >= 10) {
+      levelText = 'កម្រិត៖ ចំណេះដឹងមូលដ្ឋាន (Basic)';
+      levelBg = '#eab308';
+      levelColor = '#0f172a';
+    } else {
+      levelText = 'កម្រិត៖ ចំណេះដឹងនៅមានកម្រិត (Limited)';
+      levelBg = '#dc2626';
+    }
+
+    const updatedStudent = await updateStudentRecord(studentName, testType, score, examDate);
+
+    const resultBox = document.getElementById('resultBox');
+    resultBox.style.display = 'block';
+    document.getElementById('scoreDisplay').innerText = `ពិន្ទុ ${testType}៖ ${score} / ${totalQuestions}`;
+    const levelBadge = document.getElementById('levelDisplay');
+    levelBadge.innerText = levelText;
+    levelBadge.style.backgroundColor = levelBg;
+    levelBadge.style.color = levelColor;
+
+    const summaryElem = document.getElementById('comparisonSummary');
+    const hasPre = (updatedStudent.pre !== undefined && updatedStudent.pre !== null);
+    const hasPost = (updatedStudent.post !== undefined && updatedStudent.post !== null);
+
+    if (hasPre && hasPost) {
+      const diff = Number(updatedStudent.post) - Number(updatedStudent.pre);
+      const sign = diff >= 0 ? `+${diff}` : `${diff}`;
+      summaryElem.innerHTML = `និស្សិតបានបញ្ចប់តេស្តទាំងពីរ៖ <strong>Pre-test: ${updatedStudent.pre} ពិន្ទុ</strong> | <strong>Post-test: ${updatedStudent.post} ពិន្ទុ</strong> (ការប្រែប្រួល៖ <span class="${diff >= 0 ? 'gain-positive' : 'gain-negative'}">${sign} ពិន្ទុ</span>)`;
+    } else {
+      summaryElem.innerText = `ចម្លើយត្រូវបានកត់ត្រា និងរក្សាទុកដោយជោគជ័យ។`;
+    }
+
+    if (testType === 'Post-test' && score > 20) {
+      showCertificate(studentName, score, examDate, updatedStudent.certId);
+      document.getElementById('certificateWrapper').style.display = 'block';
+    } else {
+      document.getElementById('certificateWrapper').style.display = 'none';
+    }
+
+    renderChart(updatedStudent);
+    renderTable();
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* QR Code Generator */
+  function generateCertQRCode(verifyUrl) {
+    const qrContainer = document.getElementById('certQrContainer');
+    qrContainer.innerHTML = '';
+    
+    new QRCode(qrContainer, {
+      text: verifyUrl,
+      width: 64,
+      height: 64,
+      colorDark : "#0f172a",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.M
+    });
+  }
+
+  function showCertificate(name, score, date, certId) {
+    const standardizedName = cleanStudentName(name);
+    const key = makeStudentKey(standardizedName);
+    const actualCertId = certId || generateCertId(key, date);
+
+    currentActiveCertData = {
+      id: actualCertId,
+      name: standardizedName,
+      score: score,
+      date: date
+    };
+
+    document.getElementById('certStudentName').innerText = standardizedName;
+    document.getElementById('certScoreText').innerText = `${score}/30 ពិន្ទុ`;
+    document.getElementById('certDateText').innerText = `កាលបរិច្ឆេទ៖ ${date}`;
+    document.getElementById('certIdDisplay').innerText = `ID: ${actualCertId}`;
+
+    const verifyFullUrl = `${VERIFY_BASE_URL}?cert_id=${encodeURIComponent(actualCertId)}`;
+    document.getElementById('certVerifyUrlLink').href = verifyFullUrl;
+    document.getElementById('certVerifyUrlLink').innerText = `researchfoundation.top/?cert_id=${actualCertId}`;
+
+    generateCertQRCode(verifyFullUrl);
+  }
+
+  function prepareLogo() {
+    const img = document.getElementById('certLogo');
+    if (img.src.startsWith('data:image')) return Promise.resolve();
+    return new Promise(resolve => {
+      const probe = new Image();
+      probe.crossOrigin = 'anonymous';
+      probe.onload = () => {
+        try {
+          const c = document.createElement('canvas');
+          c.width = probe.naturalWidth;
+          c.height = probe.naturalHeight;
+          const ctx = c.getContext('2d');
+          ctx.drawImage(probe, 0, 0);
+          img.src = c.toDataURL('image/png');
+        } catch (e) {
+          console.warn('Canvas conversion failed.', e);
+        }
+        resolve();
+      };
+      probe.onerror = () => {
+        probe.src = 'logo.png';
+        resolve();
+      };
+      probe.src = GITHUB_LOGO_URL;
+    });
+  }
+
+  function waitForImages(root) {
+    const imgs = Array.from(root.querySelectorAll('img'));
+    return Promise.all(imgs.map(im => (im.complete && im.naturalWidth !== 0)
+      ? Promise.resolve()
+      : new Promise(res => { im.onload = res; im.onerror = res; })));
+  }
+
+  /* High-Res PDF Generation */
+  async function downloadCertificatePDF() {
+    const btn = document.getElementById('btnDownloadCert');
+    const card = document.getElementById('certificateCard');
+    const studentName = document.getElementById('certStudentName').innerText.trim() || 'Student';
+
+    btn.disabled = true;
+    const oldLabel = btn.innerText;
+    btn.innerText = '⏳ កំពុងបង្កើត PDF...';
+
+    try {
+      await document.fonts.ready;
+      await prepareLogo();
+      await waitForImages(card);
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const renderScale = isMobile ? 1.8 : 2.5;
+
+      const canvas = await html2canvas(card, {
+        scale: renderScale,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0,
+        width: 920,
+        height: 645,
+        windowWidth: 1024
+      });
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      const { jsPDF } = window.jspdf;
+      
+      const pdf = new jsPDF('landscape', 'mm', 'a4');
+      const pdfWidth = 297;
+      const pdfHeight = 210;
+
+      const margin = 8;
+      const printWidth = pdfWidth - (margin * 2);
+      const printHeight = (canvas.height * printWidth) / canvas.width;
+      const topOffset = (pdfHeight - printHeight) / 2;
+
+      pdf.addImage(imgData, 'JPEG', margin, topOffset, printWidth, printHeight);
+
+      const fileName = `Certificate_Biology_${studentName.replace(/\s+/g, '_')}.pdf`;
+
+      if (isMobile) {
+        const blob = pdf.output('blob');
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = fileName;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        }, 2000);
+      } else {
+        pdf.save(fileName);
+      }
+
+    } catch (err) {
+      console.error('PDF Generation Error:', err);
+      alert('ទូរស័ព្ទមិនអនុញ្ញាតឱ្យទាញយកដោយស្វ័យប្រវត្តិ។ សូមចុចប៊ូតុង "🖨️ បោះពុម្ព (Print)" រួចជ្រើសរើស "Save as PDF"។');
+    } finally {
+      btn.disabled = false;
+      btn.innerText = oldLabel;
+    }
+  }
+
+  /* Score Chart */
+  let chartInstance = null;
+  function renderChart(student) {
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+
+    const preVal = (student.pre !== undefined && student.pre !== null) ? Number(student.pre) : 0;
+    const postVal = (student.post !== undefined && student.post !== null) ? Number(student.post) : 0;
+
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Pre-test (មុនរៀន)', 'Post-test (ក្រោយរៀន)'],
+        datasets: [{
+          label: 'ពិន្ទុទទួលបាន (លើ ៣០)',
+          data: [preVal, postVal],
+          backgroundColor: ['#94a3b8', '#059669'],
+          borderRadius: 8,
+          barThickness: 50
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, max: 30, ticks: { font: { family: "'Kantumruy Pro', sans-serif" } } },
+          x: { ticks: { font: { family: "'Kantumruy Pro', sans-serif" } } }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (c) => ` ពិន្ទុ៖ ${c.raw} / ៣០` } }
+        }
+      }
+    });
+  }
+
+  /* Storage & Cloud Engine */
+  function getLocalRecords() {
+    try {
+      return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveLocalRecords(data) {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+  }
+
+  async function pullFromCloud() {
+    try {
+      const res = await fetch(`${FIREBASE_DB_URL}/${DB_PATH}.json?_cb=${Date.now()}`);
+      if (res.ok) {
+        const cloudData = await res.json();
+        if (!cloudData) {
+          saveLocalRecords({});
+          return {};
+        }
+        saveLocalRecords(cloudData);
+        return cloudData;
+      }
+    } catch (err) {
+      console.warn("Could not pull from Firebase cloud, using local cache:", err);
+    }
+    return getLocalRecords();
+  }
+
+  async function patchRecordToCloud(key, partialData) {
+    try {
+      const res = await fetch(`${FIREBASE_DB_URL}/${DB_PATH}/${key}.json`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(partialData)
+      });
+      return res.ok;
+    } catch (e) {
+      console.error("Failed to patch record to cloud:", e);
+      return false;
+    }
+  }
+
+  async function updateStudentRecord(name, type, score, date) {
+    const standardizedName = cleanStudentName(name);
+    const key = makeStudentKey(standardizedName);
+
+    let records = await pullFromCloud();
+
+    let existingKey = key;
+    if (!records[existingKey]) {
+      for (const k in records) {
+        if (cleanStudentName(records[k].name).toLowerCase() === standardizedName.toLowerCase()) {
+          existingKey = k;
+          break;
+        }
+      }
+    }
+
+    if (!records[existingKey]) {
+      records[existingKey] = { name: standardizedName, lastDate: date };
+    }
+
+    const payload = {
+      name: standardizedName,
+      lastDate: date
+    };
+
+    if (type === 'Pre-test') {
+      records[existingKey].pre = score;
+      payload.pre = score;
+    } else {
+      records[existingKey].post = score;
+      payload.post = score;
+    }
+
+    if ((records[existingKey].post || 0) > 20) {
+      const cId = records[existingKey].certId || generateCertId(existingKey, date);
+      records[existingKey].certId = cId;
+      payload.certId = cId;
+    }
+
+    records[existingKey].lastDate = date;
+
+    saveLocalRecords(records);
+    await patchRecordToCloud(existingKey, payload);
+
+    return records[existingKey];
+  }
+
+  async function manualSyncFromCloud() {
+    const btn = document.querySelector('.btn-refresh-cloud');
+    if (btn) btn.innerText = "⏳ Syncing...";
+    await pullFromCloud();
+    renderTable();
+    if (btn) btn.innerText = "🔄 Sync Now";
+  }
+
+  /* Admin Mode */
+  function isAdminLoggedIn() {
+    return sessionStorage.getItem('admin_logged_in') === 'true' || localStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true';
+  }
+
+  function adminLogin() {
+    const inputPass = prompt("សូមបញ្ចូលលេខសម្ងាត់ Admin ដើម្បីគ្រប់គ្រងទិន្នន័យ៖");
+    if (inputPass === null) return;
+
+    if (inputPass === ADMIN_PASSWORD || inputPass === "Sokra@2026") {
+      sessionStorage.setItem('admin_logged_in', 'true');
+      renderAdminUI();
+      renderTable();
+      alert("ចូលគ្រប់គ្រងជា Admin បានជោគជ័យ!");
+    } else {
+      alert("លេខសម្ងាត់មិនត្រឹមត្រូវ!");
+    }
+  }
+
+  function adminLogout() {
+    sessionStorage.removeItem('admin_logged_in');
+    localStorage.removeItem('RF_ADMIN_LOGGED_IN');
+    renderAdminUI();
+    renderTable();
+    alert("បានចាកចេញពី Admin Mode។");
+  }
+
+  function renderAdminUI() {
+    const ctrl = document.getElementById('adminControls');
+    const headerRow = document.getElementById('tableHeaderRow');
+
+    const existingActionHeader = document.getElementById('colActionHeader');
+    if (existingActionHeader) existingActionHeader.remove();
+
+    if (isAdminLoggedIn()) {
+      ctrl.innerHTML = `
+        <span class="admin-indicator">✓ Admin Login</span>
+        <button type="button" class="btn-action btn-clear-all" onclick="adminClearAll()">លុបទាំងអស់ (Clear All)</button>
+        <button type="button" class="btn-action btn-logout" onclick="adminLogout()">ចាកចេញ (Logout)</button>
+      `;
+      const th = document.createElement('th');
+      th.id = 'colActionHeader';
+      th.innerText = 'លុបជួរ';
+      headerRow.appendChild(th);
+    } else {
+      ctrl.innerHTML = `<button type="button" class="btn-action btn-admin-auth" onclick="adminLogin()">🔒 Admin Login</button>`;
+    }
+  }
+
+  async function deleteStudentRow(key) {
+    if (!isAdminLoggedIn()) return;
+    let records = getLocalRecords();
+    const student = records[key];
+    if (!student) return;
+    if (confirm(`តើលោកគ្រូពិតជាចង់លុបទិន្នន័យរបស់និស្សិត "${student.name}" មែនទេ?`)) {
+      delete records[key];
+      saveLocalRecords(records);
+      await fetch(`${FIREBASE_DB_URL}/${DB_PATH}/${key}.json`, { method: 'DELETE' });
+      await pullFromCloud();
+      renderTable();
+    }
+  }
+
+  async function adminClearAll() {
+    if (!isAdminLoggedIn()) return;
+    if (confirm("តើលោកគ្រូពិតជាចង់លុបទិន្នន័យតេស្តរបស់និស្សិតទាំងអស់មែនទេ? (ទិន្នន័យនឹងបាត់បង់ទាំងស្រុង)")) {
+      saveLocalRecords({});
+      await fetch(`${FIREBASE_DB_URL}/${DB_PATH}.json`, { method: 'DELETE' });
+      renderTable();
+      alert("ទិន្នន័យទាំងអស់ត្រូវបានលុបជោគជ័យ!");
+    }
+  }
+
+  function viewStudentCertificate(key) {
+    const r = getLocalRecords()[key];
+    if (!r) return;
+    showCertificate(r.name, r.post, r.lastDate, r.certId);
+    const certWrapper = document.getElementById('certificateWrapper');
+    certWrapper.style.display = 'block';
+    certWrapper.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* Scoreboard Rendering */
+  function renderTable() {
+    const tbody = document.getElementById('studentTableBody');
+    const records = getLocalRecords();
+    const rawKeys = Object.keys(records);
+    const loggedIn = isAdminLoggedIn();
+
+    if (rawKeys.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="${loggedIn ? 8 : 7}" class="empty-msg">មិនទាន់មានទិន្នន័យនិស្សិតនៅឡើយទេ។</td></tr>`;
+      return;
+    }
+
+    const mergedMap = {};
+    rawKeys.forEach(k => {
+      const item = records[k];
+      if (!item || !item.name) return;
+      const normalized = cleanStudentName(item.name).toLowerCase();
+      
+      if (!mergedMap[normalized]) {
+        mergedMap[normalized] = {
+          primaryKey: k,
+          allKeys: [k],
+          name: cleanStudentName(item.name),
+          pre: (item.pre !== undefined && item.pre !== null && item.pre !== "") ? item.pre : null,
+          post: (item.post !== undefined && item.post !== null && item.post !== "") ? item.post : null,
+          lastDate: item.lastDate || '',
+          certId: item.certId || ''
+        };
+      } else {
+        mergedMap[normalized].allKeys.push(k);
+        if (item.pre !== undefined && item.pre !== null && item.pre !== "") {
+          mergedMap[normalized].pre = item.pre;
+        }
+        if (item.post !== undefined && item.post !== null && item.post !== "") {
+          mergedMap[normalized].post = item.post;
+        }
+        if (item.lastDate) {
+          mergedMap[normalized].lastDate = item.lastDate;
+        }
+        if (item.certId) {
+          mergedMap[normalized].certId = item.certId;
+        }
+      }
+    });
+
+    const students = Object.values(mergedMap);
+
+    tbody.innerHTML = students.map((r, idx) => {
+      const hasPre = (r.pre !== null && r.pre !== undefined);
+      const hasPost = (r.post !== null && r.post !== undefined);
+
+      const preTxt = hasPre ? `${r.pre}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+      const postTxt = hasPost ? `${r.post}` : '<span style="color:#94a3b8;">មិនទាន់ធ្វើ</span>';
+
+      let gainTxt = '<span class="gain-neutral">-</span>';
+      if (hasPre && hasPost) {
+        const diff = Number(r.post) - Number(r.pre);
+        const sign = diff > 0 ? `+${diff}` : `${diff}`;
+        const cls = diff > 0 ? 'gain-positive' : (diff < 0 ? 'gain-negative' : 'gain-neutral');
+        gainTxt = `<span class="${cls}">${sign} ពិន្ទុ</span>`;
+      }
+
+      let certBtn = '<span style="color:#94a3b8;">-</span>';
+      if (hasPost && Number(r.post) > 20) {
+        certBtn = `<button type="button" class="btn-action btn-view-cert" data-action="cert" data-key="${esc(r.primaryKey)}">🎓 មើលសញ្ញាបត្រ & QR</button>`;
+      }
+
+      let actionCell = '';
+      if (loggedIn) {
+        actionCell = `<td><button type="button" class="btn-delete-row" data-action="delete" data-key="${esc(r.primaryKey)}">លុប</button></td>`;
+      }
+
+      return `
+        <tr>
+          <td>${idx + 1}</td>
+          <td><strong>${esc(r.name)}</strong></td>
+          <td>${preTxt}</td>
+          <td>${postTxt}</td>
+          <td>${gainTxt}</td>
+          <td>${esc(r.lastDate)}</td>
+          <td>${certBtn}</td>
+          ${actionCell}
+        </tr>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('studentTableBody').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const key = btn.dataset.key;
+    if (btn.dataset.action === 'cert') viewStudentCertificate(key);
+    if (btn.dataset.action === 'delete') deleteStudentRow(key);
+  });
+
+  /* CSV Export */
+  function csvCell(v) {
+    return `"${String(v).replace(/"/g, '""')}"`;
+  }
+
+  function exportToCSV() {
+    const records = getLocalRecords();
+    const rawKeys = Object.keys(records);
+
+    if (rawKeys.length === 0) {
+      alert("មិនទាន់មានទិន្នន័យសម្រាប់ទាញយកឡើយ!");
+      return;
+    }
+
+    const mergedMap = {};
+    rawKeys.forEach(k => {
+      const item = records[k];
+      if (!item || !item.name) return;
+      const normalized = cleanStudentName(item.name).toLowerCase();
+      if (!mergedMap[normalized]) {
+        mergedMap[normalized] = {
+          name: cleanStudentName(item.name),
+          pre: (item.pre !== undefined && item.pre !== null) ? item.pre : null,
+          post: (item.post !== undefined && item.post !== null) ? item.post : null,
+          lastDate: item.lastDate || '',
+          certId: item.certId || ''
+        };
+      } else {
+        if (item.pre !== undefined && item.pre !== null) mergedMap[normalized].pre = item.pre;
+        if (item.post !== undefined && item.post !== null) mergedMap[normalized].post = item.post;
+        if (item.lastDate) mergedMap[normalized].lastDate = item.lastDate;
+        if (item.certId) mergedMap[normalized].certId = item.certId;
+      }
+    });
+
+    const students = Object.values(mergedMap);
+    let csvContent = "\uFEFFល.រ,ឈ្មោះនិស្សិត,Pre-test (30),Post-test (30),ការរីកចម្រើន (Gain),កាលបរិច្ឆេទចុងក្រោយ,ស្ថានភាពជាប់,Certificate ID\n";
+    
+    students.forEach((r, i) => {
+      const hasPre = (r.pre !== null && r.pre !== undefined);
+      const hasPost = (r.post !== null && r.post !== undefined);
+
+      const pre = hasPre ? r.pre : "";
+      const post = hasPost ? r.post : "";
+      const gain = (hasPre && hasPost) ? (Number(r.post) - Number(r.pre)) : "";
+      const passed = (hasPost && Number(r.post) > 20) ? "ជាប់ (ទទួលវិញ្ញាបនបត្រ)" : "មិនទាន់ជាប់";
+      csvContent += [i + 1, r.name, pre, post, gain, r.lastDate, passed, r.certId || ""].map(csvCell).join(',') + "\n";
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `biology_assessment_results_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  /* Digital Verification Modal */
+  function openVerifyModal(data) {
+    document.getElementById('vStudentName').innerText = data.name;
+    document.getElementById('vCertId').innerText = data.id;
+    document.getElementById('vDate').innerText = data.date;
+    document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
+    const modal = document.getElementById('verifyModal');
+    modal.style.display = 'flex';
+  }
+
+  function closeVerifyModal() {
+    document.getElementById('verifyModal').style.display = 'none';
+  }
+
+  function testVerifyModal() {
+    if (currentActiveCertData) {
+      openVerifyModal(currentActiveCertData);
+    } else {
+      alert("សូមជ្រើសរើសវិញ្ញាបនបត្រណាមួយជាមុនសិន!");
+    }
+  }
+
+  async function checkUrlVerification() {
+    const params = new URLSearchParams(window.location.search);
+    const certId = params.get('cert_id');
+    if (!certId) return;
+
+    const records = await pullFromCloud();
+    for (const k in records) {
+      const item = records[k];
+      const testId = item.certId || generateCertId(k, item.lastDate);
+      if (testId.trim().toUpperCase() === certId.trim().toUpperCase()) {
+        openVerifyModal({
+          id: testId,
+          name: item.name,
+          score: item.post || 0,
+          date: item.lastDate || ''
+        });
+        return;
+      }
+    }
+  }
+
+  // Initialization
+  prepareLogo();
+  renderAdminUI();
+  pullFromCloud().then(() => {
+    renderTable();
+    checkUrlVerification();
+  });
+
+  // Auto-Sync from cloud every 8 seconds
+  setInterval(() => {
+    pullFromCloud().then(() => renderTable());
+  }, 8000);
+</script>
+
+</body>
+</html>
