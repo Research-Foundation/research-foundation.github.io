@@ -212,7 +212,6 @@
 
     .cert-desc { font-size: 0.9rem; line-height: 1.65; color: #334155; max-width: 760px; margin: 0 auto; }
 
-    /* Footer Details with Standard Sized QR */
     .cert-signatures { 
       display: grid; 
       grid-template-columns: 240px 1fr 240px; 
@@ -240,7 +239,7 @@
     .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
     .sig-title { font-size: 0.78rem; color: var(--text-muted); }
 
-    /* Fix Duplicate QR Display: Hide canvas and show only image */
+    /* Center QR Box (Fixed Duplicate & Display Issue) */
     .cert-center-panel {
       display: flex;
       flex-direction: column;
@@ -262,16 +261,17 @@
       justify-content: center;
     }
 
-    /* Important: Prevent double QR by hiding redundant canvas */
+    /* បង្ហាញ canvas លើគ្រប់ឧបករណ៍ទាំងអស់ (កុំព្យូទ័រ និងទូរស័ព្ទ) */
     .cert-qr-box canvas {
-      display: none !important;
-    }
-
-    .cert-qr-box img {
       width: 66px !important;
       height: 66px !important;
       display: block !important;
       margin: 0 auto !important;
+    }
+
+    /* លាក់រូបភាព img ជំនួយដើម្បីកុំឱ្យត្រួត duplicate ចេញពីរ */
+    .cert-qr-box img {
+      display: none !important;
     }
 
     .cert-id-tag {
@@ -544,7 +544,7 @@
             </div>
           </div>
 
-          <!-- QR Code ទំហំ Normal មិន duplicate -->
+          <!-- QR Code ទំហំ Normal ច្បាស់ទាំង PC និង Mobile -->
           <div class="sig-block cert-center-panel">
             <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
             <div id="certIdDisplay" class="cert-id-tag">ID: RF-WQ-2026-XXXX</div>
@@ -630,7 +630,7 @@
       </div>
       <div class="verify-details-row">
         <span style="color:#64748b;">ស្ថាប័នចេញ៖</span>
-        <span style="font-weight:600; color:#0f172a;">Research Foundation Cambodia</span>
+        <span style="font-weight:600; color:#0f172a;"> មូលដ្ឋានស្រាវជ្រាវ - Research Foundation</span>
       </div>
       <div class="verify-details-row">
         <span style="color:#64748b;">គ្រូទទួលបន្ទុក៖</span>
@@ -648,7 +648,7 @@
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
   
-  // កំណត់ Link ស្កេនទៅកាន់គេហទំព័រផ្ទាល់
+  // Link ស្កេនទៅកាន់ទីតាំងបច្ចុប្បន្នផ្ទាល់
   const VERIFY_BASE_URL = window.location.origin + window.location.pathname;
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
@@ -1050,7 +1050,7 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // បង្កើត QR Code មិនឱ្យចេញស្ទួន (Clear មុនពេល generate និងទុកតែរូបភាព img)
+  // បង្កើត QR Code ច្បាស់ មិន Duplicate (ទំហំ Normal 64px)
   function generateCertQRCode(verifyUrl) {
     const qrContainer = document.getElementById('certQrContainer');
     qrContainer.innerHTML = '';
@@ -1123,11 +1123,11 @@
       : new Promise(res => { im.onload = res; im.onerror = res; })));
   }
 
-  /* ================= DOWNLOAD PDF ================= */
+  /* ================= DOWNLOAD PDF សមស្របទាំងលើ MOBILE និង PC ================= */
   async function downloadCertificatePDF() {
     const btn = document.getElementById('btnDownloadCert');
     const card = document.getElementById('certificateCard');
-    const studentName = document.getElementById('certStudentName').innerText;
+    const studentName = document.getElementById('certStudentName').innerText.trim() || 'Student';
 
     btn.disabled = true;
     const oldLabel = btn.innerText;
@@ -1138,8 +1138,11 @@
       await prepareLogo();
       await waitForImages(card);
 
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const renderScale = isMobile ? 1.8 : 2.5;
+
       const canvas = await html2canvas(card, {
-        scale: 3,
+        scale: renderScale,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
@@ -1150,7 +1153,7 @@
         windowWidth: 1024
       });
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
       const { jsPDF } = window.jspdf;
       
       const pdf = new jsPDF('landscape', 'mm', 'a4');
@@ -1162,11 +1165,30 @@
       const printHeight = (canvas.height * printWidth) / canvas.width;
       const topOffset = (pdfHeight - printHeight) / 2;
 
-      pdf.addImage(imgData, 'PNG', margin, topOffset, printWidth, printHeight);
-      pdf.save(`Certificate_${studentName.replace(/\s+/g, '_')}.pdf`);
+      pdf.addImage(imgData, 'JPEG', margin, topOffset, printWidth, printHeight);
+
+      const fileName = `Certificate_${studentName.replace(/\s+/g, '_')}.pdf`;
+
+      if (isMobile) {
+        const blob = pdf.output('blob');
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = fileName;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        }, 2000);
+      } else {
+        pdf.save(fileName);
+      }
+
     } catch (err) {
-      console.error(err);
-      alert('មិនអាចបង្កើត PDF បានទេ។ សូមសាកល្បងចុចប៊ូតុង "🖨️ បោះពុម្ព (Print)" រួចជ្រើសយក "Save as PDF"។');
+      console.error('PDF Generation Error:', err);
+      alert('ទូរស័ព្ទមិនអនុញ្ញាតឱ្យទាញយកដោយស្វ័យប្រវត្តិ។ សូមចុចប៊ូតុង "🖨️ បោះពុម្ព (Print)" រួចជ្រើសរើស "Save as PDF"។');
     } finally {
       btn.disabled = false;
       btn.innerText = oldLabel;
@@ -1568,7 +1590,7 @@
     }
   }
 
-  // ពិនិត្យ Query Parameter ?cert_id=... នៅពេលមានអ្នកស្កេន QR Code
+  // ពិនិត្យ Query Parameter ?cert_id=... នៅពេលស្កេន QR Code
   async function checkUrlVerification() {
     const params = new URLSearchParams(window.location.search);
     const certId = params.get('cert_id');
