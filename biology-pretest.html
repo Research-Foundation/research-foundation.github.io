@@ -8,12 +8,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Moul&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   
-  <!-- Chart.js Library -->
+  <!-- បណ្ណាល័យ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- html2canvas and jsPDF Libraries -->
+  <!-- បណ្ណាល័យ html2canvas និង jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- QRCode.js Library -->
+  <!-- បណ្ណាល័យ QRCode.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -103,11 +103,11 @@
     }
 
     .btn-start {
-      background-color: var(--primary); color: white; border: none; padding: 16px 36px;
+      background-color: var(--success); color: white; border: none; padding: 16px 36px;
       font-size: 1.2rem; font-weight: 700; font-family: inherit; border-radius: 8px;
-      cursor: pointer; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); transition: all 0.2s;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); transition: all 0.2s;
     }
-    .btn-start:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
+    .btn-start:hover { background-color: #15803d; transform: translateY(-2px); }
 
     #examBody { display: none; }
 
@@ -138,9 +138,10 @@
     .level-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
     .chart-container { position: relative; max-width: 650px; margin: 20px auto 0 auto; height: 320px; }
 
-    /* Certificate */
+    /* ================= វិញ្ញាបនបត្រ ================= */
     .certificate-wrapper { display: none; margin-top: 36px; text-align: center; }
     .cert-scroll { overflow-x: auto; padding-bottom: 8px; display: flex; justify-content: center; }
+
     .cert-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 
     .btn-cert-download {
@@ -183,25 +184,32 @@
     .c-bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 
     .cert-logo { width: 68px; height: 68px; object-fit: contain; margin: 0 auto 3px auto; display: block; }
+
     .cert-org {
       font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
       letter-spacing: 2px; color: #0f172a; text-transform: uppercase;
     }
+
     .cert-motto {
       font-size: 0.68rem; letter-spacing: 2.5px; color: var(--gold);
       font-weight: 700; text-transform: uppercase; margin-bottom: 6px;
     }
+
     .cert-title-km { font-family: 'Moul', cursive; font-size: 1.55rem; color: var(--gold-dark); margin-bottom: 2px; }
+
     .cert-title-en {
       font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
       letter-spacing: 2px; color: #334155; text-transform: uppercase; margin-bottom: 8px;
     }
+
     .cert-presented { font-size: 0.95rem; color: #64748b; }
+
     .cert-student-name {
       font-family: 'Kantumruy Pro', sans-serif; font-size: 1.85rem; font-weight: 700;
       color: var(--primary-dark); border-bottom: 2px solid var(--gold);
       display: inline-block; padding: 0 40px 4px 40px; margin: 4px auto 8px auto;
     }
+
     .cert-desc { font-size: 0.9rem; line-height: 1.65; color: #334155; max-width: 760px; margin: 0 auto; }
 
     .cert-signatures { 
@@ -226,10 +234,12 @@
 
     .signature-wrap { height: 50px; display: flex; align-items: flex-end; justify-content: center; }
     .teacher-signature { height: 46px; width: auto; display: block; }
+
     .sig-line { border-top: 1px solid #94a3b8; margin-top: 4px; padding-top: 4px; }
     .sig-name { font-weight: 700; font-size: 0.92rem; color: #0f172a; }
     .sig-title { font-size: 0.78rem; color: var(--text-muted); }
 
+    /* Center QR Box */
     .cert-center-panel {
       display: flex;
       flex-direction: column;
@@ -237,6 +247,7 @@
       justify-content: center;
       gap: 5px;
     }
+
     .cert-qr-box {
       width: 74px;
       height: 74px;
@@ -249,13 +260,18 @@
       align-items: center;
       justify-content: center;
     }
+
     .cert-qr-box canvas {
       width: 66px !important;
       height: 66px !important;
       display: block !important;
       margin: 0 auto !important;
     }
-    .cert-qr-box img { display: none !important; }
+
+    .cert-qr-box img {
+      display: none !important;
+    }
+
     .cert-id-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
@@ -267,6 +283,7 @@
       border: 1px solid #cbd5e1;
       letter-spacing: 0.5px;
     }
+
     .cert-verify-link-text {
       font-size: 0.62rem;
       color: var(--primary-dark);
@@ -297,6 +314,7 @@
     .btn-refresh-cloud:hover { background-color: #0f766e; }
     .btn-view-cert { background:#d97706; color:#fff; padding:4px 8px; font-size:0.8rem; }
     .btn-view-cert:hover { background:#92400e; }
+
     .btn-delete-row {
       background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5;
       padding: 4px 8px; font-family: inherit; font-size: 0.8rem; border-radius: 4px;
@@ -321,50 +339,74 @@
     .gain-neutral { color: var(--text-muted); font-weight: 600; }
     .gain-negative { color: var(--danger); font-weight: 700; }
 
-    /* Verification Modal (Designed Exactly as the Reference Image) */
+    /* ================= VERIFICATION MODAL ================= */
     .verify-modal-backdrop {
-      display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 16px;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
     .verify-modal {
-      background: #ffffff; max-width: 480px; width: 100%; border-radius: 20px;
-      padding: 32px 28px 28px 28px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      text-align: center; position: relative; border: 1px solid #e2e8f0;
+      background: #ffffff;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      padding: 28px 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
     }
     .verify-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: #e8fbf3; color: #059669; border: 1px solid #a7f3d0;
-      padding: 7px 18px; border-radius: 30px; font-weight: 700; font-size: 0.82rem; margin-bottom: 14px;
-      letter-spacing: 0.3px;
-    }
-    .verify-title {
-      font-size: 1.45rem; font-weight: 700; color: #0f172a; margin-bottom: 2px;
-    }
-    .verify-subtitle {
-      font-size: 0.85rem; color: #64748b; font-weight: 500; margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
     }
     .verify-details {
-      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
-      padding: 16px 20px; margin-bottom: 24px; text-align: left; font-size: 0.92rem;
-      display: flex; flex-direction: column; gap: 11px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: left;
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
     }
     .verify-details-row {
-      display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px dashed #e2e8f0; padding-bottom: 7px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #e2e8f0;
+      padding-bottom: 5px;
     }
-    .verify-details-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .v-label { color: #64748b; font-weight: 500; font-size: 0.9rem; }
-    .v-val-bold { color: #0f172a; font-weight: 700; }
-    .v-val-code { font-family: 'JetBrains Mono', monospace; color: #059669; font-weight: 700; font-size: 0.95rem; }
-    .v-val-score { color: #059669; font-weight: 700; font-size: 0.98rem; }
-
+    .verify-details-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
     .btn-close-verify {
-      width: 100%; max-width: 170px; margin: 0 auto;
-      background: #0f172a; color: #ffffff; border: none; padding: 11px 20px;
-      border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer;
-      font-family: inherit; transition: all 0.2s ease;
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
     }
-    .btn-close-verify:hover { background: #1e293b; transform: translateY(-1px); }
 
     footer {
       text-align: center; margin-top: 36px; font-size: 0.85rem; color: var(--text-muted);
@@ -379,7 +421,8 @@
       #certificateCard {
         position: fixed; top: 50%; left: 50%;
         transform: translate(-50%, -50%) scale(1.12);
-        box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+        box-shadow: none;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
     }
   </style>
@@ -447,7 +490,7 @@
     </div>
   </div>
 
-  <!-- Certificate Area -->
+  <!-- ================= វិញ្ញាបនបត្រ ================= -->
   <div id="certificateWrapper" class="certificate-wrapper">
     <div class="cert-actions">
       <button type="button" id="btnDownloadCert" class="btn-cert-download" onclick="downloadCertificatePDF()">📥 ទាញយកវិញ្ញាបនបត្រ (Download PDF)</button>
@@ -485,7 +528,7 @@
         </div>
 
         <div class="cert-signatures">
-          <!-- Stamp -->
+          <!-- ត្រាផ្លូវការ -->
           <div class="sig-block">
             <div class="official-stamp">
               <span class="stamp-text-top">RESEARCH FOUNDATION</span>
@@ -499,14 +542,14 @@
             </div>
           </div>
 
-          <!-- QR Code Center -->
+          <!-- QR Code ទំហំ Normal ច្បាស់ទាំង PC និង Mobile -->
           <div class="sig-block cert-center-panel">
             <div class="cert-qr-box" id="certQrContainer" title="Scan to Verify Certificate"></div>
             <div id="certIdDisplay" class="cert-id-tag">ID: RF-BIO-2026-XXXX</div>
             <a id="certVerifyUrlLink" href="#" target="_blank" class="cert-verify-link-text">researchfoundation.top/biology-pretest.html?cert_id=...</a>
           </div>
 
-          <!-- Signature -->
+          <!-- ហត្ថលេខាគ្រូបង្រៀន -->
           <div class="sig-block">
             <div class="signature-wrap">
               <img class="teacher-signature" width="70" height="52" alt="Signature"
@@ -555,41 +598,41 @@
   </footer>
 </div>
 
-<!-- Digital Verification Modal (Designed Exactly as the Reference Image) -->
+<!-- ================= OFFICIAL VERIFICATION MODAL ================= -->
 <div id="verifyModal" class="verify-modal-backdrop">
   <div class="verify-modal">
     <div class="verify-badge">✓ វិញ្ញាបនបត្រត្រឹមត្រូវផ្លូវការ (VERIFIED)</div>
-    <h3 class="verify-title">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
-    <p class="verify-subtitle">Research Foundation Digital Credential System</p>
+    <h3 style="font-size:1.25rem; font-weight:700; color:#0f172a;">ការផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រសិក្សា</h3>
+    <p style="font-size:0.8rem; color:#64748b; margin-top:2px;">Research Foundation Digital Credential System</p>
 
     <div class="verify-details">
       <div class="verify-details-row">
-        <span class="v-label">ឈ្មោះនិស្សិត៖</span>
-        <strong id="vStudentName" class="v-val-bold"></strong>
+        <span style="color:#64748b;">ឈ្មោះនិស្សិត៖</span>
+        <strong id="vStudentName" style="color:#0f172a;"></strong>
       </div>
       <div class="verify-details-row">
-        <span class="v-label">លេខកូដសញ្ញាបត្រ (ID)៖</span>
-        <strong id="vCertId" class="v-val-code"></strong>
+        <span style="color:#64748b;">លេខកូដសញ្ញាបត្រ (ID)៖</span>
+        <strong id="vCertId" style="font-family:'JetBrains Mono', monospace; color:#059669;"></strong>
       </div>
       <div class="verify-details-row">
-        <span class="v-label">ថ្ងៃខែប្រឡង៖</span>
-        <span id="vDate" class="v-val-bold"></span>
+        <span style="color:#64748b;">ថ្ងៃខែប្រឡង៖</span>
+        <span id="vDate" style="color:#0f172a; font-weight:600;"></span>
       </div>
       <div class="verify-details-row">
-        <span class="v-label">ឈ្មោះមុខវិជ្ជា៖</span>
-        <strong style="color: #0f172a;">ជីវវិទ្យា (Biology)</strong>
+        <span style="color:#64748b;">ឈ្មោះមុខវិជ្ជា៖</span>
+        <span style="font-weight:600; color:#0f172a;">ជីវវិទ្យា (Biology)</span>
       </div>
       <div class="verify-details-row">
-        <span class="v-label">ពិន្ទុទទួលបាន៖</span>
-        <strong id="vScore" class="v-val-score"></strong>
+        <span style="color:#64748b;">ពិន្ទុទទួលបាន៖</span>
+        <strong id="vScore" style="color:#16a34a;"></strong>
       </div>
       <div class="verify-details-row">
-        <span class="v-label">ស្ថាប័នចេញ៖</span>
-        <strong style="color: #0f172a;">មូលដ្ឋានស្រាវជ្រាវ - Research Foundation</strong>
+        <span style="color:#64748b;">ស្ថាប័នចេញ៖</span>
+        <span style="font-weight:600; color:#0f172a;">មូលដ្ឋានស្រាវជ្រាវ - Research Foundation</span>
       </div>
       <div class="verify-details-row">
-        <span class="v-label">គ្រូទទួលបន្ទុក៖</span>
-        <strong style="color: #0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</strong>
+        <span style="color:#64748b;">គ្រូទទួលបន្ទុក៖</span>
+        <span style="font-weight:700; color:#0f172a;">លោកគ្រូ អិន សុខរ៉ា (In Sokra)</span>
       </div>
     </div>
 
@@ -598,15 +641,13 @@
 </div>
 
 <script>
-  /* FIREBASE REALTIME CLOUD ENDPOINT */
   const FIREBASE_DB_URL = "https://water-quality-test-91aa2-default-rtdb.asia-southeast1.firebasedatabase.app";
   const DB_PATH = "biology_assessment_records";
-  const LOCAL_STORAGE_KEY = "biology_assessment_records";
   const ADMIN_PASSWORD = "admin123";
   const TEST_DURATION_MINUTES = 30;
   const GITHUB_LOGO_URL = "https://raw.githubusercontent.com/Research-Foundation/research-foundation.github.io/main/logo.png";
   
-  // Custom Domain URL for Verification
+  // Link ស្កេនទៅកាន់ទីតាំងបច្ចុប្បន្នផ្ទាល់
   const VERIFY_BASE_URL = window.location.origin + window.location.pathname;
 
   let timeRemaining = TEST_DURATION_MINUTES * 60;
@@ -615,7 +656,7 @@
   let currentActiveCertData = null;
 
   function esc(str) {
-    return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
   function cleanStudentName(name) {
@@ -628,8 +669,7 @@
 
   function makeStudentKey(name) {
     const clean = cleanStudentName(name).toLowerCase();
-    const sanitized = clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
-    return encodeURIComponent(sanitized);
+    return clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
   }
 
   function generateCertId(key, dateStr) {
@@ -644,7 +684,6 @@
     return `RF-BIO-${yr}-${code}`;
   }
 
-  /* 30 University-Level Biology Questions */
   const questionsData = [
     { id: 1, q: "១. តើសរីរាង្គកោសិកា (Organelle) មួយណាដែលទទួលខុសត្រូវលើការផលិតថាមពល ATP តាមរយៈដំណើរការដកដង្ហើមកោសិកា?",
       options: [
@@ -772,7 +811,7 @@
         { key: "C", text: "C. ពួក (Genus)" },
         { key: "D", text: "D. ប្រភេទ (Species)" }
       ], ans: "D" },
-    { id: 19, q: "១៩. តើផ្នែកណានៃណឺរ៉ូន (Neuron) ដែលទទួលរំញោចបញ្ជូនចូលមកកាន់តួកកោសិកា?",
+    { id: 19, q: "១៩. តើផ្នែកណានៃណឺរ៉ូន (Neuron) ដែលទទួលរំញោចបញ្ជូនចូលមកកាន់តួកោសិកា?",
       options: [
         { key: "A", text: "A. អាក់សូន (Axon)" },
         { key: "B", text: "B. ដង់ឌ្រីត (Dendrite)" },
@@ -1010,6 +1049,7 @@
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
+  // បង្កើត QR Code ច្បាស់ មិន Duplicate (ទំហំ Normal 64px)
   function generateCertQRCode(verifyUrl) {
     const qrContainer = document.getElementById('certQrContainer');
     qrContainer.innerHTML = '';
@@ -1082,7 +1122,7 @@
       : new Promise(res => { im.onload = res; im.onerror = res; })));
   }
 
-  /* PDF Generation */
+  /* ================= DOWNLOAD PDF សមស្របទាំងលើ MOBILE និង PC ================= */
   async function downloadCertificatePDF() {
     const btn = document.getElementById('btnDownloadCert');
     const card = document.getElementById('certificateCard');
@@ -1154,7 +1194,7 @@
     }
   }
 
-  /* Bar Chart */
+  /* ================= CHART ================= */
   let chartInstance = null;
   function renderChart(student) {
     const ctx = document.getElementById('scoreChart').getContext('2d');
@@ -1190,17 +1230,17 @@
     });
   }
 
-  /* Multi-Device Storage Engine */
+  /* ================= FIREBASE STORAGE ENGINE ================= */
   function getLocalRecords() {
     try {
-      return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+      return JSON.parse(localStorage.getItem('biology_assessment_records') || '{}');
     } catch (e) {
       return {};
     }
   }
 
   function saveLocalRecords(data) {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem('biology_assessment_records', JSON.stringify(data));
   }
 
   async function pullFromCloud() {
@@ -1228,11 +1268,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(partialData)
       });
-      if (!res.ok) {
-        console.error("Firebase write error:", res.status, await res.text());
-        return false;
-      }
-      return true;
+      return res.ok;
     } catch (e) {
       console.error("Failed to patch record to cloud:", e);
       return false;
@@ -1294,7 +1330,7 @@
     if (btn) btn.innerText = "🔄 Sync Now";
   }
 
-  /* Admin Authentication */
+  /* ================= ADMIN ================= */
   function isAdminLoggedIn() {
     return sessionStorage.getItem('admin_logged_in') === 'true' || localStorage.getItem('RF_ADMIN_LOGGED_IN') === 'true';
   }
@@ -1376,7 +1412,7 @@
     certWrapper.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* Scoreboard Rendering */
+  /* ================= SCOREBOARD (AUTO-MERGE BY NAME) ================= */
   function renderTable() {
     const tbody = document.getElementById('studentTableBody');
     const records = getLocalRecords();
@@ -1471,7 +1507,7 @@
     if (btn.dataset.action === 'delete') deleteStudentRow(key);
   });
 
-  /* Export CSV */
+  /* ================= CSV EXPORT ================= */
   function csvCell(v) {
     return `"${String(v).replace(/"/g, '""')}"`;
   }
@@ -1531,11 +1567,11 @@
     URL.revokeObjectURL(url);
   }
 
-  /* Digital Verification Modal */
+  /* ================= DIGITAL VERIFICATION MODAL ENGINE ================= */
   function openVerifyModal(data) {
-    document.getElementById('vStudentName').innerText = data.name || "មិនស្គាល់";
-    document.getElementById('vCertId').innerText = data.id || "";
-    document.getElementById('vDate').innerText = data.date || "2026-11-06";
+    document.getElementById('vStudentName').innerText = data.name;
+    document.getElementById('vCertId').innerText = data.id;
+    document.getElementById('vDate').innerText = data.date;
     document.getElementById('vScore').innerText = `${data.score} / 30 ពិន្ទុ`;
     const modal = document.getElementById('verifyModal');
     modal.style.display = 'flex';
@@ -1553,68 +1589,29 @@
     }
   }
 
-  /* Scan / URL Verification Loader */
+  // ពិនិត្យ Query Parameter ?cert_id=... នៅពេលស្កេន QR Code
   async function checkUrlVerification() {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const rawCertId = params.get('cert_id');
-      if (!rawCertId) return;
+    const params = new URLSearchParams(window.location.search);
+    const certId = params.get('cert_id');
+    if (!certId) return;
 
-      const certId = decodeURIComponent(rawCertId).trim().toUpperCase();
-
-      // ១. បង្ហាញទិន្នន័យភ្លាមៗ ប្រសិនបើ ID គឺ RF-BIO-2026-BGFAQ (គ្មានការពន្យារពេល)
-      if (certId === "RF-BIO-2026-BGFAQ") {
+    const records = await pullFromCloud();
+    for (const k in records) {
+      const item = records[k];
+      const testId = item.certId || generateCertId(k, item.lastDate);
+      if (testId.trim().toUpperCase() === certId.trim().toUpperCase()) {
         openVerifyModal({
-          id: "RF-BIO-2026-BGFAQ",
-          name: "យៀន មរកត",
-          score: 28,
-          date: "2026-11-06"
+          id: testId,
+          name: item.name,
+          score: item.post || 0,
+          date: item.lastDate || ''
         });
         return;
       }
-
-      // ២. ស្វែងរកក្នុង Local Storage ជាមុន
-      let records = getLocalRecords();
-      function matchAndOpen(dataRecords) {
-        for (const k in dataRecords) {
-          const item = dataRecords[k];
-          if (!item) continue;
-          const testId = (item.certId || generateCertId(k, item.lastDate || '')).trim().toUpperCase();
-          if (testId === certId) {
-            openVerifyModal({
-              id: testId,
-              name: item.name,
-              score: item.post || 0,
-              date: item.lastDate || ''
-            });
-            return true;
-          }
-        }
-        return false;
-      }
-
-      if (matchAndOpen(records)) return;
-
-      // ៣. បើគ្មានក្នុង Local Storage ទើបស្វែងរកក្នុង Firebase Cloud
-      records = await pullFromCloud();
-      if (matchAndOpen(records)) return;
-
-      // ៤. Fallback ចុងក្រោយ៖ បង្ហាញព័ត៌មានផ្ទៀងផ្ទាត់ដោយប្រើប្រាស់ ID ពី Link
-      openVerifyModal({
-        id: certId,
-        name: "យៀន មរកត",
-        score: 28,
-        date: "2026-11-06"
-      });
-    } catch (err) {
-      console.error("Verification Error:", err);
     }
   }
 
-  // ដំណើរការផ្ទៀងផ្ទាត់ URL ភ្លាមៗ (Instant Execution)
-  checkUrlVerification();
-
-  // Initialization
+  // ដំណើរការពេលបើកទំព័រដំបូង
   prepareLogo();
   renderAdminUI();
   pullFromCloud().then(() => {
@@ -1622,7 +1619,7 @@
     checkUrlVerification();
   });
 
-  // Auto-Sync from cloud every 8 seconds
+  // Auto-Sync ពី Firebase Cloud រៀងរាល់ 8 វិនាទីម្តង
   setInterval(() => {
     pullFromCloud().then(() => renderTable());
   }, 8000);
