@@ -597,7 +597,7 @@
   let currentActiveCertData = null;
 
   function esc(str) {
-    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
   function cleanStudentName(name) {
@@ -608,9 +608,12 @@
       .trim();
   }
 
+  /* សុវត្ថិភាពខ្ពស់សម្រាប់ Firebase Key ដោយមិនឱ្យប៉ះទង្គិចជាមួយអក្សរខ្មែរ */
   function makeStudentKey(name) {
     const clean = cleanStudentName(name).toLowerCase();
-    return clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
+    // ជំនួសដកឃ្លា និងតួអក្សរពិសេសទៅជា '_' រួច encodeURIComponent
+    const sanitized = clean.replace(/[\s\.\#\$\[\]\/\\]+/g, '_');
+    return encodeURIComponent(sanitized);
   }
 
   function generateCertId(key, dateStr) {
@@ -1209,7 +1212,11 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(partialData)
       });
-      return res.ok;
+      if (!res.ok) {
+        console.error("Firebase write error:", res.status, await res.text());
+        return false;
+      }
+      return true;
     } catch (e) {
       console.error("Failed to patch record to cloud:", e);
       return false;
