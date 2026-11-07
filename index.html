@@ -161,15 +161,6 @@
         }
         .nav-item[data-menu="publications"].active::after { width: 65%; opacity: 1; }
 
-        .nav-item[data-menu="leadership"]::after { background-color: #fb7185; }
-        .nav-item[data-menu="leadership"].active {
-            color: #ffffff !important;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.35) 0%, rgba(190, 18, 60, 0.45) 100%) !important;
-            border-color: rgba(251, 113, 133, 0.8) !important;
-            box-shadow: 0 0 18px -2px rgba(244, 63, 94, 0.6) !important;
-        }
-        .nav-item[data-menu="leadership"].active::after { width: 65%; opacity: 1; }
-
         /* EXAMS TAB */
         .nav-item[data-menu="exams"]::after { background-color: #fb923c; }
         .nav-item[data-menu="exams"]:hover {
@@ -185,7 +176,32 @@
         }
         .nav-item[data-menu="exams"].active::after { width: 65%; opacity: 1; }
 
-        /* Exam Option styles */
+        /* TRAINING TAB */
+        .nav-item[data-menu="training"]::after { background-color: #38bdf8; }
+        .nav-item[data-menu="training"]:hover {
+            color: #7dd3fc;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(2, 132, 199, 0.22) 100%);
+            box-shadow: 0 0 14px -3px rgba(56, 189, 248, 0.5);
+        }
+        .nav-item[data-menu="training"].active {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.35) 0%, rgba(2, 132, 199, 0.45) 100%) !important;
+            border-color: rgba(56, 189, 248, 0.8) !important;
+            box-shadow: 0 0 18px -2px rgba(56, 189, 248, 0.6) !important;
+        }
+        .nav-item[data-menu="training"].active::after { width: 65%; opacity: 1; }
+
+        /* LEADERSHIP / FOUNDER TAB (LAST RIGHT) */
+        .nav-item[data-menu="leadership"]::after { background-color: #fb7185; }
+        .nav-item[data-menu="leadership"].active {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.35) 0%, rgba(190, 18, 60, 0.45) 100%) !important;
+            border-color: rgba(251, 113, 133, 0.8) !important;
+            box-shadow: 0 0 18px -2px rgba(244, 63, 94, 0.6) !important;
+        }
+        .nav-item[data-menu="leadership"].active::after { width: 65%; opacity: 1; }
+
+        /* Option styles */
         .opt-label {
             display: flex;
             align-items: center;
@@ -278,10 +294,10 @@
     <span id="toast-message">បានរក្សាទុកដោយជោគជ័យ!</span>
 </div>
 
-<!-- TIDY NAVIGATION BAR (ENLARGED TABS, TOP ACTION BUTTONS REMOVED) -->
+<!-- TIDY NAVIGATION BAR (REORDERED TABS: ស្ថាបនិក TO THE LAST RIGHT SIDE) -->
 <header class="sticky top-0 z-40 glassmorphism transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-20 gap-6">
+        <div class="flex items-center justify-between h-20 gap-4">
             
             <!-- Logo area (Double click opens Admin Login) -->
             <a href="#" ondblclick="event.preventDefault(); openLoginModal();" class="brand-glow-group flex items-center gap-3.5 group cursor-pointer transition-all duration-300 select-none shrink-0">
@@ -299,31 +315,35 @@
                 </div>
             </a>
 
-            <!-- Enlarged 6 Menus Desktop Navigation -->
-            <nav id="desktopMenu" class="hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-sm lg:text-base font-medium text-slate-300 shadow-inner">
-                <a href="#about" data-menu="about" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-2 whitespace-nowrap">
+            <!-- Enlarged 7 Menus Desktop Navigation -->
+            <nav id="desktopMenu" class="hidden lg:flex items-center gap-1 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs sm:text-sm lg:text-base font-medium text-slate-300 shadow-inner">
+                <a href="#about" data-menu="about" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="info" class="w-4 h-4 text-emerald-400"></i>
                     <span>អំពីយើង</span>
                 </a>
-                <a href="#books" data-menu="books" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                <a href="#books" data-menu="books" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="book" class="w-4 h-4 text-amber-400"></i>
                     <span>សៀវភៅ</span>
                 </a>
-                <a href="#software" data-menu="software" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                <a href="#software" data-menu="software" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="laptop" class="w-4 h-4 text-cyan-400"></i>
                     <span>កម្មវិធី</span>
                 </a>
-                <a href="#publications" data-menu="publications" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                <a href="#publications" data-menu="publications" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="newspaper" class="w-4 h-4 text-purple-400"></i>
                     <span>អត្ថបទបោះពុម្ព</span>
                 </a>
-                <a href="#leadership" data-menu="leadership" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-2 whitespace-nowrap">
-                    <i data-lucide="user" class="w-4 h-4 text-rose-400"></i>
-                    <span>ស្ថាបនិក</span>
-                </a>
-                <a href="#exams" data-menu="exams" class="nav-item px-4 py-2 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                <a href="#exams" data-menu="exams" class="nav-item px-3.5 py-2 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-400"></i>
                     <span>ការប្រឡង</span>
+                </a>
+                <a href="#training" data-menu="training" class="nav-item px-3.5 py-2 rounded-xl border border-sky-500/30 hover:border-sky-400/60 hover:text-sky-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <i data-lucide="graduation-cap" class="w-4 h-4 text-sky-400"></i>
+                    <span>វគ្គបណ្តុះបណ្តាល</span>
+                </a>
+                <a href="#leadership" data-menu="leadership" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <i data-lucide="user" class="w-4 h-4 text-rose-400"></i>
+                    <span>ស្ថាបនិក</span>
                 </a>
             </nav>
 
@@ -336,12 +356,13 @@
 
     <!-- Mobile Drawer -->
     <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-800 bg-navy-900/98 px-5 pt-4 pb-6 space-y-2">
-        <a href="#about" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">១. អំពីយើង (About)</a>
-        <a href="#books" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">២. សៀវភៅ (Books)</a>
-        <a href="#software" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៣. កម្មវិធី (Software)</a>
-        <a href="#publications" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
-        <a href="#leadership" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៥. ស្ថាបនិក (Founder)</a>
-        <a href="#exams" data-menu="exams" class="mobile-link nav-item block px-4 py-3 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-base transition-all">៦. 📋 ការប្រឡង (Exams)</a>
+        <a href="#about" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">១. អំពីយើង (About)</a>
+        <a href="#books" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">២. សៀវភៅ (Books)</a>
+        <a href="#software" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៣. កម្មវិធី (Software)</a>
+        <a href="#publications" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
+        <a href="#exams" data-menu="exams" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-base transition-all">៥. 📋 ការប្រឡង (Exams)</a>
+        <a href="#training" data-menu="training" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-sky-300 border border-sky-500/30 font-medium text-base transition-all">៦. 🎓 វគ្គបណ្តុះបណ្តាល (Training)</a>
+        <a href="#leadership" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៧. ស្ថាបនិក (Founder)</a>
     </div>
 </header>
 
@@ -351,7 +372,7 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-center space-y-6">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ និងការប្រឡង</span>
+            <span>សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ ការប្រឡង និងវគ្គបណ្តុះបណ្តាល</span>
         </div>
 
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
@@ -390,6 +411,9 @@
             </button>
             <a href="#exams" class="px-6 py-3 rounded-xl border border-orange-500/50 bg-orange-950/30 hover:bg-orange-900/40 active:scale-95 text-orange-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-orange-950/40">
                 <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-400"></i> មជ្ឈមណ្ឌលប្រឡងតេស្ត
+            </a>
+            <a href="#training" class="px-6 py-3 rounded-xl border border-sky-500/50 bg-sky-950/30 hover:bg-sky-900/40 active:scale-95 text-sky-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-sky-950/40">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-sky-400"></i> វគ្គបណ្តុះបណ្តាល
             </a>
         </div>
     </section>
@@ -639,11 +663,49 @@
         </div>
     </section>
 
-    <!-- ៥. ស្ថាបនិក (FOUNDER PROFILE) -->
+    <!-- ៥. ការប្រឡង (EXAMS & PRE-TESTS) -->
+    <section id="exams" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+            <div>
+                <div class="text-orange-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                    <i data-lucide="clipboard-check" class="w-4 h-4"></i> ៥. មជ្ឈមណ្ឌលប្រឡង និងតេស្តសមត្ថភាព (Exams & Assessment)
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">ប្រព័ន្ធប្រឡងវាស់ស្ទង់ចំណេះដឹងវិទ្យាសាស្ត្រ</h2>
+                <p class="text-xs text-slate-400 mt-2">
+                    ជ្រើសរើសមុខវិជ្ជាខាងក្រោមដើម្បីចាប់ផ្តើមធ្វើតេស្តចំណេះដឹងតាមប្រព័ន្ធកំណត់ម៉ោង និងគណនាពិន្ទុស្វ័យប្រវត្តិ
+                </p>
+            </div>
+        </div>
+
+        <div id="examsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+            <!-- Populated via Javascript -->
+        </div>
+    </section>
+
+    <!-- ៦. វគ្គបណ្តុះបណ្តាល (TRAINING & COURSES) -->
+    <section id="training" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+            <div>
+                <div class="text-sky-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i> ៦. វគ្គបណ្តុះបណ្តាល & សិក្ខាសាលា (Training & Courses)
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីបណ្តុះបណ្តាលជំនាញស្រាវជ្រាវ & ស្ថិតិវិទ្យាសាស្ត្រ</h2>
+                <p class="text-xs text-slate-400 mt-2">
+                    វគ្គសិក្សាជំនាញជាក់ស្តែង ការរៀបចំទិន្នន័យ ការវិភាគតាមកម្មវិធីស្ថិតិ និងការសរសេរអត្ថបទស្រាវជ្រាវបែបស្តង់ដារ
+                </p>
+            </div>
+        </div>
+
+        <div id="trainingGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            <!-- Populated via Javascript (Similar to Exams with external open in new tab) -->
+        </div>
+    </section>
+
+    <!-- ៧. ស្ថាបនិក (FOUNDER PROFILE - PLACED LAST) -->
     <section id="leadership" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
         <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
             <div class="text-rose-400 text-xs uppercase font-bold tracking-widest flex items-center justify-center gap-2">
-                <i data-lucide="user" class="w-4 h-4"></i> ៥. ស្ថាបនិក និងអ្នកដឹកនាំស្រាវជ្រាវ (Founder Profile)
+                <i data-lucide="user" class="w-4 h-4"></i> ៧. ស្ថាបនិក និងអ្នកដឹកនាំស្រាវជ្រាវ (Founder Profile)
             </div>
             <h2 class="text-3xl font-bold text-white">ស្ថាបនិកមូលដ្ឋានស្រាវជ្រាវ</h2>
             <p class="text-slate-400 text-sm">អ្នកជំនាញជីវបច្ចេកវិទ្យាជីវៈ ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ</p>
@@ -696,25 +758,6 @@
         </div>
     </section>
 
-    <!-- ៦. ការប្រឡង (EXAMS & PRE-TESTS) -->
-    <section id="exams" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
-            <div>
-                <div class="text-orange-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
-                    <i data-lucide="clipboard-check" class="w-4 h-4"></i> ៦. មជ្ឈមណ្ឌលប្រឡង និងតេស្តសមត្ថភាព (Exams & Assessment)
-                </div>
-                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">ប្រព័ន្ធប្រឡងវាស់ស្ទង់ចំណេះដឹងវិទ្យាសាស្ត្រ</h2>
-                <p class="text-xs text-slate-400 mt-2">
-                    ជ្រើសរើសមុខវិជ្ជាខាងក្រោមដើម្បីចាប់ផ្តើមធ្វើតេស្តចំណេះដឹងតាមប្រព័ន្ធកំណត់ម៉ោង និងគណនាពិន្ទុស្វ័យប្រវត្តិ
-                </p>
-            </div>
-        </div>
-
-        <div id="examsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-            <!-- Populated via Javascript -->
-        </div>
-    </section>
-
 </main>
 
 <!-- FOOTER -->
@@ -751,8 +794,9 @@
                 <a href="#books" class="hover:text-amber-400 transition-colors">២. សៀវភៅ</a>
                 <a href="#software" class="hover:text-cyan-400 transition-colors">៣. កម្មវិធី</a>
                 <a href="#publications" class="hover:text-purple-400 transition-colors">៤. អត្ថបទបោះពុម្ព</a>
-                <a href="#leadership" class="hover:text-rose-400 transition-colors">៥. ស្ថាបនិក</a>
-                <a href="#exams" class="hover:text-orange-400 transition-colors">៦. ការប្រឡង</a>
+                <a href="#exams" class="hover:text-orange-400 transition-colors">៥. ការប្រឡង</a>
+                <a href="#training" class="hover:text-sky-400 transition-colors">៦. វគ្គបណ្តុះបណ្តាល</a>
+                <a href="#leadership" class="hover:text-rose-400 transition-colors">៧. ស្ថាបនិក</a>
             </div>
 
             <p class="text-slate-500 font-en text-[11px]">
@@ -1088,7 +1132,7 @@
             directUrl: "https://research-foundation.github.io/water-quality-pretest.html",
             questions: []
         },
-       "bio": {
+        "bio": {
             id: "bio",
             icon: "🧬",
             title: "តេស្តជីវវិទ្យា",
@@ -1140,6 +1184,40 @@
                     a: 1
                 }
             ]
+        }
+    };
+
+    /* TRAINING COURSES DATA (CONFIGURABLE TO OPEN NEW TABS) */
+    const DEFAULT_TRAINING = {
+        "rf-analyzer": {
+            id: "rf-analyzer",
+            icon: "💻",
+            title: "វគ្គបណ្តុះបណ្តាល RF Analyzer v6.0",
+            subtitle: "Statistical Data Analysis",
+            desc: "រៀនវិភាគទិន្នន័យស្ថិតិកសិកម្ម និងជីវវិទ្យា (CRD, RCBD, Split-Plot, Duncan & Tukey HSD) ដោយប្រើប្រាស់សូហ្វវែរ RF Analyzer។",
+            duration: "៤ សប្តាហ៍",
+            mode: "Online / Onsite",
+            directUrl: "https://researchfoundation.top/training-rf-analyzer.html"
+        },
+        "python-agri": {
+            id: "python-agri",
+            icon: "🐍",
+            title: "Python សម្រាប់ស្ថិតិកសិកម្ម & ក្រាហ្វិក 3D",
+            subtitle: "Python Programming in Agriculture",
+            desc: "ការសរសេរកូដ Python ក្នុងការសម្អាតទិន្នន័យ គណនា ANOVA ការគូរក្រាហ្វិក 3D Response Surface និង PCA Biplot សម្រាប់សារណា។",
+            duration: "៦ សប្តាហ៍",
+            mode: "Online Course",
+            directUrl: "https://researchfoundation.top/training-python.html"
+        },
+        "paper-writing": {
+            id: "paper-writing",
+            icon: "📝",
+            title: "ការសរសេរអត្ថបទស្រាវជ្រាវ (IMRAD)",
+            subtitle: "Scientific Paper Writing & Publishing",
+            desc: "បច្ចេកទេសសរសេរអត្ថបទស្រាវជ្រាវកម្រិតអន្តរជាតិ ការជ្រើសរើសទស្សនាវដ្តី Scopus/Web of Science និងការឆ្លើយតប Reviewers។",
+            duration: "៣ សប្តាហ៍",
+            mode: "Workshop",
+            directUrl: "https://researchfoundation.top/training-writing.html"
         }
     };
 
@@ -2116,6 +2194,47 @@
         lucide.createIcons();
     }
 
+    /* RENDER TRAINING COURSES SECTION (OPENS IN NEW TAB / DEDICATED PAGE) */
+    function renderTrainingSection() {
+        const grid = document.getElementById('trainingGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const trainingList = Object.values(DEFAULT_TRAINING);
+        trainingList.forEach(t => {
+            const card = document.createElement('div');
+            card.className = "p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between group hover:border-sky-500/50 transition-all relative cursor-pointer";
+            
+            // Open training page in new tab (similar to exams)
+            card.onclick = () => window.open(t.directUrl, '_blank');
+
+            card.innerHTML = `
+                <div class="space-y-4">
+                    <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                        ${t.icon}
+                    </div>
+                    <div>
+                        <span class="text-[11px] font-mono text-sky-400 font-semibold uppercase tracking-wider">${t.subtitle}</span>
+                        <h3 class="text-base font-bold text-white mt-1 leading-snug group-hover:text-sky-300 transition-colors">${t.title}</h3>
+                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">${t.desc}</p>
+                    </div>
+                </div>
+
+                <div class="pt-5 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs">
+                    <div class="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-sky-400"></i> ${t.duration} • ${t.mode}
+                    </div>
+                    <span class="px-3 py-1.5 rounded-xl bg-sky-500/20 border border-sky-500/40 text-sky-300 font-bold group-hover:bg-sky-500 group-hover:text-navy-950 transition-all flex items-center gap-1 shadow-sm">
+                        <span>ចូលរៀន</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </span>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        lucide.createIcons();
+    }
+
     /* EXAM RUNNER LOGIC FOR DEMO QUIZZES */
     function openExamModal(examId) {
         activeExam = DEFAULT_EXAMS[examId];
@@ -2269,8 +2388,9 @@
         renderBooksSection();
         renderSoftwareSection();
         renderPublicationsSection();
-        renderFounderSection();
         renderExamsSection();
+        renderTrainingSection();
+        renderFounderSection();
         updateAdminUI();
     }
 
