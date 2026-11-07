@@ -111,18 +111,18 @@
         .nav-item::after {
             content: '';
             position: absolute;
-            bottom: 2px;
+            bottom: 3px;
             left: 50%;
             width: 0;
-            height: 2px;
+            height: 2.5px;
             border-radius: 9999px;
             transform: translateX(-50%);
             transition: all 0.3s ease;
             opacity: 0;
         }
         .nav-item:hover::after {
-            width: 40%;
-            opacity: 0.6;
+            width: 45%;
+            opacity: 0.7;
         }
 
         .nav-item[data-menu="about"]::after { background-color: #34d399; }
@@ -130,60 +130,60 @@
             color: #ffffff !important;
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(5, 150, 105, 0.45) 100%) !important;
             border-color: rgba(52, 211, 153, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(16, 185, 129, 0.6) !important;
+            box-shadow: 0 0 18px -2px rgba(16, 185, 129, 0.6) !important;
         }
-        .nav-item[data-menu="about"].active::after { width: 60%; opacity: 1; }
+        .nav-item[data-menu="about"].active::after { width: 65%; opacity: 1; }
 
         .nav-item[data-menu="books"]::after { background-color: #fbbf24; }
         .nav-item[data-menu="books"].active {
             color: #ffffff !important;
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.45) 100%) !important;
             border-color: rgba(251, 191, 36, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(245, 158, 11, 0.6) !important;
+            box-shadow: 0 0 18px -2px rgba(245, 158, 11, 0.6) !important;
         }
-        .nav-item[data-menu="books"].active::after { width: 60%; opacity: 1; }
+        .nav-item[data-menu="books"].active::after { width: 65%; opacity: 1; }
 
         .nav-item[data-menu="software"]::after { background-color: #22d3ee; }
         .nav-item[data-menu="software"].active {
             color: #ffffff !important;
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.35) 0%, rgba(14, 116, 144, 0.45) 100%) !important;
             border-color: rgba(34, 211, 238, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(6, 182, 212, 0.6) !important;
+            box-shadow: 0 0 18px -2px rgba(6, 182, 212, 0.6) !important;
         }
-        .nav-item[data-menu="software"].active::after { width: 60%; opacity: 1; }
+        .nav-item[data-menu="software"].active::after { width: 65%; opacity: 1; }
 
         .nav-item[data-menu="publications"]::after { background-color: #c084fc; }
         .nav-item[data-menu="publications"].active {
             color: #ffffff !important;
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(109, 40, 217, 0.45) 100%) !important;
             border-color: rgba(167, 139, 250, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(139, 92, 246, 0.6) !important;
+            box-shadow: 0 0 18px -2px rgba(139, 92, 246, 0.6) !important;
         }
-        .nav-item[data-menu="publications"].active::after { width: 60%; opacity: 1; }
+        .nav-item[data-menu="publications"].active::after { width: 65%; opacity: 1; }
 
         .nav-item[data-menu="leadership"]::after { background-color: #fb7185; }
         .nav-item[data-menu="leadership"].active {
             color: #ffffff !important;
             background: linear-gradient(135deg, rgba(244, 63, 94, 0.35) 0%, rgba(190, 18, 60, 0.45) 100%) !important;
             border-color: rgba(251, 113, 133, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(244, 63, 94, 0.6) !important;
+            box-shadow: 0 0 18px -2px rgba(244, 63, 94, 0.6) !important;
         }
-        .nav-item[data-menu="leadership"].active::after { width: 60%; opacity: 1; }
+        .nav-item[data-menu="leadership"].active::after { width: 65%; opacity: 1; }
 
         /* EXAMS TAB */
         .nav-item[data-menu="exams"]::after { background-color: #fb923c; }
         .nav-item[data-menu="exams"]:hover {
             color: #fdba74;
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(194, 65, 12, 0.18) 100%);
-            box-shadow: 0 0 12px -3px rgba(249, 115, 22, 0.45);
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(194, 65, 12, 0.22) 100%);
+            box-shadow: 0 0 14px -3px rgba(249, 115, 22, 0.5);
         }
         .nav-item[data-menu="exams"].active {
             color: #ffffff !important;
             background: linear-gradient(135deg, rgba(249, 115, 22, 0.35) 0%, rgba(194, 65, 12, 0.45) 100%) !important;
             border-color: rgba(251, 146, 60, 0.8) !important;
-            box-shadow: 0 0 16px -2px rgba(249, 115, 22, 0.6) !important;
+            box-shadow: 0 0 18px -2px rgba(249, 115, 22, 0.6) !important;
         }
-        .nav-item[data-menu="exams"].active::after { width: 60%; opacity: 1; }
+        .nav-item[data-menu="exams"].active::after { width: 65%; opacity: 1; }
 
         /* Exam Option styles */
         .opt-label {
@@ -278,101 +278,70 @@
     <span id="toast-message">បានរក្សាទុកដោយជោគជ័យ!</span>
 </div>
 
-<!-- TIDY NAVIGATION BAR -->
+<!-- TIDY NAVIGATION BAR (ENLARGED TABS, TOP ACTION BUTTONS REMOVED) -->
 <header class="sticky top-0 z-40 glassmorphism transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-20 gap-4">
+        <div class="flex items-center justify-between h-20 gap-6">
             
             <!-- Logo area (Double click opens Admin Login) -->
-            <a href="#" ondblclick="event.preventDefault(); openLoginModal();" class="brand-glow-group flex items-center gap-3 group cursor-pointer transition-all duration-300 select-none shrink-0">
+            <a href="#" ondblclick="event.preventDefault(); openLoginModal();" class="brand-glow-group flex items-center gap-3.5 group cursor-pointer transition-all duration-300 select-none shrink-0">
                 <div class="relative flex items-center justify-center">
-                    <img src="logo.png" alt="Research Foundation Logo" class="brand-logo-img w-10 h-10 object-contain rounded-xl transition-all duration-300 ease-out shadow-md shadow-amber-500/10" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0f172a/eab308?text=RF';">
+                    <img src="logo.png" alt="Research Foundation Logo" class="brand-logo-img w-11 h-11 object-contain rounded-xl transition-all duration-300 ease-out shadow-md shadow-amber-500/10" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0f172a/eab308?text=RF';">
                 </div>
                 <div class="leading-tight">
-                    <span class="brand-title text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-1.5 transition-all duration-300 whitespace-nowrap">
+                    <span class="brand-title text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-1.5 transition-all duration-300 whitespace-nowrap">
                         មូលដ្ឋានស្រាវជ្រាវ
-                        <span class="text-[9px] uppercase font-en tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded-full font-semibold">កម្ពុជា</span>
+                        <span class="text-[10px] uppercase font-en tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-semibold">កម្ពុជា</span>
                     </span>
-                    <span class="block text-[10px] uppercase tracking-wider text-amber-400 font-semibold font-en whitespace-nowrap">
+                    <span class="block text-[11px] uppercase tracking-wider text-amber-400 font-semibold font-en whitespace-nowrap">
                         Research Foundation • កំពង់ចាម
                     </span>
                 </div>
             </a>
 
-            <!-- 6 Menus Desktop Navigation -->
-            <nav id="desktopMenu" class="hidden lg:flex items-center gap-1 p-1 rounded-2xl bg-slate-900/80 border border-slate-800/80 text-xs sm:text-sm font-medium text-slate-300 shadow-inner shrink-0">
-                <a href="#about" data-menu="about" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            <!-- Enlarged 6 Menus Desktop Navigation -->
+            <nav id="desktopMenu" class="hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-sm lg:text-base font-medium text-slate-300 shadow-inner">
+                <a href="#about" data-menu="about" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i data-lucide="info" class="w-4 h-4 text-emerald-400"></i>
                     <span>អំពីយើង</span>
                 </a>
-                <a href="#books" data-menu="books" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="book" class="w-3.5 h-3.5"></i>
+                <a href="#books" data-menu="books" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i data-lucide="book" class="w-4 h-4 text-amber-400"></i>
                     <span>សៀវភៅ</span>
                 </a>
-                <a href="#software" data-menu="software" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="laptop" class="w-3.5 h-3.5"></i>
+                <a href="#software" data-menu="software" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i data-lucide="laptop" class="w-4 h-4 text-cyan-400"></i>
                     <span>កម្មវិធី</span>
                 </a>
-                <a href="#publications" data-menu="publications" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
+                <a href="#publications" data-menu="publications" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i data-lucide="newspaper" class="w-4 h-4 text-purple-400"></i>
                     <span>អត្ថបទបោះពុម្ព</span>
                 </a>
-                <a href="#leadership" data-menu="leadership" class="nav-item px-3 py-1.5 rounded-xl border border-transparent hover:border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                <a href="#leadership" data-menu="leadership" class="nav-item px-4 py-2 rounded-xl border border-transparent hover:border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i data-lucide="user" class="w-4 h-4 text-rose-400"></i>
                     <span>ស្ថាបនិក</span>
                 </a>
-                <a href="#exams" data-menu="exams" class="nav-item px-3 py-1.5 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
-                    <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i>
+                <a href="#exams" data-menu="exams" class="nav-item px-4 py-2 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-400"></i>
                     <span>ការប្រឡង</span>
                 </a>
             </nav>
 
-            <!-- Tidy Action Bar -->
-            <div class="hidden xl:flex items-center gap-2 shrink-0">
-                <a href="mailto:contact@researchfoundation.top" class="p-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center justify-center transition-all shadow-sm" title="Email: contact@researchfoundation.top">
-                    <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i>
-                </a>
-                <a href="https://t.me/researchfound" target="_blank" class="px-2.5 py-1.5 rounded-xl border border-sky-500/30 bg-sky-950/20 hover:bg-sky-500/20 text-sky-300 text-xs font-medium flex items-center gap-1.5 transition-all whitespace-nowrap">
-                    <i data-lucide="megaphone" class="w-3.5 h-3.5 text-sky-400"></i> Channel
-                </a>
-                <a href="https://t.me/researchfounda" target="_blank" class="px-2.5 py-1.5 rounded-xl border border-teal-500/30 bg-teal-950/20 hover:bg-teal-500/20 text-teal-300 text-xs font-medium flex items-center gap-1.5 transition-all whitespace-nowrap">
-                    <i data-lucide="users" class="w-3.5 h-3.5 text-teal-400"></i> Group
-                </a>
-                <a href="https://t.me/Sokra25" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold transition-all shadow-md shadow-emerald-950/60 flex items-center gap-1.5 active:scale-95 whitespace-nowrap">
-                    <i data-lucide="send" class="w-3.5 h-3.5"></i> @Sokra25
-                </a>
-            </div>
-
             <!-- Mobile Hamburger -->
-            <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:text-white active:scale-90 transition-transform" aria-label="Menu">
-                <i data-lucide="menu" class="w-5 h-5"></i>
+            <button id="mobileMenuBtn" class="lg:hidden p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:text-white active:scale-90 transition-transform" aria-label="Menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
         </div>
     </div>
 
     <!-- Mobile Drawer -->
     <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-800 bg-navy-900/98 px-5 pt-4 pb-6 space-y-2">
-        <a href="#about" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">១. អំពីយើង (About)</a>
-        <a href="#books" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">២. សៀវភៅ (Books)</a>
-        <a href="#software" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៣. កម្មវិធី (Software)</a>
-        <a href="#publications" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
-        <a href="#leadership" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-sm transition-all">៥. ស្ថាបនិក (Founder)</a>
-        <a href="#exams" data-menu="exams" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-sm transition-all">៦. 📋 ការប្រឡង (Exams)</a>
-        
-        <div class="pt-3 grid grid-cols-2 gap-2">
-            <a href="mailto:contact@researchfoundation.top" class="col-span-2 py-2 rounded-xl bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
-                <i data-lucide="mail" class="w-3.5 h-3.5"></i> contact@researchfoundation.top
-            </a>
-            <a href="https://t.me/researchfound" target="_blank" class="py-2 rounded-xl bg-sky-950 border border-sky-500/30 text-sky-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
-                <i data-lucide="megaphone" class="w-3.5 h-3.5"></i> Channel
-            </a>
-            <a href="https://t.me/researchfounda" target="_blank" class="py-2 rounded-xl bg-teal-950 border border-teal-500/30 text-teal-300 text-center font-medium text-xs flex items-center justify-center gap-1.5">
-                <i data-lucide="users" class="w-3.5 h-3.5"></i> Group
-            </a>
-            <a href="https://t.me/Sokra25" target="_blank" class="col-span-2 py-2.5 rounded-xl bg-emerald-600 text-white text-center font-semibold text-xs flex items-center justify-center gap-2">
-                <i data-lucide="send" class="w-4 h-4"></i> ផ្ញើសារផ្ទាល់ Telegram (@Sokra25)
-            </a>
-        </div>
+        <a href="#about" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">១. អំពីយើង (About)</a>
+        <a href="#books" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">២. សៀវភៅ (Books)</a>
+        <a href="#software" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៣. កម្មវិធី (Software)</a>
+        <a href="#publications" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
+        <a href="#leadership" class="mobile-link nav-item block px-4 py-3 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៥. ស្ថាបនិក (Founder)</a>
+        <a href="#exams" data-menu="exams" class="mobile-link nav-item block px-4 py-3 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-base transition-all">៦. 📋 ការប្រឡង (Exams)</a>
     </div>
 </header>
 
