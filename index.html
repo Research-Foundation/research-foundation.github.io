@@ -294,75 +294,82 @@
     <span id="toast-message">បានរក្សាទុកដោយជោគជ័យ!</span>
 </div>
 
-<!-- TIDY NAVIGATION BAR (REORDERED TABS: ស្ថាបនិក TO THE LAST RIGHT SIDE) -->
+<!-- TIDY NAVIGATION BAR (WITH BILINGUAL KHMER / ENGLISH SWITCHER BUTTON) -->
 <header class="sticky top-0 z-40 glassmorphism transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-20 gap-4">
+        <div class="flex items-center justify-between h-20 gap-3">
             
             <!-- Logo area (Double click opens Admin Login) -->
-            <a href="#" ondblclick="event.preventDefault(); openLoginModal();" class="brand-glow-group flex items-center gap-3.5 group cursor-pointer transition-all duration-300 select-none shrink-0">
+            <a href="#" ondblclick="event.preventDefault(); openLoginModal();" class="brand-glow-group flex items-center gap-3 group cursor-pointer transition-all duration-300 select-none shrink-0">
                 <div class="relative flex items-center justify-center">
                     <img src="logo.png" alt="Research Foundation Logo" class="brand-logo-img w-11 h-11 object-contain rounded-xl transition-all duration-300 ease-out shadow-md shadow-amber-500/10" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0f172a/eab308?text=RF';">
                 </div>
                 <div class="leading-tight">
                     <span class="brand-title text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-1.5 transition-all duration-300 whitespace-nowrap">
-                        មូលដ្ឋានស្រាវជ្រាវ
-                        <span class="text-[10px] uppercase font-en tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-semibold">កម្ពុជា</span>
+                        <span data-i18n="brandName">មូលដ្ឋានស្រាវជ្រាវ</span>
+                        <span data-i18n="brandCountry" class="text-[10px] uppercase font-en tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-semibold">កម្ពុជា</span>
                     </span>
-                    <span class="block text-[11px] uppercase tracking-wider text-amber-400 font-semibold font-en whitespace-nowrap">
+                    <span data-i18n="brandSub" class="block text-[11px] uppercase tracking-wider text-amber-400 font-semibold font-en whitespace-nowrap">
                         Research Foundation • កំពង់ចាម
                     </span>
                 </div>
             </a>
 
             <!-- Enlarged 7 Menus Desktop Navigation -->
-            <nav id="desktopMenu" class="hidden lg:flex items-center gap-1 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs sm:text-sm lg:text-base font-medium text-slate-300 shadow-inner">
-                <a href="#about" data-menu="about" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+            <nav id="desktopMenu" class="hidden xl:flex items-center gap-1 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs sm:text-sm font-medium text-slate-300 shadow-inner">
+                <a href="#about" data-menu="about" class="nav-item px-3 py-2 rounded-xl border border-transparent hover:border-emerald-500/30 hover:text-emerald-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="info" class="w-4 h-4 text-emerald-400"></i>
-                    <span>អំពីយើង</span>
+                    <span data-i18n="navAbout">អំពីយើង</span>
                 </a>
-                <a href="#books" data-menu="books" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#books" data-menu="books" class="nav-item px-3 py-2 rounded-xl border border-transparent hover:border-amber-500/30 hover:text-amber-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="book" class="w-4 h-4 text-amber-400"></i>
-                    <span>សៀវភៅ</span>
+                    <span data-i18n="navBooks">សៀវភៅ</span>
                 </a>
-                <a href="#software" data-menu="software" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#software" data-menu="software" class="nav-item px-3 py-2 rounded-xl border border-transparent hover:border-cyan-500/30 hover:text-cyan-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="laptop" class="w-4 h-4 text-cyan-400"></i>
-                    <span>កម្មវិធី</span>
+                    <span data-i18n="navSoftware">កម្មវិធី</span>
                 </a>
-                <a href="#publications" data-menu="publications" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#publications" data-menu="publications" class="nav-item px-3 py-2 rounded-xl border border-transparent hover:border-purple-500/30 hover:text-purple-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="newspaper" class="w-4 h-4 text-purple-400"></i>
-                    <span>អត្ថបទបោះពុម្ព</span>
+                    <span data-i18n="navPublications">អត្ថបទបោះពុម្ព</span>
                 </a>
-                <a href="#exams" data-menu="exams" class="nav-item px-3.5 py-2 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#exams" data-menu="exams" class="nav-item px-3 py-2 rounded-xl border border-orange-500/30 hover:border-orange-400/60 hover:text-orange-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-400"></i>
-                    <span>ការប្រឡង</span>
+                    <span data-i18n="navExams">ការប្រឡង</span>
                 </a>
-                <a href="#training" data-menu="training" class="nav-item px-3.5 py-2 rounded-xl border border-sky-500/30 hover:border-sky-400/60 hover:text-sky-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#training" data-menu="training" class="nav-item px-3 py-2 rounded-xl border border-sky-500/30 hover:border-sky-400/60 hover:text-sky-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="graduation-cap" class="w-4 h-4 text-sky-400"></i>
-                    <span>វគ្គបណ្តុះបណ្តាល</span>
+                    <span data-i18n="navTraining">វគ្គបណ្តុះបណ្តាល</span>
                 </a>
-                <a href="#leadership" data-menu="leadership" class="nav-item px-3.5 py-2 rounded-xl border border-transparent hover:border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <a href="#leadership" data-menu="leadership" class="nav-item px-3 py-2 rounded-xl border border-transparent hover:border-rose-500/30 hover:text-rose-300 transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i data-lucide="user" class="w-4 h-4 text-rose-400"></i>
-                    <span>ស្ថាបនិក</span>
+                    <span data-i18n="navFounder">ស្ថាបនិក</span>
                 </a>
             </nav>
 
-            <!-- Mobile Hamburger -->
-            <button id="mobileMenuBtn" class="lg:hidden p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:text-white active:scale-90 transition-transform" aria-label="Menu">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
+            <!-- Right Controls: Language Switcher Button + Mobile Hamburger -->
+            <div class="flex items-center gap-2 shrink-0">
+                <button id="langToggleBtn" onclick="toggleLanguage()" class="px-3 py-2 rounded-xl bg-slate-900/95 hover:bg-slate-800 border border-amber-500/40 text-amber-300 font-semibold text-xs flex items-center gap-1.5 transition-all active:scale-95 shadow-md" title="ប្តូរភាសា / Switch Language">
+                    <i data-lucide="languages" class="w-4 h-4 text-amber-400"></i>
+                    <span id="langToggleText" class="font-en tracking-wide">EN</span>
+                </button>
+
+                <button id="mobileMenuBtn" class="xl:hidden p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:text-white active:scale-90 transition-transform" aria-label="Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Mobile Drawer -->
-    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-800 bg-navy-900/98 px-5 pt-4 pb-6 space-y-2">
-        <a href="#about" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">១. អំពីយើង (About)</a>
-        <a href="#books" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">២. សៀវភៅ (Books)</a>
-        <a href="#software" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៣. កម្មវិធី (Software)</a>
-        <a href="#publications" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
-        <a href="#exams" data-menu="exams" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-base transition-all">៥. 📋 ការប្រឡង (Exams)</a>
-        <a href="#training" data-menu="training" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-sky-300 border border-sky-500/30 font-medium text-base transition-all">៦. 🎓 វគ្គបណ្តុះបណ្តាល (Training)</a>
-        <a href="#leadership" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៧. ស្ថាបនិក (Founder)</a>
+    <div id="mobileMenu" class="hidden xl:hidden border-t border-slate-800 bg-navy-900/98 px-5 pt-4 pb-6 space-y-2">
+        <a href="#about" data-menu="about" data-i18n="mobAbout" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">១. អំពីយើង (About)</a>
+        <a href="#books" data-menu="books" data-i18n="mobBooks" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">២. សៀវភៅ (Books)</a>
+        <a href="#software" data-menu="software" data-i18n="mobSoftware" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៣. កម្មវិធី (Software)</a>
+        <a href="#publications" data-menu="publications" data-i18n="mobPublications" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៤. អត្ថបទបោះពុម្ព (Publications)</a>
+        <a href="#exams" data-menu="exams" data-i18n="mobExams" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-orange-300 border border-orange-500/30 font-medium text-base transition-all">៥. 📋 ការប្រឡង (Exams)</a>
+        <a href="#training" data-menu="training" data-i18n="mobTraining" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-sky-300 border border-sky-500/30 font-medium text-base transition-all">៦. 🎓 វគ្គបណ្តុះបណ្តាល (Training)</a>
+        <a href="#leadership" data-menu="leadership" data-i18n="mobFounder" class="mobile-link nav-item block px-4 py-2.5 rounded-xl text-slate-300 border border-transparent font-medium text-base transition-all">៧. ស្ថាបនិក (Founder)</a>
     </div>
 </header>
 
@@ -372,14 +379,14 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-center space-y-6">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ ការប្រឡង និងវគ្គបណ្តុះបណ្តាល</span>
+            <span data-i18n="heroBadge">សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ ការប្រឡង និងវគ្គបណ្តុះបណ្តាល</span>
         </div>
 
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            មូលដ្ឋានស្រាវជ្រាវ <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">Research Foundation Cambodia</span>
+            <span data-i18n="heroTitleMain">មូលដ្ឋានស្រាវជ្រាវ</span> <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">Research Foundation Cambodia</span>
         </h1>
 
-        <p class="text-slate-300 text-sm sm:text-base max-w-3xl mx-auto leading-relaxed font-light">
+        <p data-i18n="heroDesc" class="text-slate-300 text-sm sm:text-base max-w-3xl mx-auto leading-relaxed font-light">
             មូលដ្ឋានស្រាវជ្រាវ លើកកម្ពស់ចំណេះដឹងស្រាវជ្រាវ វិទ្យាសាស្ត្រស្ថិតិ និងជួយបង្កើនសមត្ថភាព សិស្ស និស្សិត លោកគ្រូអ្នកគ្រូ អ្នកស្រាវជ្រាវ បុគ្គលិក និង សាស្ត្រាចារ្យ។
         </p>
 
@@ -398,22 +405,22 @@
             </a>
             <a href="https://t.me/Sokra25" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-amber-500/40 text-amber-300 hover:bg-slate-800 transition-colors text-xs font-medium">
                 <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i>
-                <span>ផ្ទាល់ខ្លួន: <strong>@Sokra25</strong></span>
+                <span><span data-i18n="personalLabel">ផ្ទាល់ខ្លួន</span>: <strong>@Sokra25</strong></span>
             </a>
         </div>
 
         <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
             <a href="#books" class="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-semibold text-xs sm:text-sm transition-all shadow-lg shadow-amber-950/50 flex items-center gap-2">
-                <i data-lucide="shopping-cart" class="w-4 h-4"></i> មើលសៀវភៅសម្រាប់លក់
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i> <span data-i18n="heroBtnBooks">មើលសៀវភៅសម្រាប់លក់</span>
             </a>
             <button onclick="openSoftwareShowcaseModal()" class="px-6 py-3 rounded-xl border border-cyan-500/60 bg-cyan-950/40 hover:bg-cyan-900/40 active:scale-95 text-cyan-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-cyan-950/40">
-                <i data-lucide="cpu" class="w-4 h-4 text-cyan-400 animate-pulse"></i> កម្មវិធី RF Analyzer v6.0 (Showcase)
+                <i data-lucide="cpu" class="w-4 h-4 text-cyan-400 animate-pulse"></i> <span data-i18n="heroBtnSoftware">កម្មវិធី RF Analyzer v6.0 (Showcase)</span>
             </button>
             <a href="#exams" class="px-6 py-3 rounded-xl border border-orange-500/50 bg-orange-950/30 hover:bg-orange-900/40 active:scale-95 text-orange-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-orange-950/40">
-                <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-400"></i> មជ្ឈមណ្ឌលប្រឡងតេស្ត
+                <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-400"></i> <span data-i18n="heroBtnExams">មជ្ឈមណ្ឌលប្រឡងតេស្ត</span>
             </a>
             <a href="#training" class="px-6 py-3 rounded-xl border border-sky-500/50 bg-sky-950/30 hover:bg-sky-900/40 active:scale-95 text-sky-300 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-lg shadow-sky-950/40">
-                <i data-lucide="graduation-cap" class="w-4 h-4 text-sky-400"></i> វគ្គបណ្តុះបណ្តាល
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-sky-400"></i> <span data-i18n="heroBtnTraining">វគ្គបណ្តុះបណ្តាល</span>
             </a>
         </div>
     </section>
@@ -424,7 +431,7 @@
             <div class="lg:col-span-7 space-y-6">
                 <div class="flex items-center justify-between">
                     <div class="text-emerald-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
-                        <i data-lucide="info" class="w-4 h-4"></i> ១. អំពីយើង (About Research Foundation)
+                        <i data-lucide="info" class="w-4 h-4"></i> <span data-i18n="aboutEyebrow">១. អំពីយើង (About Research Foundation)</span>
                     </div>
                     <button class="edit-only hidden px-2.5 py-1 text-xs rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500 hover:text-navy-950 transition-all" onclick="openEditAboutModal()">
                         <i data-lucide="pencil" class="w-3.5 h-3.5 inline mr-1"></i> កែសម្រួលអំពីយើង
@@ -445,24 +452,24 @@
                     </p>
 
                     <ul id="aboutPillars" class="space-y-3 pl-4 border-l-2 border-emerald-500/40 text-xs sm:text-sm text-slate-300">
-                        <li>• <strong class="text-white">ការស្រាវជ្រាវផ្នែកបច្ចេកវិទ្យាជីវៈ (Biotechnology)៖</strong> <span id="aboutP1Text"></span></li>
-                        <li>• <strong class="text-white">ការកែច្នៃកាកសំណល់អនុផលកសិ-ឧស្សាហកម្ម (Agro-Industrial Valorization)៖</strong> <span id="aboutP2Text"></span></li>
-                        <li>• <strong class="text-white">ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ (Biostatistics & Computation)៖</strong> <span id="aboutP3Text"></span></li>
+                        <li>• <strong class="text-white" data-i18n="pillar1Title">ការស្រាវជ្រាវផ្នែកបច្ចេកវិទ្យាជីវៈ (Biotechnology)៖</strong> <span id="aboutP1Text"></span></li>
+                        <li>• <strong class="text-white" data-i18n="pillar2Title">ការកែច្នៃកាកសំណល់អនុផលកសិ-ឧស្សាហកម្ម (Agro-Industrial Valorization)៖</strong> <span id="aboutP2Text"></span></li>
+                        <li>• <strong class="text-white" data-i18n="pillar3Title">ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ (Biostatistics & Computation)៖</strong> <span id="aboutP3Text"></span></li>
                     </ul>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                     <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60 text-center hover:border-amber-500/30 transition-colors">
                         <div class="text-amber-400 font-bold text-lg font-en">KNOWLEDGE</div>
-                        <div class="text-xs text-slate-400 mt-1">ចំណេះដឹងវិទ្យាសាស្ត្រពិត</div>
+                        <div data-i18n="valKnowledge" class="text-xs text-slate-400 mt-1">ចំណេះដឹងវិទ្យាសាស្ត្រពិត</div>
                     </div>
                     <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60 text-center hover:border-emerald-500/30 transition-colors">
                         <div class="text-emerald-400 font-bold text-lg font-en">INNOVATION</div>
-                        <div class="text-xs text-slate-400 mt-1">នវានុវត្តន៍ & សូហ្វវែរ</div>
+                        <div data-i18n="valInnovation" class="text-xs text-slate-400 mt-1">នវានុវត្តន៍ & សូហ្វវែរ</div>
                     </div>
                     <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60 text-center hover:border-cyan-500/30 transition-colors">
                         <div class="text-cyan-400 font-bold text-lg font-en">IMPACT</div>
-                        <div class="text-xs text-slate-400 mt-1">ផលជះវិជ្ជមានសង្គម</div>
+                        <div data-i18n="valImpact" class="text-xs text-slate-400 mt-1">ផលជះវិជ្ជមានសង្គម</div>
                     </div>
                 </div>
             </div>
@@ -474,30 +481,30 @@
                             <i data-lucide="target" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-white">ទស្សនវិស័យ & បេសកកម្ម</h3>
+                            <h3 data-i18n="missionHeading" class="text-base font-bold text-white">ទស្សនវិស័យ & បេសកកម្ម</h3>
                             <p class="text-xs text-slate-400 font-en">Research Foundation Mission</p>
                         </div>
                     </div>
                     <ul class="space-y-4 text-xs sm:text-sm text-slate-300 font-light">
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span>បង្កើតដំណោះស្រាយកសិកម្មបៃតង កាត់បន្ថយការប្រើប្រាស់ជីគីមីដែលបំផ្លាញដី។</span>
+                            <span data-i18n="missionPoint1">បង្កើតដំណោះស្រាយកសិកម្មបៃតង កាត់បន្ថយការប្រើប្រាស់ជីគីមីដែលបំផ្លាញដី។</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span>ជួយសម្រួលដល់និស្សិត និងអ្នកស្រាវជ្រាវកម្ពុជា ឱ្យមានលទ្ធភាពទទួលបានសៀវភៅ និងកម្មវិធីស្ថិតិងាយស្រួលប្រើប្រាស់។</span>
+                            <span data-i18n="missionPoint2">ជួយសម្រួលដល់និស្សិត និងអ្នកស្រាវជ្រាវកម្ពុជា ឱ្យមានលទ្ធភាពទទួលបានសៀវភៅ និងកម្មវិធីស្ថិតិងាយស្រួលប្រើប្រាស់។</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span>លើកកម្ពស់ស្នាដៃស្រាវជ្រាវជាតិលើឆាកអន្តរជាតិតាមរយៈការបោះពុម្ពផ្សាយបែប Peer-Reviewed។</span>
+                            <span data-i18n="missionPoint3">លើកកម្ពស់ស្នាដៃស្រាវជ្រាវជាតិលើឆាកអន្តរជាតិតាមរយៈការបោះពុម្ពផ្សាយបែប Peer-Reviewed។</span>
                         </li>
                     </ul>
 
                     <div class="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30 flex items-center gap-3">
                         <i data-lucide="map-pin" class="w-6 h-6 text-emerald-400 shrink-0"></i>
                         <div class="text-xs">
-                            <div class="font-bold text-white">ទីតាំងប្រតិបត្តិការស្នូល</div>
-                            <div class="text-slate-400">ខេត្តកំពង់ចាម & រាជធានីភ្នំពេញ, ព្រះរាជាណាចក្រកម្ពុជា</div>
+                            <div data-i18n="coreLocationTitle" class="font-bold text-white">ទីតាំងប្រតិបត្តិការស្នូល</div>
+                            <div data-i18n="coreLocationDesc" class="text-slate-400">ខេត្តកំពង់ចាម & រាជធានីភ្នំពេញ, ព្រះរាជាណាចក្រកម្ពុជា</div>
                         </div>
                     </div>
                 </div>
@@ -510,10 +517,10 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
             <div>
                 <div class="text-amber-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
-                    <i data-lucide="book-open" class="w-4 h-4"></i> ២. សៀវភៅសម្រាប់លក់ (Publications & Books)
+                    <i data-lucide="book-open" class="w-4 h-4"></i> <span data-i18n="booksEyebrow">២. សៀវភៅសម្រាប់លក់ (Publications & Books)</span>
                 </div>
-                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">សៀវភៅសិក្សាស្រាវជ្រាវ & ការវិភាគទិន្នន័យ</h2>
-                <p class="text-xs text-slate-400 mt-2">
+                <h2 data-i18n="booksHeading" class="text-2xl sm:text-4xl font-bold text-white mt-1">សៀវភៅសិក្សាស្រាវជ្រាវ & ការវិភាគទិន្នន័យ</h2>
+                <p data-i18n="booksSubheading" class="text-xs text-slate-400 mt-2">
                     សៀវភៅបោះពុម្ពជាភាសាខ្មែរ រៀបចំតាមស្តង់ដារបច្ចេកទេស និងក្បួនវិទ្យាសាស្ត្រជាក់ស្តែង (មានទាំងសៀវភៅពុម្ព Hard Copy, PDF Soft Copy និងមាតិកា PDF សម្រាប់មើល)
                 </p>
             </div>
@@ -534,14 +541,14 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
                 <div class="text-cyan-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
-                    <i data-lucide="cpu" class="w-4 h-4"></i> ៣. កម្មវិធី និងអាជ្ញាប័ណ្ណ (Scientific Software)
+                    <i data-lucide="cpu" class="w-4 h-4"></i> <span data-i18n="softEyebrow">៣. កម្មវិធី និងអាជ្ញាប័ណ្ណ (Scientific Software)</span>
                 </div>
-                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីស្ថិតិ & ឧបករណ៍ស្រាវជ្រាវសម្រាប់លក់ និងទាញយកឥតគិតថ្លៃ</h2>
-                <p class="text-slate-400 text-sm mt-1">កម្មវិធី និងឯកសារគណនាស្ថិតិដែលត្រូវបានបង្កើតឡើងយ៉ាងសម្រិតសម្រាំងសម្រាប់អ្នកស្រាវជ្រាវ និងនិស្សិតកម្ពុជា</p>
+                <h2 data-i18n="softHeading" class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីស្ថិតិ & ឧបករណ៍ស្រាវជ្រាវសម្រាប់លក់ និងទាញយកឥតគិតថ្លៃ</h2>
+                <p data-i18n="softSubheading" class="text-slate-400 text-sm mt-1">កម្មវិធី និងឯកសារគណនាស្ថិតិដែលត្រូវបានបង្កើតឡើងយ៉ាងសម្រិតសម្រាំងសម្រាប់អ្នកស្រាវជ្រាវ និងនិស្សិតកម្ពុជា</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button onclick="openSoftwareShowcaseModal()" class="px-3.5 py-2 rounded-xl bg-cyan-950 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
-                    <i data-lucide="eye" class="w-4 h-4"></i> មើល Showcase & ផ្ទៀងផ្ទាត់
+                    <i data-lucide="eye" class="w-4 h-4"></i> <span data-i18n="softBtnShowcaseTop">មើល Showcase & ផ្ទៀងផ្ទាត់</span>
                 </button>
                 <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openNewSoftwareModal()">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i> បន្ថែមកម្មវិធីថ្មី (Upload File)
@@ -569,7 +576,7 @@
                         <img id="mainSoftwareImg" src="https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0" alt="RF Analyzer Screenshot" class="w-full h-full object-contain rounded-xl shadow-lg transition-transform duration-300 group-hover/soft:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0';">
                         
                         <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/soft:opacity-100 flex items-center justify-center transition-opacity text-xs text-cyan-300 font-semibold gap-1.5 backdrop-blur-xs">
-                            <i data-lucide="maximize-2" class="w-4 h-4"></i> ចុចមើល Showcase & ក្រាហ្វិក
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i> <span data-i18n="softImgOverlay">ចុចមើល Showcase & ក្រាហ្វិក</span>
                         </div>
 
                         <button class="edit-only hidden absolute inset-0 bg-slate-950/85 text-cyan-300 text-xs font-medium flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover/soft:opacity-100 transition-opacity backdrop-blur-sm" onclick="event.stopPropagation(); triggerDirectMainSoftwareUpload()">
@@ -589,19 +596,19 @@
                         <div id="mainSoftwareFeatures" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300 pt-2 font-mono">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
-                                <span>កម្មវិធីសាមញ្ញ ងាយស្រួលប្រើប្រាស់ សុវត្ថិភាពទិន្នន័យ</span>
+                                <span data-i18n="softFeat1">កម្មវិធីសាមញ្ញ ងាយស្រួលប្រើប្រាស់ សុវត្ថិភាពទិន្នន័យ</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
-                                <span>នាំចេញលទ្ធផលជា Excel & Word ស្អាតស្រាប់</span>
+                                <span data-i18n="softFeat2">នាំចេញលទ្ធផលជា Excel & Word ស្អាតស្រាប់</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
-                                <span>វិភាគ និងបកស្រាយលទ្ធផលស្វ័យប្រវត្តិ</span>
+                                <span data-i18n="softFeat3">វិភាគ និងបកស្រាយលទ្ធផលស្វ័យប្រវត្តិ</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <i data-lucide="check" class="w-4 h-4 text-cyan-400"></i>
-                                <span>គាំទ្រទាំងភាសាខ្មែរ</span>
+                                <span data-i18n="softFeat4">គាំទ្រទាំងភាសាខ្មែរ និងអង់គ្លេស</span>
                             </div>
                         </div>
                     </div>
@@ -610,15 +617,15 @@
 
             <div class="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                    <div class="text-xs text-slate-400">តម្លៃអាជ្ញាប័ណ្ណកម្មវិធី (License Key)</div>
+                    <div data-i18n="softLicenseLabel" class="text-xs text-slate-400">តម្លៃអាជ្ញាប័ណ្ណកម្មវិធី (License Key)</div>
                     <div id="mainSoftwarePrice" class="text-xl sm:text-2xl font-bold text-cyan-400 font-en">ទាក់ទងតម្លៃពិសេសសម្រាប់និស្សិត / សាកលវិទ្យាល័យ</div>
                 </div>
                 <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
                     <button onclick="openSoftwareShowcaseModal()" class="w-full sm:w-auto px-5 py-3 rounded-xl border border-cyan-500/40 bg-slate-900 hover:bg-slate-800 text-cyan-300 font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="bar-chart-2" class="w-4 h-4"></i> មើលមុខងារស្ថិតិ
+                        <i data-lucide="bar-chart-2" class="w-4 h-4"></i> <span data-i18n="softBtnFeatures">មើលមុខងារស្ថិតិ</span>
                     </button>
                     <a id="mainSoftwareOrderBtn" href="https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចាប់អារម្មណ៍អាជ្ញាប័ណ្ណកម្មវិធី%20RF%20Analyzer%20v6.0" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 active:scale-95 text-white font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-950/50">
-                        <i data-lucide="key" class="w-4 h-4"></i> ទិញអាជ្ញាប័ណ្ណ (@Sokra25)
+                        <i data-lucide="key" class="w-4 h-4"></i> <span data-i18n="softBtnBuyLicense">ទិញអាជ្ញាប័ណ្ណ (@Sokra25)</span>
                     </a>
                 </div>
             </div>
@@ -627,7 +634,7 @@
         <div>
             <div class="flex items-center justify-between mb-5">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i> កម្មវិធី ឯកសារគណនា & ឧបករណ៍ជំនួយស្រាវជ្រាវ (Apps, Templates & Tools)
+                    <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i> <span data-i18n="subSoftHeading">កម្មវិធី ឯកសារគណនា & ឧបករណ៍ជំនួយស្រាវជ្រាវ (Apps, Templates & Tools)</span>
                 </h3>
                 <span class="text-xs text-slate-400 font-mono" id="subSoftwareCount"></span>
             </div>
@@ -642,10 +649,10 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
             <div>
                 <div class="text-purple-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
-                    <i data-lucide="newspaper" class="w-4 h-4"></i> ៤. អត្ថបទបោះពុម្ព (Publications & Scholar)
+                    <i data-lucide="newspaper" class="w-4 h-4"></i> <span data-i18n="pubEyebrow">៤. អត្ថបទបោះពុម្ព (Publications & Scholar)</span>
                 </div>
-                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">ស្នាដៃសិក្សាស្រាវជ្រាវបោះពុម្ពផ្សាយ</h2>
-                <p class="text-xs text-slate-400 mt-1">ការស្រាវជ្រាវបែប Peer-Reviewed លើទស្សនាវដ្តីវិទ្យាសាស្ត្រជាតិ និងអន្តរជាតិ</p>
+                <h2 data-i18n="pubHeading" class="text-2xl sm:text-4xl font-bold text-white mt-1">ស្នាដៃសិក្សាស្រាវជ្រាវបោះពុម្ពផ្សាយ</h2>
+                <p data-i18n="pubSubheading" class="text-xs text-slate-400 mt-1">ការស្រាវជ្រាវបែប Peer-Reviewed លើទស្សនាវដ្តីវិទ្យាសាស្ត្រជាតិ និងអន្តរជាតិ</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-purple-500/20 border border-purple-500/50 text-purple-300 hover:bg-purple-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openNewPubModal()">
@@ -668,10 +675,10 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
             <div>
                 <div class="text-orange-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
-                    <i data-lucide="clipboard-check" class="w-4 h-4"></i> ៥. មជ្ឈមណ្ឌលប្រឡង និងតេស្តសមត្ថភាព (Exams & Assessment)
+                    <i data-lucide="clipboard-check" class="w-4 h-4"></i> <span data-i18n="examsEyebrow">៥. មជ្ឈមណ្ឌលប្រឡង និងតេស្តសមត្ថភាព (Exams & Assessment)</span>
                 </div>
-                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">ប្រព័ន្ធប្រឡងវាស់ស្ទង់ចំណេះដឹងវិទ្យាសាស្ត្រ</h2>
-                <p class="text-xs text-slate-400 mt-2">
+                <h2 data-i18n="examsHeading" class="text-2xl sm:text-4xl font-bold text-white mt-1">ប្រព័ន្ធប្រឡងវាស់ស្ទង់ចំណេះដឹងវិទ្យាសាស្ត្រ</h2>
+                <p data-i18n="examsSubheading" class="text-xs text-slate-400 mt-2">
                     ជ្រើសរើសមុខវិជ្ជាខាងក្រោមដើម្បីចាប់ផ្តើមធ្វើតេស្តចំណេះដឹងតាមប្រព័ន្ធកំណត់ម៉ោង និងគណនាពិន្ទុស្វ័យប្រវត្តិ
                 </p>
             </div>
@@ -687,17 +694,17 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
             <div>
                 <div class="text-sky-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
-                    <i data-lucide="graduation-cap" class="w-4 h-4"></i> ៦. វគ្គបណ្តុះបណ្តាល & សិក្ខាសាលា (Training & Courses)
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i> <span data-i18n="trainEyebrow">៦. វគ្គបណ្តុះបណ្តាល & សិក្ខាសាលា (Training & Courses)</span>
                 </div>
-                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីបណ្តុះបណ្តាលជំនាញស្រាវជ្រាវ & ស្ថិតិវិទ្យាសាស្ត្រ</h2>
-                <p class="text-xs text-slate-400 mt-2">
+                <h2 data-i18n="trainHeading" class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីបណ្តុះបណ្តាលជំនាញស្រាវជ្រាវ & ស្ថិតិវិទ្យាសាស្ត្រ</h2>
+                <p data-i18n="trainSubheading" class="text-xs text-slate-400 mt-2">
                     វគ្គសិក្សាជំនាញជាក់ស្តែង ការរៀបចំទិន្នន័យ ការវិភាគតាមកម្មវិធីស្ថិតិ និងការសរសេរអត្ថបទស្រាវជ្រាវបែបស្តង់ដារ
                 </p>
             </div>
         </div>
 
         <div id="trainingGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-            <!-- Populated via Javascript (Similar to Exams with external open in new tab) -->
+            <!-- Populated via Javascript -->
         </div>
     </section>
 
@@ -705,10 +712,10 @@
     <section id="leadership" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
         <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
             <div class="text-rose-400 text-xs uppercase font-bold tracking-widest flex items-center justify-center gap-2">
-                <i data-lucide="user" class="w-4 h-4"></i> ៧. ស្ថាបនិក និងអ្នកដឹកនាំស្រាវជ្រាវ (Founder Profile)
+                <i data-lucide="user" class="w-4 h-4"></i> <span data-i18n="founderEyebrow">៧. ស្ថាបនិក និងអ្នកដឹកនាំស្រាវជ្រាវ (Founder Profile)</span>
             </div>
-            <h2 class="text-3xl font-bold text-white">ស្ថាបនិកមូលដ្ឋានស្រាវជ្រាវ</h2>
-            <p class="text-slate-400 text-sm">អ្នកជំនាញជីវបច្ចេកវិទ្យាជីវៈ ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ</p>
+            <h2 data-i18n="founderHeading" class="text-3xl font-bold text-white">ស្ថាបនិកមូលដ្ឋានស្រាវជ្រាវ</h2>
+            <p data-i18n="founderSubheading" class="text-slate-400 text-sm">អ្នកជំនាញជីវបច្ចេកវិទ្យាជីវៈ ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ</p>
         </div>
 
         <div class="max-w-3xl mx-auto">
@@ -767,8 +774,8 @@
             <div class="flex items-center gap-3">
                 <img src="logo.png" alt="Research Foundation" class="w-10 h-10 object-contain rounded-xl" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0f172a/eab308?text=RF';">
                 <div>
-                    <span class="font-bold text-white text-sm">មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)</span>
-                    <p class="text-[10px] text-amber-400 font-en">Knowledge • Innovation • Impact • ខេត្តកំពង់ចាម</p>
+                    <span data-i18n="footerTitle" class="font-bold text-white text-sm">មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)</span>
+                    <p data-i18n="footerSub" class="text-[10px] text-amber-400 font-en">Knowledge • Innovation • Impact • ខេត្តកំពង់ចាម</p>
                 </div>
             </div>
 
@@ -790,13 +797,13 @@
 
         <div class="border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex flex-wrap items-center gap-5 text-[11px]">
-                <a href="#about" class="hover:text-emerald-400 transition-colors">១. អំពីយើង</a>
-                <a href="#books" class="hover:text-amber-400 transition-colors">២. សៀវភៅ</a>
-                <a href="#software" class="hover:text-cyan-400 transition-colors">៣. កម្មវិធី</a>
-                <a href="#publications" class="hover:text-purple-400 transition-colors">៤. អត្ថបទបោះពុម្ព</a>
-                <a href="#exams" class="hover:text-orange-400 transition-colors">៥. ការប្រឡង</a>
-                <a href="#training" class="hover:text-sky-400 transition-colors">៦. វគ្គបណ្តុះបណ្តាល</a>
-                <a href="#leadership" class="hover:text-rose-400 transition-colors">៧. ស្ថាបនិក</a>
+                <a href="#about" data-i18n="footNav1" class="hover:text-emerald-400 transition-colors">១. អំពីយើង</a>
+                <a href="#books" data-i18n="footNav2" class="hover:text-amber-400 transition-colors">២. សៀវភៅ</a>
+                <a href="#software" data-i18n="footNav3" class="hover:text-cyan-400 transition-colors">៣. កម្មវិធី</a>
+                <a href="#publications" data-i18n="footNav4" class="hover:text-purple-400 transition-colors">៤. អត្ថបទបោះពុម្ព</a>
+                <a href="#exams" data-i18n="footNav5" class="hover:text-orange-400 transition-colors">៥. ការប្រឡង</a>
+                <a href="#training" data-i18n="footNav6" class="hover:text-sky-400 transition-colors">៦. វគ្គបណ្តុះបណ្តាល</a>
+                <a href="#leadership" data-i18n="footNav7" class="hover:text-rose-400 transition-colors">៧. ស្ថាបនិក</a>
             </div>
 
             <p class="text-slate-500 font-en text-[11px]">
@@ -826,7 +833,7 @@
         <div id="examTimerBar" class="hidden items-center justify-between px-4 py-2.5 rounded-2xl bg-slate-950 border border-slate-800">
             <div class="flex items-center gap-2 text-xs text-slate-300">
                 <i data-lucide="clock" class="w-4 h-4 text-orange-400"></i>
-                <span>ពេលវេលានៅសល់៖</span>
+                <span data-i18n="examTimeLeft">ពេលវេលានៅសល់៖</span>
             </div>
             <span id="examTimerTxt" class="font-mono text-base font-bold text-sky-400">00:00</span>
         </div>
@@ -835,13 +842,13 @@
         <div id="examStartStep" class="space-y-4 text-xs sm:text-sm">
             <p id="examModalDesc" class="text-slate-300 leading-relaxed font-light"></p>
             <div class="space-y-1.5 pt-2">
-                <label class="block text-slate-300 font-medium">សូមបញ្ចូលឈ្មោះពេញរបស់បេក្ខជន ឬនិស្សិត *</label>
-                <input type="text" id="examStudentName" placeholder="ឈ្មោះនិស្សិត..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-orange-500 focus:outline-none">
+                <label data-i18n="examEnterNameLabel" class="block text-slate-300 font-medium">សូមបញ្ចូលឈ្មោះពេញរបស់បេក្ខជន ឬនិស្សិត *</label>
+                <input type="text" id="examStudentName" placeholder="ឈ្មោះនិស្សិត / Candidate Name..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm focus:border-orange-500 focus:outline-none">
             </div>
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
-                <button onclick="closeExamModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បោះបង់</button>
+                <button onclick="closeExamModal()" data-i18n="btnCancel" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បោះបង់</button>
                 <button onclick="launchExamSession()" class="px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-orange-950/60">
-                    <i data-lucide="play" class="w-4 h-4"></i> ចាប់ផ្តើមធ្វើតេស្ត
+                    <i data-lucide="play" class="w-4 h-4"></i> <span data-i18n="examStartBtn">ចាប់ផ្តើមធ្វើតេស្ត</span>
                 </button>
             </div>
         </div>
@@ -850,8 +857,8 @@
         <div id="examBodyStep" class="hidden space-y-6">
             <div id="examQuestionsContainer" class="space-y-6"></div>
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
-                <button onclick="if(confirm('តើអ្នកពិតជាចង់ផ្ញើចម្លើយបញ្ចប់តេស្តមែនទេ?')) finishExamSession()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-emerald-950/60">
-                    <i data-lucide="send" class="w-4 h-4"></i> បញ្ជូនចម្លើយបញ្ចប់តេស្ត
+                <button id="examSubmitAnswersBtn" onclick="confirmAndFinishExam()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-emerald-950/60">
+                    <i data-lucide="send" class="w-4 h-4"></i> <span data-i18n="examSubmitBtn">បញ្ជូនចម្លើយបញ្ចប់តេស្ត</span>
                 </button>
             </div>
         </div>
@@ -862,7 +869,7 @@
             <div id="examResultBadge" class="inline-block px-5 py-1.5 rounded-full text-xs font-bold font-mono"></div>
             <p id="examResultDetails" class="text-xs text-slate-400"></p>
             <div class="pt-4 flex justify-center">
-                <button onclick="closeExamModal()" class="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold">
+                <button onclick="closeExamModal()" data-i18n="examCloseResultBtn" class="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold">
                     បិទផ្ទាំងលទ្ធផល
                 </button>
             </div>
@@ -875,7 +882,7 @@
     <div class="bg-navy-900 border border-slate-700 w-full max-w-md rounded-3xl p-6 space-y-5 card-glass shadow-2xl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 id="orderModalBookTitle" class="text-base font-bold text-white flex items-center gap-2">
-                <i data-lucide="shopping-cart" class="w-5 h-5 text-amber-400"></i> កុម្ម៉ង់ទិញសៀវភៅ
+                <i data-lucide="shopping-cart" class="w-5 h-5 text-amber-400"></i> <span>កុម្ម៉ង់ទិញសៀវភៅ</span>
             </h3>
             <button onclick="closeOrderModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
                 <i data-lucide="x" class="w-5 h-5"></i>
@@ -895,26 +902,26 @@
             <div id="orderModalPdfDirectBox" class="hidden p-3.5 rounded-2xl bg-emerald-950/50 border border-emerald-500/40 space-y-2.5">
                 <div class="flex items-center justify-between text-xs">
                     <span class="font-bold text-emerald-300 flex items-center gap-1.5">
-                        <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i> មាតិកាសៀវភៅ PDF (Preview / Content)
+                        <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i> <span data-i18n="orderPdfBoxTitle">មាតិកាសៀវភៅ PDF (Preview / Content)</span>
                     </span>
                     <span id="orderModalPdfFileName" class="text-[11px] font-mono text-slate-400 truncate max-w-[140px]"></span>
                 </div>
                 <button id="orderModalPdfDownloadBtn" type="button" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 transition-all">
-                    <i data-lucide="eye" class="w-4 h-4"></i> បើកអាន / ទាញយក PDF (View / Download PDF)
+                    <i data-lucide="eye" class="w-4 h-4"></i> <span data-i18n="orderPdfBtn">បើកអាន / ទាញយក PDF (View / Download PDF)</span>
                 </button>
             </div>
 
             <div class="space-y-2">
-                <p class="text-slate-300 font-medium">ជ្រើសរើសមធ្យោបាយកុម្ម៉ង់ទិញ៖</p>
+                <p data-i18n="orderMethodLabel" class="text-slate-300 font-medium">ជ្រើសរើសមធ្យោបាយកុម្ម៉ង់ទិញ៖</p>
                 <a id="orderModalTgBtn" href="#" target="_blank" class="w-full p-3 rounded-xl bg-sky-950/60 hover:bg-sky-900/60 border border-sky-500/40 text-sky-200 flex items-center justify-between transition-all">
                     <span class="flex items-center gap-2 font-medium">
-                        <i data-lucide="send" class="w-4 h-4 text-sky-400"></i> កុម្ម៉ង់ភ្លាមៗតាម Telegram (@Sokra25)
+                        <i data-lucide="send" class="w-4 h-4 text-sky-400"></i> <span data-i18n="orderViaTg">កុម្ម៉ង់ភ្លាមៗតាម Telegram (@Sokra25)</span>
                     </span>
                     <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
                 <a id="orderModalEmailBtn" href="#" class="w-full p-3 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-200 flex items-center justify-between transition-all font-mono">
                     <span class="flex items-center gap-2">
-                        <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i> កុម្ម៉ង់តាម Official Email
+                        <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i> <span data-i18n="orderViaEmail">កុម្ម៉ង់តាម Official Email</span>
                     </span>
                     <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
@@ -922,14 +929,14 @@
 
             <div class="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 text-[11px] text-slate-400 space-y-1">
                 <div class="font-bold text-slate-300 flex items-center gap-1.5">
-                    <i data-lucide="qr-code" class="w-4 h-4 text-amber-400"></i> ការទូទាត់ប្រាក់ (Bakong KHQR / Cash)
+                    <i data-lucide="qr-code" class="w-4 h-4 text-amber-400"></i> <span data-i18n="orderPaymentTitle">ការទូទាត់ប្រាក់ (Bakong KHQR / Cash)</span>
                 </div>
-                <p>លោកអ្នកអាចផ្ញើសារមកកាន់ Telegram ឬ Email ខាងលើដើម្បីទទួល QR Code ស្កេនទូទាត់ប្រាក់តាមប្រព័ន្ធ Bakong ឬគណនីធនាគារក្នុងស្រុកដោយសុវត្ថិភាព។</p>
+                <p data-i18n="orderPaymentDesc">លោកអ្នកអាចផ្ញើសារមកកាន់ Telegram ឬ Email ខាងលើដើម្បីទទួល QR Code ស្កេនទូទាត់ប្រាក់តាមប្រព័ន្ធ Bakong ឬគណនីធនាគារក្នុងស្រុកដោយសុវត្ថិភាព។</p>
             </div>
         </div>
 
         <div class="flex justify-end pt-2 border-t border-slate-800">
-            <button onclick="closeOrderModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បិទផ្ទាំង</button>
+            <button onclick="closeOrderModal()" data-i18n="btnClose" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បិទផ្ទាំង</button>
         </div>
     </div>
 </div>
@@ -957,7 +964,7 @@
 
             <div class="space-y-2">
                 <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> លក្ខណៈបច្ចេកទេស និងម៉ូដែលស្ថិតិគាំទ្រ៖
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> <span data-i18n="showcaseModelsTitle">លក្ខណៈបច្ចេកទេស និងម៉ូដែលស្ថិតិគាំទ្រ៖</span>
                 </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-300 font-mono text-xs">
                     <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">• Completely Randomized Design (CRD)</div>
@@ -971,18 +978,18 @@
 
             <div class="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 space-y-1">
                 <div class="font-bold flex items-center gap-1.5 text-white">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> ផ្ទៀងផ្ទាត់សុក្រឹតភាព ១០០% ធៀបនឹង SAS & SPSS
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> <span data-i18n="showcaseVerifyTitle">ផ្ទៀងផ្ទាត់សុក្រឹតភាព ១០០% ធៀបនឹង SAS & SPSS</span>
                 </div>
-                <p>ម៉ាស៊ីនគណនាស្ថិតិត្រូវបានបង្កើតឡើងតាមក្បួនគណិតវិទ្យាសុទ្ធ ដោយផ្តល់តម្លៃ Sum of Squares, F-value, និង P-value ដូចគ្នាបេះបិទទៅនឹងកម្មវិធីស្តង់ដារអន្តរជាតិ ធានាការទទួលស្គាល់ ១០០% ក្នុងការបោះពុម្ពផ្សាយបែបវិទ្យាសាស្ត្រ។</p>
+                <p data-i18n="showcaseVerifyDesc">ម៉ាស៊ីនគណនាស្ថិតិត្រូវបានបង្កើតឡើងតាមក្បួនគណិតវិទ្យាសុទ្ធ ដោយផ្តល់តម្លៃ Sum of Squares, F-value, និង P-value ដូចគ្នាបេះបិទទៅនឹងកម្មវិធីស្តង់ដារអន្តរជាតិ ធានាការទទួលស្គាល់ ១០០% ក្នុងការបោះពុម្ពផ្សាយបែបវិទ្យាសាស្ត្រ។</p>
             </div>
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-800">
             <span class="text-xs text-slate-400 font-mono">Official Support: contact@researchfoundation.top</span>
             <div class="flex items-center gap-2">
-                <button onclick="closeSoftwareShowcaseModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បិទ</button>
+                <button onclick="closeSoftwareShowcaseModal()" data-i18n="btnCloseShort" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">បិទ</button>
                 <a href="https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចាប់អារម្មណ៍អាជ្ញាប័ណ្ណកម្មវិធី%20RF%20Analyzer%20v6.0" target="_blank" class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow-lg shadow-cyan-950/50">
-                    <i data-lucide="key" class="w-4 h-4"></i> សាកសួរទិញអាជ្ញាប័ណ្ណ (@Sokra25)
+                    <i data-lucide="key" class="w-4 h-4"></i> <span data-i18n="showcaseInquireBtn">សាកសួរទិញអាជ្ញាប័ណ្ណ (@Sokra25)</span>
                 </a>
             </div>
         </div>
@@ -1133,6 +1140,347 @@
     const PRIMARY_PASS_HASH = "8295b9a8cfd6f85ff53a3fc263cebe0ea238e8cb4fa99723ec0832442cf82dbf"; // Sokra@2026
     const BACKUP_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // admin123
 
+    // BILINGUAL DICTIONARY (KHMER / ENGLISH)
+    let currentLang = localStorage.getItem('RF_LANG') || 'km';
+
+    const I18N = {
+        km: {
+            brandName: "មូលដ្ឋានស្រាវជ្រាវ",
+            brandCountry: "កម្ពុជា",
+            brandSub: "Research Foundation • កំពង់ចាម",
+            navAbout: "អំពីយើង",
+            navBooks: "សៀវភៅ",
+            navSoftware: "កម្មវិធី",
+            navPublications: "អត្ថបទបោះពុម្ព",
+            navExams: "ការប្រឡង",
+            navTraining: "វគ្គបណ្តុះបណ្តាល",
+            navFounder: "ស្ថាបនិក",
+            mobAbout: "១. អំពីយើង (About)",
+            mobBooks: "២. សៀវភៅ (Books)",
+            mobSoftware: "៣. កម្មវិធី (Software)",
+            mobPublications: "៤. អត្ថបទបោះពុម្ព (Publications)",
+            mobExams: "៥. 📋 ការប្រឡង (Exams)",
+            mobTraining: "៦. 🎓 វគ្គបណ្តុះបណ្តាល (Training)",
+            mobFounder: "៧. ស្ថាបនិក (Founder)",
+            heroBadge: "សៀវភៅល្អៗជំនួយការសិក្សា កម្មវិធីស្ថិតិស្នាដៃកូនខ្មែរ ការស្រាវជ្រាវ ការប្រឡង និងវគ្គបណ្តុះបណ្តាល",
+            heroTitleMain: "មូលដ្ឋានស្រាវជ្រាវ",
+            heroDesc: "មូលដ្ឋានស្រាវជ្រាវ លើកកម្ពស់ចំណេះដឹងស្រាវជ្រាវ វិទ្យាសាស្ត្រស្ថិតិ និងជួយបង្កើនសមត្ថភាព សិស្ស និស្សិត លោកគ្រូអ្នកគ្រូ អ្នកស្រាវជ្រាវ បុគ្គលិក និង សាស្ត្រាចារ្យ។",
+            personalLabel: "ផ្ទាល់ខ្លួន",
+            heroBtnBooks: "មើលសៀវភៅសម្រាប់លក់",
+            heroBtnSoftware: "កម្មវិធី RF Analyzer v6.0 (Showcase)",
+            heroBtnExams: "មជ្ឈមណ្ឌលប្រឡងតេស្ត",
+            heroBtnTraining: "វគ្គបណ្តុះបណ្តាល",
+            aboutEyebrow: "១. អំពីយើង (About Research Foundation)",
+            pillar1Title: "ការស្រាវជ្រាវផ្នែកបច្ចេកវិទ្យាជីវៈ (Biotechnology)៖",
+            pillar2Title: "ការកែច្នៃកាកសំណល់អនុផលកសិ-ឧស្សាហកម្ម (Agro-Industrial Valorization)៖",
+            pillar3Title: "ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ (Biostatistics & Computation)៖",
+            valKnowledge: "ចំណេះដឹងវិទ្យាសាស្ត្រពិត",
+            valInnovation: "នវានុវត្តន៍ & សូហ្វវែរ",
+            valImpact: "ផលជះវិជ្ជមានសង្គម",
+            missionHeading: "ទស្សនវិស័យ & បេសកកម្ម",
+            missionPoint1: "បង្កើតដំណោះស្រាយកសិកម្មបៃតង កាត់បន្ថយការប្រើប្រាស់ជីគីមីដែលបំផ្លាញដី។",
+            missionPoint2: "ជួយសម្រួលដល់និស្សិត និងអ្នកស្រាវជ្រាវកម្ពុជា ឱ្យមានលទ្ធភាពទទួលបានសៀវភៅ និងកម្មវិធីស្ថិតិងាយស្រួលប្រើប្រាស់។",
+            missionPoint3: "លើកកម្ពស់ស្នាដៃស្រាវជ្រាវជាតិលើឆាកអន្តរជាតិតាមរយៈការបោះពុម្ពផ្សាយបែប Peer-Reviewed។",
+            coreLocationTitle: "ទីតាំងប្រតិបត្តិការស្នូល",
+            coreLocationDesc: "ខេត្តកំពង់ចាម & រាជធានីភ្នំពេញ, ព្រះរាជាណាចក្រកម្ពុជា",
+            booksEyebrow: "២. សៀវភៅសម្រាប់លក់ (Publications & Books)",
+            booksHeading: "សៀវភៅសិក្សាស្រាវជ្រាវ & ការវិភាគទិន្នន័យ",
+            booksSubheading: "សៀវភៅបោះពុម្ពជាភាសាខ្មែរ រៀបចំតាមស្តង់ដារបច្ចេកទេស និងក្បួនវិទ្យាសាស្ត្រជាក់ស្តែង (មានទាំងសៀវភៅពុម្ព Hard Copy, PDF Soft Copy និងមាតិកា PDF សម្រាប់មើល)",
+            viewPdfBtn: "អានមាតិកាសៀវភៅ (View PDF Content)",
+            hardCopySub: "សៀវភៅពុម្ព",
+            softEyebrow: "៣. កម្មវិធី និងអាជ្ញាប័ណ្ណ (Scientific Software)",
+            softHeading: "កម្មវិធីស្ថិតិ & ឧបករណ៍ស្រាវជ្រាវសម្រាប់លក់ និងទាញយកឥតគិតថ្លៃ",
+            softSubheading: "កម្មវិធី និងឯកសារគណនាស្ថិតិដែលត្រូវបានបង្កើតឡើងយ៉ាងសម្រិតសម្រាំងសម្រាប់អ្នកស្រាវជ្រាវ និងនិស្សិតកម្ពុជា",
+            softBtnShowcaseTop: "មើល Showcase & ផ្ទៀងផ្ទាត់",
+            softImgOverlay: "ចុចមើល Showcase & ក្រាហ្វិក",
+            softFeat1: "កម្មវិធីសាមញ្ញ ងាយស្រួលប្រើប្រាស់ សុវត្ថិភាពទិន្នន័យ",
+            softFeat2: "នាំចេញលទ្ធផលជា Excel & Word ស្អាតស្រាប់",
+            softFeat3: "វិភាគ និងបកស្រាយលទ្ធផលស្វ័យប្រវត្តិ",
+            softFeat4: "គាំទ្រទាំងភាសាខ្មែរ និងអង់គ្លេស",
+            softLicenseLabel: "តម្លៃអាជ្ញាប័ណ្ណកម្មវិធី (License Key)",
+            softBtnFeatures: "មើលមុខងារស្ថិតិ",
+            softBtnBuyLicense: "ទិញអាជ្ញាប័ណ្ណ (@Sokra25)",
+            subSoftHeading: "កម្មវិធី ឯកសារគណនា & ឧបករណ៍ជំនួយស្រាវជ្រាវ (Apps, Templates & Tools)",
+            totalToolsPrefix: "សរុប៖",
+            totalToolsSuffix: "ឧបករណ៍",
+            freeDownloadPrefix: "ទាញយកឥតគិតថ្លៃ",
+            toolPriceLabel: "តម្លៃកម្មវិធី",
+            toolInquireMore: "សាកសួរបន្ថែម",
+            toolOrderTg: "បញ្ជាទិញ (@Sokra25)",
+            pubEyebrow: "៤. អត្ថបទបោះពុម្ព (Publications & Scholar)",
+            pubHeading: "ស្នាដៃសិក្សាស្រាវជ្រាវបោះពុម្ពផ្សាយ",
+            pubSubheading: "ការស្រាវជ្រាវបែប Peer-Reviewed លើទស្សនាវដ្តីវិទ្យាសាស្ត្រជាតិ និងអន្តរជាតិ",
+            pubAuthorsLabel: "អ្នកនិពន្ធ៖",
+            examsEyebrow: "៥. មជ្ឈមណ្ឌលប្រឡង និងតេស្តសមត្ថភាព (Exams & Assessment)",
+            examsHeading: "ប្រព័ន្ធប្រឡងវាស់ស្ទង់ចំណេះដឹងវិទ្យាសាស្ត្រ",
+            examsSubheading: "ជ្រើសរើសមុខវិជ្ជាខាងក្រោមដើម្បីចាប់ផ្តើមធ្វើតេស្តចំណេះដឹងតាមប្រព័ន្ធកំណត់ម៉ោង និងគណនាពិន្ទុស្វ័យប្រវត្តិ",
+            examMinutes: "នាទី",
+            examQuestions: "សំណួរ",
+            examStartChip: "ប្រឡង",
+            trainEyebrow: "៦. វគ្គបណ្តុះបណ្តាល & សិក្ខាសាលា (Training & Courses)",
+            trainHeading: "កម្មវិធីបណ្តុះបណ្តាលជំនាញស្រាវជ្រាវ & ស្ថិតិវិទ្យាសាស្ត្រ",
+            trainSubheading: "វគ្គសិក្សាជំនាញជាក់ស្តែង ការរៀបចំទិន្នន័យ ការវិភាគតាមកម្មវិធីស្ថិតិ និងការសរសេរអត្ថបទស្រាវជ្រាវបែបស្តង់ដារ",
+            trainJoinChip: "ចូលរៀន",
+            founderEyebrow: "៧. ស្ថាបនិក និងអ្នកដឹកនាំស្រាវជ្រាវ (Founder Profile)",
+            founderHeading: "ស្ថាបនិកមូលដ្ឋានស្រាវជ្រាវ",
+            founderSubheading: "អ្នកជំនាញជីវបច្ចេកវិទ្យាជីវៈ ស្ថិតិវិទ្យាសាស្ត្រ និងការអភិវឌ្ឍន៍សូហ្វវែរ",
+            footerTitle: "មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)",
+            footerSub: "Knowledge • Innovation • Impact • ខេត្តកំពង់ចាម",
+            footNav1: "១. អំពីយើង",
+            footNav2: "២. សៀវភៅ",
+            footNav3: "៣. កម្មវិធី",
+            footNav4: "៤. អត្ថបទបោះពុម្ព",
+            footNav5: "៥. ការប្រឡង",
+            footNav6: "៦. វគ្គបណ្តុះបណ្តាល",
+            footNav7: "៧. ស្ថាបនិក",
+            examTimeLeft: "ពេលវេលានៅសល់៖",
+            examEnterNameLabel: "សូមបញ្ចូលឈ្មោះពេញរបស់បេក្ខជន ឬនិស្សិត *",
+            btnCancel: "បោះបង់",
+            examStartBtn: "ចាប់ផ្តើមធ្វើតេស្ត",
+            examSubmitBtn: "បញ្ជូនចម្លើយបញ្ចប់តេស្ត",
+            examCloseResultBtn: "បិទផ្ទាំងលទ្ធផល",
+            orderPrefix: "កុម្ម៉ង់",
+            orderHardLabel: "Hard Copy (សៀវភៅពុម្ព)",
+            orderSoftLabel: "Soft Copy (PDF E-Book)",
+            orderPdfBoxTitle: "មាតិកាសៀវភៅ PDF (Preview / Content)",
+            orderPdfBtn: "បើកអាន / ទាញយក PDF (View / Download PDF)",
+            orderMethodLabel: "ជ្រើសរើសមធ្យោបាយកុម្ម៉ង់ទិញ៖",
+            orderViaTg: "កុម្ម៉ង់ភ្លាមៗតាម Telegram (@Sokra25)",
+            orderViaEmail: "កុម្ម៉ង់តាម Official Email",
+            orderPaymentTitle: "ការទូទាត់ប្រាក់ (Bakong KHQR / Cash)",
+            orderPaymentDesc: "លោកអ្នកអាចផ្ញើសារមកកាន់ Telegram ឬ Email ខាងលើដើម្បីទទួល QR Code ស្កេនទូទាត់ប្រាក់តាមប្រព័ន្ធ Bakong ឬគណនីធនាគារក្នុងស្រុកដោយសុវត្ថិភាព។",
+            btnClose: "បិទផ្ទាំង",
+            btnCloseShort: "បិទ",
+            showcaseModelsTitle: "លក្ខណៈបច្ចេកទេស និងម៉ូដែលស្ថិតិគាំទ្រ៖",
+            showcaseVerifyTitle: "ផ្ទៀងផ្ទាត់សុក្រឹតភាព ១០០% ធៀបនឹង SAS & SPSS",
+            showcaseVerifyDesc: "ម៉ាស៊ីនគណនាស្ថិតិត្រូវបានបង្កើតឡើងតាមក្បួនគណិតវិទ្យាសុទ្ធ ដោយផ្តល់តម្លៃ Sum of Squares, F-value, និង P-value ដូចគ្នាបេះបិទទៅនឹងកម្មវិធីស្តង់ដារអន្តរជាតិ ធានាការទទួលស្គាល់ ១០០% ក្នុងការបោះពុម្ពផ្សាយបែបវិទ្យាសាស្ត្រ។",
+            showcaseInquireBtn: "សាកសួរទិញអាជ្ញាប័ណ្ណ (@Sokra25)"
+        },
+        en: {
+            brandName: "Research Foundation",
+            brandCountry: "Cambodia",
+            brandSub: "Research Foundation • Kampong Cham",
+            navAbout: "About Us",
+            navBooks: "Books",
+            navSoftware: "Software",
+            navPublications: "Publications",
+            navExams: "Exams",
+            navTraining: "Training",
+            navFounder: "Founder",
+            mobAbout: "1. About Us",
+            mobBooks: "2. Books",
+            mobSoftware: "3. Software",
+            mobPublications: "4. Publications",
+            mobExams: "5. 📋 Exams",
+            mobTraining: "6. 🎓 Training",
+            mobFounder: "7. Founder",
+            heroBadge: "Study Guides, Cambodian Statistical Software, Scientific Research, Exams & Training",
+            heroTitleMain: "Research Foundation",
+            heroDesc: "Advancing scientific research knowledge, biostatistics, and empowering students, teachers, researchers, staff, and university lecturers across Cambodia.",
+            personalLabel: "Personal",
+            heroBtnBooks: "Browse Books for Sale",
+            heroBtnSoftware: "RF Analyzer v6.0 (Showcase)",
+            heroBtnExams: "Assessment & Exam Center",
+            heroBtnTraining: "Training Courses",
+            aboutEyebrow: "1. ABOUT US (RESEARCH FOUNDATION)",
+            pillar1Title: "Agricultural Biotechnology & Fermentation:",
+            pillar2Title: "Agro-Industrial Valorization:",
+            pillar3Title: "Biostatistics & Software Development:",
+            valKnowledge: "Evidence-Based Science",
+            valInnovation: "Innovation & Software",
+            valImpact: "Community & Social Impact",
+            missionHeading: "Vision & Mission",
+            missionPoint1: "Develop sustainable green agricultural solutions that reduce reliance on soil-degrading chemical fertilizers.",
+            missionPoint2: "Provide Cambodian students and researchers with accessible textbooks and user-friendly statistical analysis software.",
+            missionPoint3: "Elevate national scientific research on the international stage through peer-reviewed publications.",
+            coreLocationTitle: "Core Operational Hubs",
+            coreLocationDesc: "Kampong Cham Province & Phnom Penh, Kingdom of Cambodia",
+            booksEyebrow: "2. PUBLICATIONS & BOOKS FOR SALE",
+            booksHeading: "Research Textbooks & Data Analysis Guides",
+            booksSubheading: "Scientifically structured textbooks and practical manuals available in Hard Copy, PDF Soft Copy, and open PDF table-of-contents preview.",
+            viewPdfBtn: "View Book Content (PDF Preview)",
+            hardCopySub: "Printed Book",
+            softEyebrow: "3. SCIENTIFIC SOFTWARE & TOOLS",
+            softHeading: "Statistical Software & Research Tools (Licensed & Free Downloads)",
+            softSubheading: "Purpose-built statistical software, templates, and automation scripts for Cambodian researchers and students.",
+            softBtnShowcaseTop: "View Showcase & Validation",
+            softImgOverlay: "Click to View Showcase & Charts",
+            softFeat1: "Simple, intuitive interface with local data privacy",
+            softFeat2: "Export publication-ready Excel & Word tables",
+            softFeat3: "Automated statistical narrative interpretation",
+            softFeat4: "Full Khmer and English language support",
+            softLicenseLabel: "Software License Key Pricing",
+            softBtnFeatures: "View Statistical Features",
+            softBtnBuyLicense: "Buy License (@Sokra25)",
+            subSoftHeading: "Software, Calculators & Research Tools (Apps, Templates & Scripts)",
+            totalToolsPrefix: "Total:",
+            totalToolsSuffix: "Tools",
+            freeDownloadPrefix: "Free Download",
+            toolPriceLabel: "Price",
+            toolInquireMore: "Inquire",
+            toolOrderTg: "Order (@Sokra25)",
+            pubEyebrow: "4. PEER-REVIEWED PUBLICATIONS & SCHOLAR",
+            pubHeading: "Published Scientific Research",
+            pubSubheading: "Peer-reviewed research articles published in national and international scientific journals.",
+            pubAuthorsLabel: "Authors:",
+            examsEyebrow: "5. EXAMS & ASSESSMENT CENTER",
+            examsHeading: "Scientific Knowledge Assessment System",
+            examsSubheading: "Select a subject below to begin a timed assessment test with automatic scoring.",
+            examMinutes: "mins",
+            examQuestions: "Questions",
+            examStartChip: "Start Exam",
+            trainEyebrow: "6. TRAINING & WORKSHOPS",
+            trainHeading: "Research Methodology & Biostatistics Training",
+            trainSubheading: "Hands-on training courses in experimental data preparation, statistical software analysis, and scientific paper writing.",
+            trainJoinChip: "Enroll",
+            founderEyebrow: "7. FOUNDER & PRINCIPAL INVESTIGATOR",
+            founderHeading: "Founder of Research Foundation",
+            founderSubheading: "Specialist in Biotechnology, Biostatistics, and Scientific Software Engineering",
+            footerTitle: "Research Foundation Cambodia",
+            footerSub: "Knowledge • Innovation • Impact • Kampong Cham",
+            footNav1: "1. About Us",
+            footNav2: "2. Books",
+            footNav3: "3. Software",
+            footNav4: "4. Publications",
+            footNav5: "5. Exams",
+            footNav6: "6. Training",
+            footNav7: "7. Founder",
+            examTimeLeft: "Time Remaining:",
+            examEnterNameLabel: "Please enter candidate or student full name *",
+            btnCancel: "Cancel",
+            examStartBtn: "Start Test",
+            examSubmitBtn: "Submit Answers",
+            examCloseResultBtn: "Close Results",
+            orderPrefix: "Order",
+            orderHardLabel: "Hard Copy (Printed Book)",
+            orderSoftLabel: "Soft Copy (PDF E-Book)",
+            orderPdfBoxTitle: "Book Content PDF (Preview / Content)",
+            orderPdfBtn: "View / Download PDF Content",
+            orderMethodLabel: "Choose your ordering method:",
+            orderViaTg: "Order Instantly via Telegram (@Sokra25)",
+            orderViaEmail: "Order via Official Email",
+            orderPaymentTitle: "Payment Methods (Bakong KHQR / Bank Transfer)",
+            orderPaymentDesc: "Message us on Telegram or Email above to receive a Bakong KHQR code or local bank account details for secure payment.",
+            btnClose: "Close",
+            btnCloseShort: "Close",
+            showcaseModelsTitle: "Technical Specifications & Supported Models:",
+            showcaseVerifyTitle: "100% Numerical Accuracy Verified Against SAS & SPSS",
+            showcaseVerifyDesc: "Built on verified mathematical algorithms producing identical Sum of Squares, F-values, and P-values to international standards, ensuring 100% reliability for scientific publication.",
+            showcaseInquireBtn: "Inquire About License (@Sokra25)"
+        }
+    };
+
+    const EN_CONTENT = {
+        about: {
+            title: "About Research Foundation Cambodia",
+            intro: "is a scientific research and educational initiative in Cambodia dedicated to bridging experimental science, practical agricultural field applications, and modern statistical data analysis.",
+            location: "Our primary research operations are based in Kampong Cham Province with academic collaborations in Phnom Penh, focusing on:",
+            p1: "Researching beneficial soil microorganisms (such as Trichoderma spp. and Bacillus spp.) to produce biofertilizers and natural biocontrol agents.",
+            p2: "Converting cassava peels, rice husks, and cashew residues into high-value organic composts and industrial enzymes.",
+            p3: "Authoring research textbooks and developing experimental statistical analysis software aligned with international publishing standards."
+        },
+        books: {
+            "b1": {
+                badge: "User Guide",
+                titleKh: "User Guide for RF Analyzer v6.0",
+                titleEn: "Research Foundation Analyzer v6.0",
+                desc: "Comprehensive guide to preparing datasets, running RF Analyzer v6.0, interpreting ANOVA, Split-Plot, and RCBD tables, and reading post-hoc comparison letters."
+            },
+            "b2": {
+                badge: "Programming",
+                titleKh: "Statistical Data Analysis in Agriculture Using Python",
+                titleEn: "Statistical Data Analysis in Agriculture",
+                desc: "Practical guide to writing Python scripts for agricultural datasets, 3D Response Surface plots, PCA Biplots, Correlation Heatmaps, and ANOVA for theses."
+            },
+            "b3": {
+                badge: "Textbook",
+                titleKh: "Foundations of Biotechnology",
+                titleEn: "Foundation of Biotechnology",
+                desc: "History of biotechnology, genes and genomics, genetic engineering, microbial biotechnology, and industrial fermentation technology."
+            }
+        },
+        mainSoftware: {
+            subtitle: "100% Accuracy Verified Against Python, SAS, GraphPad Prism & Excel",
+            desc: "Comprehensive agricultural, biological, and soil science statistical software supporting CRD, RCBD, Latin Square, Factorial Experiments, Split-Plot Design, Response Surface Methodology (RSM), Tukey's HSD, Duncan's MRT, and Pearson Correlation Heatmaps.",
+            price: "Contact for Special Student / University License Pricing"
+        },
+        subSoftware: {
+            "s1": {
+                desc: "Automated Python pipeline for cleaning agricultural datasets, computing Multivariate PCA, and generating publication-ready thesis figures."
+            },
+            "s2": {
+                desc: "Automated Telegram Bot system for retrieving statistical tables and securely distributing research documents."
+            }
+        },
+        founder: {
+            name: "In Sokra (លោក អិន សុខរ៉ា)",
+            affiliation: "Higher-Education Lecturer & Independent Biotechnology Researcher",
+            bio: "In Sokra holds an M.Sc. in Biotechnology from Suranaree University of Technology. He is the Founder of Research Foundation Cambodia and the developer of Research Foundation Analyzer (RF Analyzer). He has authored and co-authored numerous peer-reviewed scientific articles in national and international journals covering microbiology, agro-industrial fermentation, and biostatistics."
+        },
+        exams: {
+            "water": {
+                title: "Water Quality Assessment Test",
+                desc: "Water Quality Pre-test & Post-test system (30 questions, automated scoring, and PDF certificate generation)."
+            },
+            "bio": {
+                title: "General Biology & Genetics Test",
+                desc: "Biology Pre-test & Post-test system (30 questions, automated scoring, and PDF certificate generation)."
+            },
+            "microbiology": {
+                title: "Microbiology Assessment Test",
+                desc: "Microbiology Pre-test & Post-test system (30 questions, automated scoring, and PDF certificate generation)."
+            },
+            "statistics": {
+                title: "Biostatistics & Experimental Design Test",
+                desc: "Assess your knowledge of experimental designs (CRD, RCBD), ANOVA, and hypothesis testing."
+            }
+        },
+        training: {
+            "rf-analyzer": {
+                title: "RF Analyzer v6.0 Training Course",
+                desc: "Learn agricultural and biological statistical analysis (CRD, RCBD, Split-Plot, Duncan & Tukey HSD) using RF Analyzer.",
+                duration: "4 Weeks"
+            },
+            "python-agri": {
+                title: "Python for Agricultural Statistics & 3D Graphics",
+                desc: "Write Python scripts for data cleaning, ANOVA, 3D Response Surface plots, and PCA Biplots for research theses.",
+                duration: "6 Weeks"
+            },
+            "paper-writing": {
+                title: "Scientific Paper Writing (IMRAD)",
+                desc: "Techniques for international scientific writing, selecting Scopus/Web of Science journals, and responding to peer reviewers.",
+                duration: "3 Weeks"
+            }
+        }
+    };
+
+    function t(key) {
+        return (I18N[currentLang] && I18N[currentLang][key]) || I18N.km[key] || key;
+    }
+
+    function applyStaticTranslations() {
+        document.documentElement.lang = currentLang;
+        const toggleTextEl = document.getElementById('langToggleText');
+        if (toggleTextEl) {
+            toggleTextEl.textContent = currentLang === 'km' ? 'EN' : 'ខ្មែរ';
+        }
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (I18N[currentLang] && I18N[currentLang][key]) {
+                el.textContent = I18N[currentLang][key];
+            }
+        });
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'km' ? 'en' : 'km';
+        localStorage.setItem('RF_LANG', currentLang);
+        applyStaticTranslations();
+        renderAllSections();
+        showToast(currentLang === 'en' ? 'Language switched to English' : 'បានប្តូរទៅជាភាសាខ្មែរ');
+    }
+
     const DEFAULT_EXAMS = {
         "water": {
             id: "water",
@@ -1178,22 +1526,30 @@
             questions: [
                 {
                     q: "នៅពេល p-value < 0.05 តើការសម្រេចចិត្តបែបស្ថិតិគឺជាអ្វី?",
+                    qEn: "When p-value < 0.05, what is the statistical decision?",
                     o: ["ទទួលយក Null Hypothesis (H0)", "បដិសេធ Null Hypothesis (H0) មានន័យថាមានភាពខុសគ្នាស្ថិតិ", "ទិន្នន័យខុសទាំងស្រុង", "មិនអាចធ្វើការសន្និដ្ឋានបាន"],
+                    oEn: ["Accept the Null Hypothesis (H0)", "Reject the Null Hypothesis (H0) — statistically significant difference", "The dataset is completely invalid", "No conclusion can be made"],
                     a: 1
                 },
                 {
                     q: "តើការរៀបចំពិសោធន៍បែប RCBD សមស្របសម្រាប់លក្ខខណ្ឌបែបណា?",
+                    qEn: "Under what field condition is RCBD most appropriate?",
                     o: ["អង្គភាពពិសោធន៍មានភាពដូចគ្នាបេះបិទ", "អង្គភាពពិសោធន៍មានកត្តាបំរែបំរួលទិសដៅមួយ (Heterogeneous block)", "ពិសោធន៍គ្មានការព្យាបាល", "ពិសោធន៍ក្នុងបន្ទប់ម៉ាស៊ីនត្រជាក់"],
+                    oEn: ["Experimental units are completely homogeneous", "Experimental units have a one-directional gradient (Heterogeneous block)", "Experiment has no treatments", "Indoor air-conditioned experiments only"],
                     a: 1
                 },
                 {
                     q: "តើតេស្ត ANOVA ត្រូវបានប្រើប្រាស់ដើម្បីប្រៀបធៀបអ្វី?",
+                    qEn: "What is the ANOVA test primarily used to compare?",
                     o: ["ប្រៀបធៀបមធ្យមភាគចាប់ពី ៣ ក្រុមឡើងទៅ", "ប្រៀបធៀបគម្លាតស្តង់ដារនៃ ២ ក្រុម", "វាស់ទំនោរលីនេអ៊ែរ", "គណនាភាគរយសំណាក"],
+                    oEn: ["Compare means across 3 or more groups", "Compare standard deviations of 2 groups", "Measure linear slope", "Calculate sample percentage"],
                     a: 0
                 },
                 {
                     q: "តើកត្តាណាជាសូចនាករវាស់កម្រិតបំរែបំរួលទិន្នន័យជុំវិញតម្លៃមធ្យម?",
+                    qEn: "Which metric measures data dispersion around the mean?",
                     o: ["Mean", "Standard Deviation (SD)", "Mode", "Sample Size (n)"],
+                    oEn: ["Mean", "Standard Deviation (SD)", "Mode", "Sample Size (n)"],
                     a: 1
                 }
             ]
@@ -1476,6 +1832,7 @@
             isAdminLoggedIn = true;
             isEditMode = (localStorage.getItem('RF_ADMIN_EDIT_MODE') !== 'false');
         }
+        applyStaticTranslations();
         renderAllSections();
 
         const fetchPromises = [];
@@ -1540,6 +1897,7 @@
             }
         }
 
+        applyStaticTranslations();
         renderAllSections();
     }
 
@@ -1971,7 +2329,7 @@
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
-                showToast(`កំពុងទាញយក ${fileName}...`);
+                showToast(currentLang === 'en' ? `Downloading ${fileName}...` : `កំពុងទាញយក ${fileName}...`);
             } catch (err) {
                 console.error('File download error:', err);
                 window.open(fileUrl, '_blank');
@@ -1993,14 +2351,34 @@
         triggerDirectFileDownload(book.pdfUrl, fileName);
     }
 
-    // RENDER FUNCTIONS
+    // RENDER FUNCTIONS (BILINGUAL AWARE)
     function renderAboutSection() {
         const a = appData.about || DEFAULT_DATA.about;
-        document.getElementById('aboutTitle').textContent = a.title || "អំពីមូលដ្ឋានស្រាវជ្រាវ (Research Foundation)";
-        document.getElementById('aboutIntro').innerHTML = `<strong class="text-white font-medium">មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)</strong> ${a.intro}`;
-        document.getElementById('aboutP1Text').textContent = a.p1;
-        document.getElementById('aboutP2Text').textContent = a.p2;
-        document.getElementById('aboutP3Text').textContent = a.p3;
+        const isEn = currentLang === 'en';
+        const isDefaultAbout = a.title === DEFAULT_DATA.about.title;
+
+        document.getElementById('aboutTitle').textContent = (isEn && isDefaultAbout)
+            ? EN_CONTENT.about.title
+            : (a.title || "អំពីមូលដ្ឋានស្រាវជ្រាវ (Research Foundation)");
+
+        if (isEn && a.intro === DEFAULT_DATA.about.intro) {
+            document.getElementById('aboutIntro').innerHTML = `<strong class="text-white font-medium">Research Foundation</strong> ${EN_CONTENT.about.intro}`;
+        } else {
+            document.getElementById('aboutIntro').innerHTML = isEn
+                ? `<strong class="text-white font-medium">Research Foundation</strong> ${a.intro}`
+                : `<strong class="text-white font-medium">មូលដ្ឋានស្រាវជ្រាវ (Research Foundation)</strong> ${a.intro}`;
+        }
+
+        const locEl = document.getElementById('aboutLocation');
+        if (locEl) {
+            locEl.innerHTML = isEn
+                ? `Our core operations are located in <strong class="text-emerald-400 font-semibold">Kampong Cham Province</strong> and <strong class="text-emerald-400 font-semibold">Phnom Penh</strong>, focusing on:`
+                : `ទីតាំងមូលដ្ឋានស្រាវជ្រាវស្ថិតនៅ <strong class="text-emerald-400 font-semibold">ខេត្តកំពង់ចាម</strong> និងនៅ <strong class="text-emerald-400 font-semibold">រាជធានីភ្នំពេញ</strong> ដោយផ្តោតលើ៖`;
+        }
+
+        document.getElementById('aboutP1Text').textContent = (isEn && a.p1 === DEFAULT_DATA.about.p1) ? EN_CONTENT.about.p1 : a.p1;
+        document.getElementById('aboutP2Text').textContent = (isEn && a.p2 === DEFAULT_DATA.about.p2) ? EN_CONTENT.about.p2 : a.p2;
+        document.getElementById('aboutP3Text').textContent = (isEn && a.p3 === DEFAULT_DATA.about.p3) ? EN_CONTENT.about.p3 : a.p3;
     }
 
     function triggerDirectBookUpload(index) {
@@ -2085,19 +2463,20 @@
 
     function openOrderModal(index, type = 'hard') {
         const book = appData.books[index];
+        const isEn = currentLang === 'en';
         const isHard = type === 'hard';
-        const typeLabel = isHard ? 'Hard Copy (សៀវភៅពុម្ព)' : 'Soft Copy (PDF E-Book)';
+        const typeLabel = isHard ? t('orderHardLabel') : t('orderSoftLabel');
         const price = isHard ? (book.priceHard || book.price || "$15.00") : (book.priceSoft || "$8.00");
+        const displayTitle = (isEn && book.titleEn) ? book.titleEn : book.titleKh;
         
         document.getElementById('orderModalBookTitle').innerHTML = `
             <i data-lucide="shopping-cart" class="w-5 h-5 ${isHard ? 'text-amber-400' : 'text-emerald-400'}"></i>
-            <span>កុម្ម៉ង់ ${typeLabel}</span>
+            <span>${t('orderPrefix')} ${typeLabel}</span>
         `;
-        document.getElementById('orderModalBookName').textContent = `${book.titleKh} (${typeLabel})`;
+        document.getElementById('orderModalBookName').textContent = `${displayTitle} (${typeLabel})`;
         document.getElementById('orderModalBookPrice').textContent = price;
         document.getElementById('orderModalBookImg').src = book.image;
 
-        // Public PDF access: Show direct View/Download button to everyone whenever a PDF is uploaded
         const pdfDirectBox = document.getElementById('orderModalPdfDirectBox');
         const pdfDownloadBtn = document.getElementById('orderModalPdfDownloadBtn');
         const pdfFileNameEl = document.getElementById('orderModalPdfFileName');
@@ -2105,7 +2484,7 @@
         if (book.pdfUrl) {
             pdfDirectBox.classList.remove('hidden');
             pdfFileNameEl.textContent = book.pdfName || 'book-content.pdf';
-            pdfDownloadBtn.innerHTML = `<i data-lucide="eye" class="w-4 h-4"></i> បើកអាន / ទាញយក PDF (View / Download PDF)`;
+            pdfDownloadBtn.innerHTML = `<i data-lucide="eye" class="w-4 h-4"></i> <span>${t('orderPdfBtn')}</span>`;
             pdfDownloadBtn.onclick = () => openOrDownloadBookPdf(book);
         } else {
             pdfDirectBox.classList.add('hidden');
@@ -2117,8 +2496,8 @@
 
         document.getElementById('orderModalTgBtn').href = `https://t.me/Sokra25?text=${encodeURIComponent(defaultTgMsg)}`;
 
-        const emailSubject = encodeURIComponent(`បញ្ជាទិញសៀវភៅ ${typeLabel}៖ ${book.titleKh}`);
-        const emailBody = encodeURIComponent(`សួស្តីមូលដ្ឋានស្រាវជ្រាវ,\n\nខ្ញុំមានបំណងចង់បញ្ជាទិញសៀវភៅ៖ ${book.titleKh}\nប្រភេទ៖ ${typeLabel}\nតម្លៃ៖ ${price}\n\nសូមផ្ញើព័ត៌មានលម្អិត និងលេខគណនី/KHQR មកកាន់ខ្ញុំបាទ/នាងខ្ញុំ។\n\nសូមអរគុណ!`);
+        const emailSubject = encodeURIComponent(`Book Order (${typeLabel}): ${displayTitle}`);
+        const emailBody = encodeURIComponent(`Hello Research Foundation,\n\nI would like to order the book: ${displayTitle}\nFormat: ${typeLabel}\nPrice: ${price}\n\nPlease send payment details / Bakong KHQR.\n\nThank you!`);
         document.getElementById('orderModalEmailBtn').href = `mailto:contact@researchfoundation.top?subject=${emailSubject}&body=${emailBody}`;
 
         document.getElementById('orderModal').classList.remove('hidden');
@@ -2143,6 +2522,7 @@
     function renderBooksSection() {
         const grid = document.getElementById('booksGrid');
         grid.innerHTML = '';
+        const isEn = currentLang === 'en';
 
         (appData.books || []).forEach((book, index) => {
             const card = document.createElement('div');
@@ -2153,6 +2533,16 @@
             const priceSoft = book.priceSoft || "$8.00";
             const hasPdf = Boolean(book.pdfUrl);
 
+            const enPreset = EN_CONTENT.books[book.id];
+            const badgeText = (isEn && enPreset && book.badge === DEFAULT_DATA.books.find(x => x.id === book.id)?.badge)
+                ? enPreset.badge
+                : (book.badge || (isEn ? 'Book' : 'សៀវភៅ'));
+            const primaryTitle = isEn ? (book.titleEn || book.titleKh) : book.titleKh;
+            const secondaryTitle = isEn ? book.titleKh : (book.titleEn || '');
+            const descText = (isEn && enPreset && book.desc === DEFAULT_DATA.books.find(x => x.id === book.id)?.desc)
+                ? enPreset.desc
+                : book.desc;
+
             const pdfPublicBadge = hasPdf
                 ? `<span class="absolute bottom-3 left-3 text-[10px] bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full font-mono font-semibold z-10 backdrop-blur-md flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3"></i> PDF Content</span>`
                 : '';
@@ -2160,7 +2550,7 @@
             const publicPdfPreviewBtn = hasPdf
                 ? `<button onclick="openBookPdfByIndex(${index})" class="w-full py-2 px-3 rounded-xl bg-sky-500/15 border border-sky-500/40 hover:bg-sky-500 hover:text-navy-950 text-sky-300 font-semibold text-xs transition-all flex items-center justify-center gap-1.5 active:scale-95 shadow-sm mb-2.5">
                         <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                        <span>អានមាតិកាសៀវភៅ (View PDF Content)</span>
+                        <span>${t('viewPdfBtn')}</span>
                    </button>`
                 : '';
 
@@ -2177,11 +2567,11 @@
                 <div class="space-y-4">
                     <div class="rounded-2xl overflow-hidden border border-amber-500/20 bg-slate-950/80 h-72 flex items-center justify-center p-2 relative group/cover cursor-pointer" onclick="${hasPdf ? `openBookPdfByIndex(${index})` : `openOrderModal(${index}, 'hard')`}">
                         <span class="absolute top-3 left-3 text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-semibold z-10 backdrop-blur-md">
-                            ${book.badge || 'សៀវភៅ'}
+                            ${badgeText}
                         </span>
                         ${pdfPublicBadge}
                         
-                        <img src="${book.image}" alt="${book.titleKh}" class="w-full h-full object-contain rounded-xl shadow-lg transition-transform duration-300 group-hover/cover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x560/0a2540/38bdf8?text=Book+Cover';">
+                        <img src="${book.image}" alt="${primaryTitle}" class="w-full h-full object-contain rounded-xl shadow-lg transition-transform duration-300 group-hover/cover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x560/0a2540/38bdf8?text=Book+Cover';">
                         
                         <button class="edit-only ${showEditClass} absolute inset-0 bg-slate-950/85 text-amber-300 text-xs font-medium flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover/cover:opacity-100 transition-opacity backdrop-blur-sm" onclick="event.stopPropagation(); triggerDirectBookUpload(${index})">
                             <i data-lucide="upload" class="w-5 h-5 text-amber-400"></i>
@@ -2191,10 +2581,10 @@
 
                     <div>
                         <div class="text-[11px] font-mono text-amber-400 font-semibold uppercase tracking-wider">${book.subtitle || ''}</div>
-                        <h3 class="text-base font-bold text-white mt-0.5 leading-snug">${book.titleKh}</h3>
-                        <div class="text-xs text-slate-300 font-en font-medium text-emerald-400 mt-0.5">${book.titleEn || ''}</div>
+                        <h3 class="text-base font-bold text-white mt-0.5 leading-snug">${primaryTitle}</h3>
+                        <div class="text-xs text-slate-300 font-en font-medium text-emerald-400 mt-0.5">${secondaryTitle}</div>
                         <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">
-                            ${book.desc}
+                            ${descText}
                         </p>
                     </div>
                 </div>
@@ -2207,7 +2597,7 @@
                             <div class="flex items-center gap-1 font-semibold text-xs text-white group-hover/btn:text-navy-950">
                                 <i data-lucide="book" class="w-3.5 h-3.5 text-amber-400 group-hover/btn:text-navy-950"></i> Hard Copy
                             </div>
-                            <span class="text-[10px] text-slate-400 group-hover/btn:text-navy-900 mt-0.5">សៀវភៅពុម្ព</span>
+                            <span class="text-[10px] text-slate-400 group-hover/btn:text-navy-900 mt-0.5">${t('hardCopySub')}</span>
                             <span class="text-xs font-bold text-amber-400 group-hover/btn:text-navy-950 font-mono mt-1">${priceHard}</span>
                         </button>
 
@@ -2228,11 +2618,19 @@
 
     function renderSoftwareSection() {
         const ms = appData.mainSoftware || DEFAULT_DATA.mainSoftware;
+        const isEn = currentLang === 'en';
+
         document.getElementById('mainSoftwareTag').textContent = ms.tag;
-        document.getElementById('mainSoftwareSubtitle').textContent = ms.subtitle;
+        document.getElementById('mainSoftwareSubtitle').textContent = (isEn && ms.subtitle === DEFAULT_DATA.mainSoftware.subtitle)
+            ? EN_CONTENT.mainSoftware.subtitle
+            : ms.subtitle;
         document.getElementById('mainSoftwareTitle').textContent = ms.title;
-        document.getElementById('mainSoftwareDesc').textContent = ms.desc;
-        document.getElementById('mainSoftwarePrice').textContent = ms.price;
+        document.getElementById('mainSoftwareDesc').textContent = (isEn && ms.desc === DEFAULT_DATA.mainSoftware.desc)
+            ? EN_CONTENT.mainSoftware.desc
+            : ms.desc;
+        document.getElementById('mainSoftwarePrice').textContent = (isEn && ms.price === DEFAULT_DATA.mainSoftware.price)
+            ? EN_CONTENT.mainSoftware.price
+            : ms.price;
         document.getElementById('mainSoftwareImg').src = ms.image || 'https://placehold.co/600x400/082f49/38bdf8?text=RF+Analyzer+v6.0';
         document.getElementById('mainSoftwareOrderBtn').href = `https://t.me/Sokra25?text=${encodeURIComponent("សួស្តីលោកគ្រូ ខ្ញុំចាប់អារម្មណ៍ទិញអាជ្ញាប័ណ្ណ " + ms.title)}`;
 
@@ -2241,7 +2639,7 @@
         const showEditClass = (isAdminLoggedIn && isEditMode) ? '' : 'hidden';
 
         const subList = appData.subSoftware || [];
-        document.getElementById('subSoftwareCount').textContent = `សរុប៖ ${subList.length} ឧបករណ៍`;
+        document.getElementById('subSoftwareCount').textContent = `${t('totalToolsPrefix')} ${subList.length} ${t('totalToolsSuffix')}`;
 
         subList.forEach((item, index) => {
             const card = document.createElement('div');
@@ -2253,6 +2651,10 @@
                 ? item.fileName.split('.').pop().toUpperCase()
                 : 'FILE';
 
+            const defaultSub = DEFAULT_DATA.subSoftware.find(x => x.id === item.id);
+            const enSub = EN_CONTENT.subSoftware[item.id];
+            const descText = (isEn && enSub && defaultSub && item.desc === defaultSub.desc) ? enSub.desc : item.desc;
+
             const fileBadge = hasFile
                 ? `<span class="absolute bottom-3 left-3 text-[10px] bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full font-mono font-semibold z-10 backdrop-blur-md flex items-center gap-1"><i data-lucide="download" class="w-3 h-3"></i> ${fileExt} Free</span>`
                 : '';
@@ -2260,7 +2662,7 @@
             const freeDownloadBtn = hasFile
                 ? `<button onclick="downloadSubSoftwareFile(${index})" class="w-full py-2.5 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-950/60 mb-3">
                         <i data-lucide="download" class="w-4 h-4"></i>
-                        <span class="truncate">ទាញយកឥតគិតថ្លៃ (${item.fileName || 'Download File'})</span>
+                        <span class="truncate">${t('freeDownloadPrefix')} (${item.fileName || 'Download File'})</span>
                    </button>`
                 : '';
 
@@ -2295,7 +2697,7 @@
                             <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i>
                         </div>
                         <h4 class="text-base font-bold text-white mt-1 leading-snug">${item.title}</h4>
-                        <p class="text-xs text-slate-400 mt-2 leading-relaxed font-light">${item.desc}</p>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed font-light">${descText}</p>
                     </div>
                 </div>
 
@@ -2303,11 +2705,11 @@
                     ${freeDownloadBtn}
                     <div class="flex items-center justify-between">
                         <div>
-                            <span class="text-[11px] text-slate-400 block">តម្លៃកម្មវិធី</span>
+                            <span class="text-[11px] text-slate-400 block">${t('toolPriceLabel')}</span>
                             <span class="text-sm sm:text-base font-bold ${hasFile ? 'text-emerald-400' : 'text-cyan-400'} font-en">${item.price}</span>
                         </div>
                         <a href="${defaultTgLink}" target="_blank" class="px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 hover:bg-cyan-500 hover:text-navy-950 text-cyan-300 font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
-                            <i data-lucide="send" class="w-3.5 h-3.5"></i> ${hasFile ? 'សាកសួរបន្ថែម' : 'បញ្ជាទិញ (@Sokra25)'}
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i> ${hasFile ? t('toolInquireMore') : t('toolOrderTg')}
                         </a>
                     </div>
                 </div>
@@ -2348,7 +2750,7 @@
                         ${pub.title}
                     </h3>
                     <p class="text-xs text-slate-400 leading-relaxed font-light">
-                        <strong class="text-slate-300">អ្នកនិពន្ធ៖</strong> ${pub.authors}
+                        <strong class="text-slate-300">${t('pubAuthorsLabel')}</strong> ${pub.authors}
                     </p>
                 </div>
 
@@ -2369,10 +2771,18 @@
 
     function renderFounderSection() {
         const f = appData.founder || DEFAULT_DATA.founder;
-        document.getElementById('founderName').textContent = f.name;
+        const isEn = currentLang === 'en';
+
+        document.getElementById('founderName').textContent = (isEn && f.name === DEFAULT_DATA.founder.name)
+            ? EN_CONTENT.founder.name
+            : f.name;
         document.getElementById('founderRole').textContent = f.role;
-        document.getElementById('founderAffiliation').textContent = f.affiliation;
-        document.getElementById('founderBio').textContent = f.bio;
+        document.getElementById('founderAffiliation').textContent = (isEn && f.affiliation === DEFAULT_DATA.founder.affiliation)
+            ? EN_CONTENT.founder.affiliation
+            : f.affiliation;
+        document.getElementById('founderBio').textContent = (isEn && f.bio === DEFAULT_DATA.founder.bio)
+            ? EN_CONTENT.founder.bio
+            : f.bio;
         document.getElementById('founderPhoto').src = f.photo || 'https://placehold.co/300x300/0a0f1d/eab308?text=IS';
         
         document.getElementById('linkScholar').href = f.scholar;
@@ -2385,6 +2795,7 @@
         const grid = document.getElementById('examsGrid');
         if (!grid) return;
         grid.innerHTML = '';
+        const isEn = currentLang === 'en';
 
         const examsList = Object.values(DEFAULT_EXAMS);
         examsList.forEach(e => {
@@ -2397,6 +2808,10 @@
                 card.onclick = () => openExamModal(e.id);
             }
 
+            const enExam = EN_CONTENT.exams[e.id];
+            const titleText = (isEn && enExam) ? enExam.title : e.title;
+            const descText = (isEn && enExam) ? enExam.desc : e.desc;
+
             card.innerHTML = `
                 <div class="space-y-4">
                     <div class="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
@@ -2404,17 +2819,17 @@
                     </div>
                     <div>
                         <span class="text-[11px] font-mono text-orange-400 font-semibold uppercase tracking-wider">${e.subtitle}</span>
-                        <h3 class="text-base font-bold text-white mt-1 leading-snug group-hover:text-orange-300 transition-colors">${e.title}</h3>
-                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">${e.desc}</p>
+                        <h3 class="text-base font-bold text-white mt-1 leading-snug group-hover:text-orange-300 transition-colors">${titleText}</h3>
+                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">${descText}</p>
                     </div>
                 </div>
 
                 <div class="pt-5 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs">
                     <div class="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
-                        <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i> ${e.minutes} នាទី ${e.questions.length ? `• ${e.questions.length} សំណួរ` : '• Pre & Post Test'}
+                        <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i> ${e.minutes} ${t('examMinutes')} ${e.questions.length ? `• ${e.questions.length} ${t('examQuestions')}` : '• Pre & Post Test'}
                     </div>
                     <span class="px-3 py-1.5 rounded-xl bg-orange-500/20 border border-orange-500/40 text-orange-300 font-bold group-hover:bg-orange-500 group-hover:text-navy-950 transition-all flex items-center gap-1 shadow-sm">
-                        <span>ប្រឡង</span>
+                        <span>${t('examStartChip')}</span>
                         <i data-lucide="${e.directUrl ? 'external-link' : 'arrow-right'}" class="w-3.5 h-3.5"></i>
                     </span>
                 </div>
@@ -2429,32 +2844,38 @@
         const grid = document.getElementById('trainingGrid');
         if (!grid) return;
         grid.innerHTML = '';
+        const isEn = currentLang === 'en';
 
         const trainingList = Object.values(DEFAULT_TRAINING);
-        trainingList.forEach(t => {
+        trainingList.forEach(tItem => {
             const card = document.createElement('div');
             card.className = "p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between group hover:border-sky-500/50 transition-all relative cursor-pointer";
             
-            card.onclick = () => window.open(t.directUrl, '_blank');
+            card.onclick = () => window.open(tItem.directUrl, '_blank');
+
+            const enTrain = EN_CONTENT.training[tItem.id];
+            const titleText = (isEn && enTrain) ? enTrain.title : tItem.title;
+            const descText = (isEn && enTrain) ? enTrain.desc : tItem.desc;
+            const durationText = (isEn && enTrain) ? enTrain.duration : tItem.duration;
 
             card.innerHTML = `
                 <div class="space-y-4">
                     <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                        ${t.icon}
+                        ${tItem.icon}
                     </div>
                     <div>
-                        <span class="text-[11px] font-mono text-sky-400 font-semibold uppercase tracking-wider">${t.subtitle}</span>
-                        <h3 class="text-base font-bold text-white mt-1 leading-snug group-hover:text-sky-300 transition-colors">${t.title}</h3>
-                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">${t.desc}</p>
+                        <span class="text-[11px] font-mono text-sky-400 font-semibold uppercase tracking-wider">${tItem.subtitle}</span>
+                        <h3 class="text-base font-bold text-white mt-1 leading-snug group-hover:text-sky-300 transition-colors">${titleText}</h3>
+                        <p class="text-xs text-slate-400 mt-2.5 leading-relaxed font-light">${descText}</p>
                     </div>
                 </div>
 
                 <div class="pt-5 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs">
                     <div class="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
-                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-sky-400"></i> ${t.duration} • ${t.mode}
+                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-sky-400"></i> ${durationText} • ${tItem.mode}
                     </div>
                     <span class="px-3 py-1.5 rounded-xl bg-sky-500/20 border border-sky-500/40 text-sky-300 font-bold group-hover:bg-sky-500 group-hover:text-navy-950 transition-all flex items-center gap-1 shadow-sm">
-                        <span>ចូលរៀន</span>
+                        <span>${t('trainJoinChip')}</span>
                         <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                     </span>
                 </div>
@@ -2476,13 +2897,22 @@
 
         isExamFinished = false;
         clearInterval(examTimer);
+        const isEn = currentLang === 'en';
+        const enExam = EN_CONTENT.exams[examId];
 
         document.getElementById('examModalIcon').textContent = activeExam.icon;
-        document.getElementById('examModalTitle').textContent = activeExam.title;
-        document.getElementById('examModalMeta').textContent = `${activeExam.questions.length} សំណួរ • ${activeExam.minutes} នាទី • ពិន្ទុជាប់ ≥ ${activeExam.pass}`;
-        document.getElementById('examModalDesc').textContent = `${activeExam.desc} នាឡិកានឹងរាប់ថយក្រោយដោយស្វ័យប្រវត្ត។`;
+        document.getElementById('examModalTitle').textContent = (isEn && enExam) ? enExam.title : activeExam.title;
+        document.getElementById('examModalMeta').textContent = isEn
+            ? `${activeExam.questions.length} Questions • ${activeExam.minutes} mins • Passing Score ≥ ${activeExam.pass}`
+            : `${activeExam.questions.length} សំណួរ • ${activeExam.minutes} នាទី • ពិន្ទុជាប់ ≥ ${activeExam.pass}`;
+        document.getElementById('examModalDesc').textContent = isEn
+            ? `${(enExam && enExam.desc) || activeExam.desc} The countdown timer will run automatically.`
+            : `${activeExam.desc} នាឡិកានឹងរាប់ថយក្រោយដោយស្វ័យប្រវត្ត។`;
         document.getElementById('examStudentName').value = '';
         document.getElementById('examStudentName').disabled = false;
+
+        const submitBtn = document.getElementById('examSubmitAnswersBtn');
+        if (submitBtn) submitBtn.classList.remove('hidden');
 
         document.getElementById('examStartStep').classList.remove('hidden');
         document.getElementById('examBodyStep').classList.add('hidden');
@@ -2500,8 +2930,9 @@
 
     function launchExamSession() {
         const studentName = document.getElementById('examStudentName').value.trim();
+        const isEn = currentLang === 'en';
         if (!studentName) {
-            alert('សូមបញ្ចូលឈ្មោះរបស់អ្នកជាមុនសិន!');
+            alert(isEn ? 'Please enter your full name first!' : 'សូមបញ្ចូលឈ្មោះរបស់អ្នកជាមុនសិន!');
             return;
         }
 
@@ -2512,22 +2943,26 @@
 
         const container = document.getElementById('examQuestionsContainer');
         const LET = ['A', 'B', 'C', 'D'];
-        container.innerHTML = activeExam.questions.map((q, idx) => `
-            <div class="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3 exam-qbox">
-                <div class="text-sm font-bold text-white leading-relaxed">
-                    ${idx + 1}. ${q.q}
+        container.innerHTML = activeExam.questions.map((q, idx) => {
+            const qText = (isEn && q.qEn) ? q.qEn : q.q;
+            const opts = (isEn && q.oEn) ? q.oEn : q.o;
+            return `
+                <div class="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3 exam-qbox">
+                    <div class="text-sm font-bold text-white leading-relaxed">
+                        ${idx + 1}. ${qText}
+                    </div>
+                    <div class="space-y-2">
+                        ${opts.map((opt, k) => `
+                            <label class="opt-label text-xs sm:text-sm text-slate-300">
+                                <input type="radio" name="q_${idx}" value="${k}" class="w-4 h-4 text-orange-500 accent-orange-500">
+                                <span class="font-bold text-orange-400 font-mono">${LET[k]}.</span>
+                                <span class="leading-relaxed">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
                 </div>
-                <div class="space-y-2">
-                    ${q.o.map((opt, k) => `
-                        <label class="opt-label text-xs sm:text-sm text-slate-300">
-                            <input type="radio" name="q_${idx}" value="${k}" class="w-4 h-4 text-orange-500 accent-orange-500">
-                            <span class="font-bold text-orange-400 font-mono">${LET[k]}.</span>
-                            <span class="leading-relaxed">${opt}</span>
-                        </label>
-                    `).join('')}
-                </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         examSecondsLeft = activeExam.minutes * 60;
         updateExamTimerUI();
@@ -2537,7 +2972,7 @@
             updateExamTimerUI();
             if (examSecondsLeft <= 0) {
                 clearInterval(examTimer);
-                alert('⏰ អស់ពេលកំណត់! ប្រព័ន្ធនឹងផ្ញើចម្លើយដោយស្វ័យប្រវត្តិ។');
+                alert(isEn ? '⏰ Time is up! Submitting your answers automatically.' : '⏰ អស់ពេលកំណត់! ប្រព័ន្ធនឹងផ្ញើចម្លើយដោយស្វ័យប្រវត្តិ។');
                 finishExamSession();
             }
         }, 1000);
@@ -2557,10 +2992,20 @@
         }
     }
 
+    function confirmAndFinishExam() {
+        const msg = currentLang === 'en'
+            ? 'Are you sure you want to submit your answers and finish the test?'
+            : 'តើអ្នកពិតជាចង់ផ្ញើចម្លើយបញ្ចប់តេស្តមែនទេ?';
+        if (confirm(msg)) {
+            finishExamSession();
+        }
+    }
+
     function finishExamSession() {
         if (isExamFinished) return;
         isExamFinished = true;
         clearInterval(examTimer);
+        const isEn = currentLang === 'en';
 
         let score = 0;
         const total = activeExam.questions.length;
@@ -2587,7 +3032,8 @@
         });
 
         document.getElementById('examTimerBar').classList.add('hidden');
-        document.getElementById('examBodyStep').querySelector('button').classList.add('hidden');
+        const submitBtn = document.getElementById('examSubmitAnswersBtn');
+        if (submitBtn) submitBtn.classList.add('hidden');
 
         const studentName = document.getElementById('examStudentName').value.trim();
         const passed = score >= activeExam.pass;
@@ -2597,17 +3043,16 @@
         document.getElementById('examResultScore').textContent = `${score} / ${total}`;
         const badge = document.getElementById('examResultBadge');
         if (passed) {
-            badge.textContent = "✓ ជាប់ការប្រឡង (PASSED)";
+            badge.textContent = isEn ? "✓ PASSED" : "✓ ជាប់ការប្រឡង (PASSED)";
             badge.className = "inline-block px-5 py-1.5 rounded-full text-xs font-bold font-mono bg-emerald-500/20 border border-emerald-500/40 text-emerald-300";
         } else {
-            badge.textContent = "✗ មិនទាន់ជាប់ (NOT PASSED)";
+            badge.textContent = isEn ? "✗ NOT PASSED" : "✗ មិនទាន់ជាប់ (NOT PASSED)";
             badge.className = "inline-block px-5 py-1.5 rounded-full text-xs font-bold font-mono bg-rose-500/20 border border-rose-500/40 text-rose-300";
         }
 
-        document.getElementById('examResultDetails').innerHTML = `
-            បេក្ខជន៖ <strong class="text-white">${studentName}</strong> • កាលបរិច្ឆេទ៖ ${new Date().toLocaleDateString('km-KH')}<br>
-            ចម្លើយត្រឹមត្រូវត្រូវបានគូសបញ្ជាក់ជា <span class="text-emerald-400 font-semibold">ពណ៌បៃតង</span> ខាងលើ។
-        `;
+        document.getElementById('examResultDetails').innerHTML = isEn
+            ? `Candidate: <strong class="text-white">${studentName}</strong> • Date: ${new Date().toLocaleDateString('en-US')}<br>Correct answers are highlighted in <span class="text-emerald-400 font-semibold">green</span> above.`
+            : `បេក្ខជន៖ <strong class="text-white">${studentName}</strong> • កាលបរិច្ឆេទ៖ ${new Date().toLocaleDateString('km-KH')}<br>ចម្លើយត្រឹមត្រូវត្រូវបានគូសបញ្ជាក់ជា <span class="text-emerald-400 font-semibold">ពណ៌បៃតង</span> ខាងលើ។`;
 
         resultStep.scrollIntoView({ behavior: 'smooth' });
     }
@@ -3481,6 +3926,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        applyStaticTranslations();
         loadDataFromGitHubOrLocal();
 
         window.addEventListener('keydown', (e) => {
