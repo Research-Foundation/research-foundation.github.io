@@ -529,22 +529,22 @@
         </div>
     </section>
 
-    <!-- ៣. កម្មវិធី (SOFTWARE STORE & LICENSES) -->
+    <!-- ៣. កម្មវិធី (SOFTWARE STORE, LICENSES & FREE DOWNLOADS) -->
     <section id="software" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800/80">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
                 <div class="text-cyan-400 text-xs uppercase font-bold tracking-widest flex items-center gap-2">
                     <i data-lucide="cpu" class="w-4 h-4"></i> ៣. កម្មវិធី និងអាជ្ញាប័ណ្ណ (Scientific Software)
                 </div>
-                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីស្ថិតិ & ឧបករណ៍ស្រាវជ្រាវសម្រាប់លក់</h2>
-                <p class="text-slate-400 text-sm mt-1">កម្មវិធីដែលត្រូវបានបង្កើតឡើងយ៉ាងសម្រិតសម្រាំងសម្រាប់អ្នកស្រាវជ្រាវ និងស្ថាប័នកម្ពុជា</p>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mt-1">កម្មវិធីស្ថិតិ & ឧបករណ៍ស្រាវជ្រាវសម្រាប់លក់ និងទាញយកឥតគិតថ្លៃ</h2>
+                <p class="text-slate-400 text-sm mt-1">កម្មវិធី និងឯកសារគណនាស្ថិតិដែលត្រូវបានបង្កើតឡើងយ៉ាងសម្រិតសម្រាំងសម្រាប់អ្នកស្រាវជ្រាវ និងនិស្សិតកម្ពុជា</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button onclick="openSoftwareShowcaseModal()" class="px-3.5 py-2 rounded-xl bg-cyan-950 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
                     <i data-lucide="eye" class="w-4 h-4"></i> មើល Showcase & ផ្ទៀងផ្ទាត់
                 </button>
                 <button class="edit-only hidden px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openNewSoftwareModal()">
-                    <i data-lucide="plus-circle" class="w-4 h-4"></i> បន្ថែមកម្មវិធីថ្មី
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> បន្ថែមកម្មវិធីថ្មី (Upload File)
                 </button>
                 <button class="edit-only hidden px-3 py-2 rounded-xl bg-slate-800 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 shadow-md" onclick="openEditMainSoftwareModal()">
                     <i data-lucide="edit-3" class="w-4 h-4"></i> កែសម្រួល RF Analyzer v6.0
@@ -627,7 +627,7 @@
         <div>
             <div class="flex items-center justify-between mb-5">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i> កញ្ចប់កូដ & ឧបករណ៍ជំនួយស្រាវជ្រាវ (Research Tools & Scripts)
+                    <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i> កម្មវិធី ឯកសារគណនា & ឧបករណ៍ជំនួយស្រាវជ្រាវ (Apps, Templates & Tools)
                 </h3>
                 <span class="text-xs text-slate-400 font-mono" id="subSoftwareCount"></span>
             </div>
@@ -1307,6 +1307,8 @@
                 desc: "កញ្ចប់កូដ Python ស្វ័យប្រវត្តសម្រាប់សម្អាតទិន្នន័យកសិកម្ម គណនាស្ថិតិពហុអថេរ (Multivariate PCA) និងគូរក្រាហ្វិកសម្រាប់ដាក់ក្នុងសារណាស្រាវជ្រាវ។",
                 price: "$15 / Pack",
                 image: "https://placehold.co/400x260/0f172a/38bdf8?text=Biometrics+Script",
+                fileUrl: "",
+                fileName: "",
                 telegramLink: "https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចង់ទិញកញ្ចប់%20Biometrics%20Data%20Pipeline"
             },
             {
@@ -1316,6 +1318,8 @@
                 desc: "ប្រព័ន្ធ Telegram Bot ស្វ័យប្រវត្តិសម្រាប់ការទាញយកតារាងស្ថិតិ និងការគ្រប់គ្រងការចែករំលែកឯកសារស្រាវជ្រាវប្រកបដោយសុវត្ថិភាព។",
                 price: "Custom Order",
                 image: "https://placehold.co/400x260/0f172a/22d3ee?text=Research+Auto+Bot",
+                fileUrl: "",
+                fileName: "",
                 telegramLink: "https://t.me/Sokra25?text=សួស្តីលោកគ្រូ%20ខ្ញុំចង់សាកសួរពីសេវាកម្ម%20Telegram%20Research%20Bot"
             }
         ],
@@ -1553,7 +1557,7 @@
         try {
             localStorage.setItem('RF_SITE_DATA', JSON.stringify(appData));
         } catch (err) {
-            console.warn('Storage quota exceeded in browser (PDF/Images too large for localStorage). Syncing to GitHub directly.', err);
+            console.warn('Storage quota exceeded in browser (Files/Images too large for localStorage). Syncing to GitHub directly.', err);
         }
 
         const config = getGitHubConfig();
@@ -1617,7 +1621,7 @@
                 return true;
             } else {
                 const errData = await commitResponse.json();
-                alert('បរាជ័យក្នុងការ Commit ទៅ GitHub៖ ' + (errData.message || 'សូមពិនិត្យ GitHub Token ឬទំហំឯកសារ PDF របស់អ្នកឡើងវិញ'));
+                alert('បរាជ័យក្នុងការ Commit ទៅ GitHub៖ ' + (errData.message || 'សូមពិនិត្យ GitHub Token ឬទំហំឯកសាររបស់អ្នកឡើងវិញ'));
                 return false;
             }
         } catch (err) {
@@ -1830,7 +1834,7 @@
         showToast('បានប្តូរលេខកូដសម្ងាត់ដោយជោគជ័យ!');
     }
 
-    // PDF UPLOAD & PUBLIC VIEW/DOWNLOAD HANDLERS FOR BOOKS
+    // UNIVERSAL FILE UPLOAD & DOWNLOAD HANDLERS (PDF, EXE, WORD, EXCEL, ZIP, ETC.)
     function handleModalPdfUpload(event, pdfUrlInputId, pdfNameInputId, statusBadgeId) {
         const file = event.target.files[0];
         if (!file) return;
@@ -1885,6 +1889,98 @@
         }
     }
 
+    // SOFTWARE / TOOL FILE UPLOAD (EXE, PDF, WORD, EXCEL, ZIP, PY, CSV...)
+    function handleModalSoftwareFileUpload(event, fileUrlInputId, fileNameInputId, statusBadgeId) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const sizeMB = file.size / (1024 * 1024);
+        if (sizeMB > 25) {
+            alert(`ឯកសារមានទំហំធំពេក (${sizeMB.toFixed(1)} MB)។ សម្រាប់កម្មវិធីធំជាង 25 MB សូមផ្ទុកឡើងលើ Google Drive ឬ GitHub Releases រួចបិទភ្ជាប់តំណភ្ជាប់ (URL) ក្នុងប្រអប់ខាងក្រោម!`);
+            return;
+        }
+
+        const statusEl = document.getElementById(statusBadgeId);
+        if (statusEl) {
+            statusEl.textContent = `កំពុងអានឯកសារ ${file.name} (${sizeMB.toFixed(2)} MB)...`;
+            statusEl.className = 'text-[11px] text-amber-300 mt-1.5 font-mono';
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const fileDataUrl = e.target.result;
+            const urlInput = document.getElementById(fileUrlInputId);
+            const nameInput = document.getElementById(fileNameInputId);
+
+            if (urlInput) urlInput.value = fileDataUrl;
+            if (nameInput) nameInput.value = file.name;
+
+            if (statusEl) {
+                statusEl.innerHTML = `✓ បានភ្ជាប់ឯកសារ៖ <strong>${file.name}</strong> (${sizeMB.toFixed(2)} MB)`;
+                statusEl.className = 'text-[11px] text-emerald-400 mt-1.5 font-mono';
+            }
+            showToast(`✓ បានភ្ជាប់ឯកសារ (${file.name}) សម្រាប់ទាញយកឥតគិតថ្លៃ!`);
+        };
+        reader.onerror = function() {
+            alert('មានបញ្ហាក្នុងការអានឯកសារ!');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function clearModalSoftwareFile(fileUrlInputId, fileNameInputId, statusBadgeId) {
+        const urlInput = document.getElementById(fileUrlInputId);
+        const nameInput = document.getElementById(fileNameInputId);
+        const statusEl = document.getElementById(statusBadgeId);
+        if (urlInput) urlInput.value = '';
+        if (nameInput) nameInput.value = '';
+        if (statusEl) {
+            statusEl.textContent = 'មិនទាន់មានឯកសារភ្ជាប់នៅឡើយទេ (អាច Upload .exe, .pdf, .docx, .xlsx, .zip)';
+            statusEl.className = 'text-[11px] text-slate-400 mt-1.5 font-mono';
+        }
+    }
+
+    function downloadSubSoftwareFile(index) {
+        const item = (appData.subSoftware || [])[index];
+        if (!item || !item.fileUrl) return;
+        const fileName = item.fileName || `${item.title || 'download'}`;
+        triggerDirectFileDownload(item.fileUrl, fileName);
+    }
+
+    function triggerDirectFileDownload(fileUrl, fileName) {
+        if (!fileUrl) return;
+        if (fileUrl.startsWith('data:')) {
+            try {
+                const parts = fileUrl.split(',');
+                const mimeMatch = parts[0].match(/:(.*?);/);
+                const mimeType = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+                const byteChars = atob(parts[1]);
+                const byteNumbers = new Array(byteChars.length);
+                for (let i = 0; i < byteChars.length; i++) {
+                    byteNumbers[i] = byteChars.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: mimeType });
+                const blobUrl = URL.createObjectURL(blob);
+
+                if (mimeType === 'application/pdf') {
+                    window.open(blobUrl, '_blank');
+                }
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                showToast(`កំពុងទាញយក ${fileName}...`);
+            } catch (err) {
+                console.error('File download error:', err);
+                window.open(fileUrl, '_blank');
+            }
+        } else {
+            window.open(fileUrl, '_blank');
+        }
+    }
+
     function openBookPdfByIndex(index) {
         const book = (appData.books || [])[index];
         if (!book || !book.pdfUrl) return;
@@ -1894,33 +1990,7 @@
     function openOrDownloadBookPdf(book) {
         if (!book || !book.pdfUrl) return;
         const fileName = book.pdfName || `${book.titleEn || book.titleKh || 'Book'}.pdf`;
-
-        if (book.pdfUrl.startsWith('data:application/pdf')) {
-            try {
-                const base64Data = book.pdfUrl.split(',')[1];
-                const byteChars = atob(base64Data);
-                const byteNumbers = new Array(byteChars.length);
-                for (let i = 0; i < byteChars.length; i++) {
-                    byteNumbers[i] = byteChars.charCodeAt(i);
-                }
-                const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([byteArray], { type: 'application/pdf' });
-                const blobUrl = URL.createObjectURL(blob);
-
-                window.open(blobUrl, '_blank');
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-            } catch (err) {
-                console.error('PDF open error:', err);
-                window.open(book.pdfUrl, '_blank');
-            }
-        } else {
-            window.open(book.pdfUrl, '_blank');
-        }
+        triggerDirectFileDownload(book.pdfUrl, fileName);
     }
 
     // RENDER FUNCTIONS
@@ -2083,12 +2153,10 @@
             const priceSoft = book.priceSoft || "$8.00";
             const hasPdf = Boolean(book.pdfUrl);
 
-            // Public badge visible to everyone when PDF content is uploaded
             const pdfPublicBadge = hasPdf
                 ? `<span class="absolute bottom-3 left-3 text-[10px] bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full font-mono font-semibold z-10 backdrop-blur-md flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3"></i> PDF Content</span>`
                 : '';
 
-            // Public button visible to everyone on the book card to read/preview the PDF content
             const publicPdfPreviewBtn = hasPdf
                 ? `<button onclick="openBookPdfByIndex(${index})" class="w-full py-2 px-3 rounded-xl bg-sky-500/15 border border-sky-500/40 hover:bg-sky-500 hover:text-navy-950 text-sky-300 font-semibold text-xs transition-all flex items-center justify-center gap-1.5 active:scale-95 shadow-sm mb-2.5">
                         <i data-lucide="eye" class="w-3.5 h-3.5"></i>
@@ -2180,10 +2248,25 @@
             card.className = "p-6 rounded-3xl border border-slate-800 card-glass flex flex-col justify-between group hover:border-cyan-500/50 transition-all relative";
 
             const defaultTgLink = item.telegramLink || `https://t.me/Sokra25?text=${encodeURIComponent("សួស្តីលោកគ្រូ ខ្ញុំចង់ទិញ " + item.title)}`;
+            const hasFile = Boolean(item.fileUrl);
+            const fileExt = (item.fileName && item.fileName.includes('.'))
+                ? item.fileName.split('.').pop().toUpperCase()
+                : 'FILE';
+
+            const fileBadge = hasFile
+                ? `<span class="absolute bottom-3 left-3 text-[10px] bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full font-mono font-semibold z-10 backdrop-blur-md flex items-center gap-1"><i data-lucide="download" class="w-3 h-3"></i> ${fileExt} Free</span>`
+                : '';
+
+            const freeDownloadBtn = hasFile
+                ? `<button onclick="downloadSubSoftwareFile(${index})" class="w-full py-2.5 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-950/60 mb-3">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span class="truncate">ទាញយកឥតគិតថ្លៃ (${item.fileName || 'Download File'})</span>
+                   </button>`
+                : '';
 
             card.innerHTML = `
                 <div class="edit-only ${showEditClass} absolute top-3 right-3 z-20 flex items-center gap-1">
-                    <button onclick="openEditSubSoftwareModal(${index})" class="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 transition-colors shadow" title="កែសម្រួល">
+                    <button onclick="openEditSubSoftwareModal(${index})" class="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-navy-950 transition-colors shadow" title="កែសម្រួល & Upload File">
                         <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                     </button>
                     <button onclick="deleteSubSoftware(${index})" class="p-1.5 rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white transition-colors shadow" title="លុប">
@@ -2192,14 +2275,15 @@
                 </div>
 
                 <div class="space-y-4">
-                    <div class="rounded-2xl overflow-hidden border border-cyan-500/20 bg-slate-950/80 h-44 flex items-center justify-center p-2 relative group/softcover">
+                    <div class="rounded-2xl overflow-hidden border border-cyan-500/20 bg-slate-950/80 h-44 flex items-center justify-center p-2 relative group/softcover ${hasFile ? 'cursor-pointer' : ''}" onclick="${hasFile ? `downloadSubSoftwareFile(${index})` : ''}">
                         <span class="absolute top-3 left-3 text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2.5 py-0.5 rounded-full font-semibold z-10 backdrop-blur-md">
                             ${item.type || 'Software Tool'}
                         </span>
+                        ${fileBadge}
                         
                         <img src="${item.image || 'https://placehold.co/400x260/0f172a/38bdf8?text=' + encodeURIComponent(item.title)}" alt="${item.title}" class="w-full h-full object-contain rounded-xl transition-transform duration-300 group-hover/softcover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x260/0f172a/38bdf8?text=Tool';">
                         
-                        <button class="edit-only ${showEditClass} absolute inset-0 bg-slate-950/85 text-cyan-300 text-xs font-medium flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover/softcover:opacity-100 transition-opacity backdrop-blur-sm" onclick="triggerDirectSubSoftwareUpload(${index})">
+                        <button class="edit-only ${showEditClass} absolute inset-0 bg-slate-950/85 text-cyan-300 text-xs font-medium flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover/softcover:opacity-100 transition-opacity backdrop-blur-sm" onclick="event.stopPropagation(); triggerDirectSubSoftwareUpload(${index})">
                             <i data-lucide="upload" class="w-5 h-5 text-cyan-400"></i>
                             <span>ប្តូររូបភាព (Upload Image)</span>
                         </button>
@@ -2215,14 +2299,17 @@
                     </div>
                 </div>
 
-                <div class="pt-4 border-t border-slate-800 mt-5 flex items-center justify-between">
-                    <div>
-                        <span class="text-[11px] text-slate-400 block">តម្លៃកម្មវិធី</span>
-                        <span class="text-sm sm:text-base font-bold text-cyan-400 font-en">${item.price}</span>
+                <div class="pt-4 border-t border-slate-800 mt-5">
+                    ${freeDownloadBtn}
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] text-slate-400 block">តម្លៃកម្មវិធី</span>
+                            <span class="text-sm sm:text-base font-bold ${hasFile ? 'text-emerald-400' : 'text-cyan-400'} font-en">${item.price}</span>
+                        </div>
+                        <a href="${defaultTgLink}" target="_blank" class="px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 hover:bg-cyan-500 hover:text-navy-950 text-cyan-300 font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i> ${hasFile ? 'សាកសួរបន្ថែម' : 'បញ្ជាទិញ (@Sokra25)'}
+                        </a>
                     </div>
-                    <a href="${defaultTgLink}" target="_blank" class="px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 hover:bg-cyan-500 hover:text-navy-950 text-cyan-300 font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 shadow-md">
-                        <i data-lucide="send" class="w-3.5 h-3.5"></i> បញ្ជាទិញ (@Sokra25)
-                    </a>
                 </div>
             `;
             subContainer.appendChild(card);
@@ -2958,6 +3045,12 @@
 
     function openEditSubSoftwareModal(index) {
         const item = appData.subSoftware[index];
+        const hasFile = Boolean(item.fileUrl);
+        const fileStatusText = hasFile
+            ? `✓ បានភ្ជាប់ឯកសារ៖ <strong>${item.fileName || 'Attached File'}</strong> (គ្រប់គ្នាអាចទាញយកឥតគិតថ្លៃ)`
+            : 'មិនទាន់មានឯកសារភ្ជាប់នៅឡើយទេ (អាច Upload .exe, .pdf, .docx, .xlsx, .zip)';
+        const fileStatusClass = hasFile ? 'text-[11px] text-emerald-400 mt-1.5 font-mono' : 'text-[11px] text-slate-400 mt-1.5 font-mono';
+
         const html = `
             <div class="space-y-4">
                 <div class="p-3.5 rounded-2xl bg-slate-950 border border-cyan-500/30 flex items-center gap-4">
@@ -2966,11 +3059,32 @@
                         <label class="block text-slate-300 font-semibold text-xs">រូបភាពឧបករណ៍</label>
                         <div class="flex items-center gap-2">
                             <button type="button" onclick="document.getElementById('modalSubSoftwareFileInput').click()" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
-                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ប្តូររូបភាព (Upload File)
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ប្តូររូបភាព (Upload Image)
                             </button>
                             <input type="file" id="modalSubSoftwareFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'editSubSoftwarePreviewImg', 'editSubSoftImage')">
                         </div>
                     </div>
+                </div>
+
+                <!-- FREE DOWNLOADABLE FILE UPLOAD (EXE, PDF, WORD, EXCEL, ZIP...) -->
+                <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <label class="block text-emerald-300 font-semibold text-xs flex items-center gap-1.5">
+                            <i data-lucide="file-up" class="w-4 h-4 text-emerald-400"></i> ឯកសារកម្មវិធី / គំរូ (Exe, PDF, Word, Excel, Zip)
+                        </label>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button type="button" onclick="document.getElementById('modalSubSoftAttachInput').click()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> Upload File
+                            </button>
+                            <button type="button" onclick="clearModalSoftwareFile('editSubSoftFileUrl', 'editSubSoftFileName', 'editSubSoftFileStatus')" class="px-2 py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-600 text-rose-300 hover:text-white text-xs" title="លុបឯកសារ">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <input type="file" id="modalSubSoftAttachInput" class="hidden" accept=".exe,.msi,.zip,.rar,.7z,.pdf,.doc,.docx,.xls,.xlsx,.csv,.py,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="handleModalSoftwareFileUpload(event, 'editSubSoftFileUrl', 'editSubSoftFileName', 'editSubSoftFileStatus')">
+                        </div>
+                    </div>
+                    <p id="editSubSoftFileStatus" class="${fileStatusClass}">${fileStatusText}</p>
+                    <input id="editSubSoftFileName" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-emerald-300 font-mono text-[11px]" value="${item.fileName || ''}" placeholder="ឈ្មោះឯកសារសម្រាប់ទាញយក (ឧ. WQI_Calculator.xlsx ឬ Setup.exe)...">
+                    <input id="editSubSoftFileUrl" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-white font-mono text-[11px]" value="${item.fileUrl || ''}" placeholder="ឬបិទភ្ជាប់តំណភ្ជាប់ Direct Download URL (Google Drive / GitHub)...">
                 </div>
 
                 <div>
@@ -2984,7 +3098,7 @@
                         <input id="editSubSoftType" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${item.type}">
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">តម្លៃ ($)</label>
+                        <label class="block text-slate-400 mb-1">តម្លៃ ($ ឬ Free)</label>
                         <input id="editSubSoftPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" value="${item.price}">
                     </div>
                 </div>
@@ -3002,12 +3116,14 @@
                 </div>
             </div>
         `;
-        openModal('<i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i> កែសម្រួលឧបករណ៍ជំនួយ', html, async () => {
+        openModal('<i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i> កែសម្រួលឧបករណ៍ជំនួយ & Upload File', html, async () => {
             appData.subSoftware[index].type = document.getElementById('editSubSoftType').value;
             appData.subSoftware[index].title = document.getElementById('editSubSoftTitle').value;
             appData.subSoftware[index].desc = document.getElementById('editSubSoftDesc').value;
             appData.subSoftware[index].price = document.getElementById('editSubSoftPrice').value;
             appData.subSoftware[index].image = document.getElementById('editSubSoftImage').value;
+            appData.subSoftware[index].fileUrl = document.getElementById('editSubSoftFileUrl').value.trim();
+            appData.subSoftware[index].fileName = document.getElementById('editSubSoftFileName').value.trim();
             appData.subSoftware[index].telegramLink = document.getElementById('editSubSoftTg').value;
             renderSoftwareSection();
             await saveAppState();
@@ -3024,11 +3140,32 @@
                         <label class="block text-slate-300 font-semibold text-xs">រូបភាពកម្មវិធី / ឧបករណ៍</label>
                         <div class="flex items-center gap-2">
                             <button type="button" onclick="document.getElementById('newModalSoftwareFileInput').click()" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
-                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ផ្ទុកឡើងរូបភាព (Upload File)
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> ផ្ទុកឡើងរូបភាព (Upload Image)
                             </button>
                             <input type="file" id="newModalSoftwareFileInput" class="hidden" accept="image/*" onchange="previewModalImage(event, 'newSoftwarePreviewImg', 'newSoftImage')">
                         </div>
                     </div>
+                </div>
+
+                <!-- FREE DOWNLOADABLE FILE UPLOAD (EXE, PDF, WORD, EXCEL, ZIP...) -->
+                <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <label class="block text-emerald-300 font-semibold text-xs flex items-center gap-1.5">
+                            <i data-lucide="file-up" class="w-4 h-4 text-emerald-400"></i> ឯកសារកម្មវិធី / គំរូ (Exe, PDF, Word, Excel, Zip)
+                        </label>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button type="button" onclick="document.getElementById('newModalSoftAttachInput').click()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i> Upload File
+                            </button>
+                            <button type="button" onclick="clearModalSoftwareFile('newSoftFileUrl', 'newSoftFileName', 'newSoftFileStatus')" class="px-2 py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-600 text-rose-300 hover:text-white text-xs" title="លុបឯកសារ">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <input type="file" id="newModalSoftAttachInput" class="hidden" accept=".exe,.msi,.zip,.rar,.7z,.pdf,.doc,.docx,.xls,.xlsx,.csv,.py,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="handleModalSoftwareFileUpload(event, 'newSoftFileUrl', 'newSoftFileName', 'newSoftFileStatus')">
+                        </div>
+                    </div>
+                    <p id="newSoftFileStatus" class="text-[11px] text-slate-400 mt-1.5 font-mono">មិនទាន់មានឯកសារភ្ជាប់នៅឡើយទេ (អាច Upload .exe, .pdf, .docx, .xlsx, .zip)</p>
+                    <input id="newSoftFileName" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-emerald-300 font-mono text-[11px]" value="" placeholder="ឈ្មោះឯកសារសម្រាប់ទាញយក (ឧ. WQI_Calculator.xlsx ឬ Setup.exe)...">
+                    <input id="newSoftFileUrl" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-white font-mono text-[11px]" value="" placeholder="ឬបិទភ្ជាប់តំណភ្ជាប់ Direct Download URL (Google Drive / GitHub)...">
                 </div>
 
                 <div>
@@ -3039,16 +3176,16 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-slate-400 mb-1">ប្រភេទ / Badge</label>
-                        <input id="newSoftType" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. Python Script, Web App">
+                        <input id="newSoftType" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. Excel Template, Windows App">
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">តម្លៃ ($ / License)</label>
-                        <input id="newSoftPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. $15 / Pack">
+                        <label class="block text-slate-400 mb-1">តម្លៃ ($ ឬ Free)</label>
+                        <input id="newSoftPrice" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. Free (ឥតគិតថ្លៃ) ឬ $15">
                     </div>
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1">ឈ្មោះកម្មវិធី / ឧបករណ៍</label>
-                    <input id="newSoftTitle" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. Agriculture Biometrics Tool">
+                    <input id="newSoftTitle" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" placeholder="ឧ. WQI Calculator Excel Template">
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1">ការពិពណ៌នា</label>
@@ -3056,20 +3193,25 @@
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1">សារកុម្ម៉ង់ Telegram (@Sokra25)</label>
-                    <input id="newSoftTgMsg" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" placeholder="សួស្តីលោកគ្រូ ខ្ញុំចង់ទិញកម្មវិធី...">
+                    <input id="newSoftTgMsg" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" placeholder="សួស្តីលោកគ្រូ ខ្ញុំចង់សាកសួរពីកម្មវិធី...">
                 </div>
             </div>
         `;
-        openModal('<i data-lucide="plus-circle" class="w-5 h-5 text-cyan-400"></i> បន្ថែមកម្មវិធី / ឧបករណ៍ថ្មី', html, async () => {
+        openModal('<i data-lucide="plus-circle" class="w-5 h-5 text-cyan-400"></i> បន្ថែមកម្មវិធី / ឧបករណ៍ថ្មី (Upload File)', html, async () => {
             const title = document.getElementById('newSoftTitle').value.trim() || 'Software Tool';
-            const userTgMsg = document.getElementById('newSoftTgMsg').value.trim() || `សួស្តីលោកគ្រូ ខ្ញុំចង់ទិញ ${title}`;
+            const fileUrl = document.getElementById('newSoftFileUrl').value.trim();
+            const fileName = document.getElementById('newSoftFileName').value.trim();
+            const defaultPrice = fileUrl ? 'Free (ឥតគិតថ្លៃ)' : '$10 / Pack';
+            const userTgMsg = document.getElementById('newSoftTgMsg').value.trim() || `សួស្តីលោកគ្រូ ខ្ញុំចង់សាកសួរពី ${title}`;
             const newTool = {
                 id: 's_' + Date.now(),
-                type: document.getElementById('newSoftType').value.trim() || 'Custom Script',
+                type: document.getElementById('newSoftType').value.trim() || 'Research Tool',
                 title: title,
                 desc: document.getElementById('newSoftDesc').value.trim() || '',
-                price: document.getElementById('newSoftPrice').value.trim() || '$10 / Pack',
+                price: document.getElementById('newSoftPrice').value.trim() || defaultPrice,
                 image: document.getElementById('newSoftImage').value.trim() || defaultThumb,
+                fileUrl: fileUrl,
+                fileName: fileName,
                 telegramLink: `https://t.me/Sokra25?text=${encodeURIComponent(userTgMsg)}`
             };
             appData.subSoftware.push(newTool);
